@@ -1,0 +1,17 @@
+# IDE
+.idea/
+.vscode/
+
+# JetBrains
+*.iml
+*.iws
+*.ipr
+
+# Local Claude settings (machine-specific permissions)
+settings.local.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+**/.DS_Store
