@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Purpose
 
-This repo (`~/projects/.claude`) is the **source of truth for generic AI Factory skills** shared across all of Max's projects. Skills are injected into individual projects via symlinks pointing to `~/.claude/skills/`.
+This repo (`~/projects/skills`) is the **source of truth for generic AI Factory skills** shared across all of Max's projects. Skills are available globally via `~/.claude/skills` → `~/projects/skills/.claude/skills` (personal scope in Claude Code).
 
 This is a meta-repo: its product is skills, not application code.
 
@@ -75,7 +75,7 @@ Built-in `aif*` skills are never scanned at install time — only external skill
 
 ## How Skills Are Used in Projects
 
-Projects import skills via a `.claude/skills` → `~/.claude/skills` symlink. Skills are invoked as slash commands (e.g. `/aif-plan`, `/aif-implement`). The `$ARGUMENTS` variable receives everything typed after the command name.
+Skills from this repo are available globally to all projects via Claude Code's personal skill scope (`~/.claude/skills`). No per-project configuration needed. Projects with custom skills place them in their own `.claude/skills/` directory — Claude Code loads both scopes simultaneously. Skills are invoked as slash commands (e.g. `/aif-plan`, `/aif-implement`). The `$ARGUMENTS` variable receives everything typed after the command name.
 
 ## Key Skill Interactions
 

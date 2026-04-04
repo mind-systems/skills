@@ -1,16 +1,20 @@
 # mind-systems/skills
 
-Generic AI Factory skills shared across all projects. Skills are injected into individual projects via a symlink from `.claude/skills` → `~/.claude/skills`.
+Generic AI Factory skills available globally to all projects via Claude Code's personal skill scope.
 
-## Usage
-
-Install into a project:
+## Setup (one-time, per machine)
 
 ```bash
-ln -s ~/.claude/skills .claude/skills
+ln -s ~/projects/skills/.claude/skills ~/.claude/skills
 ```
 
-Then invoke skills as slash commands in Claude Code:
+That's it. All skills in this repo are now available as slash commands in every Claude Code session, in every project — no per-project configuration needed.
+
+## Project-specific skills
+
+If a project needs custom skills alongside the generic ones, place them in `.claude/skills/` inside that project directory. Claude Code loads both: personal scope (`~/.claude/skills`) and project scope (`.claude/skills`).
+
+## Invoke skills
 
 ```
 /aif          — set up AI context for a project
@@ -21,7 +25,7 @@ Then invoke skills as slash commands in Claude Code:
 
 ## Structure
 
-Each skill is a directory under `skills/` containing a `SKILL.md` (frontmatter + instructions) and optional `references/`, `scripts/`, and `templates/` subdirectories.
+Each skill is a directory under `.claude/skills/` containing a `SKILL.md` (frontmatter + instructions) and optional `references/`, `scripts/`, and `templates/` subdirectories.
 
 ## Adding Skills
 
@@ -33,7 +37,7 @@ Each skill is a directory under `skills/` containing a `SKILL.md` (frontmatter +
 /aif-skill-generator <url1> [url2]
 
 # Validate an existing skill
-/aif-skill-generator validate skills/<name>
+/aif-skill-generator validate .claude/skills/<name>
 ```
 
-External skills from [skills.sh](https://skills.sh) must pass a two-level security scan before use. See `skills/aif-skill-generator/SKILL.md` for details.
+External skills from [skills.sh](https://skills.sh) must pass a two-level security scan before use. See `.claude/skills/aif-skill-generator/SKILL.md` for details.
