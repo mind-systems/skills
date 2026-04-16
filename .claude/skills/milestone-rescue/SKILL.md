@@ -193,6 +193,41 @@ Show the user the list of deleted files and confirm the rescue is complete.
 
 ---
 
+## Step 5.5 — Propagate findings to open milestones
+
+After ROADMAP.md is updated, scan the remaining `- [ ]` milestones for the same gaps.
+
+**Which issues to propagate** (in priority order):
+
+- **Recurring issues** (appeared in 2+ rounds) → highest priority; the implementer couldn't fix it even with a patch, so the description is the only reliable enforcement. Propagate to any open milestone that touches the same files, APIs, or patterns.
+- **Mechanical errors** → propagate to milestones with the same pattern type (same bridge, same threading model, same API family).
+- **Specification gaps** → propagate only if the open milestone is in the same domain.
+
+**How to identify matches:**
+
+For each issue selected for propagation, scan open milestone descriptions for:
+- The same file paths or module names
+- The same API, class, method, or operator family
+- The same structural pattern (e.g. "bridge", "repository", "hook", "middleware")
+
+**If matches found**, present a single question:
+
+```
+These open milestones may have the same gaps. Apply the same fix?
+
+→ MilestoneA: + <proposed clause>
+→ MilestoneB: + <proposed clause>
+
+Options:
+1. Apply all
+2. Review each individually
+3. Skip
+```
+
+If no matches found, or if all issues were domain-specific to the failed milestone, skip silently.
+
+---
+
 ## What NOT to do
 
 - Do not rewrite the plan — that is the orchestrator's job on the next run

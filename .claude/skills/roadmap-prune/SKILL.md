@@ -83,11 +83,24 @@ hash to record in ARCHITECTURE.md.
 
 ## Step 4 — Update ARCHITECTURE.md
 
+**4.1 — Capture the prune snapshot hash**
+
+Before touching any files, record the current HEAD:
+
+```bash
+git rev-parse --short HEAD
+```
+
+This hash points to the last commit where ROADMAP.md still contains all the tasks being pruned. Anyone can run `git show <hash>:.ai-factory/ROADMAP.md` to restore the full picture.
+
+**4.2 — Write Features and drop history**
+
 Open ARCHITECTURE.md. Find or create a `## Features` section. For each feature:
 
-- If the feature already exists in the table → append the new hash to the existing
-  Hashes cell (space-separated).
-- If the feature does not exist → add a new row with the commit hash found in Step 3.
+- If the feature already exists → append the new hash to its Hashes cell (space-separated).
+- If the feature does not exist → add a new row with the hash from Step 3.
+
+For the drop history row: find or create it at the bottom of the Features table and append the snapshot hash from Step 4.1 (comma-separated).
 
 Table format:
 
@@ -100,9 +113,10 @@ Table format:
 | gRPC transport | a3f9c12 |
 | OrderBook stream | c7d4a88 |
 | PLR worker refactor | 7a2d1c9 |
+| Roadmap drop history | abc1234, def5678 |
 ```
 
-Use short (7-char) hashes.
+Use short (7-char) hashes throughout.
 
 ---
 
