@@ -190,10 +190,6 @@ Show summary:
 Total milestones: N
 Completed: X/N
 Next up: **Task Name**
-
-To start working on the next milestone:
-/aif-plan <milestone description>  → creates plan
-/aif-implement                     → executes the plan
 ```
 
 ---
@@ -256,20 +252,17 @@ Next up: **Task Name**
 
 ## Milestones
 
-- [ ] **Name** — [what exists today and what is wrong or missing]. [What the task must achieve.]
-  Changes required:
-  (1) `path/to/file.ext` — [specific change: method/type/field to add or modify];
-  (2) `path/to/other.ext` — [specific change].
-  Do NOT [guard condition — out-of-scope or common pitfall].
-- [ ] **Name** — [spec]
-- [x] **Name** — [spec]
+- [ ] **Name** — [current state: what exists and what's wrong or missing]. [Target: specific files, methods, or types to change; exact behavior to implement; guard conditions inline if needed.]
+- [ ] **Name** — [same pattern]
+- [x] **Name** — [same pattern]
 ```
 
-**Rules for writing a spec:**
+**Rules for writing a description:**
 - Name the specific files, methods, types, or fields involved — not just the module
 - State what exists today before stating what needs to change
-- "Do NOT" lines only for real pitfalls, not obvious things
+- Add guard conditions inline ("do not touch X", "skip Y") only for real pitfalls, not obvious things
 - One reason to revert — if two concerns are independently shippable, make two milestones
+- A reader with no prior context must understand exactly what to do from the description alone
 
 ## Critical Rules
 

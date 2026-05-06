@@ -175,10 +175,6 @@ Show summary:
 Total milestones: N
 Completed: X/N
 Next up: **Milestone Name**
-
-To start working on the next milestone:
-/aif-plan <milestone description>  → creates branch + plan
-/aif-implement                     → executes the plan
 ```
 
 ---
