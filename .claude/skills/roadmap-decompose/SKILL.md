@@ -96,6 +96,17 @@ Create `.ai-factory/ROADMAP.md` with this format:
 - Order by logical sequence (dependencies first)
 - Mark already-completed milestones as `[x]`
 
+**1.3.1: Atomicity Gate**
+
+After drafting each milestone description, before writing to file — apply the gate:
+
+> "Can the first half be deployed without the second half and still make sense?"
+
+If **yes** → split into two milestones, then apply the gate to each half recursively until no half passes.
+If **no** → the milestone is atomic, proceed.
+
+"Make sense" means: compiles, doesn't break existing functionality, and delivers some independently observable value.
+
 **1.4: Confirm with user**
 
 Show the generated roadmap and ask:
@@ -164,6 +175,17 @@ If confirmed:
 - Write a full spec for each (see ROADMAP.md Format section)
 - Insert in logical order among existing milestones
 - Update `.ai-factory/ROADMAP.md`
+
+**2.4.1: Atomicity Gate**
+
+After drafting each new task description, before inserting into the roadmap — apply the gate:
+
+> "Can the first half be deployed without the second half and still make sense?"
+
+If **yes** → split into two milestones, then apply the gate to each half recursively until no half passes.
+If **no** → the milestone is atomic, proceed.
+
+"Make sense" means: compiles, doesn't break existing functionality, and delivers some independently observable value.
 
 **2.5: Decompose Existing (if chosen)**
 
