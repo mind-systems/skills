@@ -7,7 +7,7 @@ description: >-
   a better-specified task. Use when the pipeline stops with "PLAN_REVIEW_PASS never
   achieved" or "REVIEW_PASS never achieved" — trigger phrases: "rescue", "milestone
   failed", "pipeline stopped".
-argument-hint: "[path/to/ROADMAP.md]"
+argument-hint: "[path/to/ROADMAP.md | ROADMAP_TESTS.md]"
 allowed-tools: Read Edit Glob Grep Bash(git *) AskUserQuestion
 ---
 
@@ -107,8 +107,12 @@ Produce a numbered list of issues, each with:
 
 ## Step 4 — Propose milestone update
 
-Read `.ai-factory/ROADMAP.md` (or the path provided as argument) and locate the
-milestone line matching the slug identified in Step 1.
+**Determine `$TARGET_FILE`:**
+- If argument names a file → use `.ai-factory/<that file>`
+- If the milestone slug or artifacts suggest test tasks (keywords: test, tests, spec) → `$TARGET_FILE = .ai-factory/ROADMAP_TESTS.md`
+- Otherwise → `$TARGET_FILE = .ai-factory/ROADMAP.md`
+
+Read `$TARGET_FILE` and locate the milestone line matching the slug identified in Step 1.
 
 Determine the **dominant root cause** from the issue list in Step 3 — the category
 with the most issues (or most recurring issues if counts are equal).
@@ -169,7 +173,7 @@ incorporate them before applying.
 
 ## Step 5 — Apply and clean up
 
-Apply the confirmed change to ROADMAP.md, then delete the stale artifacts.
+Apply the confirmed change to `$TARGET_FILE`, then delete the stale artifacts.
 
 **If update:** use Edit to modify the milestone line in ROADMAP.md. Keep the
 description concise — each constraint is one semicolon-separated clause. Match the
@@ -195,7 +199,7 @@ Show the user the list of deleted files and confirm the rescue is complete.
 
 ## Step 5.5 — Propagate findings to open milestones
 
-After ROADMAP.md is updated, scan the remaining `- [ ]` milestones for the same gaps.
+After `$TARGET_FILE` is updated, scan the remaining `- [ ]` milestones in `$TARGET_FILE` for the same gaps.
 
 **Which issues to propagate** (in priority order):
 
