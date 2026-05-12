@@ -86,3 +86,25 @@ Skills from this repo are available globally to all projects via Claude Code's p
 - `/aif-skill-generator` → creates or validates skills
 
 The plan → stop → implement-in-separate-session pattern is a hard constraint (see global CLAUDE.md).
+
+## Upstream Sync
+
+Upstream source: `https://github.com/lee-to/ai-factory` (skills live in `skills/` subdirectory).
+
+**Custom skills — never overwrite from upstream:**
+- `detangle`, `milestone-rescue`, `roadmap-decompose`, `roadmap-prune`, `temporal-tree`, `ui-ux-pro-max`, `aif-note`
+
+**Intentionally diverged from upstream — review diff before updating:**
+- `aif-plan` — uses `TaskCreate`/`TaskUpdate`, custom logging defaults
+- `aif-roadmap` — no Completed table (history managed by `roadmap-prune` → ARCHITECTURE.md)
+
+**All other skills** — safe to overwrite directly from upstream.
+
+**Procedure:**
+```bash
+git clone https://github.com/lee-to/ai-factory /tmp/ai-factory-upstream
+# Compare
+diff -rq /tmp/ai-factory-upstream/skills/<name> ~/.claude/skills/<name>
+# Copy new skills
+cp -r /tmp/ai-factory-upstream/skills/<name> ~/.claude/skills/<name>
+```

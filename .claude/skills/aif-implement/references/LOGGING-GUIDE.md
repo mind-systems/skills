@@ -1,55 +1,65 @@
-# Logging Guidelines
+# Logging Requirements
 
-**Keep logs minimal.** Only log errors and key state changes. Do not add verbose entry/exit logging or debug noise.
+**ALWAYS add verbose logging when implementing code.** AI-generated code often has subtle bugs that are hard to debug without proper logging.
 
-## What to log
+## Logging Guidelines
 
-1. **Errors** — always log with context (relevant IDs, input that caused it)
-2. **Key state changes** — creation, deletion, status transitions (e.g. "session started", "payment completed")
-3. **External call failures** — failed API requests, DB errors, timeout
+1. **Log function entry/exit** with parameters and return values
+2. **Log state changes** - before and after mutations
+3. **Log external calls** - API requests, database queries, file operations
+4. **Log error context** - include relevant variables, not just error message
+5. **Use structured logging** when possible (JSON format)
 
-## What NOT to log
-
-- Function entry/exit
-- Parameter values on every call
-- Successful validation
-- Happy-path flow ("processing started", "step 1 done", "step 2 done")
-- Return values
-
-## Example
+## Example Pattern
 
 ```typescript
-// Good: error with context
-catch (error) {
-  this.logger.error(`Failed to process order ${order.id}: ${error.message}`);
-  throw error;
+function processOrder(order: Order): Result {
+  console.log('[processOrder] START', { orderId: order.id, items: order.items.length });
+
+  try {
+    const validated = validateOrder(order);
+    console.log('[processOrder] Validation passed', { validated });
+
+    const result = submitToPayment(validated);
+    console.log('[processOrder] Payment result', { success: result.success, transactionId: result.id });
+
+    return result;
+  } catch (error) {
+    console.error('[processOrder] ERROR', { orderId: order.id, error: error.message, stack: error.stack });
+    throw error;
+  }
 }
-
-// Good: key state change
-this.logger.log(`Session ${sessionId} completed, duration: ${duration}s`);
-
-// Bad: verbose noise
-this.logger.log(`[processOrder] START ${JSON.stringify(order)}`);
-this.logger.log(`[processOrder] Validation passed`);
-this.logger.log(`[processOrder] Calling payment service...`);
-this.logger.log(`[processOrder] Payment returned ${JSON.stringify(result)}`);
 ```
 
-## NEVER log sensitive data
+## Log Management Requirements
 
-This is a hard rule — violations are security incidents, not style issues.
+**Logs must be configurable and manageable:**
 
-**Never log:**
-- JWT tokens, PAT tokens, refresh tokens, any auth tokens
-- Email addresses, phone numbers, user PII
-- Passwords, OTP codes, API keys, secrets
-- Full request/response bodies (may contain any of the above)
-- Authorization headers
+1. **Use log levels** - DEBUG, INFO, WARN, ERROR
+2. **Environment-based control** - LOG_LEVEL env variable
+3. **Easy to disable** - single flag or env var to turn off verbose logs
+4. **Consider rotation** - for file-based logs, implement rotation or use existing tools
 
-**Instead:** log opaque identifiers (userId, sessionId) that can be used to trace without exposing sensitive data.
+```typescript
+// Good: Configurable logging
+const LOG_LEVEL = process.env.LOG_LEVEL || 'debug';
+const logger = createLogger({ level: LOG_LEVEL });
 
-## Rules
+// Good: Can be disabled
+if (process.env.DEBUG) {
+  console.log('[debug]', data);
+}
 
-- Use the project's existing logger (NestJS Logger, Flutter logger, etc.) — never raw `console.log`
-- Use appropriate levels: `error` for failures, `warn` for recoverable issues, `log`/`info` for key events
-- Include identifiers (userId, sessionId, etc.) for traceability
+// Bad: Hardcoded verbose logs that can't be turned off
+console.log(hugeObject); // Will pollute production logs
+```
+
+## Why This Matters
+
+- AI-generated code may have edge cases not covered
+- Logs help identify WHERE things go wrong
+- Debugging without logs wastes significant time
+- User can remove logs later if needed, but missing logs during development is costly
+- **Production safety** - logs must be reducible to avoid performance issues and storage costs
+
+**DO NOT skip logging to "keep code clean" - verbose logging is REQUIRED during implementation, but MUST be configurable.**
