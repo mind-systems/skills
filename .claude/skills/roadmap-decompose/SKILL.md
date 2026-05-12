@@ -28,11 +28,21 @@ Create and maintain a project roadmap where every milestone is a fully specified
 - Chosen architecture pattern and folder structure
 - Module boundaries and communication patterns
 
-### Step 1: Determine Mode
+### Step 1: Determine Target File and Mode
 
-If argument is `check` → Mode 3: Check Progress (requires ROADMAP.md)
+**Determine `$TARGET_FILE`** from the argument and conversation context:
 
-Otherwise check if `.ai-factory/ROADMAP.md` exists:
+- Default → `$TARGET_FILE = .ai-factory/ROADMAP.md`
+- If the argument explicitly names a file (e.g. `ROADMAP_TESTS.md`) → `$TARGET_FILE = .ai-factory/<that file>`
+- If the argument or conversation context is explicitly about writing **tests** (keywords: test, tests, spec, testing, тест, тесты) → `$TARGET_FILE = .ai-factory/ROADMAP_TESTS.md`
+
+All subsequent steps use `$TARGET_FILE` as the roadmap path.
+
+**Determine mode:**
+
+If argument is `check` → Mode 3: Check Progress (requires `$TARGET_FILE` to exist)
+
+Otherwise check if `$TARGET_FILE` exists:
 - **Does NOT exist** → Mode 1: Create Roadmap
 - **Exists** → Mode 2: Update Roadmap
 
@@ -75,9 +85,9 @@ Scan the project to understand what's already built:
 - `Grep` for implemented features (routes, models, services)
 - Check git log for completed work: `git log --oneline -20`
 
-**1.3: Generate ROADMAP.md**
+**1.3: Generate roadmap file**
 
-Create `.ai-factory/ROADMAP.md` with this format:
+Create `$TARGET_FILE` (ensure parent directory exists: `mkdir -p .ai-factory`) with this format:
 
 ```markdown
 # Project Roadmap
@@ -121,7 +131,7 @@ Options:
 4. Rewrite — let me give better input
 ```
 
-Apply changes if requested, then save to `.ai-factory/ROADMAP.md`.
+Apply changes if requested, then save to `$TARGET_FILE`.
 
 ---
 
@@ -129,7 +139,7 @@ Apply changes if requested, then save to `.ai-factory/ROADMAP.md`.
 
 **2.1: Read Current State**
 
-- Read `.ai-factory/ROADMAP.md`
+- Read `$TARGET_FILE`
 - Read `.ai-factory/DESCRIPTION.md` for context
 - Explore codebase briefly to check what's changed since last update
 
@@ -174,7 +184,7 @@ If confirmed:
 - Explore the codebase for each new task (relevant files, current state)
 - Write a full spec for each (see ROADMAP.md Format section)
 - Insert in logical order among existing milestones
-- Update `.ai-factory/ROADMAP.md`
+- Update `$TARGET_FILE`
 
 **2.4.1: Atomicity Gate**
 
@@ -203,7 +213,7 @@ If **no** → the milestone is atomic, proceed.
 
 **2.7: Save Changes**
 
-Update `.ai-factory/ROADMAP.md` with all modifications.
+Update `$TARGET_FILE` with all modifications.
 
 Show summary:
 ```
@@ -220,11 +230,11 @@ Next up: **Task Name**
 
 Automated scan — analyze the codebase and mark completed milestones without interactive questions.
 
-**Requires** `.ai-factory/ROADMAP.md` to exist. If it doesn't — tell the user to run `/decompose` first.
+**Requires** `$TARGET_FILE` to exist. If it doesn't — tell the user to run `/decompose` first.
 
 **3.1: Read roadmap and project context**
 
-- Read `.ai-factory/ROADMAP.md`
+- Read `$TARGET_FILE`
 - Read `.ai-factory/DESCRIPTION.md` for tech stack context
 
 **3.2: Analyze each unchecked milestone**
@@ -265,7 +275,7 @@ Next up: **Task Name**
 
 ---
 
-## ROADMAP.md Format
+## Roadmap File Format
 
 ```markdown
 # Project Roadmap
@@ -289,7 +299,7 @@ Next up: **Task Name**
 ## Critical Rules
 
 1. **Milestones are atomic and specific** — each is one concern, fully described, not a bundle of loosely related changes
-2. **ROADMAP.md is the source of truth** — always read before modifying
+2. **`$TARGET_FILE` is the source of truth** — always read it before modifying
 3. **Never remove milestones silently** — always confirm with user before removing
 4. **Completed milestones stay as `[x]` in the list** — `roadmap-prune` moves them to ARCHITECTURE.md
 5. **NO implementation** — this skill only plans, use `/aif-plan` to start a task and `/aif-implement` to execute
