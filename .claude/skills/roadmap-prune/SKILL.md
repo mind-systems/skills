@@ -36,25 +36,43 @@ is preserved in git and ARCHITECTURE.md.
 
 ---
 
-## Step 2 — Group tasks into features
+## Step 2 — Classify, then group tasks into features
 
 Before grouping, read `.ai-factory/ARCHITECTURE.md` `## Features` table (if the file
-exists) to learn what features have already been anchored. Map tasks onto existing
-features first — only create a new feature when no existing one fits. If ARCHITECTURE.md
-does not exist yet (first-ever prune), skip gracefully and proceed with fresh grouping.
+exists) to learn what features have already been anchored. If ARCHITECTURE.md does not
+exist yet (first-ever prune), skip gracefully and proceed with fresh grouping.
 
-Read the pruning slice and group tasks into features. A feature is a coherent unit
-of capability that was delivered together. Grouping rules:
+### 2.1 — Classify every task
+
+For every task in the pruning slice, ask one question:
+
+> "What could the operator do AFTER this task that they couldn't do BEFORE?"
+
+Based on the answer, assign one of three outcomes:
+
+| Outcome | Signal | Action |
+|---------|--------|--------|
+| **New capability** | One-sentence answer, describes something new the system does | Create a new feature row |
+| **Extended capability** | Enhances or expands something already in ARCHITECTURE.md | Append hash to existing row |
+| **Internal only** | No new operator-visible behaviour (refactor, cleanup, dep fix) | Hash goes to drop history only — no feature row |
+
+Rules:
+- Never copy a phase or section header as a feature name. Phase headers organise work; feature names describe what the system can do.
+- A refactor that enables a future feature is still internal — record it in drop history, not as a feature.
+- When uncertain between new vs. extended: prefer extending an existing row.
+
+### 2.2 — Group and name
+
+Group tasks that share the same capability outcome. A group that spans many tasks but
+delivers one operator-visible thing is still one feature row.
 
 - Tasks that implement the same capability belong together
   (e.g. "gRPC client" + "gRPC signal stream" + "Remove `/webhooks/core` route" → **gRPC transport**)
-- Tasks that set up a model + repository + endpoints belong together
-  (e.g. "UserExchange model" + "UserExchange CRUD" + "registration flow update" → **UserExchange model**)
 - Tasks that are explicitly marked as sub-items of a larger item belong together
 - When uncertain: prefer fewer, larger features over many small ones
 
-Name each feature in 2–5 words. The name becomes a row in ARCHITECTURE.md — it must
-be meaningful enough to navigate to without reading the tasks.
+Name each feature in 2–5 words from the operator's perspective (what it does, not how it's built).
+The name becomes a row in ARCHITECTURE.md — meaningful enough to navigate to without reading the tasks.
 
 ---
 
@@ -125,8 +143,9 @@ Use short (7-char) hashes throughout.
 Delete the pruned `[x]` tasks from `## Milestones`. Do not replace them with a table —
 the tasks are gone from the roadmap. Their history lives in ARCHITECTURE.md.
 
-Keep `## Milestones` with all remaining `[ ]` tasks and the few recent `[x]` tasks
-that provide active context (if any).
+Keep `## Milestones` with all remaining `[ ]` tasks. Additionally, always retain the
+last phase header and its 2 most recent `[x]` tasks — this preserves phase numbering
+continuity so agents can follow the sequence without confusion.
 
 ---
 

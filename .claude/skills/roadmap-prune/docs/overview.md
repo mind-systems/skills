@@ -60,6 +60,28 @@ changed. A feature with several hashes has a recorded evolution.
 
 ---
 
+## How tasks become features
+
+Before grouping, every completed task gets classified by one question:
+
+> "What could the operator do AFTER this task that they couldn't do BEFORE?"
+
+Three outcomes:
+
+| Outcome | Signal | Result |
+|---------|--------|--------|
+| **New capability** | One-sentence answer describing something new the system does | New row in Features table |
+| **Extended capability** | Enhances something already in ARCHITECTURE.md | New hash appended to existing row |
+| **Internal only** | No new operator-visible behaviour (refactor, cleanup, dependency fix) | Hash recorded in drop history only |
+
+Tasks that share the same capability outcome are grouped together — one group, one row, one name.
+
+Feature names describe what the system can do from the operator's perspective, in 2–5 words.
+Phase headers from the roadmap are never used as feature names: phases organise work,
+features describe capabilities.
+
+---
+
 ## Why commit hash, not date
 
 A date like `2026-03-01` covers 20 commits. A hash like `c7d4a88` points to one
