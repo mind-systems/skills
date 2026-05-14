@@ -46,15 +46,18 @@ exist yet (first-ever prune), skip gracefully and proceed with fresh grouping.
 
 For every task in the pruning slice, ask one question:
 
-> "What could the operator do AFTER this task that they couldn't do BEFORE?"
+> "Could you write an e2e test for this that didn't exist before?"
+
+If yes — it's a feature. A feature is any behaviour that can be verified end-to-end: a user action,
+a service-to-service contract, a data pipeline output, a server integration. If no — it's internal.
 
 Based on the answer, assign one of three outcomes:
 
 | Outcome | Signal | Action |
 |---------|--------|--------|
-| **New capability** | One-sentence answer, describes something new the system does | Create a new feature row |
-| **Extended capability** | Enhances or expands something already in ARCHITECTURE.md | Append hash to existing row |
-| **Internal only** | No new operator-visible behaviour (refactor, cleanup, dep fix) | Hash goes to drop history only — no feature row |
+| **New feature** | New e2e scenario becomes possible | Create a new feature row |
+| **Extended feature** | Existing e2e scenario gains new parameters or coverage | Append hash to existing row |
+| **Internal only** | No new e2e behaviour — refactor, cleanup, dep fix, arch change | Hash goes to drop history only — no feature row |
 
 Rules:
 - Never copy a phase or section header as a feature name. Phase headers organise work; feature names describe what the system can do.
@@ -73,6 +76,30 @@ delivers one operator-visible thing is still one feature row.
 
 Name each feature in 2–5 words from the operator's perspective (what it does, not how it's built).
 The name becomes a row in ARCHITECTURE.md — meaningful enough to navigate to without reading the tasks.
+
+Then sort the features by domain and group them under bold section headers. Features in the same
+domain (e.g. all transport-layer work, all persistence work, all UI panels) should be adjacent.
+Internal/refactor rows go last under an **Internal** header.
+
+What counts as a domain depends on the project — use the natural boundaries of that codebase
+(e.g. for a backend: data pipeline / API / auth / execution; for a frontend: chart / sidebar panels /
+auth / theme). Pick domain names that reflect the product, not the code structure.
+
+Example structure:
+
+```
+| **<Domain A>** | |
+| <What a user can do> | abc1234 |
+| <What a user can do, extended> | def5678 9a3bc12 |
+| **<Domain B>** | |
+| <What service A delivers to service B> | c7d4a88 |
+| <What the system does end-to-end> | e1f2g3h |
+| **Internal** | |
+| <Refactors / arch changes with no new e2e behaviour> | f04bb91 |
+| Roadmap drop history | 5d1284c |
+```
+
+Use an empty Hashes cell (`| |`) for section header rows — they are visual separators, not features.
 
 ---
 
@@ -120,21 +147,13 @@ Open ARCHITECTURE.md. Find or create a `## Features` section. For each feature:
 
 For the drop history row: find or create it at the bottom of the Features table and append the snapshot hash from Step 4.1 (comma-separated).
 
-Table format:
+Follow the table format and grouping rules from Step 2.2. Additional rules:
 
-```markdown
-## Features
-
-| Feature | Hashes |
-|---------|--------|
-| UserExchange model | 9e1b3f5 |
-| gRPC transport | a3f9c12 |
-| OrderBook stream | c7d4a88 |
-| PLR worker refactor | 7a2d1c9 |
-| Roadmap drop history | abc1234, def5678 |
-```
-
-Use short (7-char) hashes throughout.
+- Section headers are bold rows with an empty Hashes cell — pure visual separators.
+- Domain names reflect the product boundaries of this specific project, not generic labels.
+- Features are named from the operator's perspective (what they can do), not from the implementation.
+- Internal rows (refactors, arch cleanup, dep fixes) always go under **Internal** at the bottom.
+- Use short (7-char) hashes throughout.
 
 ---
 

@@ -43,16 +43,23 @@ No Completed table. The tasks are gone — they live in ARCHITECTURE.md now.
 
 | Feature | Hashes |
 |---------|--------|
+| **Execution** | |
 | UserExchange model | 9e1b3f5 |
-| gRPC transport | a3f9c12 |
 | OrderBook stream | c7d4a88 |
-| Position cache | d8b21e7 |
+| **Transport** | |
+| gRPC transport | a3f9c12 |
+| **Internal** | |
 | PLR worker refactor | 7a2d1c9 |
+| Roadmap drop history | abc1234 |
 ```
 
-Each row is a feature. Hashes accumulate over time — when a feature gets a structural
-change, a new hash is appended. A feature with one hash was born and never structurally
-changed. A feature with several hashes has a recorded evolution.
+Rows are grouped by domain — natural product boundaries of the codebase. Bold rows are
+section headers with an empty Hashes cell. Features within a domain are adjacent, making
+the table a navigational index rather than a flat list.
+
+Hashes accumulate over time — when a feature gets a structural change, a new hash is
+appended. A feature with one hash was born and never structurally changed. A feature
+with several hashes has a recorded evolution.
 
 ```markdown
 | gRPC transport | a3f9c12 e04b91c |
@@ -64,19 +71,23 @@ changed. A feature with several hashes has a recorded evolution.
 
 Before grouping, every completed task gets classified by one question:
 
-> "What could the operator do AFTER this task that they couldn't do BEFORE?"
+> "Could you write an e2e test for this that didn't exist before?"
+
+If yes — it's a feature. A feature is any behaviour that can be verified end-to-end: a user
+action, a service-to-service contract, a data pipeline output, a server integration.
+If no — it's internal.
 
 Three outcomes:
 
 | Outcome | Signal | Result |
 |---------|--------|--------|
-| **New capability** | One-sentence answer describing something new the system does | New row in Features table |
-| **Extended capability** | Enhances something already in ARCHITECTURE.md | New hash appended to existing row |
-| **Internal only** | No new operator-visible behaviour (refactor, cleanup, dependency fix) | Hash recorded in drop history only |
+| **New feature** | New e2e scenario becomes possible | New row in Features table |
+| **Extended feature** | Existing e2e scenario gains new parameters or coverage | New hash appended to existing row |
+| **Internal only** | No new e2e behaviour — refactor, cleanup, dep fix, arch change | Hash recorded in drop history only |
 
-Tasks that share the same capability outcome are grouped together — one group, one row, one name.
+Tasks that share the same feature outcome are grouped together — one group, one row, one name.
 
-Feature names describe what the system can do from the operator's perspective, in 2–5 words.
+Feature names describe what the system does from the operator's perspective, in 2–5 words.
 Phase headers from the roadmap are never used as feature names: phases organise work,
 features describe capabilities.
 
