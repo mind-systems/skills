@@ -1,124 +1,115 @@
 ---
 name: roadmap-test-coverage
 description: >-
-  Analyzes a project roadmap to identify areas worth unit-testing, checks which
-  areas already have test coverage, launches parallel explore agents to produce
-  detailed test-case plans per area, and saves each agent's findings as a
-  numbered note. Use when you want to plan test coverage for a project from its
-  roadmap before writing any test files. Output: a set of notes ready for
-  /roadmap-decompose to turn into ROADMAP_TESTS.md.
+  Orchestrates full test coverage planning for a project. Reads the roadmap,
+  scans existing specs, filters areas by silent-failure risk, runs parallel
+  deep-research agents per area, reviews testability, emits refactor tasks,
+  runs existing tests and classifies failures (API drift vs silent bug), then
+  hands off to /roadmap-decompose. Use when you want a complete test plan from
+  a roadmap with no prior test strategy.
 argument-hint: "[roadmap-file]"
 disable-model-invocation: true
 user-invocable: true
-allowed-tools: Read Glob Grep Bash(find *) Bash(git *) Bash(mkdir *) AskUserQuestion Agent
+allowed-tools: Read Glob Grep Bash(find *) Bash(npm *) Bash(npx *) Bash(dart *) Bash(flutter *) Bash(python *) Bash(pytest *) Bash(go *) Bash(cargo *) Bash(mkdir *) Bash(git *) AskUserQuestion Agent Write
 ---
 
-# roadmap-test-coverage — Test Coverage Planner
+# roadmap-test-coverage — Test Coverage Orchestrator
 
-Reads the project roadmap, identifies testable areas, checks existing coverage,
-runs parallel research agents per area, and saves findings as notes.
+Eight-layer pipeline. Layers 4, 5, and 7 run in isolated agents to protect
+the main context. Agents write results to disk and return only one-line
+summaries back to the orchestrator.
 
-## Workflow
+---
 
-### Step 0: Load Project Context
+## Layer 1 — Load Project Context
 
-Read `.ai-factory/DESCRIPTION.md` if it exists — understand the tech stack,
-test runner, and architecture conventions.
+Read in order (skip if absent):
+- `.ai-factory/DESCRIPTION.md` — tech stack, test runner, conventions
+- `.ai-factory/ARCHITECTURE.md` — module boundaries, folder structure
+- `ROADMAP.md` (or `$ARGUMENTS` if provided) — all milestones
 
-Read `.ai-factory/ARCHITECTURE.md` if it exists — understand module boundaries
-and folder structure.
+Store: `$STACK` (e.g. "NestJS/Jest"), `$TEST_CMD` (e.g. `npm test`),
+`$ROADMAP_PATH`.
 
-### Step 1: Determine Roadmap File
+If no DESCRIPTION.md, infer stack from `package.json` / `pubspec.yaml` /
+`go.mod` / `Cargo.toml`.
 
-If `$ARGUMENTS` names a file — use it as the roadmap path.
-Otherwise default to `.ai-factory/ROADMAP.md`.
+---
 
-Read the roadmap file in full.
-
-### Step 2: Extract Testable Areas
-
-Scan every completed (`[x]`) and pending (`[ ]`) milestone.
-
-Group related milestones into **testable areas** — one area per logical
-component or service (e.g. "TradeAggregator", "CandlePersistenceService",
-"pure utility functions"). A good area maps to one or a few source files
-that share a clear responsibility boundary.
-
-Criteria for an area being worth testing:
-- Contains non-trivial business logic, state transitions, or edge-case handling
-- Is used by many downstream components (high blast radius if broken)
-- Has hard-to-spot bugs: concurrency, time-based behavior, boundary conditions
-
-Criteria for skipping:
-- Pure wiring / DI configuration with no logic
-- Thin pass-through adapters with no branches
-- External library wrappers with no custom logic
-
-### Step 3: Check Existing Test Coverage
-
-For each area identified in Step 2, search the codebase for existing spec or
-test files that cover it:
+## Layer 2 — Coverage Scan
 
 ```bash
-find . -name "*.spec.*" -o -name "*.test.*" | grep -v node_modules | grep -v dist
+find . -name "*.spec.*" -o -name "*.test.*" | grep -v node_modules | grep -v dist | grep -v build
 ```
 
-For each area, classify:
-- **No coverage** — no spec file exists for the target source file(s)
-- **Partial coverage** — spec file exists but visibly incomplete (read it briefly)
-- **Full coverage** — spec file exists and appears thorough
+Read each completed and pending milestone in the roadmap. Group related
+milestones into **candidate areas** — one area per logical component or
+service. Each area maps to one or a few source files with a clear
+responsibility boundary.
 
-### Step 4: Present Findings and Confirm
+For each candidate area, classify:
+- **No coverage** — no spec file for the target source file(s)
+- **Partial coverage** — spec exists but visibly incomplete
+- **Full coverage** — spec exists and appears thorough
 
-Show the user:
+Drop "Full coverage" areas. Carry forward "No coverage" and "Partial".
+
+---
+
+## Layer 3 — Silent-Failure Filter
+
+This is the most important gate in the pipeline. It prevents Layer 4 from
+wasting agent capacity on areas that already have automatic failure detection.
+
+For each remaining candidate area, ask one question:
+
+> **"If the logic here is wrong, does the system signal it immediately
+> (TypeScript error, runtime exception, DI failure, 4xx/5xx response),
+> or does it continue running and produce wrong output silently?"**
+
+| Fails loudly → skip | Fails silently → keep |
+|---|---|
+| Mapper with wrong field type | Aggregator with off-by-one cursor |
+| Controller missing route param | State machine with wrong transition |
+| DI wiring missing a provider | Dedup logic with wrong key |
+| Thin adapter with no branches | Flush threshold calculated incorrectly |
+| gRPC interceptor that throws | Session expiry computed from wrong timestamp |
+
+Apply the filter to every area. Drop loud-failure areas.
+
+Present the result to the user:
 
 ```
-Found N testable areas:
+After silent-failure filter: N areas remain (dropped M).
 
-[No coverage]
+[Kept — fails silently]
   - AreaName — src/path/to/file.ts
   - ...
 
-[Partial coverage]
-  - AreaName — src/path/to/file.spec.ts exists but missing: <what's visibly absent>
+[Dropped — fails loudly]
+  - AreaName — reason (e.g. "TypeScript catches type mismatch immediately")
   - ...
 
-[Full coverage — will skip]
-  - AreaName
-  - ...
+Research all N kept areas? (y / let me pick)
 ```
 
-Then ask:
+Store confirmed list as `$RESEARCH_AREAS`.
 
-```
-AskUserQuestion: These areas have no or partial test coverage.
-Which ones should I research in depth?
+---
 
-Options:
-1. All of them (recommended)
-2. Only "No coverage" areas
-3. Let me pick manually
-```
+## Layer 4 — Deep Research (parallel agents)
 
-If the user picks manually — list areas and ask which to include.
-
-Store the confirmed list as `$RESEARCH_AREAS`.
-
-### Step 5: Determine Next Note Number
-
+Determine next note number:
 ```bash
 mkdir -p .ai-factory/notes
 find .ai-factory/notes -name "[0-9][0-9]-*.md" | sort | tail -1
 ```
-
-Extract the highest two-digit prefix and add 1. If no notes exist, start at `01`.
+Extract highest two-digit prefix + 1. If none, start at `01`.
 Store as `$NEXT_NOTE_NUM`.
 
-### Step 6: Launch Parallel Research Agents
-
-For each area in `$RESEARCH_AREAS`, launch one Agent with `subagent_type: Explore`
-and the following prompt. Launch all agents in a single message so they run
-in parallel — one Agent tool call per area.
+Launch one `Explore` agent per area in a **single message** (parallel).
+Each agent writes its note to disk and returns one line to the orchestrator.
+Do not read note contents back — one-line confirmations only.
 
 **Agent prompt template:**
 
@@ -128,82 +119,185 @@ You are researching test coverage for one area of a codebase.
 Area: <area name>
 Source file(s): <file paths>
 Existing spec file (if any): <path or "none">
+Note to write: .ai-factory/notes/<NN>-<slug>.md
 
 Your task:
-1. Read the source file(s) in full — understand every public method, constructor
-   arguments, internal branches, error paths, and edge cases.
-2. If a spec file exists, read it and identify what is already covered and what
-   is missing.
-3. Identify what dependencies need to be mocked (injected services, external
-   libraries, timers, etc.).
+1. Read the source file(s) in full — every public method, constructor args,
+   internal branches, error paths, edge cases.
+2. If a spec file exists, read it and identify what is covered and what is
+   missing.
+3. Identify dependencies that need to be mocked or faked.
 4. Produce a structured list of test cases grouped by method or behavior.
 
 For each test case write:
-  - One-line description: "should <expected behavior> when <condition>"
+  - "should <expected behavior> when <condition>"
   - Which method/function it exercises
-  - Any gotcha or non-obvious setup needed
+  - Any non-obvious setup needed
 
-Format your findings as a markdown document with these sections:
-## Source Overview
-(2-3 sentences: what this class/module does, its role in the pipeline)
+Write the following document to .ai-factory/notes/<NN>-<slug>.md:
 
-## Instantiation
-(How to create an instance in tests: new X() directly, or NestJS Test.createTestingModule.
-List what needs to be mocked and how.)
-
-## Existing Coverage
-(What is already tested if a spec file exists. "None" if no spec.)
-
-## Test Cases
-(Grouped by method or behavior. Use ### subheadings per group.)
-
-## Gotchas
-(Non-obvious things: timers, private method access, decorator bypass, invariants
-that must not be violated even when inputs look empty.)
-
-Return the full document as your response. Do not write any files.
-```
-
-### Step 7: Save Agent Results as Notes
-
-For each agent result, save it to `.ai-factory/notes/<NN>-<slug>.md` where:
-- `<NN>` is `$NEXT_NOTE_NUM` incremented per note
-- `<slug>` is a lowercase-hyphenated name derived from the area name
-
-Prepend the standard note frontmatter:
-
-```markdown
 # <Area Name> — Test Plan
 
 **Date:** <YYYY-MM-DD>
 **Source:** roadmap-test-coverage agent
 
-<agent output here>
+## Source Overview
+(2–3 sentences: what this class/module does, role in the system)
+
+## Instantiation
+(How to construct in tests: direct new X(), NestJS Testing module, etc.
+List what needs to be mocked and how.)
+
+## Existing Coverage
+(What is already tested, or "None".)
+
+## Test Cases
+(Grouped by method. Use ### per group.)
+
+## Gotchas
+(Timers, private fields, fire-and-forget async, decorator bypass, invariants.)
+
+After writing the file, return exactly one line:
+saved: .ai-factory/notes/<NN>-<slug>.md
 ```
 
-### Step 8: Report Summary
+Collect all one-line confirmations. Proceed to Layer 5.
 
-After all notes are saved, print:
+---
+
+## Layer 5 — Testability Review (parallel agents)
+
+Launch one `general-purpose` agent per area in a **single message** (parallel).
+Each agent reads the source file and returns a one-line verdict only.
+
+**Agent prompt template:**
+
+```
+Testability review for: <area name>
+Source file: <file path>
+
+Read the source file. Assess four things:
+1. Are all dependencies injected (constructor params, not module-level
+   singletons or static imports)?
+2. Any hard-coded globals: process.env reads without injection, Date.now()
+   calls that cannot be overridden, fs calls without abstraction?
+3. Any fire-and-forget async patterns (unawaited promises inside observable
+   pipes, setTimeout without returned handle) that complicate teardown
+   assertions?
+4. Any metadata extraction via unsafe casts ((req as any).user,
+   (metadata as any)[KEY]) that makes test setup awkward vs. a typed
+   decorator param?
+
+Return exactly one line in this format:
+  clean | <area name>
+  OR
+  needs-refactor | <area name> | <one sentence: what to refactor and why>
+```
+
+Collect all verdicts. Do not read source files back into orchestrator context.
+
+---
+
+## Layer 6 — Refactor Emit
+
+For each `needs-refactor` verdict from Layer 5:
+
+1. Add a task to `$ROADMAP_PATH` under a `## Test Infra` phase (create the
+   phase if absent). Task text = the refactor description from the verdict.
+2. Open the corresponding Layer 4 note and append a `## Refactor Required`
+   section: what to refactor, and what the post-refactor API will look like
+   so the test implementer knows what to expect.
+
+Log what was added. No user confirmation needed — emit and continue.
+
+---
+
+## Layer 7 — Existing Tests Run
+
+Run the test suite:
+```bash
+<$TEST_CMD>
+```
+
+If all tests pass: log "All existing tests pass." and continue to Layer 8.
+
+If any tests fail, launch one `general-purpose` agent with the full test
+output. The agent classifies failures only — it does not write any files.
+
+**Agent prompt:**
+
+```
+A test suite was run and some tests failed. Classify each failure.
+Do not fix anything. Do not write any files.
+
+Test output:
+<paste full test runner output>
+
+For each failing test:
+1. Read the test file to understand what it asserts.
+2. Read the source file it tests to understand the current implementation.
+3. Run: git log --oneline -10 <source file>
+   Look for recent changes that could explain the failure.
+
+Classify each failure:
+
+  Class A — API drift: the source API changed (renamed method, new required
+  arg, changed return shape) but the test was not updated. The test is
+  outdated, not meaningful. Safe to patch.
+
+  Class B — Silent bug: the source behavior changed in a way the test was
+  designed to catch. The system would produce wrong output. The test is
+  doing its job. Do NOT patch — escalate.
+
+Return a markdown table only:
+
+| Test (describe > it) | Source file | Class | Reason | Action |
+|---|---|---|---|---|
+| ... | ... | A or B | one sentence | patch test / escalate |
+```
+
+Present the classification table to the user.
+
+**For each Class A failure:** patch the failing test to match the current
+source API. Keep assertions intact — only update the call signature.
+
+**For each Class B failure:** add a task to `$ROADMAP_PATH` under a `## Bugs`
+phase. Task text = area name + reason from the table. Do NOT touch the test.
+
+Re-run `$TEST_CMD`. All tests must be green before Layer 8.
+
+---
+
+## Layer 8 — Hand Off
+
+Print:
 
 ```
 Test coverage research complete.
 
-Notes written:
+Notes written: N
   - .ai-factory/notes/<NN>-<slug>.md  (<area name>)
   - ...
 
-Areas with no coverage: N
-Areas with partial coverage: N
-Areas skipped (already covered): N
+Refactor tasks added to roadmap: M
+Existing tests patched (API drift): K
+Silent bugs escalated to roadmap: J
 
-Next step: run /roadmap-decompose to turn these notes into ROADMAP_TESTS.md
-Reference the notes in each milestone description so the implementer has full context.
+Next step: /roadmap-decompose
 ```
+
+Do not run `/roadmap-decompose` automatically.
+
+---
 
 ## Critical Rules
 
-1. **Never write test files** — this skill only researches and plans
-2. **Never write ROADMAP_TESTS.md** — that is the job of /roadmap-decompose
-3. **One note per area** — do not merge multiple areas into one note
-4. **Agent prompts must be self-contained** — the agent has no conversation context
-5. **Always check existing specs before calling an area uncovered**
+1. **Never write test files** — research and planning only
+2. **Never write ROADMAP_TESTS.md** — that is `/roadmap-decompose`'s job
+3. **Layer 4 and 5 agents return one line** — never read note contents back
+   into the orchestrator context
+4. **Layer 7 agent classifies only** — the orchestrator patches, never the
+   agent
+5. **Class B failures are wins** — the test caught a silent bug; escalate,
+   never suppress
+6. **One note per area** — never merge multiple areas into one note

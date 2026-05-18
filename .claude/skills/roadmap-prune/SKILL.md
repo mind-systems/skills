@@ -48,8 +48,7 @@ For every task in the pruning slice, ask one question:
 
 > "Could you write an e2e test for this that didn't exist before?"
 
-If yes — it's a feature. A feature is any behaviour that can be verified end-to-end: a user action,
-a service-to-service contract, a data pipeline output, a server integration. If no — it's internal.
+If yes — it's a feature. The Features table is the answer to "what does this system know how to do?" — a capability inventory that stays current because the system changes through the roadmap. Any verifiable interaction counts: user→system, system→system, system→external service, or a distinct internal subsystem with its own behaviour contract (e.g. structured logging with disk persistence and replay). If no — it's internal.
 
 Based on the answer, assign one of three outcomes:
 
@@ -63,6 +62,7 @@ Rules:
 - Never copy a phase or section header as a feature name. Phase headers organise work; feature names describe what the system can do.
 - A refactor that enables a future feature is still internal — record it in drop history, not as a feature.
 - When uncertain between new vs. extended: prefer extending an existing row.
+- **Internal-only items never get a named row in the Features table.** Refactors, renames, cleanups, doc fixes, migration changes, and dependency updates all go to the drop history hash only. The only named row under **Internal** is `Roadmap drop history`.
 
 ### 2.2 — Group and name
 
@@ -79,15 +79,17 @@ The name becomes a row in ARCHITECTURE.md — meaningful enough to navigate to w
 
 Then sort the features by domain and group them under bold section headers. Features in the same
 domain (e.g. all transport-layer work, all persistence work, all UI panels) should be adjacent.
-Internal/refactor rows go last under an **Internal** header.
+Domain names reflect the product boundaries of this specific project, not generic labels.
 
-What counts as a domain depends on the project — use the natural boundaries of that codebase
-(e.g. for a backend: data pipeline / API / auth / execution; for a frontend: chart / sidebar panels /
-auth / theme). Pick domain names that reflect the product, not the code structure.
+Internal/refactor work goes last under an **Internal** header. The only rows under **Internal** are:
+- Named rows for significant architectural subsystems established during this prune (e.g. a new layer pattern, a new protocol integration) — only if the subsystem has its own behaviour contract
+- `Roadmap drop history` — always the last row; all maintenance work (refactors, cleanups, dep fixes, renames, doc changes) goes here as hashes, never as named rows
 
 Example structure:
 
 ```
+| Feature | Hashes |
+|---------|--------|
 | **<Domain A>** | |
 | <What a user can do> | abc1234 |
 | <What a user can do, extended> | def5678 9a3bc12 |
@@ -95,7 +97,6 @@ Example structure:
 | <What service A delivers to service B> | c7d4a88 |
 | <What the system does end-to-end> | e1f2g3h |
 | **Internal** | |
-| <Refactors / arch changes with no new e2e behaviour> | f04bb91 |
 | Roadmap drop history | 5d1284c |
 ```
 
@@ -151,8 +152,8 @@ Follow the table format and grouping rules from Step 2.2. Additional rules:
 
 - Section headers are bold rows with an empty Hashes cell — pure visual separators.
 - Domain names reflect the product boundaries of this specific project, not generic labels.
-- Features are named from the operator's perspective (what they can do), not from the implementation.
-- Internal rows (refactors, arch cleanup, dep fixes) always go under **Internal** at the bottom.
+- Features are named from the operator's perspective (what the system can do), not from the implementation.
+- `Roadmap drop history` is always the last row of the **Internal** section. All maintenance work (refactors, arch cleanup, dep fixes, renames, doc changes) is absorbed into that row's hashes only — never as a named row.
 - Use short (7-char) hashes throughout.
 
 ---
