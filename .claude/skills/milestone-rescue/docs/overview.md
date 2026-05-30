@@ -135,14 +135,23 @@ matching the style of surrounding milestone lines.
 **If decompose:** replace the single milestone line with the new milestone lines,
 ordered by dependency.
 
-**Clean up** — delete all uncommitted files from `plans/`, `plan-reviews/`,
-`reviews/`, and `patches/` that belong to this milestone's slug:
+**Clean up** — delete all uncommitted files from `plan-reviews/`, `reviews/`,
+and `patches/`, and `.md` files from `plans/`, that belong to this milestone's
+slug:
 
 - Files marked `??` (untracked) → `git clean -f -- <path>`
 - Files marked `A ` (staged) → `git rm -f -- <path>`
 
-Do NOT delete committed files. Do NOT touch `.ai-factory/notes/`. Do NOT delete
-files belonging to other milestone slugs.
+Do NOT delete `.json` sidecar files from `plans/` — the next sub-step reads and
+rewrites the sidecar. Do NOT delete committed files. Do NOT touch
+`.ai-factory/notes/`. Do NOT delete files belonging to other milestone slugs.
+
+**Update the sidecar** — after cleanup, locate `.ai-factory/plans/{seq}-{slug}.json`.
+Read it as JSON (start from `{}` if absent). Inspect which plan-review and review
+files remain on disk to determine the correct `step` value (see the mapping table
+in SKILL.md Step 5). Update only the `step` key; preserve `planner`,
+`implementer`, `elapsed`, and any other keys. Emit:
+`Sidecar updated: step set to "{value}"`.
 
 ---
 
@@ -153,3 +162,5 @@ files belonging to other milestone slugs.
 - Do not keep the stale artifacts — they will confuse the next planner agent
 - Do not add implementation details to the milestone description — keep it a
   milestone, not a plan. The constraints you add should be *what* to do, not *how*
+- Do not overwrite `planner`, `implementer`, or `elapsed` in the sidecar — only
+  the `step` key is updated by this skill

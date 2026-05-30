@@ -8,7 +8,7 @@ description: >-
   achieved" or "REVIEW_PASS never achieved" — trigger phrases: "rescue", "milestone
   failed", "pipeline stopped".
 argument-hint: "[path/to/ROADMAP.md | ROADMAP_TESTS.md]"
-allowed-tools: Read Edit Glob Grep Bash(git *) AskUserQuestion
+allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion
 ---
 
 # Milestone Rescue
@@ -183,15 +183,49 @@ style of surrounding milestone lines.
 lines. Order them by dependency. Verify each new line reads coherently in context.
 
 **Clean up artifacts.** After ROADMAP.md is updated, delete all uncommitted files
-from `plans/`, `plan-reviews/`, `reviews/`, and `patches/` that belong to this
-milestone's slug. Use `git status --short -- .ai-factory/` to identify them, then
-delete using git-native commands only:
+from `plan-reviews/`, `reviews/`, and `patches/`, and `.md` files from `plans/`,
+that belong to this milestone's slug. Use `git status --short -- .ai-factory/` to
+identify them, then delete using git-native commands only:
 
 - Files marked `??` (untracked) → `git clean -f -- <path>`
 - Files marked `A ` (staged/added) → `git rm -f -- <path>`
 
-Do NOT delete committed files. Do NOT touch `.ai-factory/notes/`. Do NOT delete files
-belonging to other milestone slugs.
+Do NOT delete `.json` sidecar files from `plans/` — the sub-step below reads and
+rewrites the sidecar in place. Do NOT delete committed files. Do NOT touch
+`.ai-factory/notes/`. Do NOT delete files belonging to other milestone slugs.
+
+**Update the sidecar.** Locate the JSON sidecar at
+`.ai-factory/plans/{seq}-{slug}.json` — the same `<NN>-<slug>` prefix identified in
+Step 1. Check the working tree for the file (for example, attempt to read it or list
+with `Glob`).
+
+- If the file exists, read it and parse it as JSON.
+- If it does not exist, start from an empty JSON object.
+
+Inspect which plan-review and review files for this slug remain on disk **after** the
+cleanup deletions above, then determine the correct `step` value:
+
+| Situation after cleanup | Write `step` |
+|---|---|
+| Plan-reviews deleted (or none pass) | `"planned"` |
+| Plan-reviews exist and pass, reviews deleted | `"plan_reviewed"` |
+| Plan-reviews pass, reviews exist but none pass | `"plan_reviewed"` (re-implement) |
+| Sidecar doesn't exist | create it with correct `step` |
+
+When the sidecar does not exist, determine `step` from the first three rows (the
+on-disk state of plan-reviews and reviews), then create a new sidecar file containing
+only that key — e.g. `{ "step": "planned" }`.
+
+If both plan-reviews and reviews pass on disk, the orchestrator finished — surface this
+to the user and skip the sidecar update.
+
+Update **only** the `step` key in the JSON object. Preserve every other key already
+present — `planner`, `implementer`, `elapsed`, and any others — untouched. Do not
+overwrite `planner`, `implementer`, or `elapsed`. Serialize the result back as JSON
+with 2-space indentation and write it to the sidecar path using `Write`.
+
+Emit: `Sidecar updated: step set to "{value}"` (skip this line when the fall-through
+case above applies).
 
 Show the user the list of deleted files and confirm the rescue is complete.
 
@@ -243,3 +277,5 @@ If no matches found, or if all issues were domain-specific to the failed milesto
 - Do not delete committed files or files belonging to other milestones
 - Do not skip reading earlier rounds — the pattern of failures across rounds is the
   primary signal, not just the final round
+- Do not overwrite `planner`, `implementer`, or `elapsed` in the sidecar — only the
+  `step` key is updated by this skill
