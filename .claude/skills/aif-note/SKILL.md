@@ -6,7 +6,7 @@ description: >-
   deep-dive, or exploration and you want to persist the key findings
   for future reference. Keywords: note, research, summary, findings, extract.
 argument-hint: "[topic-slug]"
-disable-model-invocation: true
+disable-model-invocation: false
 user-invocable: true
 allowed-tools: Read Write Bash(ls *) Bash(mkdir *) Glob
 ---
