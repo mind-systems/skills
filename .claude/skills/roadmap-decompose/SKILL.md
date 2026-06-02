@@ -1,19 +1,19 @@
 ---
 name: roadmap-decompose
 description: >-
-  Create or update a project roadmap with atomic, granular, descriptive milestones.
-  Generates .ai-factory/ROADMAP.md where each entry is a fully specified task: what
-  exists today, what needs to change, which files and methods to touch, and explicit
-  guard conditions. Use when user says "decompose", "break down tasks", "spec tasks",
-  "create tasks", or when adding milestones that need to be implementation-ready.
+  Create or update a project roadmap with atomic, granular milestones. Each roadmap
+  entry is a ~600-char contract line naming the key files, types, and guards, with
+  the full spec persisted as a per-task note written by aif-note. Use when user says
+  "decompose", "break down tasks", "spec tasks", "create tasks", or when adding
+  milestones that need to be implementation-ready.
 argument-hint: "[check | task description or requirements]"
-allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion
+allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion Skill
 disable-model-invocation: true
 ---
 
 # Decompose — Granular Task Planning
 
-Create and maintain a project roadmap where every milestone is a fully specified, atomic task.
+Create and maintain a project roadmap where every milestone is a two-tier entry: a contract line in the roadmap and a full spec note written by `aif-note`.
 
 ## Workflow
 
@@ -85,9 +85,9 @@ Scan the project to understand what's already built:
 - `Grep` for implemented features (routes, models, services)
 - Check git log for completed work: `git log --oneline -20`
 
-**1.3: Generate roadmap file**
+**1.3: Generate draft roadmap**
 
-Create `$TARGET_FILE` (ensure parent directory exists: `mkdir -p .ai-factory`) with this format:
+Draft the roadmap **in memory (do not write `$TARGET_FILE` yet)**. The format to build toward:
 
 ```markdown
 # Project Roadmap
@@ -96,30 +96,30 @@ Create `$TARGET_FILE` (ensure parent directory exists: `mkdir -p .ai-factory`) w
 
 ## Milestones
 
-- [ ] **Task Name** — [full spec — see format below]
-- [x] **Task Name** — [full spec] (already done based on codebase analysis)
+- [ ] **Task Name** — <contract line: problem today + the change + key files/types/guards>. Spec: `<note pending>`.
+- [x] **Task Name** — <contract line>. Spec: `<note pending>`. (already done based on codebase analysis)
 ```
 
 **Rules for milestones:**
 - Each milestone is **one atomic task** — one file boundary, one concern, one reason to revert
-- Write a full spec for each (see ROADMAP.md Format section below)
+- For each milestone: draft the full spec, run the **Atomicity Gate** (Step 1.3.1), then write a draft contract line with a placeholder `` Spec: `<note pending>`. `` — do **not** invoke `aif-note` yet; note invocations happen after the user confirms in Step 1.4
 - Order by logical sequence (dependencies first)
 - Mark already-completed milestones as `[x]`
 
 **1.3.1: Atomicity Gate**
 
-After drafting each milestone description, before writing to file — apply the gate:
+After drafting each milestone's full spec, before writing its draft contract line — apply the gate:
 
 > "Can the first half be deployed without the second half and still make sense?"
 
-If **yes** → split into two milestones, then apply the gate to each half recursively until no half passes.
-If **no** → the milestone is atomic, proceed.
+If **yes** → split into two draft milestones, apply the gate to each half recursively until no half passes. Each gets its own draft contract line; both receive note invocations at Step 1.4 after confirmation.
+If **no** → the milestone is atomic, write its draft contract line.
 
 "Make sense" means: compiles, doesn't break existing functionality, and delivers some independently observable value.
 
 **1.4: Confirm with user**
 
-Show the generated roadmap and ask:
+Show the draft roadmap and ask:
 
 ```
 AskUserQuestion: Here's the proposed roadmap. What would you like to do?
@@ -131,7 +131,9 @@ Options:
 4. Rewrite — let me give better input
 ```
 
-Apply changes if requested, then save to `$TARGET_FILE`.
+Apply changes if requested, then finalize:
+
+**After "Looks good — save it":** run the **Two-Tier Output** procedure (steps 3–5) for each confirmed milestone **sequentially** — invoke `aif-note` with that milestone's drafted full spec, capture the note path, and replace the placeholder `` Spec: `<note pending>`. `` with the real `` Spec: `.ai-factory/notes/<NN>-<slug>.md`. `` — then write the final `$TARGET_FILE`. Milestones removed or rewritten during options 2–4 receive no note invocation; only the confirmed set gets notes.
 
 ---
 
@@ -182,18 +184,18 @@ If confirmed:
 
 - Ask user to describe new tasks
 - Explore the codebase for each new task (relevant files, current state)
-- Write a full spec for each (see ROADMAP.md Format section)
+- For each new task, run the **Two-Tier Output** procedure — invoke `aif-note` to write the spec note, then write the contract line with the `Spec:` tag
 - Insert in logical order among existing milestones
 - Update `$TARGET_FILE`
 
 **2.4.1: Atomicity Gate**
 
-After drafting each new task description, before inserting into the roadmap — apply the gate:
+After drafting each new task's full spec, before the note invocation — apply the gate:
 
 > "Can the first half be deployed without the second half and still make sense?"
 
-If **yes** → split into two milestones, then apply the gate to each half recursively until no half passes.
-If **no** → the milestone is atomic, proceed.
+If **yes** → split into two tasks, apply the gate to each half recursively until no half passes. A split produces **two note invocations + two contract lines**.
+If **no** → the task is atomic, proceed with the Two-Tier Output procedure.
 
 "Make sense" means: compiles, doesn't break existing functionality, and delivers some independently observable value.
 
@@ -202,14 +204,18 @@ If **no** → the milestone is atomic, proceed.
 - List all `- [ ]` milestones with short descriptions
 - Ask user which to expand
 - Explore the codebase for the selected milestone
-- Rewrite its description as a full spec (see ROADMAP.md Format)
-- If the milestone bundles 2+ independent concerns, ask if user wants to split it
+- Draft a full spec for it (what exists today, the exact change, files/types/methods to touch, guards, how to verify)
+- Run the **Two-Tier Output** procedure with the following note-handling rule:
+  - If the milestone already carries a `Spec:` tag, instruct `aif-note` to **update** the named note file in place (pass the exact existing note path as an explicit instruction to update rather than create). The contract line's `Spec:` tag stays unchanged.
+  - If the milestone has no `Spec:` tag (legacy inline spec), invoke `aif-note` normally to create a new note, then replace the roadmap bullet with the contract line + the new `Spec:` tag.
+- If the milestone bundles 2+ independent concerns, ask if user wants to split it (a split → two notes + two contract lines)
+- Do not bulk-migrate pre-existing legacy inline tasks the skill isn't already touching
 
 **2.6: Reprioritize (if chosen)**
 
 - Show current order
 - Ask user for new order or let them describe priority changes
-- Reorder milestones in `.ai-factory/ROADMAP.md`
+- Reorder milestones in `$TARGET_FILE`
 
 **2.7: Save Changes**
 
@@ -250,13 +256,13 @@ For every `- [ ]` milestone:
 ```
 ## Roadmap Progress Check
 
-✅ Done (ready to mark):
+Done (ready to mark):
 - **Task Name** — found: src/auth/, JWT middleware, login/register routes
 
-🔨 In Progress:
+In Progress:
 - **Task Name** — found: src/payments/ exists but Stripe webhook handler missing
 
-⏳ Not Started:
+Not Started:
 - **Task Name**
 
 Mark completed milestones? (N milestones)
@@ -275,6 +281,24 @@ Next up: **Task Name**
 
 ---
 
+## Two-Tier Output (per task)
+
+The canonical per-task procedure — referenced from Mode 2 (and from Mode 1's Step 1.4 finalization). Run this for every atomic task:
+
+1. **Draft the full spec** for the task: what exists today, the exact change, files/types/methods to touch, guard conditions, how to verify completion.
+2. **Apply the Atomicity Gate** to the full spec — if the gate passes (the spec covers two independently deployable halves), split into two tasks and run this whole procedure independently for each (two note invocations + two contract lines, sequentially).
+3. **Invoke the `aif-note` skill via the Skill tool** to persist the full spec as a note. Scope the invocation to exactly one task: pass the task name as aif-note's `$1` slug argument (lowercase, hyphens) and supply that task's drafted spec text as the subject so aif-note does not blend it with sibling tasks or surrounding chatter. Tell aif-note the content is a task spec; do not override aif-note's template or otherwise alter its behavior.
+4. **Capture the note path** aif-note reports back — its Step 4 prints `Note saved: .ai-factory/notes/<NN>-<slug>.md`. Use this path verbatim in the `Spec:` tag.
+5. **Write the contract line** to the roadmap — target ~600 characters (range 400–1000; 1000 is an extreme edge), naming the key files, types, and guards (the "signature"), ending with the exact tag `` Spec: `.ai-factory/notes/<NN>-<slug>.md`. ``
+
+**Why two tiers:** the contract line lets the user verify intent while fitting 3–4 tasks on screen; the note holds the full implementation detail. The char budget is guidance, not a hard clamp.
+
+**Sequential invocations only:** invoke `aif-note` one task at a time — one note fully written to disk before the next invocation — so aif-note's `NN` scan never collides. Never batch or parallelize note invocations within a run. A gate split's two invocations also run one after another.
+
+**Never write a full spec inline in the roadmap** — the contract line is the header; the note is the implementation.
+
+---
+
 ## Roadmap File Format
 
 ```markdown
@@ -284,22 +308,25 @@ Next up: **Task Name**
 
 ## Milestones
 
-- [ ] **Name** — [current state: what exists and what's wrong or missing]. [Target: specific files, methods, or types to change; exact behavior to implement; guard conditions inline if needed.]
-- [ ] **Name** — [same pattern]
-- [x] **Name** — [same pattern]
+- [ ] **Name** — <problem today + the exact change + key files/types/guards involved>. Spec: `.ai-factory/notes/<NN>-<slug>.md`.
+- [ ] **Name** — <same pattern>. Spec: `.ai-factory/notes/<NN>-<slug>.md`.
+- [x] **Name** — <same pattern>. Spec: `.ai-factory/notes/<NN>-<slug>.md`.
 ```
 
-**Rules for writing a description:**
+**Rules for writing a contract line:**
 - Name the specific files, methods, types, or fields involved — not just the module
-- State what exists today before stating what needs to change
-- Add guard conditions inline ("do not touch X", "skip Y") only for real pitfalls, not obvious things
+- State the problem today before stating what needs to change
+- Name guard conditions ("do not touch X", "skip Y") only for real pitfalls, not obvious things
+- Target ~600 characters (range 400–1000) — enough to verify intent, short enough to fit 3–4 tasks on screen
+- Always end with the `Spec:` tag pointing at the aif-note-written note file
 - One reason to revert — if two concerns are independently shippable, make two milestones
-- A reader with no prior context must understand exactly what to do from the description alone
+- Full current-state / target / guards / verify detail lives in the spec note, not the roadmap line
 
 ## Critical Rules
 
-1. **Milestones are atomic and specific** — each is one concern, fully described, not a bundle of loosely related changes
+1. **Milestones are atomic and specific** — each is one concern, one reason to revert
 2. **`$TARGET_FILE` is the source of truth** — always read it before modifying
 3. **Never remove milestones silently** — always confirm with user before removing
 4. **Completed milestones stay as `[x]` in the list** — `roadmap-prune` moves them to ARCHITECTURE.md
 5. **NO implementation** — this skill only plans, use `/aif-plan` to start a task and `/aif-implement` to execute
+6. **Every task is two-tier** — a contract line in the roadmap plus a spec note written by `aif-note`; never write a full spec inline in the roadmap
