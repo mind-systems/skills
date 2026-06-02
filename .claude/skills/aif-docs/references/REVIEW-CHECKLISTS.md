@@ -11,10 +11,11 @@ Verify structure, links, and completeness:
 - [ ] Each docs/ file has "See Also" section at bottom with 2-3 related links
 - [ ] No content was lost during split/reorganization
 - [ ] All internal links work (no broken references, no dead anchors)
-- [ ] Code examples use the project's actual commands/syntax
-- [ ] Installation instructions are real and work (verified from package manager files)
+- [ ] Code examples use the project's actual commands/syntax *(skip in `MODE = 3D` — target-state code does not yet exist)*
+- [ ] Installation instructions are real and work (verified from package manager files) *(skip in `MODE = 3D`)*
 - [ ] No duplicate content between README and docs/
 - [ ] No scattered root-level `.md` files that should be in docs/
+- [ ] No motivation/history/process language — every sentence states factual present-tense state; no "we changed / was added / was replaced / this replaces / previously / because we / this milestone / was introduced / has been" (applies in all modes including 3D)
 
 ## Readability Checklist — "New User Eyes"
 

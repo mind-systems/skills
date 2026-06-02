@@ -1,7 +1,7 @@
 ---
 name: aif-docs
 description: Generate and maintain project documentation. Creates a lean README as a landing page with detailed docs pages split by topic in the configured docs directory. Use when user says "create docs", "write documentation", "update docs", "generate readme", or "document project".
-argument-hint: "[--web]"
+argument-hint: "[--web] [3d|3д]"
 allowed-tools: Read Write Edit Glob Grep Bash(mkdir, npx, python) AskUserQuestion Questions WebFetch WebSearch
 disable-model-invocation: false
 metadata:
@@ -22,6 +22,7 @@ Generate, maintain, and improve project documentation following a landing-page R
 4. **Navigation.** Every doc file in the resolved docs directory has a header line with prev/next links following the Documentation table order: `[← Previous Page](prev.md) · [Back to README](<docs-to-readme-link>) · [Next Page →](next.md)`. First page has no prev link; last page has no next link. Every page ends with a "See Also" section linking to 2-3 related pages.
 5. **Cross-links use relative paths.** From README: link to the resolved docs directory path (for example `docs/workflow.md` by default). Between doc pages in the same directory: `workflow.md`.
 6. **Scannable.** Use tables, bullet lists, and code blocks. Avoid long paragraphs. Users scan, they don't read.
+7. **State, not process.** Every sentence describes **what is** — factual present-tense behavior, structure, or API. Never state how something came to be: no "we changed", "was added", "this replaces", "previously", "because we", "this milestone". History belongs in commit messages. This rule applies to every run, every mode, no exceptions.
 
 ## Workflow
 
@@ -88,11 +89,40 @@ Record each file, its size, and a brief summary of its content. This list is use
 
 ```
 --web  → Generate HTML version of documentation
+3d     → Document-Driven Development mode (also accepts 3д, case-insensitive)
 ```
+
+**MODE detection:**
+- If the invocation arguments contain the token `3d` or `3д` (case-insensitive, standalone token) → set `MODE = 3D` for the entire workflow.
+- Otherwise → `MODE = normal`. Behavior is byte-identical to pre-3D operation (plus Change A: no-motivation rule, which is always active).
+- Both `3d` and `--web` can be present simultaneously.
+
+### Document-Driven Development (3D mode)
+
+**3D is the docs analogue of TDD.** In `MODE = 3D`, you author documentation as if the feature is **already shipped** — present tense, target behavior, end to end. The doc you write is the contract; code will be written to conform to it.
+
+Key rules for 3D:
+- Documenting APIs, columns, endpoints, CLI flags, or files that **do not yet exist is the intended behavior** — not an error, not stale.
+- Write in present tense describing what the feature **does** when it is done, not what it will do.
+- All Core Principles still apply, including Principle 7 (state, not process) — target-state docs are pure behavior with no history/rationale language.
+- All formatting, navigation, language-matching, scannability, and ownership rules apply unchanged.
+- The "current state only" doc-style is reinterpreted as "target shipped state" — still present tense, still behavior-focused, still no history.
+
+**After authoring in 3D**, print the following line (do **not** auto-insert it into ROADMAP or any file — the user places it manually):
+
+```
+implementation must conform to `<doc-path>`
+```
+
+This mirrors the `Spec:` tag rhythm: it is a pointer for the human, not an automated annotation.
+
+---
 
 ### Step 1: Determine Current State
 
-Check what documentation already exists:
+**If `MODE = 3D`:** The State A/B/C detection still runs to determine what files exist, but the **content source** is the feature's *target state* — gather what the feature **will do** from the stated user intent, spec note, or ROADMAP milestone if one is provided or discoverable in the project. Do not use existing code as the content source; use the intended design. Proceed through the applicable State branch with target-state content.
+
+**If `MODE = normal`:** Check what documentation already exists:
 
 ```
 State A: No README.md                        → Full generation (README + docs dir)
@@ -406,7 +436,7 @@ When both README.md and the resolved docs directory exist.
 Check for:
 - **README length** — is it still a landing page (<150 lines)?
 - **Missing topics** — are there aspects of the project not documented?
-- **Stale content** — do docs reference files/APIs that no longer exist?
+- **Stale content** — do docs reference files/APIs that no longer exist? (**Suppressed in `MODE = 3D`** — absent code is expected, not stale; all other audit checks still run)
 - **Navigation** — do all docs have prev/next header links and "See Also"?
 - **Broken links** — verify all internal links point to existing files/anchors
 - **Consistency** — same formatting style across all docs
@@ -473,7 +503,16 @@ Show tree of generated files and `open docs-html/index.html` hint.
 
 Read every generated/modified file and evaluate it against both checklists from `references/REVIEW-CHECKLISTS.md`. Two checklists: **Technical Accuracy** and **Readability & Completeness**.
 
+**No-motivation pass (mandatory, all modes):** Before presenting any result, scan every generated or modified file for motivation/history/process language. Flag and remove any sentence containing: "we changed", "was added", "was replaced", "this replaces", "previously", "because we", "this milestone", "was introduced", "has been". Rewrite flagged sentences to describe the current (or target) state in present tense.
+
 Fix any issues found before presenting the result to the user. Display results as a compact table with ✅/❌/⚠️ status per item.
+
+**`MODE = 3D` Technical Accuracy carve-out:** Skip the following Technical Checklist items — they are inapplicable when code does not yet exist:
+- "Code examples use the project's actual commands/syntax"
+- "Installation instructions are real and work (verified from package manager files)"
+- Stale-content / broken-reference checks against the live codebase
+
+**Keep fully active in 3D:** Readability & Completeness checklist, navigation checks, README length, no-motivation pass (Principle 7). 3D drops *current-state* verification but **never** drops the no-history rule.
 
 ### Step 4.1: Clean Up Moved Files
 

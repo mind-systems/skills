@@ -103,6 +103,7 @@ Upstream source: `https://github.com/lee-to/ai-factory` (skills live in `skills/
 **Intentionally diverged from upstream — review diff before updating:**
 - `aif-plan` — uses `TaskCreate`/`TaskUpdate`, custom logging defaults
 - `aif-roadmap` — no Completed table (history managed by `roadmap-prune` → ARCHITECTURE.md)
+- `aif-docs` — 3D / target-state docs mode + always-on no-motivation rule added downstream
 
 **All other skills** — safe to overwrite directly from upstream.
 
