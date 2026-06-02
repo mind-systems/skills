@@ -3,7 +3,7 @@ name: roadmap-decompose
 description: >-
   Create or update a project roadmap with atomic, granular milestones. Each roadmap
   entry is a ~600-char contract line naming the key files, types, and guards, with
-  the full spec persisted as a per-task note written by aif-note. Use when user says
+  the full spec persisted as a note written manually following aif-note's note format. Use when user says
   "decompose", "break down tasks", "spec tasks", "create tasks", or when adding
   milestones that need to be implementation-ready.
 argument-hint: "[check | task description or requirements]"
@@ -13,7 +13,7 @@ disable-model-invocation: true
 
 # Decompose — Granular Task Planning
 
-Create and maintain a project roadmap where every milestone is a two-tier entry: a contract line in the roadmap and a full spec note written by `aif-note`.
+Create and maintain a project roadmap where every milestone is a two-tier entry: a contract line in the roadmap and a full spec note written manually following aif-note's note format.
 
 ## Workflow
 
@@ -102,7 +102,7 @@ Draft the roadmap **in memory (do not write `$TARGET_FILE` yet)**. The format to
 
 **Rules for milestones:**
 - Each milestone is **one atomic task** — one file boundary, one concern, one reason to revert
-- For each milestone: draft the full spec, run the **Atomicity Gate** (Step 1.3.1), then write a draft contract line with a placeholder `` Spec: `<note pending>`. `` — do **not** invoke `aif-note` yet; note invocations happen after the user confirms in Step 1.4
+- For each milestone: draft the full spec, run the **Atomicity Gate** (Step 1.3.1), then write a draft contract line with a placeholder `` Spec: `<note pending>`. `` — do not write the notes yet; notes are written after confirmation in Step 1.4
 - Order by logical sequence (dependencies first)
 - Mark already-completed milestones as `[x]`
 
@@ -112,7 +112,7 @@ After drafting each milestone's full spec, before writing its draft contract lin
 
 > "Can the first half be deployed without the second half and still make sense?"
 
-If **yes** → split into two draft milestones, apply the gate to each half recursively until no half passes. Each gets its own draft contract line; both receive note invocations at Step 1.4 after confirmation.
+If **yes** → split into two draft milestones, apply the gate to each half recursively until no half passes. Each gets its own draft contract line; both receive notes at Step 1.4 after confirmation.
 If **no** → the milestone is atomic, write its draft contract line.
 
 "Make sense" means: compiles, doesn't break existing functionality, and delivers some independently observable value.
@@ -133,7 +133,7 @@ Options:
 
 Apply changes if requested, then finalize:
 
-**After "Looks good — save it":** run the **Two-Tier Output** procedure (steps 3–5) for each confirmed milestone **sequentially** — invoke `aif-note` with that milestone's drafted full spec, capture the note path, and replace the placeholder `` Spec: `<note pending>`. `` with the real `` Spec: `.ai-factory/notes/<NN>-<slug>.md`. `` — then write the final `$TARGET_FILE`. Milestones removed or rewritten during options 2–4 receive no note invocation; only the confirmed set gets notes.
+**After "Looks good — save it":** run the **Two-Tier Output** procedure (steps 3–5) for each confirmed milestone — ensure aif-note is loaded once (per Two-Tier Output), write each confirmed milestone's spec note manually with `Write`, then replace the `` Spec: `<note pending>`. `` placeholder with the real `` Spec: `.ai-factory/notes/<NN>-<slug>.md`. `` — then write the final `$TARGET_FILE`. Milestones removed or rewritten during options 2–4 receive no note; only the confirmed set gets notes.
 
 ---
 
@@ -184,17 +184,17 @@ If confirmed:
 
 - Ask user to describe new tasks
 - Explore the codebase for each new task (relevant files, current state)
-- For each new task, run the **Two-Tier Output** procedure — invoke `aif-note` to write the spec note, then write the contract line with the `Spec:` tag
+- For each new task, run the **Two-Tier Output** procedure to write the spec note, then write the contract line with the `Spec:` tag
 - Insert in logical order among existing milestones
 - Update `$TARGET_FILE`
 
 **2.4.1: Atomicity Gate**
 
-After drafting each new task's full spec, before the note invocation — apply the gate:
+After drafting each new task's full spec, before writing the note — apply the gate:
 
 > "Can the first half be deployed without the second half and still make sense?"
 
-If **yes** → split into two tasks, apply the gate to each half recursively until no half passes. A split produces **two note invocations + two contract lines**.
+If **yes** → split into two tasks, apply the gate to each half recursively until no half passes. A split produces two notes + two contract lines.
 If **no** → the task is atomic, proceed with the Two-Tier Output procedure.
 
 "Make sense" means: compiles, doesn't break existing functionality, and delivers some independently observable value.
@@ -206,8 +206,8 @@ If **no** → the task is atomic, proceed with the Two-Tier Output procedure.
 - Explore the codebase for the selected milestone
 - Draft a full spec for it (what exists today, the exact change, files/types/methods to touch, guards, how to verify)
 - Run the **Two-Tier Output** procedure with the following note-handling rule:
-  - If the milestone already carries a `Spec:` tag, instruct `aif-note` to **update** the named note file in place (pass the exact existing note path as an explicit instruction to update rather than create). The contract line's `Spec:` tag stays unchanged.
-  - If the milestone has no `Spec:` tag (legacy inline spec), invoke `aif-note` normally to create a new note, then replace the roadmap bullet with the contract line + the new `Spec:` tag.
+  - If the milestone already carries a `Spec:` tag, update the named note file in place with `Write`. The contract line's `Spec:` tag stays unchanged.
+  - If the milestone has no `Spec:` tag (legacy inline spec), write a new note (per Two-Tier Output) and add the `Spec:` tag. aif-note stays loaded once via the procedure, not re-invoked here.
 - If the milestone bundles 2+ independent concerns, ask if user wants to split it (a split → two notes + two contract lines)
 - Do not bulk-migrate pre-existing legacy inline tasks the skill isn't already touching
 
@@ -286,14 +286,14 @@ Next up: **Task Name**
 The canonical per-task procedure — referenced from Mode 2 (and from Mode 1's Step 1.4 finalization). Run this for every atomic task:
 
 1. **Draft the full spec** for the task: what exists today, the exact change, files/types/methods to touch, guard conditions, how to verify completion.
-2. **Apply the Atomicity Gate** to the full spec — if the gate passes (the spec covers two independently deployable halves), split into two tasks and run this whole procedure independently for each (two note invocations + two contract lines, sequentially).
-3. **Invoke the `aif-note` skill via the Skill tool** to persist the full spec as a note. Scope the invocation to exactly one task: pass the task name as aif-note's `$1` slug argument (lowercase, hyphens) and supply that task's drafted spec text as the subject so aif-note does not blend it with sibling tasks or surrounding chatter. Tell aif-note the content is a task spec; do not override aif-note's template or otherwise alter its behavior.
-4. **Capture the note path** aif-note reports back — its Step 4 prints `Note saved: .ai-factory/notes/<NN>-<slug>.md`. Use this path verbatim in the `Spec:` tag.
+2. **Apply the Atomicity Gate** to the full spec — if the gate passes (the spec covers two independently deployable halves), split into two tasks and run this whole procedure independently for each (two notes + two contract lines).
+3. **Ensure `aif-note` is loaded:** if the `aif-note` skill has not yet been invoked in this chat, invoke it once now (via the Skill tool) so its note-writing instructions are in context; if it has already been invoked, do not invoke it again.
+4. **Write the spec note manually** with the `Write` tool, following aif-note's in-context instructions — to `.ai-factory/notes/<NN>-<slug>.md` (determine `<NN>` by scanning existing files in `.ai-factory/notes/`; `<slug>` = lowercase, hyphenated task name). Use that path verbatim in the `Spec:` tag.
 5. **Write the contract line** to the roadmap — target ~600 characters (range 400–1000; 1000 is an extreme edge), naming the key files, types, and guards (the "signature"), ending with the exact tag `` Spec: `.ai-factory/notes/<NN>-<slug>.md`. ``
 
 **Why two tiers:** the contract line lets the user verify intent while fitting 3–4 tasks on screen; the note holds the full implementation detail. The char budget is guidance, not a hard clamp.
 
-**Sequential invocations only:** invoke `aif-note` one task at a time — one note fully written to disk before the next invocation — so aif-note's `NN` scan never collides. Never batch or parallelize note invocations within a run. A gate split's two invocations also run one after another.
+**`aif-note` is invoked at most once per chat** to load its instructions, never per task; when writing several notes, scan existing note numbers first so `<NN>` never collides.
 
 **Never write a full spec inline in the roadmap** — the contract line is the header; the note is the implementation.
 
@@ -318,7 +318,7 @@ The canonical per-task procedure — referenced from Mode 2 (and from Mode 1's S
 - State the problem today before stating what needs to change
 - Name guard conditions ("do not touch X", "skip Y") only for real pitfalls, not obvious things
 - Target ~600 characters (range 400–1000) — enough to verify intent, short enough to fit 3–4 tasks on screen
-- Always end with the `Spec:` tag pointing at the aif-note-written note file
+- Always end with the `Spec:` tag pointing at the spec note
 - One reason to revert — if two concerns are independently shippable, make two milestones
 - Full current-state / target / guards / verify detail lives in the spec note, not the roadmap line
 
@@ -329,4 +329,4 @@ The canonical per-task procedure — referenced from Mode 2 (and from Mode 1's S
 3. **Never remove milestones silently** — always confirm with user before removing
 4. **Completed milestones stay as `[x]` in the list** — `roadmap-prune` moves them to ARCHITECTURE.md
 5. **NO implementation** — this skill only plans, use `/aif-plan` to start a task and `/aif-implement` to execute
-6. **Every task is two-tier** — a contract line in the roadmap plus a spec note written by `aif-note`; never write a full spec inline in the roadmap
+6. **Every task is two-tier** — a contract line in the roadmap plus a spec note written manually following aif-note's note format; never write a full spec inline in the roadmap

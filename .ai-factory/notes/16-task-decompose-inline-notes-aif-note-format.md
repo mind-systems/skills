@@ -1,44 +1,49 @@
-# Task Spec — roadmap-decompose: write spec notes inline in aif-note's format, drop the per-task aif-note invocation
+# Task Spec — roadmap-decompose: ensure aif-note is loaded once, then write spec notes manually
 
 **Date:** 2026-06-02
 **Roadmap:** ROADMAP.md Milestones
-**Provenance:** user feedback after running decompose on real phases. Refines the delegation *mechanism* from note `13-task-decompose-two-tier-via-aif-note.md` (keeps its two-tier concept and aif-note's format).
+**Provenance:** user. Commit `0bfa177` (note 13 task) over-engineered the aif-note step; this replaces it with one simple rule.
 
 ## Current state
 
-Per note 13's implementation, the **Two-Tier Output** procedure in `roadmap-decompose/SKILL.md` requires invoking `aif-note` via the **Skill tool once per task** to persist each spec note (procedure step 3: "Invoke the `aif-note` skill via the Skill tool"). `allowed-tools` includes `Skill` for this.
+Commit `0bfa177` ("roadmap-decompose: always emit two-tier output by invoking aif-note") made decompose **invoke aif-note via the Skill tool once per task** to write each spec note (Two-Tier Output procedure, `src/skills/roadmap-decompose/SKILL.md` ~lines 284–298). That introduced cruft that must go:
 
-This **degrades on multi-task runs**. In Mode 1, decompose drafts every task's full spec in memory (Step 1.3), then at finalization (Step 1.4) invokes aif-note per task. By the Nth invocation the conversation holds all prior drafted specs, and aif-note — which re-analyzes the full conversation context rather than accepting passed-in content — can **blend sibling tasks** into the note. Each call is also largely **ceremony**: decompose already drafted the full spec, so aif-note's re-derivation adds risk without adding content. Validated in practice (and confirmed independently in a separate session): single or few tasks come out clean; a 6–7-task phase degrades as accumulated context noise grows.
+- Step 3 tells aif-note to take "that task's drafted spec text **as the subject so aif-note does not blend it with sibling tasks**" — aif-note has no such parameter and handles its own context fine on its own. This instruction is wrong; remove it.
+- "Sequential invocations", "capture the note path aif-note reports back", Critical Rule 6, and the contract-line rule at ~line 321 ("aif-note-written note file") all describe per-task aif-note invocation.
 
-The mechanism is the only problem — the **two-tier shape and aif-note's note format are correct and stay**.
+Per-task invocation degrades on long phases (each call re-reads an accumulating conversation), and the plan-reviewer rejected the implementation plan three times over it.
 
 ## Target
 
-Remove the **per-task** aif-note invocation. decompose writes each spec note **inline** (`Write`), in **aif-note's format and filing convention** — aif-note stays the single source of truth for both.
+Replace the per-task aif-note invocation with one simple rule. decompose's per-task note step becomes exactly this and nothing more:
 
-1. **Load aif-note's format once per run (soft recommendation, not a per-task mandate).** decompose recommends having aif-note's note format in context. It **may invoke `aif-note` once** at the start of a run (Skill tool) to surface its template and rules, **or** rely on the format already being in context from an earlier invocation this session (a skill's instructions persist for the session once loaded — no need to re-invoke per task). On a later decompose run in the same session, re-invoking aif-note or noting it is already loaded are both fine. **Keep `Skill` in `allowed-tools`** for this one optional load.
+1. **Ensure the `aif-note` skill has been invoked at least once in this chat** — so its note-writing instructions are in context. If it has not been invoked yet, invoke it once now. If it already has been, do **not** invoke it again.
+2. **Write the spec note manually** with the `Write` tool, following aif-note's instructions (already in context).
 
-2. **Write each note inline.** For every confirmed atomic task, write the spec note directly with `Write`, in aif-note's format and following aif-note's filing convention — both already in context from the loaded skill. The slug is the task name (lowercase, hyphens). No aif-note invocation per task.
+In particular:
+- decompose **does not describe, embed, or modify the note format/structure**. The format lives in aif-note's instructions, loaded into the chat by step 1. Do **not** add any format description beyond what decompose already had before commit `0bfa177`.
+- decompose **does not modify the `aif-note` skill** in any way.
+- Drop the "pass the spec as a subject / don't blend siblings" wording entirely.
 
-3. **Sequential writes.** Write notes one at a time — each fully written to disk before the next — so aif-note's numbering stays consistent (a later note sees the earlier one already on disk). Don't batch.
+Everything else two-tier stays unchanged: the contract line in the roadmap (~600 chars, ending with the `Spec:` tag), one spec note per atomic task, the Atomicity Gate, the char budget.
 
-4. Update the affected spots to inline writes (not invocations): the **Two-Tier Output** procedure (steps 3–5 — "invoke aif-note" → "write the note inline in aif-note's format"; "capture the path aif-note reports" → "use the path you wrote"); **Mode 1 Step 1.4** finalization; **Mode 2.4 / 2.5**. The contract line, the `Spec:` tag, the char budget, and the Atomicity Gate are unchanged.
+**Recommended implementation approach:** revert commit `0bfa177` to restore decompose to its pre-task state, then re-add the two-tier output with the simple rule above — cleaner than editing the over-engineered procedure in place.
 
 ## Guards
 
-- **No per-task aif-note invocation** — that is the degradation source being removed. At most **one** invocation per run (to load the format), or zero if already in context.
-- **Keep `Skill` in `allowed-tools`** — needed for the one optional format-load invocation.
-- **Write notes sequentially** — one fully written before the next — so aif-note's numbering stays consistent.
-- Mode 2.5 note-update rule is unaffected in spirit: if a milestone already carries a `Spec:` tag, **update that note file in place** (inline Write to the existing path); only create a new note for a milestone without a tag.
-- `roadmap-decompose` is a custom / never-overwrite-from-upstream skill (CLAUDE.md line 95) — safe to edit directly.
+- decompose carries **no** note-format description of its own; it relies on aif-note's instructions being in context (ensured by the "invoked at least once" check).
+- **Do not modify the `aif-note` skill.**
+- aif-note is invoked **at most once per chat** (to load its instructions), never per task.
+- Keep the two-tier shape, contract line, `Spec:` tag, char budget, and Atomicity Gate unchanged.
 
 ## Files
 
-- `~/projects/skills/src/skills/roadmap-decompose/SKILL.md` (modify) — Two-Tier Output procedure (steps 3–5), Mode 1 Step 1.4, Mode 2.4/2.5, and the `allowed-tools` framing note (keep `Skill`, reframe its use as a one-time format load, not a per-task call).
+- `~/projects/skills/src/skills/roadmap-decompose/SKILL.md` (modify, or revert `0bfa177` and re-add) — the Two-Tier Output procedure, Mode 1 Step 1.4, Mode 2.4/2.5, Critical Rule 6, and the contract-line rule (~line 321).
 
 ## Verify
 
-- A 6–7-task phase produces correctly-numbered, **non-blended** spec notes in aif-note's format, with **no per-task `Skill` invocation**.
-- decompose invokes aif-note **at most once per run** (format load), or zero times if already in context.
-- Notes match aif-note's template; contract lines and `Spec:` tags are unchanged from the current two-tier output.
-- A single-task run still works and does not depend on any per-task invocation.
+- When writing specs, decompose checks whether `aif-note` was invoked in this chat; invokes it once only if it was not; then writes each spec note manually with `Write`.
+- No per-task aif-note invocation remains anywhere in the skill.
+- The skill describes no note format of its own.
+- The `aif-note` skill is unchanged.
+- Two-tier output (contract line + spec note) is still produced.
