@@ -2,7 +2,7 @@
 
 ## Overview
 
-Generic AI Factory skills shared across all programming projects. Skills are reusable slash-command packages injected into projects via a symlink from `.claude/skills` → `~/.claude/skills`. This repo is the source of truth — its product is skills, not application code.
+Generic AI Factory skills shared across all programming projects. Skills are reusable slash-command packages injected into projects via a symlink from `src/skills` → `~/.claude/skills`. This repo is the source of truth — its product is skills, not application code.
 
 ## Core Features
 

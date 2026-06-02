@@ -34,7 +34,7 @@ Remove the **per-task** aif-note invocation. decompose writes each spec note **i
 
 ## Files
 
-- `~/projects/skills/.claude/skills/roadmap-decompose/SKILL.md` (modify) — Two-Tier Output procedure (steps 3–5), Mode 1 Step 1.4, Mode 2.4/2.5, and the `allowed-tools` framing note (keep `Skill`, reframe its use as a one-time format load, not a per-task call).
+- `~/projects/skills/src/skills/roadmap-decompose/SKILL.md` (modify) — Two-Tier Output procedure (steps 3–5), Mode 1 Step 1.4, Mode 2.4/2.5, and the `allowed-tools` framing note (keep `Skill`, reframe its use as a one-time format load, not a per-task call).
 
 ## Verify
 

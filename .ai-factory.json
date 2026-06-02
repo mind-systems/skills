@@ -3,7 +3,7 @@
   "agents": [
     {
       "id": "claude",
-      "skillsDir": ".claude/skills",
+      "skillsDir": "src/skills",
       "installedSkills": [],
       "mcp": {
         "github": false,

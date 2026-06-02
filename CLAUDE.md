@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Purpose
 
-This repo (`~/projects/skills`) is the **source of truth for generic AI Factory skills** shared across all of Max's projects. Skills are available globally via `~/.claude/skills` → `~/projects/skills/.claude/skills` (personal scope in Claude Code).
+This repo (`~/projects/skills`) is the **source of truth for generic AI Factory skills** shared across all of Max's projects. Skills are available globally via `~/.claude/skills` → `~/projects/skills/src/skills` (personal scope in Claude Code).
+
+Skills and commands are treated as **executable code** — they define agent runtime behavior, not documentation. They live under `src/` (skills in `src/skills/`, commands in `src/commands/`), deliberately outside `.claude/`, which holds Claude Code's own config that the agent must not self-edit.
 
 This is a meta-repo: its product is skills, not application code.
 
@@ -12,20 +14,23 @@ This is a meta-repo: its product is skills, not application code.
 
 ```
 skills/
-├── aif/                    # Project setup & MCP configuration
-├── aif-plan/               # Feature planning → .ai-factory/plans/
-├── aif-implement/          # Plan execution
-├── aif-architecture/       # Architecture document generation
-├── aif-skill-generator/    # Skill authoring + security scanning
-├── aif-*/                  # Other AI Factory lifecycle skills
-├── detangle/               # Untangle complex diffs / branches
-├── milestone-rescue/       # Rescue derailed milestones
-├── roadmap-prune/          # Prune stale roadmap items
-├── temporal-tree/          # Temporal context visualization
-├── ui-ux-pro-max/          # UI/UX generation skill
-└── .claude/
-    ├── skills/             # Skill dirs (symlinked to ~/.claude/skills)
-    └── commands/           # Slash commands (e.g. command-handoff)
+├── src/
+│   ├── skills/             # Skill packages (symlinked to ~/.claude/skills)
+│   │   ├── aif/            #   project setup & MCP configuration
+│   │   ├── aif-plan/       #   feature planning → .ai-factory/plans/
+│   │   ├── aif-*/          #   other AI Factory lifecycle skills
+│   │   ├── detangle/       #   untangle complex diffs / branches
+│   │   ├── milestone-rescue/
+│   │   ├── roadmap-prune/
+│   │   ├── temporal-tree/
+│   │   └── ui-ux-pro-max/
+│   └── commands/           # Slash commands (symlinked to ~/.claude/commands)
+│       └── command-handoff.md
+├── .claude/                # Claude Code project config (.mcp.json, settings.local.json)
+├── .ai-factory/            # Roadmap, notes, architecture, plans
+├── CLAUDE.md
+├── AGENTS.md
+└── README.md
 ```
 
 Each skill directory contains:
@@ -97,8 +102,8 @@ Upstream source: `https://github.com/lee-to/ai-factory` (skills live in `skills/
 **Custom skills — never overwrite from upstream:**
 - `detangle`, `milestone-rescue`, `roadmap-decompose`, `roadmap-prune`, `temporal-tree`, `ui-ux-pro-max`, `aif-note`
 
-**`.claude/commands/` — ours, never synced from upstream:**
-- All slash commands under `.claude/commands/` are local to this repo and are never overwritten by upstream syncs.
+**`src/commands/` — ours, never synced from upstream:**
+- All slash commands under `src/commands/` are local to this repo and are never overwritten by upstream syncs.
 
 **Intentionally diverged from upstream — review diff before updating:**
 - `aif-plan` — uses `TaskCreate`/`TaskUpdate`, custom logging defaults
