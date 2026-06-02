@@ -19,6 +19,8 @@ This repo produces skills. A skill is a directory with a `SKILL.md` at its root.
 | `aif-*` | AI Factory lifecycle (plan, implement, review, …) |
 | *(none)* | Domain skills (detangle, ui-ux-pro-max, …) |
 
+The repo also hosts slash commands under `.claude/commands/` (e.g. `command-handoff`), symlinked to `~/.claude/commands` for global availability.
+
 ## Dependency model
 
 Skills invoke other skills by name (`/aif-skill-generator`, `/aif-architecture`). There is no import graph — invocations are runtime text instructions, not code dependencies. Keep coupling minimal and explicit.

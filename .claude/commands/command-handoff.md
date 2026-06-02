@@ -1,0 +1,110 @@
+---
+description: >-
+  Mine the live session and emit a dense, self-contained handoff prompt that
+  lets the next agent (or yourself after /compact) rehydrate instantly.
+  Run this BEFORE /compact — while context is still full. After compact there
+  is nothing left to mine. Optionally persist the handoff as a durable note
+  (pass "note" / "ноут" / "давай ноут" / "с ноутом" as the argument).
+argument-hint: "[note]"
+allowed-tools: Write Bash(ls *)
+---
+
+Read `$ARGUMENTS`. Determine the mode:
+
+- **Note mode** — triggered when `$ARGUMENTS` contains any of: `note`, `ноут`, `давай ноут`, `с ноутом` (case-insensitive, substring match).
+- **Chat mode** — everything else, including empty arguments.
+
+---
+
+## Step 1 — Mine the session
+
+Review the entire visible conversation context. Extract:
+
+- What project / domain / problem we are working on
+- Every file that was read, edited, or created
+- What decisions were made and why
+- What is done vs still in-flight
+- Any uncommitted working-tree state (modified files not yet committed)
+- The one concrete next action
+- How the user wants decisions made (confirm-before-execute, show-diff-first, when to stop and ask)
+- Any mistakes made and their exact corrections
+- Any traps, naming collisions, or "two of a kind" confusions that came up
+- Any settled domain model points that must not be re-litigated
+- Hard rules: commit/permission policy, file language, memory-write triggers, conventions
+
+---
+
+## Step 2 — Compose the handoff prompt
+
+Write **in English** regardless of the conversation language.
+
+Use the skeleton below exactly — do not change section names or order. Omit a section only if it is genuinely empty for this session (no invented content). Optional sections (7–9) appear only when the session produced material for them.
+
+~~~
+# Handoff — <semantic slug derived from the session subject>
+
+## 1. Frame
+<one sentence: where we are in the project> — the chat is compacted but the
+knowledge is durable in files; rehydrate from them, don't trust memory.
+
+## 2. Read-first map
+
+### Must-read now (minimal rehydration set)
+- `<path>` — <one line: what question this file answers> ← lead with the single best entry doc
+- ...
+
+### Read on demand
+- `<path>` — <one line: what it covers>
+- ...
+
+## 3. Current state
+
+**Done:**
+- ...
+
+**In-flight:**
+- ...
+
+**Uncommitted working-tree state:**
+- <list modified/untracked files, or "none">
+
+## 4. Next step
+<The one concrete thing to do next. Who does what.>
+
+## 5. Working discipline
+<How the user wants decisions made: confirm-before-execute, show-diff-first, stop-and-ask triggers, etc.>
+
+## 6. Error log
+<Concrete mistakes made this session and their exact corrections. Named specifically. Empty → omit section.>
+
+## 7. Orientation
+<"Two of a kind" traps, naming collisions, confusable concepts. Only if session produced these.>
+
+## 8. Domain model spine
+<Settled model points with "don't re-litigate" + a file pointer per point. Only if session produced these.>
+
+## 9. Hard rules
+<Commits/permission policy, file language, memory-write triggers, naming conventions. Only the ones that came up.>
+~~~
+
+Populate every field from what you actually observed in the session — no placeholders, no invented content.
+
+---
+
+## Step 3 — Output
+
+**Chat mode:** Emit the handoff prompt directly to chat. Do not write any file. Do not use any tools.
+
+**Note mode:** Do both of the following:
+
+1. Emit the handoff prompt to chat (same as chat mode).
+
+2. Persist the handoff prompt as a note file — write it yourself using the Write tool, do **not** route through `/aif-note` (that reshapes into a different template):
+
+   a. Use Bash `ls .ai-factory/notes/` to list existing `[0-9][0-9]-*.md` files and find the highest `<NN>` prefix. The new file gets `<NN> + 1`, zero-padded to two digits. If the directory is empty or does not exist (a fresh project — `ls` may error with "No such file or directory"), treat it as no notes yet and start at `01`; the Write in step (c) creates the parent directory.
+
+   b. Derive `<slug>` **semantically** from the session's subject matter — lowercase words joined by hyphens, specific to what was actually worked on. Do NOT use the literal word `handoff` as the slug.
+
+   c. Write to `.ai-factory/notes/<NN>-<slug>.md` using the Write tool. The file content is the handoff prompt verbatim — no wrapper, no extra header, no reformatting.
+
+   d. Report the path written to the user as a one-line confirmation after the handoff body.

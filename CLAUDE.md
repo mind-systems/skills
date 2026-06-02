@@ -22,7 +22,10 @@ skills/
 ├── milestone-rescue/       # Rescue derailed milestones
 ├── roadmap-prune/          # Prune stale roadmap items
 ├── temporal-tree/          # Temporal context visualization
-└── ui-ux-pro-max/          # UI/UX generation skill
+├── ui-ux-pro-max/          # UI/UX generation skill
+└── .claude/
+    ├── skills/             # Skill dirs (symlinked to ~/.claude/skills)
+    └── commands/           # Slash commands (e.g. command-handoff)
 ```
 
 Each skill directory contains:
@@ -93,6 +96,9 @@ Upstream source: `https://github.com/lee-to/ai-factory` (skills live in `skills/
 
 **Custom skills — never overwrite from upstream:**
 - `detangle`, `milestone-rescue`, `roadmap-decompose`, `roadmap-prune`, `temporal-tree`, `ui-ux-pro-max`, `aif-note`
+
+**`.claude/commands/` — ours, never synced from upstream:**
+- All slash commands under `.claude/commands/` are local to this repo and are never overwritten by upstream syncs.
 
 **Intentionally diverged from upstream — review diff before updating:**
 - `aif-plan` — uses `TaskCreate`/`TaskUpdate`, custom logging defaults

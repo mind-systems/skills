@@ -6,9 +6,10 @@ Generic AI Factory skills available globally to all projects via Claude Code's p
 
 ```bash
 ln -s ~/projects/skills/.claude/skills ~/.claude/skills
+ln -s ~/projects/skills/.claude/commands ~/.claude/commands
 ```
 
-That's it. All skills in this repo are now available as slash commands in every Claude Code session, in every project — no per-project configuration needed.
+That's it. All skills and slash commands in this repo are now available in every Claude Code session, in every project — no per-project configuration needed.
 
 ## Project-specific skills
 
