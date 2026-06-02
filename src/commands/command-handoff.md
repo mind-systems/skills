@@ -38,7 +38,9 @@ Review the entire visible conversation context. Extract:
 
 Write **in English** regardless of the conversation language.
 
-Use the skeleton below exactly — do not change section names or order. Omit a section only if it is genuinely empty for this session (no invented content). Optional sections (7–9) appear only when the session produced material for them.
+Use the skeleton below exactly — do not change section names or order. Omit a section only if it is genuinely empty for this session (no invented content). Optional sections (7–11) appear only when the session produced material for them.
+
+**Output length and granularity must track how much was actually done.** A session that touched many work-units (phases, modules, files, tasks) must enumerate each one individually with its specific state and the specific thing to re-check — never collapse a whole subsystem to summary bullets. A small session still yields a short handoff. Proportional, not maximal — a trivial session padded to migration-guide length is itself a failure.
 
 ~~~
 # Handoff — <semantic slug derived from the session subject>
@@ -75,7 +77,7 @@ knowledge is durable in files; rehydrate from them, don't trust memory.
 <How the user wants decisions made: confirm-before-execute, show-diff-first, stop-and-ask triggers, etc.>
 
 ## 6. Error log
-<Concrete mistakes made this session and their exact corrections. Named specifically. Empty → omit section.>
+<Actual mistakes made this session and their exact corrections — each named with the specific symbol, file, or decision involved. Not "some issues were fixed." This is the first thing thin handoffs drop and the cheapest repeat-failure to prevent. Empty → omit section.>
 
 ## 7. Orientation
 <"Two of a kind" traps, naming collisions, confusable concepts. Only if session produced these.>
@@ -85,9 +87,17 @@ knowledge is durable in files; rehydrate from them, don't trust memory.
 
 ## 9. Hard rules
 <Commits/permission policy, file language, memory-write triggers, naming conventions. Only the ones that came up.>
+
+## 10. Cross-cutting contracts / invariants checklist
+<The concrete names, types, signatures, and rules that recur across the work and must stay identical everywhere — e.g. "type X stays `Foo[]`, never `Bar[]`"; "method renamed `a()`→`b()`"; "field Z lives on the entity, not in params". Densest, highest-leverage section for consistency-heavy efforts. Only if the session produced recurring cross-cutting concerns.>
+
+## 11. Per-unit map with watch-points
+<For each work-unit touched: one line of what it became + one line of the non-obvious thing to verify (where the work was tricky or a mistake nearly happened). Distinct from the flat "Current state" list. Only if the session covered many work-units.>
 ~~~
 
 Populate every field from what you actually observed in the session — no placeholders, no invented content.
+
+Before emitting, apply this self-check to your draft: *Could a fresh agent, with only this note, (a) execute the next step, (b) avoid every mistake in the error log, and (c) for each subsystem touched, know what it became and what to re-check?* If a whole subsystem collapsed to one bullet, or the recurring contracts aren't listed — expand before emitting. Proportionality guard: if the session was small, a short handoff passes this check — do not pad. This gate applies in both chat mode and note mode.
 
 ---
 
