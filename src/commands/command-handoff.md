@@ -97,7 +97,7 @@ knowledge is durable in files; rehydrate from them, don't trust memory.
 
 Populate every field from what you actually observed in the session — no placeholders, no invented content.
 
-Before emitting, apply this self-check to your draft: *Could a fresh agent, with only this note, (a) execute the next step, (b) avoid every mistake in the error log, and (c) for each subsystem touched, know what it became and what to re-check?* If a whole subsystem collapsed to one bullet, or the recurring contracts aren't listed — expand before emitting. Proportionality guard: if the session was small, a short handoff passes this check — do not pad. This gate applies in both chat mode and note mode.
+Before emitting, apply this self-check to your draft: *Could a fresh agent, with only this note, (a) execute the next step, (b) avoid every mistake in the error log, and (c) for each subsystem touched, know what it became and what to re-check?* If a whole subsystem collapsed to one bullet, or the recurring contracts aren't listed — expand before emitting. Proportionality guard: if the session was small, a short handoff passes this check — do not pad. In **chat mode** this gate applies to the chat output. In **note mode** this gate applies to the content written to the note file; the chat pointer is intentionally minimal regardless of session size and is exempt from the proportionality gate.
 
 ---
 
@@ -105,11 +105,9 @@ Before emitting, apply this self-check to your draft: *Could a fresh agent, with
 
 **Chat mode:** Emit the handoff prompt directly to chat. Do not write any file. Do not use any tools.
 
-**Note mode:** Do both of the following:
+**Note mode:** Write the full handoff to a file, then emit only a short pointer to chat.
 
-1. Emit the handoff prompt to chat (same as chat mode).
-
-2. Persist the handoff prompt as a note file — write it yourself using the Write tool, do **not** route through `/aif-note` (that reshapes into a different template):
+1. Persist the handoff prompt as a note file — write it yourself using the Write tool, do **not** route through `/aif-note` (that reshapes into a different template):
 
    a. Use Bash `ls .ai-factory/handoffs/` to list existing `[0-9][0-9]-*.md` files and find the highest `<NN>` prefix. The new file gets `<NN> + 1`, zero-padded to two digits. If the directory is empty or does not exist (a fresh project — `ls` may error with "No such file or directory"), treat it as no handoffs yet and start at `01`; the Write in step (c) creates the parent directory.
 
@@ -117,4 +115,18 @@ Before emitting, apply this self-check to your draft: *Could a fresh agent, with
 
    c. Write to `.ai-factory/handoffs/<NN>-<slug>.md` using the Write tool. The file content is the handoff prompt verbatim — no wrapper, no extra header, no reformatting.
 
-   d. Report the path written to the user as a one-line confirmation after the handoff body.
+2. Emit to chat **only a short pointer** — do **not** re-emit the full handoff body. The pointer must be paste-back-able (the user drops it into the next session to orient the fresh agent). It contains:
+
+   - The path of the written file (e.g. `.ai-factory/handoffs/03-auth-refactor.md`)
+   - The one-sentence frame from section 1 of the handoff
+   - The next step from section 4 of the handoff
+   - Optionally: the count of work-units covered (e.g. "5 tasks covered")
+
+   Example shape (adapt wording to the actual session):
+
+   > Handoff saved → `.ai-factory/handoffs/03-auth-refactor.md`
+   >
+   > **Frame:** We finished extracting the auth layer; chat compacted, knowledge is in files.
+   > **Next:** Run the migration dry-run and confirm row counts match before applying.
+   >
+   > *Paste the path above into the next session to rehydrate.*
