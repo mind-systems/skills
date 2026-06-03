@@ -111,10 +111,10 @@ Before emitting, apply this self-check to your draft: *Could a fresh agent, with
 
 2. Persist the handoff prompt as a note file — write it yourself using the Write tool, do **not** route through `/aif-note` (that reshapes into a different template):
 
-   a. Use Bash `ls .ai-factory/notes/` to list existing `[0-9][0-9]-*.md` files and find the highest `<NN>` prefix. The new file gets `<NN> + 1`, zero-padded to two digits. If the directory is empty or does not exist (a fresh project — `ls` may error with "No such file or directory"), treat it as no notes yet and start at `01`; the Write in step (c) creates the parent directory.
+   a. Use Bash `ls .ai-factory/handoffs/` to list existing `[0-9][0-9]-*.md` files and find the highest `<NN>` prefix. The new file gets `<NN> + 1`, zero-padded to two digits. If the directory is empty or does not exist (a fresh project — `ls` may error with "No such file or directory"), treat it as no handoffs yet and start at `01`; the Write in step (c) creates the parent directory.
 
    b. Derive `<slug>` **semantically** from the session's subject matter — lowercase words joined by hyphens, specific to what was actually worked on. Do NOT use the literal word `handoff` as the slug.
 
-   c. Write to `.ai-factory/notes/<NN>-<slug>.md` using the Write tool. The file content is the handoff prompt verbatim — no wrapper, no extra header, no reformatting.
+   c. Write to `.ai-factory/handoffs/<NN>-<slug>.md` using the Write tool. The file content is the handoff prompt verbatim — no wrapper, no extra header, no reformatting.
 
    d. Report the path written to the user as a one-line confirmation after the handoff body.
