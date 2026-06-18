@@ -76,7 +76,8 @@ log entry. Uses `jq` when available; degrades to minimal parsing otherwise.
 
 ## Subcommand: `since-restart`
 
-Fetch all logs for a service since its most recent restart.
+Fetch the **full log feed** for a service since its most recent restart — no
+line cap. Uses client-side pagination past Loki's per-call limit.
 
 ```bash
 bash scripts/query-loki.sh since-restart <service_name> [--project P]
@@ -90,11 +91,14 @@ bash scripts/query-loki.sh since-restart <service_name> [--project P]
    ```
    Direction: `backward`, `limit=1`. Extracts the timestamp of the last restart.
 
-2. Fetch all log records for the service starting at that timestamp:
+2. Fetch **all** log records for the service starting at that timestamp using
+   client-side pagination (PAGE_SIZE=5000 per call, looping until Loki returns
+   a short page):
    ```
    {service_name="<svc>"}
    ```
-   Direction: `forward`, `start=<restart_timestamp>`.
+   Direction: `forward`, `start=<restart_timestamp>`. Returns every line
+   regardless of how many there are — output grows as long as logs exist.
 
 Error if no marker is found (service may not emit this event, or hasn't
 restarted in the 7-day lookback window).
@@ -112,16 +116,18 @@ bash scripts/query-loki.sh since-restart worker --project payments
 Fetch all log lines associated with a trace ID. Looks back 24 hours.
 
 ```bash
-bash scripts/query-loki.sh trace <trace_id>
+bash scripts/query-loki.sh trace <trace_id> [--limit N]
 ```
 
 `trace_id` is structured metadata — the script filters with `| trace_id="…"`.
 Loki requires at least one non-empty label matcher, so the script uses
 `{service_name=~".+"}` as the base selector; this spans all services.
+Use `--limit N` (default 200) to raise the cap for high-volume traces.
 
 **Example:**
 ```bash
 bash scripts/query-loki.sh trace 4bf92f3577b34da6a3ce929d0e0e4736
+bash scripts/query-loki.sh trace 4bf92f3577b34da6a3ce929d0e0e4736 --limit 1000
 ```
 
 ---
@@ -131,12 +137,24 @@ bash scripts/query-loki.sh trace 4bf92f3577b34da6a3ce929d0e0e4736
 Fetch logs in a relative time window with optional filters.
 
 ```bash
-bash scripts/query-loki.sh window <range> [--level L] [--project P] [--service S]
+bash scripts/query-loki.sh window <range> [--level L] [--project P] [--service S] [--limit N]
 ```
 
 `<range>` formats: `15m`, `2h`, `1d` (minutes / hours / days).
 All filters are optional; omitting them defaults to `{service_name=~".+"}` (Loki
 requires at least one non-empty matcher — bare `{}` is rejected).
+
+`--limit N` sets the maximum number of log lines returned (default 200). Bump it
+when 200 lines aren't enough — e.g. `--limit 2000` for a busier window.
+
+**Two calling modes:**
+
+- **Single service** — use `--service <svc>` (and optionally `--project`).
+  Returns only that service's logs.
+- **Cross-service** — use `--project <p>` with `--service` omitted.
+  Returns logs from all services in the project. Output is globally time-ordered
+  by timestamp (entries from different services are interleaved chronologically,
+  not grouped by service).
 
 **Examples:**
 ```bash
@@ -144,6 +162,7 @@ bash scripts/query-loki.sh window 30m
 bash scripts/query-loki.sh window 2h --service payment-processor
 bash scripts/query-loki.sh window 1h --level error --project platform
 bash scripts/query-loki.sh window 15m --project api --service gateway --level warn
+bash scripts/query-loki.sh window 1h --project platform --limit 1000
 ```
 
 ---

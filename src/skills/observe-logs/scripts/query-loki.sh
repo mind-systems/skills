@@ -9,6 +9,7 @@ set -euo pipefail
 # ---------------------------------------------------------------------------
 LOKI_URL="${OBS_LOKI_URL:-http://localhost:3100}"
 DEFAULT_LIMIT=200
+PAGE_SIZE=5000        # Loki's default max_entries_limit_per_query; used by query_range_all
 DEFAULT_WINDOW="1h"
 
 # ---------------------------------------------------------------------------
@@ -41,17 +42,30 @@ format_response() {
       echo "No log lines matched."
       return
     fi
-    # gmtime before strftime for jq 1.6 compat (1.7+ also accepts it)
+    # Flatten all streams into one globally time-ordered feed.
+    # gmtime before strftime for jq 1.6 compat (1.7+ also accepts it).
+    # Single-stream input is unchanged in ordering (sort over one ordered stream is a no-op).
     echo "$raw" | jq -r '
-      .data.result[] |
-      . as $stream |
-      ($stream.stream | {
-        project:      (.project      // "-"),
-        service:      (.service_name // "-"),
-        level:        (.level        // "-")
-      }) as $labels |
-      $stream.values[] |
-      "[\(.[0] | tonumber / 1e9 | gmtime | strftime("%Y-%m-%dT%H:%M:%SZ"))] [\($labels.level)] [\($labels.project)/\($labels.service)] \(.[1])"
+      [
+        .data.result[] |
+        . as $stream |
+        ($stream.stream | {
+          project: (.project      // "-"),
+          service: (.service_name // "-"),
+          level:   (.level        // "-")
+        }) as $labels |
+        $stream.values[] |
+        {
+          ns:      .[0],
+          msg:     .[1],
+          level:   $labels.level,
+          project: $labels.project,
+          service: $labels.service
+        }
+      ] |
+      sort_by(.ns) |
+      .[] |
+      "[\(.ns | tonumber / 1e9 | gmtime | strftime("%Y-%m-%dT%H:%M:%SZ"))] [\(.level)] [\(.project)/\(.service)] \(.msg)"
     ' 2>/dev/null || echo "$raw"
   else
     # Minimal fallback: strip outer JSON wrappers, print raw value pairs.
@@ -114,6 +128,74 @@ query_range() {
   fi
 
   echo "$response"
+}
+
+# ---------------------------------------------------------------------------
+# Paginated fetch — returns ALL matching entries across Loki pages.
+# Params: logql, start_ns, end_ns
+# Returns a single Loki-shaped JSON payload with all pages' .data.result merged.
+# Requires jq for multi-page accumulation; falls back to a single query_range
+# call at PAGE_SIZE when jq is absent (best-effort, no cross-page merge).
+# Termination: stops on empty page, short page, or stalled cursor.
+# ---------------------------------------------------------------------------
+query_range_all() {
+  local logql="$1"
+  local start_ns="$2"
+  local end_ns="$3"
+
+  if ! command -v jq &>/dev/null; then
+    # Best-effort fallback: single call at PAGE_SIZE — no JSON merge without jq.
+    query_range "$logql" "$start_ns" "$end_ns" "$PAGE_SIZE" "forward"
+    return
+  fi
+
+  local cursor="$start_ns"
+  local accumulated='{"status":"success","data":{"result":[]}}'
+
+  while true; do
+    local page
+    page=$(query_range "$logql" "$cursor" "$end_ns" "$PAGE_SIZE" "forward")
+
+    # Count total entries in this page across all streams
+    local page_count
+    page_count=$(echo "$page" | jq -r '[.data.result[].values[]] | length' 2>/dev/null || echo "0")
+
+    # Empty page → done
+    if [[ "$page_count" == "0" ]]; then
+      break
+    fi
+
+    # Merge this page's .data.result into the accumulator
+    accumulated=$(printf '%s\n%s' "$accumulated" "$page" | jq -s '
+      {"status":"success","data":{"result": (.[0].data.result + .[1].data.result)}}
+    ' 2>/dev/null || echo "$accumulated")
+
+    # Short page → last page; accumulate then stop
+    if [[ "$page_count" -lt "$PAGE_SIZE" ]]; then
+      break
+    fi
+
+    # Find the maximum ns timestamp across all streams in this page.
+    # Strings — lexicographic max over equal-length 19-digit strings equals numeric
+    # max, without the IEEE-754 precision loss of tonumber on jq < 1.7.
+    local last_ns
+    last_ns=$(echo "$page" | jq -r '
+      [.data.result[].values[][0]] | max // empty
+    ' 2>/dev/null || true)
+
+    if [[ -z "$last_ns" || "$last_ns" == "null" ]]; then
+      break
+    fi
+
+    # Advance cursor; stalled-cursor guard — never spin
+    local next_cursor=$((last_ns + 1))
+    if [[ "$next_cursor" -le "$cursor" ]]; then
+      break
+    fi
+    cursor="$next_cursor"
+  done
+
+  echo "$accumulated"
 }
 
 # ---------------------------------------------------------------------------
@@ -221,10 +303,10 @@ print(dt.strftime('%Y-%m-%dT%H:%M:%SZ'))
   echo "Found restart at: ${restart_readable}" >&2
   echo "Fetching logs since restart..." >&2
 
-  # Step 2: fetch all logs since that timestamp
+  # Step 2: fetch ALL logs since that timestamp (paginated — no line cap)
   local log_query="${selector}"
   local response
-  response=$(query_range "$log_query" "$restart_ts_ns" "$end_ns" "$DEFAULT_LIMIT" "forward")
+  response=$(query_range_all "$log_query" "$restart_ts_ns" "$end_ns")
 
   format_response "$response"
 }
@@ -234,10 +316,23 @@ print(dt.strftime('%Y-%m-%dT%H:%M:%SZ'))
 # trace_id is structured metadata — filter with | trace_id="..."
 # ---------------------------------------------------------------------------
 cmd_trace() {
-  local trace_id="${1:-}"
+  local trace_id=""
+  local limit="$DEFAULT_LIMIT"
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --limit)
+        [[ $# -ge 2 ]] || { echo "ERROR: --limit requires a value" >&2; exit 1; }
+        shift; limit="$1"
+        [[ "$limit" =~ ^[1-9][0-9]*$ ]] || { echo "ERROR: --limit must be a positive integer, got '${limit}'" >&2; exit 1; } ;;
+      -*) echo "ERROR: Unknown flag '$1'" >&2; exit 1 ;;
+      *) trace_id="$1" ;;
+    esac
+    shift
+  done
 
   if [[ -z "$trace_id" ]]; then
-    echo "Usage: query-loki.sh trace <trace_id>" >&2
+    echo "Usage: query-loki.sh trace <trace_id> [--limit N]" >&2
     exit 1
   fi
 
@@ -250,10 +345,10 @@ cmd_trace() {
   # Loki requires at least one non-empty label matcher; service_name=~".+" spans all services.
   local logql="{service_name=~\".+\"} | trace_id=\"${trace_id}\""
 
-  echo "Fetching logs for trace ${trace_id} (last 24h)..." >&2
+  echo "Fetching logs for trace ${trace_id} (last 24h, limit=${limit})..." >&2
 
   local response
-  response=$(query_range "$logql" "$start_ns" "$end_ns" "$DEFAULT_LIMIT" "forward")
+  response=$(query_range "$logql" "$start_ns" "$end_ns" "$limit" "forward")
 
   format_response "$response"
 }
@@ -266,6 +361,7 @@ cmd_window() {
   local level=""
   local project=""
   local service=""
+  local limit="$DEFAULT_LIMIT"
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -278,6 +374,10 @@ cmd_window() {
       --service)
         [[ $# -ge 2 ]] || { echo "ERROR: --service requires a value" >&2; exit 1; }
         shift; service="$1" ;;
+      --limit)
+        [[ $# -ge 2 ]] || { echo "ERROR: --limit requires a value" >&2; exit 1; }
+        shift; limit="$1"
+        [[ "$limit" =~ ^[1-9][0-9]*$ ]] || { echo "ERROR: --limit must be a positive integer, got '${limit}'" >&2; exit 1; } ;;
       -*) echo "ERROR: Unknown flag '$1'" >&2; exit 1 ;;
       *)  range="$1" ;;
     esac
@@ -285,7 +385,7 @@ cmd_window() {
   done
 
   if [[ -z "$range" ]]; then
-    echo "Usage: query-loki.sh window <range> [--level L] [--project P] [--service S]" >&2
+    echo "Usage: query-loki.sh window <range> [--level L] [--project P] [--service S] [--limit N]" >&2
     echo "       range examples: 15m, 2h, 1d" >&2
     exit 1
   fi
@@ -309,10 +409,10 @@ cmd_window() {
     selector='{service_name=~".+"}'
   fi
 
-  echo "Fetching logs for window ${range} (selector: ${selector})..." >&2
+  echo "Fetching logs for window ${range} (selector: ${selector}, limit=${limit})..." >&2
 
   local response
-  response=$(query_range "$selector" "$start_ns" "$end_ns" "$DEFAULT_LIMIT" "forward")
+  response=$(query_range "$selector" "$start_ns" "$end_ns" "$limit" "forward")
 
   format_response "$response"
 }
@@ -328,10 +428,10 @@ Usage:
   query-loki.sh since-restart <service> [--project P]
       Fetch logs since the service's last restart (requires event.name="service.start" marker).
 
-  query-loki.sh trace <trace_id>
+  query-loki.sh trace <trace_id> [--limit N]
       Fetch all log lines for a trace ID (searched in structured metadata, last 24h).
 
-  query-loki.sh window <range> [--level L] [--project P] [--service S]
+  query-loki.sh window <range> [--level L] [--project P] [--service S] [--limit N]
       Fetch logs in a time window. Range: 15m, 2h, 1d, etc.
 
 Environment:
