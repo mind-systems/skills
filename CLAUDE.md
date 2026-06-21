@@ -100,7 +100,7 @@ The plan → stop → implement-in-separate-session pattern is a hard constraint
 Upstream source: `https://github.com/lee-to/ai-factory` (skills live in `skills/` subdirectory).
 
 **Custom skills — never overwrite from upstream:**
-- `detangle`, `milestone-rescue`, `roadmap-decompose`, `roadmap-prune`, `temporal-tree`, `ui-ux-pro-max`, `aif-note`
+- `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-decompose`, `roadmap-prune`, `temporal-tree`, `ui-ux-pro-max`, `aif-note`
 
 **`src/commands/` — ours, never synced from upstream:**
 - All slash commands under `src/commands/` are local to this repo and are never overwritten by upstream syncs.
