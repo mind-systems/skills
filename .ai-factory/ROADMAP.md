@@ -30,4 +30,6 @@
 
 - [x] **command-pin-gaps: new command — close underspecified spots before implementation** — Added `src/commands/command-pin-gaps.md`, a short slash command that scans a plan/note/task for "fantasy holes" (anything the implementing agent would have to guess: TODO/TBD/open forks, unpinned symbols/enum values/error codes/field types, unspecified edge cases, magic numbers, unstated ordering) and closes each one now by reading the exact value from code/proto with a `file:line` citation — never invents; genuine product decisions are escalated as one-line `## Blocking decisions` instead of fabricated. `scan` mode lists holes without editing; default edits the target in place. Registered in `CLAUDE.md` Repository Structure tree.
 
+- [x] **command-roadmap-update-commit: one-line commit command** — Added `src/commands/command-roadmap-update-commit.md`, a minimal slash command that runs `git add -A && git commit -m "Roadmap update"` and nothing else — no push, no message change, no extra output.
+
 ---STOP---
