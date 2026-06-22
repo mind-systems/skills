@@ -25,7 +25,8 @@ skills/
 │   │   ├── temporal-tree/
 │   │   └── ui-ux-pro-max/
 │   └── commands/           # Slash commands (symlinked to ~/.claude/commands)
-│       └── command-handoff.md
+│       ├── command-handoff.md
+│       └── command-pin-gaps.md
 ├── .claude/                # Claude Code project config (.mcp.json, settings.local.json)
 ├── .ai-factory/            # Roadmap, notes, architecture, plans
 ├── CLAUDE.md
