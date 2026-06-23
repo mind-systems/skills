@@ -257,14 +257,49 @@ The set of files to delete depends on the failure mode from Step 2:
 file, all plan-review files, all review files, and all patch files for this slug.
 Nothing of the discarded plan attempt should remain.
 
+**Re-plan-review (plan corrected in place)** — the plan `.md` has been edited to fold
+in reviewer findings and is kept. Delete all plan-review files for this slug (they
+reviewed the old plan). Delete all review and patch files for this slug. Keep the
+`.json` sidecar. Set `step` to `"planned"`.
+
 **Implement-phase failure (re-implement)** — keep the plan `.md` and any plan-review
 files that contain `PLAN_REVIEW_PASS` (they describe a valid plan). Delete only the
 review files and patch files for this slug.
 
 Do NOT delete `.json` sidecar files from `plans/` except on a full reset, where the
-sidecar is deleted alongside the plan — the sub-step below handles both cases. Do NOT
+sidecar is deleted alongside the plan — the sub-step below handles all three cases. Do NOT
 delete committed files. Do NOT touch `.ai-factory/notes/`. Do NOT delete files
 belonging to other milestone slugs.
+
+### Valid sidecar `step` states
+
+This is a **closed set** — Step 5 picks one of the five values below, never invents
+one. This table mirrors `_validate_sidecar_step()` / `_detect_milestone_step()` in
+`orchestrator/main.py` — if the orchestrator's accepted set changes, update this table;
+do not let them diverge.
+
+| `step` value | Resumes at | Required on disk to validate |
+|---|---|---|
+| `"planned"` | plan-review, attempt 1 | none — always valid |
+| `"plan_review_failed:N"` | plan, attempt N+1 | `plan-reviews/{seq}-{slug}-plan-review-N.md` |
+| `"plan_reviewed"` | implement, iter 1 | a plan-review file ending with `PLAN_REVIEW_PASS` |
+| `"implemented"` | review, iter 1 | none — always valid |
+| `"review_failed:N"` | implement, iter N+1 | `reviews/{seq}-{slug}-review-N.md` |
+
+**Silent failure mode.** The orchestrator clears any `step` value whose required
+artifact is missing and falls through to the disk heuristic — writing a wrong value
+silently loses the intended resume point and can re-run the planner from scratch.
+
+**Test mode.** In test mode, `review_failed:N` is replaced by `test_run_failed:N`
+(artifact: `test-runs/{seq}-{slug}-test-N.txt`).
+
+**Always-valid guard.** `"planned"` and `"implemented"` carry no artifact reference
+and always validate — the orchestrator accepts them unconditionally. They are therefore
+only safe to write when the corresponding earlier-phase artifacts actually exist on
+disk: write `"planned"` only when the plan `.md` is present; write `"implemented"`
+only when the plan `.md` is present and a non-empty working diff exists. Never write
+`"planned"` after deleting the plan `.md` — the orchestrator would accept the value
+and then fail to find the plan it expects to review.
 
 **Update or delete the sidecar.** The sidecar's lifetime tracks the plan's — plan
 gone → sidecar gone; plan kept → sidecar updated. Locate the JSON sidecar at
@@ -278,8 +313,8 @@ intentional — this sidecar described a discarded attempt.
 
 Emit: `Sidecar deleted (full reset).`
 
-**Re-implement (plan `.md` kept):** check the working tree for the sidecar (attempt
-to read it or list with `Glob`).
+**Plan `.md` kept (re-implement or re-plan-review):** check the working tree for the
+sidecar (attempt to read it or list with `Glob`).
 
 - If the file exists, read it and parse it as JSON.
 - If it does not exist, start from an empty JSON object.
@@ -289,8 +324,8 @@ cleanup deletions above, then determine the correct `step` value:
 
 | Situation after cleanup | Write `step` |
 |---|---|
-| Plan-reviews exist and pass, reviews deleted | `"plan_reviewed"` |
-| Sidecar doesn't exist | create it with `"plan_reviewed"` |
+| Plan `.md` corrected in place; plan-reviews, reviews deleted | `"planned"` (create sidecar if absent) |
+| Plan-reviews exist and pass, reviews deleted | `"plan_reviewed"` (create sidecar if absent) |
 
 If both plan-reviews and reviews pass on disk, the orchestrator finished — surface
 this to the user and skip the sidecar update.
@@ -300,7 +335,7 @@ present — `planner`, `implementer`, `elapsed`, and any others — untouched. D
 overwrite `planner`, `implementer`, or `elapsed`. Serialize the result back as JSON
 with 2-space indentation and write it to the sidecar path using `Write`.
 
-Emit: `Sidecar updated: step set to "plan_reviewed".`
+Emit: `Sidecar updated: step set to "<value>".` (where `<value>` is whichever step was written)
 
 Show the user the list of deleted files and confirm the rescue is complete.
 
@@ -359,3 +394,7 @@ If no matches found, or if all issues were domain-specific to the failed milesto
 - Do not overwrite `planner`, `implementer`, or `elapsed` in the sidecar — on a
   re-implement rescue the sidecar is updated (only `step` changes); on a full reset
   the sidecar is deleted entirely alongside the plan
+- Do not write `"planned"` or `"implemented"` when the corresponding artifact is
+  absent — both are always-valid states the orchestrator accepts without artifact
+  checks, so writing one after deleting the plan `.md` (or before any working diff
+  exists) silently sends the orchestrator into the wrong phase
