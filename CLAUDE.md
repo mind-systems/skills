@@ -101,7 +101,7 @@ The plan → stop → implement-in-separate-session pattern is a hard constraint
 Upstream source: `https://github.com/lee-to/ai-factory` (skills live in `skills/` subdirectory).
 
 **Custom skills — never overwrite from upstream:**
-- `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-decompose`, `roadmap-prune`, `temporal-tree`, `ui-ux-pro-max`, `aif-note`
+- `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-decompose`, `roadmap-prune`, `temporal-tree`, `ui-ux-pro-max`, `aif-note`, `aif-docs`
 
 **`src/commands/` — ours, never synced from upstream:**
 - All slash commands under `src/commands/` are local to this repo and are never overwritten by upstream syncs.
@@ -109,7 +109,6 @@ Upstream source: `https://github.com/lee-to/ai-factory` (skills live in `skills/
 **Intentionally diverged from upstream — review diff before updating:**
 - `aif-plan` — uses `TaskCreate`/`TaskUpdate`, custom logging defaults
 - `aif-roadmap` — no Completed table (history managed by `roadmap-prune` → ARCHITECTURE.md)
-- `aif-docs` — 3D / target-state docs mode + always-on no-motivation rule added downstream
 
 **All other skills** — safe to overwrite directly from upstream.
 

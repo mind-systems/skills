@@ -19,10 +19,9 @@ Generate, maintain, and improve project documentation following a landing-page R
 1. **README is a landing page, not a manual.** ~80-120 lines. First impression, install, quick example, links to details.
 2. **Details go to the resolved docs directory** (`paths.docs`, default: `docs/`). Each file is self-contained — one topic, one page. A user should be able to read a single doc file and get the full picture on that topic.
 3. **No duplication.** If information lives in the resolved docs directory, README links to it — does not repeat it. Exception: installation command can appear in both (users expect it in README).
-4. **Navigation.** Every doc file in the resolved docs directory has a header line with prev/next links following the Documentation table order: `[← Previous Page](prev.md) · [Back to README](<docs-to-readme-link>) · [Next Page →](next.md)`. First page has no prev link; last page has no next link. Every page ends with a "See Also" section linking to 2-3 related pages.
-5. **Cross-links use relative paths.** From README: link to the resolved docs directory path (for example `docs/workflow.md` by default). Between doc pages in the same directory: `workflow.md`.
-6. **Scannable.** Use tables, bullet lists, and code blocks. Avoid long paragraphs. Users scan, they don't read.
-7. **State, not process.** Every sentence describes **what is** — factual present-tense behavior, structure, or API. Never state how something came to be: no "we changed", "was added", "this replaces", "previously", "because we", "this milestone". History belongs in commit messages. This rule applies to every run, every mode, no exceptions.
+4. **Cross-links use relative paths.** From README: link to the resolved docs directory path (for example `docs/workflow.md` by default). Between doc pages in the same directory: `workflow.md`.
+5. **Scannable.** Use tables, bullet lists, and code blocks. Avoid long paragraphs. Users scan, they don't read.
+6. **State, not process.** Every sentence describes **what is** — factual present-tense behavior, structure, or API. Never state how something came to be: no "we changed", "was added", "this replaces", "previously", "because we", "this milestone". History belongs in commit messages. This rule applies to every run, every mode, no exceptions.
 
 ## Workflow
 
@@ -104,8 +103,8 @@ Record each file, its size, and a brief summary of its content. This list is use
 Key rules for 3D:
 - Documenting APIs, columns, endpoints, CLI flags, or files that **do not yet exist is the intended behavior** — not an error, not stale.
 - Write in present tense describing what the feature **does** when it is done, not what it will do.
-- All Core Principles still apply, including Principle 7 (state, not process) — target-state docs are pure behavior with no history/rationale language.
-- All formatting, navigation, language-matching, scannability, and ownership rules apply unchanged.
+- All Core Principles still apply, including Principle 6 (state, not process) — target-state docs are pure behavior with no history/rationale language.
+- All formatting, language-matching, scannability, and ownership rules apply unchanged.
 - The "current state only" doc-style is reinterpreted as "target shipped state" — still present tense, still behavior-focused, still no history.
 
 **After authoring in 3D**, print the following line (do **not** auto-insert it into ROADMAP or any file — the user places it manually):
@@ -203,7 +202,7 @@ Options:
 - Skip → leave files where they are, continue to Step 2
 
 **When moving/merging:**
-1. Create the target file in the resolved docs directory with prev/next navigation header (following Documentation table order) and "See Also" footer
+1. Create the target file in the resolved docs directory
 2. If merging into an existing doc — append content under a new section header, avoid duplicating info that's already there
 3. **Do NOT delete originals yet** — keep them until the review step confirms everything is in place
 4. Add the new doc page to README's Documentation table using the correct path relative to README
@@ -318,26 +317,10 @@ MIT (or whatever is in the project)
 For each approved topic, create a doc file:
 
 ```markdown
-[← Previous Topic](previous-topic.md) · [Back to README](<docs-to-readme-link>) · [Next Topic →](next-topic.md)
-
 # Topic Title
 
 Content organized by subtopic with headers, code examples, and tables.
 Keep each section self-contained.
-
-## See Also
-
-- [Related Topic 1](related-topic.md) — brief description
-- [Related Topic 2](other-topic.md) — brief description
-```
-
-**Navigation link order** follows the Documentation table in README.md (top to bottom). The first doc page omits the "← Previous" link; the last page omits the "Next →" link. Use the correct relative link from the resolved docs directory back to `README.md`. Example for the default `docs/` layout:
-
-```
-getting-started.md:  [Back to README](../README.md) · [Architecture →](architecture.md)
-architecture.md:     [← Getting Started](getting-started.md) · [Back to README](../README.md) · [API Reference →](api.md)
-api.md:              [← Architecture](architecture.md) · [Back to README](../README.md) · [Configuration →](configuration.md)
-configuration.md:    [← API Reference](api.md) · [Back to README](../README.md)
 ```
 
 **Content guidelines per topic:**
@@ -423,7 +406,7 @@ Proceed?
 #### 2.3: Execute the split
 
 1. Create the resolved docs directory
-2. Create each doc file with content from README + prev/next navigation header (following Documentation table order) + "See Also" footer
+2. Create each doc file with content from README
 3. Rewrite README as landing page with Documentation links table
 4. **Verify no content was lost** — every section from old README must exist somewhere
 
@@ -437,14 +420,13 @@ Check for:
 - **README length** — is it still a landing page (<150 lines)?
 - **Missing topics** — are there aspects of the project not documented?
 - **Stale content** — do docs reference files/APIs that no longer exist? (**Suppressed in `MODE = 3D`** — absent code is expected, not stale; all other audit checks still run)
-- **Navigation** — do all docs have prev/next header links and "See Also"?
 - **Broken links** — verify all internal links point to existing files/anchors
 - **Consistency** — same formatting style across all docs
 - **Standards compliance** — does existing documentation match the current skill standards? (see 2.1.1)
 
 #### 2.1.1: Standards compliance check
 
-Check existing docs against current Core Principles for gaps (missing navigation, missing "See Also", stale formats). For the full compliance table and auto-fix rules → read `references/REVIEW-CHECKLISTS.md` (Standards Compliance section).
+Check existing docs against current Core Principles for gaps (stale formats). For the full compliance table and auto-fix rules → read `references/REVIEW-CHECKLISTS.md` (Standards Compliance section).
 
 **When gaps are found**, include them in the audit report alongside content issues (Step 2.2). Treat them as regular improvements — show the plan and get user approval before applying.
 
@@ -454,16 +436,14 @@ Check existing docs against current Core Principles for gaps (missing navigation
 Documentation audit results:
 
 ✅ README is lean (105 lines)
-⚠️  Docs pages in the resolved docs directory are missing prev/next navigation — will add
 ⚠️  <resolved docs dir>/api.md is missing — project has 12 API endpoints
 ⚠️  <resolved docs dir>/configuration.md references old env var DB_HOST (now DATABASE_URL)
 ❌ <resolved docs dir>/getting-started.md links to setup.md which doesn't exist
 
 Proposed fixes:
-1. Add prev/next navigation to all doc pages in the resolved docs directory
-2. Create <resolved docs dir>/api.md with endpoint reference
-3. Update DATABASE_URL in <resolved docs dir>/configuration.md
-4. Fix broken link in <resolved docs dir>/getting-started.md
+1. Create <resolved docs dir>/api.md with endpoint reference
+2. Update DATABASE_URL in <resolved docs dir>/configuration.md
+3. Fix broken link in <resolved docs dir>/getting-started.md
 
 Apply fixes?
 ```
@@ -512,7 +492,7 @@ Fix any issues found before presenting the result to the user. Display results a
 - "Installation instructions are real and work (verified from package manager files)"
 - Stale-content / broken-reference checks against the live codebase
 
-**Keep fully active in 3D:** Readability & Completeness checklist, navigation checks, README length, no-motivation pass (Principle 7). 3D drops *current-state* verification but **never** drops the no-history rule.
+**Keep fully active in 3D:** Readability & Completeness checklist, README length, no-motivation pass (Principle 6). 3D drops *current-state* verification but **never** drops the no-history rule.
 
 ### Step 4.1: Clean Up Moved Files
 
