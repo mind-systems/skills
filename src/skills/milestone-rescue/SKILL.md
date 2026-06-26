@@ -2,26 +2,30 @@
 name: milestone-rescue
 description: >-
   Reads failed orchestrator artifacts (plans, plan-reviews, code reviews, patches),
-  classifies the failure mode, extracts recurring issues, and proposes a concrete
-  milestone description update in ROADMAP.md so the next orchestrator run starts with
-  a better-specified task. Use when the pipeline stops with "PLAN_REVIEW_PASS never
-  achieved" or "REVIEW_PASS never achieved" — trigger phrases: "rescue", "milestone
-  failed", "pipeline stopped".
+  diagnoses how deep the root cause reaches, repairs to that depth (spec / spec+plan /
+  spec+plan+code), and rolls the sidecar + artifacts back to exactly the repaired state
+  so the orchestrator re-validates from there. Also checks downstream milestones for
+  the same gaps. Use when the pipeline stops with "PLAN_REVIEW_PASS never achieved" or
+  "REVIEW_PASS never achieved" — trigger phrases: "rescue", "milestone failed",
+  "pipeline stopped".
 argument-hint: "[path/to/ROADMAP.md | ROADMAP_TESTS.md]"
 allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion
 ---
 
 # Milestone Rescue
 
-Translates failed pipeline artifacts into a concrete ROADMAP.md improvement. When the
-orchestrator exhausts its iteration limit, it leaves uncommitted plans, plan-reviews,
-code reviews, and patches on disk — this skill reads them all, finds the root cause,
-and proposes a precise update (or decomposition) to the milestone description so the
-next run starts from a stronger specification.
+When the orchestrator exhausts its iteration limit and stops, all artifacts remain
+uncommitted on disk. This skill reads them, diagnoses how deep the root cause reaches
+(specification gap? bad plan? broken implementation?), and repairs to exactly that
+depth — then rolls the sidecar and the artifact set back to the matching repaired state
+so the orchestrator re-validates from there rather than starting blind.
 
-Use this skill after the orchestrator stops — not to rewrite the plan or implement
-anything, but to fix the upstream description that caused the failure. The output is
-exactly one ROADMAP.md edit.
+The roadmap contract line (in `$TARGET_FILE`) is the roadmap half of the two-tier spec
+pair (alongside the spec note in `.ai-factory/notes/`). It IS edited when the spec
+tier is repaired. The output is not a single ROADMAP edit — it is a depth-keyed
+repair: spec note + contract line, plan `.md`, or working-tree code, depending on how
+deep the root cause runs. The user picks the depth; an explicit "fix Y / delete X"
+overrides.
 
 ---
 
@@ -52,80 +56,57 @@ implementer addressed it. Read them all before drawing any conclusions.
 
 ---
 
-## Step 2 — Classify failure mode
+## Step 2 — Diagnose root cause and depth
 
-Determine which phase of the pipeline failed by inspecting the artifact files:
+Determine which phase failed and how deep the root cause runs. The outcome feeds the
+depth choice in Step 4.
 
-**Plan-phase failure** — no plan-review file for this slug contains `PLAN_REVIEW_PASS`
-on its own line. The planner could not produce a plan the reviewer accepted within the
-iteration limit.
+**Plan-phase failure** — no plan-review file contains `PLAN_REVIEW_PASS` on its own
+line. Root cause is likely a specification gap or scope overload; repair depth starts
+at spec.
 
-**Implement-phase failure** — at least one plan-review file contains `PLAN_REVIEW_PASS`
-on its own line, but no review file contains `REVIEW_PASS` on its own line. The plan
-was approved but the implementation repeatedly failed review.
+**Implement-phase failure** — at least one plan-review file contains `PLAN_REVIEW_PASS`,
+but no review file contains `REVIEW_PASS`. Root cause is a defect in the code or plan;
+repair depth is at least spec+plan.
 
-**Non-convergence (done-but-unrecognized)** — when the implement-phase condition holds
-(PLAN_REVIEW_PASS present, no REVIEW_PASS), check all three of the following before
-declaring an implement-phase defect:
+**Non-convergence (terminal, commit-as-is)** — implement-phase condition holds (PLAN_REVIEW_PASS
+present, no REVIEW_PASS) AND every review contains only Low or Informational findings
+AND the plan's deliverables are present/produced on disk (for `modify`-type deliverables,
+confirm via patches or reviews that the change landed — file existence alone is not
+sufficient). When all three hold, the work is likely done; recommend committing instead
+of re-running. This is a distinct outcome: no rollback, no artifact cleanup.
 
-1. No review file contains `REVIEW_PASS` on its own line.
-2. Every review file contains only Low or Informational findings — no Blocking or
-   Critical severity.
-3. The plan's deliverables show evidence of being produced or modified on disk. For
-   `modify`-type deliverables (where the target file pre-existed), look for patches
-   or reviews that confirm the change landed — do not treat file existence alone as
-   sufficient.
+Keep the severity inspection here lightweight — blocking/non-blocking only, not a full
+issue extraction (that is Step 3's job).
 
-When all three hold, classify as **non-convergence** — the implementation is likely
-complete and correct; the reviewer kept generating cosmetic nits without clearing the
-bar. If any review contains a Blocking or Critical finding, or any deliverable is
-absent or unproduced, use the standard implement-phase failure classification instead.
-
-Keep the severity inspection here lightweight — a blocking/non-blocking check, not a
-full issue extraction (that is Step 3's job).
-
-State the classification explicitly before proceeding. The failure mode determines what
-kind of constraints to add to the milestone description — plan-phase failures usually
-indicate specification gaps; implement-phase failures often reveal scope overload or
-mechanical execution patterns.
+State the diagnosis explicitly before proceeding: failure phase, root-cause category,
+and likely repair depth.
 
 ---
 
-## Step 3 — Extract issues
+## Step 3 — Extract root cause
 
-For each artifact file, extract all items that describe problems or improvement
-requests. Real artifacts in this repo use inconsistent formats — do not hardcode
-heading names. Scan for any section whose content lists problems, improvements, or
-feedback regardless of exact heading level or wording. Common patterns include:
-`### Issues`, `## Critical issues`, `## Critical Issues`, `## Suggestions`,
-task-based headings like `### Task 1:`, or inline numbered lists.
+Scan all artifact files for problems and improvement requests. Real artifacts use
+inconsistent formats — do not hardcode heading names. Common patterns: `### Issues`,
+`## Critical Issues`, `## Suggestions`, `### Task 1:`, inline numbered lists.
 
-**Deduplicate across rounds.** The same issue appearing in round 1 and round 2 is one
-issue — but mark it as **recurring**. A suggestion that appears in 2+ rounds is
-effectively a critical: the implementer failed to address it twice, which means the
-milestone description needs to mandate it explicitly.
+Read all rounds, not just the latest. **Recurring issues** (present in 2+ rounds) are
+the primary signal — the implementer could not fix them even with a patch, so the
+description is the only reliable enforcement. The recurring root cause determines the
+repair depth.
 
-**Categorize each issue by root cause:**
+Root-cause categories (context for depth + scope-overload flag):
 
-- **Specification gap** — the milestone description was ambiguous or missing a
-  constraint, edge case, or scope boundary. Fix: add a clause to the description.
-- **Scope overload** — too many concerns in one milestone; the planner or implementer
-  loses coherence between sub-tasks. Fix: decompose into smaller milestones.
-- **Mechanical error** — recurring execution mistakes independent of the task
-  specification (wrong line numbers, dropped content during replacement, missing
-  guards, lost convention notes). Fix: add an explicit constraint that prevents the
-  pattern.
+- **Specification gap** — ambiguous or missing constraint / edge case / scope boundary
+- **Scope overload** — too many concerns; planner or implementer loses coherence
+- **Mechanical error** — recurring execution mistakes independent of the task spec
 
-Produce a numbered list of issues, each with:
-
-1. A short description of the issue
-2. Its root cause category
-3. A proposed fix clause (one sentence, written at the *what* level — not *how*)
-4. Whether it is recurring (appeared in 2+ rounds)
+Identify the dominant root cause and whether any issue is recurring. Carry both into
+Step 4 — they drive the depth choice and the scope-overload flag.
 
 ---
 
-## Step 4 — Propose milestone update
+## Step 4 — Choose repair depth
 
 **Determine `$TARGET_FILE`:**
 - If argument names a file → use `.ai-factory/<that file>`
@@ -134,18 +115,16 @@ Produce a numbered list of issues, each with:
 
 Read `$TARGET_FILE` and locate the milestone line matching the slug identified in Step 1.
 
-**When classification is non-convergence** — do not propose a milestone-description
-change. Instead, present via `AskUserQuestion`:
+**When classification is non-convergence** — present via `AskUserQuestion`:
 
 ```
 The implementation appears complete and correct.
 
-Every review round was non-blocking (N rounds, all findings Low/Informational).
-Deliverables are present on disk. The pipeline only failed to emit REVIEW_PASS
-because the reviewer kept generating cosmetic nits without clearing the bar.
+Every review round was non-blocking (all findings Low/Informational).
+Deliverables are present on disk. The pipeline failed to emit REVIEW_PASS only because
+the reviewer kept generating cosmetic nits without clearing the bar.
 
-Recommended: commit the deliverable rather than re-running — another run would
-likely loop again for the same cosmetic reasons.
+Recommended: commit the deliverable — another run would likely loop again.
 
 Options:
 1. Commit the deliverable (after any remaining trivial nits)
@@ -153,123 +132,110 @@ Options:
 3. Fold recurring spec-traceable nits into the spec note before committing
 ```
 
-If the user chooses option 3, scan the review findings for nits that reference a gap
-in the spec note file (`.ai-factory/notes/<NN>-….md` for this milestone — not the
-ROADMAP milestone line), propose the minimal clause addition, apply it to the spec
-note file, then proceed as option 1.
-
-Proceed to Step 5 with the user's choice recorded.
+Option 3: scan findings for nits that reference a gap in the spec note
+(`.ai-factory/notes/<NN>-….md`), propose the minimal clause addition, apply it, then
+proceed as option 1. Proceed to Step 5 with the user's choice for all three options.
 
 ---
 
-For real defect classifications (plan-phase failure or implement-phase failure),
-determine the **dominant root cause** from the issue list in Step 3 — the category
-with the most issues (or most recurring issues if counts are equal).
+**For real defects (plan-phase or implement-phase failure):**
 
-Present the proposal via `AskUserQuestion` using the appropriate template:
+**Scope-overload flag:** if the dominant root cause is scope overload — the task has
+too many unrelated concerns or is fundamentally mis-framed — do NOT decompose here.
+Flag this to the user and point to `/roadmap-decompose`. The user decides whether to
+remove/replace or rewrite. Skip the depth menu in this case.
 
----
-
-**When dominant root cause is spec-gap or mechanical-error** — propose clause update
-as primary:
+Otherwise, present the repair depth via `AskUserQuestion`. Each option states what gets
+repaired and what the rollback state is. The user's explicit "fix Y / delete X" overrides
+this menu.
 
 ```
-Proposed update to milestone "<title>":
+Root cause: <spec-gap | mechanical-error | scope-overload>
+Dominant recurring issue: <one line>
 
-  + <one clause per issue — concise, imperative>
-  + <next clause>
+Choose repair depth:
 
-Options:
-1. Apply the update
-2. Decompose into smaller milestones instead
-3. Let me edit the proposal first
+1. spec — repair spec note + contract line in $TARGET_FILE
+   Rollback: plan, plan-reviews, reviews, patches, and sidecar deleted; orchestrator re-plans
+
+2. spec + plan — repair spec + plan .md (keeping passing plan-reviews intact if wanted)
+   Rollback: plan-reviews, reviews, patches deleted; sidecar step → "planned"
+
+3. spec + plan + code — repair spec + plan + code by hand in the working tree
+   Rollback: reviews, patches deleted; sidecar step → "implemented"
 ```
 
-Compose the proposed line by taking the existing milestone line and appending each
-clause as a semicolon-separated addition, matching the existing ROADMAP style (see
-root ROADMAP.md for examples of inline numbered sub-steps and inline constraints).
+After the user confirms, proceed to Step 5 with the chosen depth.
 
 ---
 
-**When dominant root cause is scope-overload** — propose decomposition as primary:
+## Step 5 — Apply repair and roll back artifacts
 
-```
-Proposed decomposition of milestone "<title>":
-
-  → <milestone 1 title>: <description>
-  → <milestone 2 title>: <description>
-  [→ <milestone 3 title>: <description>]
-
-Options:
-1. Apply the decomposition
-2. Add clauses to the existing milestone instead
-3. Let me edit the proposal first
-```
-
-Replace the original milestone with 2–3 smaller ones, ordered by dependency. Each
-new milestone inherits the constraints relevant to its scope from the analysis.
-
----
-
-If the user chooses **option 2** in either variant, compose and present the
-alternative proposal using the other template variant, then confirm before
-proceeding to Step 5.
-
-If the user chooses **option 3** in either variant, ask them for their edits and
-incorporate them before applying.
-
----
-
-## Step 5 — Apply and clean up
-
-**Non-convergence + options 1 or 3 (commit accepted):** if the classification from
-Step 2 is non-convergence and the user chose option 1 or 3 in Step 4, skip the
-artifact cleanup and the sidecar update entirely. Leave plans, plan-reviews, reviews,
-patches, and the sidecar in place — they describe completed, correct work pending a
-commit. Proceed directly to Step 5.5.
-
-**Non-convergence + option 2 (re-run):** if the classification is non-convergence
-and the user chose option 2 in Step 4, skip the `$TARGET_FILE` edit (no description
-change was proposed) and follow the **implement-phase (re-implement)** cleanup path:
-keep the plan `.md` and passing plan-reviews, delete reviews and patches for this
-slug, and update the sidecar `step` to `"plan_reviewed"`. Then proceed to Step 5.5.
-The reviewer will start fresh from the existing approved plan.
-
-Apply the confirmed change to `$TARGET_FILE`, then delete the stale artifacts.
-
-**If update:** use Edit to modify the milestone line in ROADMAP.md. Keep the
-description concise — each constraint is one semicolon-separated clause. Match the
-style of surrounding milestone lines.
-
-**If decompose:** use Edit to replace the single milestone line with the new milestone
-lines. Order them by dependency. Verify each new line reads coherently in context.
-
-**Clean up artifacts.** After `$TARGET_FILE` is updated, delete stale uncommitted
-files for this slug. Use `git status --short -- .ai-factory/` to identify them, then
-delete using git-native commands only:
+Execute the repair and artifact cleanup for the depth chosen in Step 4. Use
+`git status --short -- .ai-factory/` to identify uncommitted files, then delete
+using git-native commands only:
 
 - Files marked `??` (untracked) → `git clean -f -- <path>`
 - Files marked `A ` (staged/added) → `git rm -f -- <path>`
 
-The set of files to delete depends on the failure mode from Step 2:
+Never delete committed files. Never touch `.ai-factory/notes/` except the deliberate
+spec-note repair below. Never delete files belonging to other milestone slugs.
 
-**Plan-phase failure (full reset)** — delete all four artifact types: the plan `.md`
-file, all plan-review files, all review files, and all patch files for this slug.
-Nothing of the discarded plan attempt should remain.
+---
 
-**Re-plan-review (plan corrected in place)** — the plan `.md` has been edited to fold
-in reviewer findings and is kept. Delete all plan-review files for this slug (they
-reviewed the old plan). Delete all review and patch files for this slug. Keep the
-`.json` sidecar. Set `step` to `"planned"`.
+**Non-convergence (terminal — no rollback):** the user chose to commit or re-run in Step 4
+(options 1, 2, or 3). Leave all artifacts in place — plans, plan-reviews, reviews,
+patches, and sidecar all describe completed, correct work. Do NOT delete any artifact.
+Do NOT touch the sidecar. Proceed directly to Step 5.5.
 
-**Implement-phase failure (re-implement)** — keep the plan `.md` and any plan-review
-files that contain `PLAN_REVIEW_PASS` (they describe a valid plan). Delete only the
-review files and patch files for this slug.
+---
 
-Do NOT delete `.json` sidecar files from `plans/` except on a full reset, where the
-sidecar is deleted alongside the plan — the sub-step below handles all three cases. Do NOT
-delete committed files. Do NOT touch `.ai-factory/notes/`. Do NOT delete files
-belonging to other milestone slugs.
+**Depth: spec** — repair spec note + contract line; full reset.
+
+1. Edit the spec note (`.ai-factory/notes/<NN>-<slug>.md`) to address the root cause.
+2. Edit the contract line in `$TARGET_FILE` to match (keep it concise;
+   each constraint is one semicolon-separated clause matching surrounding style).
+3. Delete: plan `.md`, all plan-review files, all review files, all patch files for
+   this slug — nothing of the discarded attempt should remain.
+4. Delete the `.json` sidecar (tracked/staged → `git rm -f`; untracked → `git clean -f`).
+   The loss of `planner`, `implementer`, and `elapsed` is intentional.
+
+Emit: `Sidecar deleted (full reset).`
+
+---
+
+**Depth: spec + plan** — repair spec + plan; roll back to `"planned"`.
+
+1. If the requirement itself was implicated, edit the spec note + contract line in
+   `$TARGET_FILE` (same as spec depth above). If the spec is already correct, this
+   step is a no-op — repair only the plan below.
+2. Edit the plan `.md` to fold in the root-cause fix.
+3. Delete: all plan-review files, all review files, all patch files for this slug.
+   Keep the plan `.md` and sidecar.
+4. Locate the sidecar at `.ai-factory/plans/{seq}-{slug}.json`. Read it if present;
+   start from `{}` if absent. Update **only** the `step` key to `"planned"`. Preserve
+   every other key — `planner`, `implementer`, `elapsed`, and any others — untouched.
+   Write back as JSON with 2-space indentation.
+
+Emit: `Sidecar updated: step set to "planned".`
+
+---
+
+**Depth: spec + plan + code** — repair spec + plan + code; roll back to `"implemented"`.
+
+1. If the requirement itself was implicated, edit the spec note + contract line in
+   `$TARGET_FILE`. If the spec is already correct, this step is a no-op — repair only
+   the plan/code below.
+2. Edit the plan `.md` if needed (keep passing plan-reviews intact).
+3. Apply the hand-fix directly in the working tree (the diff IS the repair).
+4. Delete: all review files, all patch files for this slug. Keep the plan `.md`,
+   passing plan-review files, hand-fixed diff, and sidecar.
+5. Update the sidecar `step` to `"implemented"` — same read/update/write procedure
+   as the spec+plan depth above.
+
+Emit: `Sidecar updated: step set to "implemented".`
+
+---
 
 ### Valid sidecar `step` states
 
@@ -286,56 +252,11 @@ do not let them diverge.
 | `"implemented"` | review, iter 1 | none — always valid |
 | `"review_failed:N"` | implement, iter N+1 | `reviews/{seq}-{slug}-review-N.md` |
 
-**Silent failure mode.** The orchestrator clears any `step` value whose required
-artifact is missing and falls through to the disk heuristic — writing a wrong value
-silently loses the intended resume point and can re-run the planner from scratch.
+**Silent failure mode:** the orchestrator clears any `step` value whose required artifact is missing and falls through to the disk heuristic — writing a wrong value silently loses the resume point.
+**Test mode:** `review_failed:N` is replaced by `test_run_failed:N` (artifact: `test-runs/{seq}-{slug}-test-N.txt`).
+**Always-valid guard:** `"planned"` and `"implemented"` carry no artifact reference and always validate — write `"planned"` only when the plan `.md` is present; write `"implemented"` only when the plan `.md` is present and a non-empty working diff exists. Never write `"planned"` after deleting the plan `.md`.
 
-**Test mode.** In test mode, `review_failed:N` is replaced by `test_run_failed:N`
-(artifact: `test-runs/{seq}-{slug}-test-N.txt`).
-
-**Always-valid guard.** `"planned"` and `"implemented"` carry no artifact reference
-and always validate — the orchestrator accepts them unconditionally. They are therefore
-only safe to write when the corresponding earlier-phase artifacts actually exist on
-disk: write `"planned"` only when the plan `.md` is present; write `"implemented"`
-only when the plan `.md` is present and a non-empty working diff exists. Never write
-`"planned"` after deleting the plan `.md` — the orchestrator would accept the value
-and then fail to find the plan it expects to review.
-
-**Update or delete the sidecar.** The sidecar's lifetime tracks the plan's — plan
-gone → sidecar gone; plan kept → sidecar updated. Locate the JSON sidecar at
-`.ai-factory/plans/{seq}-{slug}.json` — the same `<NN>-<slug>` prefix identified in
-Step 1.
-
-**Full reset (plan `.md` deleted above):** delete the `.json` sidecar using
-git-native commands — `git rm -f -- <path>` if tracked or staged, `git clean -f --
-<path>` if untracked. The loss of `planner`, `implementer`, and `elapsed` is
-intentional — this sidecar described a discarded attempt.
-
-Emit: `Sidecar deleted (full reset).`
-
-**Plan `.md` kept (re-implement or re-plan-review):** check the working tree for the
-sidecar (attempt to read it or list with `Glob`).
-
-- If the file exists, read it and parse it as JSON.
-- If it does not exist, start from an empty JSON object.
-
-Inspect which plan-review and review files for this slug remain on disk **after** the
-cleanup deletions above, then determine the correct `step` value:
-
-| Situation after cleanup | Write `step` |
-|---|---|
-| Plan `.md` corrected in place; plan-reviews, reviews deleted | `"planned"` (create sidecar if absent) |
-| Plan-reviews exist and pass, reviews deleted | `"plan_reviewed"` (create sidecar if absent) |
-
-If both plan-reviews and reviews pass on disk, the orchestrator finished — surface
-this to the user and skip the sidecar update.
-
-Update **only** the `step` key in the JSON object. Preserve every other key already
-present — `planner`, `implementer`, `elapsed`, and any others — untouched. Do not
-overwrite `planner`, `implementer`, or `elapsed`. Serialize the result back as JSON
-with 2-space indentation and write it to the sidecar path using `Write`.
-
-Emit: `Sidecar updated: step set to "<value>".` (where `<value>` is whichever step was written)
+Note: `"plan_reviewed"` is intentionally not written by this skill. The new flow writes only `"planned"` (spec+plan depth), `"implemented"` (spec+plan+code depth), or deletes the sidecar (spec depth). The other three values stay in the table as the orchestrator-contract reference only.
 
 Show the user the list of deleted files and confirm the rescue is complete.
 
@@ -343,24 +264,19 @@ Show the user the list of deleted files and confirm the rescue is complete.
 
 ## Step 5.5 — Propagate findings to open milestones
 
-For a non-convergence classification there are no real defects to propagate — every
-round was non-blocking, so propagation is a no-op. Do not surface cosmetic nits to
-unrelated milestones.
+For a non-convergence classification, propagation is a no-op — every round was
+non-blocking, so there are no real defects to propagate. Do not surface cosmetic nits
+to unrelated milestones.
 
-After `$TARGET_FILE` is updated, scan the remaining `- [ ]` milestones in `$TARGET_FILE` for the same gaps.
+After completing the repair (if any), scan the remaining `- [ ]` milestones in
+`$TARGET_FILE` for the same gaps.
 
-**Which issues to propagate** (in priority order):
+**Which issues to propagate** (priority order): recurring issues first (appeared in 2+
+rounds — propagate to any open milestone touching the same files, APIs, or patterns);
+then mechanical errors (same pattern type); then specification gaps (same domain only).
 
-- **Recurring issues** (appeared in 2+ rounds) → highest priority; the implementer couldn't fix it even with a patch, so the description is the only reliable enforcement. Propagate to any open milestone that touches the same files, APIs, or patterns.
-- **Mechanical errors** → propagate to milestones with the same pattern type (same bridge, same threading model, same API family).
-- **Specification gaps** → propagate only if the open milestone is in the same domain.
-
-**How to identify matches:**
-
-For each issue selected for propagation, scan open milestone descriptions for:
-- The same file paths or module names
-- The same API, class, method, or operator family
-- The same structural pattern (e.g. "bridge", "repository", "hook", "middleware")
+**How to identify matches:** same file paths or module names; same API, class, method,
+or operator family; same structural pattern (e.g. "bridge", "repository", "hook").
 
 **If matches found**, present a single question:
 
@@ -376,24 +292,22 @@ Options:
 3. Skip
 ```
 
-If no matches found, or if all issues were domain-specific to the failed milestone, skip silently.
+If no matches found, or all issues are domain-specific to the failed milestone, skip silently.
 
 ---
 
 ## What NOT to do
 
-- Do not rewrite the plan — that is the orchestrator's job on the next run
-- Do not implement the fix — same reason
-- Do not keep stale artifacts — they describe a failed attempt at the old specification
-  and will confuse the next planner agent
-- Do not add implementation details to the milestone — keep constraints at the *what*
-  level, not the *how* level
-- Do not delete committed files or files belonging to other milestones
+- Do not keep stale artifacts at the chosen rollback depth — they describe a failed
+  attempt and will confuse the next planner or implementer
+- Do not add implementation details to the milestone or spec note — keep constraints
+  at the *what* level, not the *how* level
+- Do not delete committed files or files belonging to other milestone slugs
 - Do not skip reading earlier rounds — the pattern of failures across rounds is the
   primary signal, not just the final round
-- Do not overwrite `planner`, `implementer`, or `elapsed` in the sidecar — on a
-  re-implement rescue the sidecar is updated (only `step` changes); on a full reset
-  the sidecar is deleted entirely alongside the plan
+- Do not overwrite `planner`, `implementer`, or `elapsed` in the sidecar — only `step`
+  is updated; on a full reset (spec depth) the sidecar is deleted entirely alongside
+  the plan
 - Do not write `"planned"` or `"implemented"` when the corresponding artifact is
   absent — both are always-valid states the orchestrator accepts without artifact
   checks, so writing one after deleting the plan `.md` (or before any working diff
