@@ -10,6 +10,12 @@ Skills and commands are treated as **executable code** — they define agent run
 
 This is a meta-repo: its product is skills, not application code.
 
+## Documentation
+
+| Doc | What it covers |
+|-----|----------------|
+| [Skill composition model](docs/skill-composition-model.md) | The mechanism/policy model for authoring skills — engine vs philosophy, the context-cost of abstraction, when to extract a skill. Narrative explainer (Russian); the normative rule lives in `.ai-factory/ARCHITECTURE.md` → "Composition: mechanism vs policy". |
+
 ## Repository Structure
 
 ```
@@ -41,6 +47,10 @@ Each skill directory contains:
 - `templates/` — optional output templates
 
 ## Skill Authoring
+
+### Composition — mechanism vs policy
+
+Factor a capability into its own skill only when it carries **shared content** (a mechanism, rule, or format) used by ≥2 callers — every loaded line is a recurring context cost, so a pure router with no content of its own is negative value. **Engine** skills hold mechanism (the shared *how*); **philosophy** skills hold policy (the gate/lens that decides) and invoke engines, staying in control. Full model: `.ai-factory/ARCHITECTURE.md` → "Composition: mechanism vs policy".
 
 ### SKILL.md frontmatter (required fields)
 
