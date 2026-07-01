@@ -1,4 +1,4 @@
-# aif-roadmap — Overview
+# roadmap-outline — Overview
 
 ## What it does
 
@@ -10,6 +10,11 @@ in plans (`.ai-factory/plans/`); milestones live in the roadmap.
 
 ## ROADMAP.md format
 
+Each milestone is a **two-tier** entry rendered per `roadmap-engine`'s format: a contract
+line in `ROADMAP.md` ending with a `` Spec: `.ai-factory/notes/<NN>-<slug>.md` `` tag,
+backed by a full spec note in `.ai-factory/notes/`. The contract line carries the
+milestone's intent at a glance; the note holds the detail.
+
 ```markdown
 # Project Roadmap — project-name
 
@@ -17,9 +22,8 @@ in plans (`.ai-factory/plans/`); milestones live in the roadmap.
 
 ## Milestones
 
-- [ ] **Feature name** — short description of what this achieves
-- [ ] **Feature name** — short description
-- [x] **Feature name** — short description (completed)
+- [ ] **Feature name** — contract line naming the capability and its key surfaces. Spec: `.ai-factory/notes/07-feature.md`.
+- [x] **Feature name** — contract line. Spec: `.ai-factory/notes/03-feature.md`. (completed)
 ```
 
 No `## Completed` table. Completed milestones stay in the list marked `[x]` until
@@ -32,13 +36,13 @@ recently closed items for context.
 ## Relationship to other skills
 
 ```
-aif-roadmap    → writes milestones into ROADMAP.md
-aif-plan       → takes a milestone and creates a detailed task plan
+roadmap-outline → writes milestones into ROADMAP.md
+aif-plan        → takes a milestone and creates a detailed task plan
 roadmap-prune  → collapses [x] milestones into ARCHITECTURE.md features with hashes
 temporal-tree  → reads those hashes to reconstruct decision context from git
 ```
 
-`aif-roadmap` is the top of the chain. It does not know about commit hashes or
+`roadmap-outline` is the top of the chain. It does not know about commit hashes or
 ARCHITECTURE.md — that is `roadmap-prune`'s concern.
 
 ---

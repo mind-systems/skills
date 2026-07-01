@@ -19,7 +19,9 @@ This repo produces skills. A skill is a directory with a `SKILL.md` at its root.
 | `aif-*` | AI Factory lifecycle (plan, implement, review, …) |
 | *(none)* | Domain skills (detangle, ui-ux-pro-max, …) |
 
-The repo also hosts slash commands under `src/commands/` (e.g. `command-handoff`), symlinked to `~/.claude/commands` for global availability.
+The repo also hosts slash commands under `src/commands/` (e.g. `command-handoff`).
+
+Three zones keep provenance clean: `src/` holds skills and commands we authored or reworked; `upstream/ai-factory/` is a pristine mirror of `lee-to/ai-factory` (refreshed by `scripts/sync-upstream.sh`, never hand-edited); `active/` is the curated working set — per-item symlinks into `src/` or `upstream/` — and is the only layer `~/.claude/skills` and `~/.claude/commands` point at.
 
 ## Dependency model
 
@@ -34,7 +36,7 @@ Two kinds of skill follow, mirroring the classic separation of mechanism and pol
 - **Engine (mechanism)** — the shared *how*: a procedure, format, or render step, with no decision of its own.
 - **Philosophy (policy)** — the *what* and *whether*: a gate, lens, or strategy that decides. `roadmap-decompose`'s atomicity gate is policy.
 
-A philosophy skill invokes an engine for mechanism; the engine holds no policy and never drives. Control stays with the caller — the engine renders when handed work, the way a strategy varies independently of the context that runs it. A shared skill is loaded once for its content (load-once), never re-loaded per item. `roadmap-decompose` invoking `aif-note` for note format is this pattern: the caller keeps control, the loaded skill supplies shared content.
+A philosophy skill invokes an engine for mechanism; the engine holds no policy and never drives. Control stays with the caller — the engine renders when handed work, the way a strategy varies independently of the context that runs it. A shared skill is loaded once for its content (load-once), never re-loaded per item. `roadmap-decompose` invoking `roadmap-engine` for the two-tier artifact format is this pattern: the caller keeps control, the loaded engine supplies shared content.
 
 ## Key constraints
 

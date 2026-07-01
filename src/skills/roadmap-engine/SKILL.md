@@ -2,7 +2,7 @@
 name: roadmap-engine
 description: >-
   Shared explanation of the canonical two-tier roadmap artifact format — a ~600-char
-  contract line plus a full spec note written via aif-note — applied by the calling
+  contract line plus a full spec note written via note — applied by the calling
   agent. Currently loaded by roadmap-decompose; retained as forward-looking
   shared-format infra for the rest of the roadmap family. Holds no decomposition
   philosophy of its own. Load-once.
@@ -26,7 +26,7 @@ note at `.ai-factory/notes/<NN>-<slug>.md` (`<NN>` scanned against `.ai-factory/
 so it never collides; `<slug>` lowercase-hyphenated). The contract line ends with the
 exact tag `` Spec: `.ai-factory/notes/<NN>-<slug>.md`. ``
 
-The note follows `aif-note`'s format — **load `aif-note` once per chat** (via the Skill
+The note follows `note`'s format — **load `note` once per chat** (via the Skill
 tool, only if not already loaded), never per task.
 
 **Why two tiers:** the contract line lets the user verify intent while fitting 3–4

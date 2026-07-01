@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-Generic AI Factory skills shared across all programming projects. Skills are injected into projects via the `~/.claude/skills` symlink (→ `src/skills`) and invoked as slash commands in Claude Code.
+Generic AI Factory skills shared across all programming projects. Skills are injected into projects via the `~/.claude/skills` symlink (→ `active/skills`, the curated working set) and invoked as slash commands in Claude Code. Our skills live in `src/skills/`; a pristine upstream mirror lives in `upstream/ai-factory/`; `active/` symlinks only what is actually used.
 
 ## Tech Stack
 
@@ -17,19 +17,22 @@ Generic AI Factory skills shared across all programming projects. Skills are inj
 
 ```
 skills/
-├── src/
-│   ├── skills/               # All skill packages (symlinked from ~/.claude/skills)
-│   │   ├── aif/              #   project setup & MCP configuration
-│   │   ├── aif-plan/         #   feature planning
-│   │   ├── aif-skill-generator/  # skill authoring + security scanning
-│   │   ├── aif-*/            #   other lifecycle skills
-│   │   ├── detangle/         #   context reconstruction for complex diffs
-│   │   ├── milestone-rescue/ #   rescue derailed milestones
-│   │   ├── roadmap-prune/    #   prune completed roadmap items
-│   │   ├── temporal-tree/    #   temporal decision context visualization
-│   │   └── ui-ux-pro-max/    #   UI/UX generation (67 styles, 96 palettes)
-│   └── commands/             # Slash commands (symlinked from ~/.claude/commands)
-│       └── command-handoff.md
+├── src/                      # OURS
+│   ├── skills/               #   our skill packages
+│   │   ├── roadmap-decompose/         # atomic-deliverability decomposition
+│   │   ├── roadmap-decompose-skeleton/ # skeleton/TDD/concurrency lens
+│   │   ├── roadmap-engine/            # two-tier artifact format
+│   │   ├── roadmap-outline/           # strategic roadmap
+│   │   ├── note/                      # research-summary writer
+│   │   ├── test-philosophy/           # silent-failure testing rule
+│   │   ├── milestone-rescue/          # rescue derailed milestones
+│   │   ├── detangle/  temporal-tree/  observe-logs/  aif-docs/  aif-plan/  ui-ux-pro-max/  …
+│   └── commands/             #   slash commands (all ours)
+├── upstream/ai-factory/      # PRISTINE mirror of lee-to/ai-factory skills/ (scripts/sync-upstream.sh)
+├── active/                   # CURATED working set — ~/.claude points here
+│   ├── skills/               #   per-skill symlinks → src/skills/* or upstream/ai-factory/*
+│   └── commands/             #   per-command symlinks → src/commands/*
+├── scripts/sync-upstream.sh  # refresh the upstream mirror
 ├── .claude/                  # Claude Code project config (.mcp.json, settings.local.json)
 ├── .ai-factory/
 │   ├── DESCRIPTION.md        # Project specification
@@ -44,10 +47,10 @@ skills/
 
 | File | Purpose |
 |------|---------|
-| `src/skills/aif-skill-generator/SKILL.md` | Authoring new skills — start here |
-| `src/skills/aif-skill-generator/scripts/security-scan.py` | Security scanner for external skills |
-| `src/skills/aif-skill-generator/scripts/validate.sh` | Structural validator |
-| `src/skills/aif/SKILL.md` | Project setup entry point |
+| `upstream/ai-factory/aif-skill-generator/SKILL.md` | Authoring new skills — start here |
+| `upstream/ai-factory/aif-skill-generator/scripts/security-scan.py` | Security scanner for external skills |
+| `upstream/ai-factory/aif-skill-generator/scripts/validate.sh` | Structural validator |
+| `upstream/ai-factory/aif/SKILL.md` | Project setup entry point |
 
 ## AI Context Files
 

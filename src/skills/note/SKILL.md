@@ -1,5 +1,5 @@
 ---
-name: aif-note
+name: note
 description: >-
   Extract a concise research summary from the current conversation context
   and save it as a numbered note file. Use when finishing a research session,

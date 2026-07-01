@@ -107,7 +107,7 @@ Before emitting, apply this self-check to your draft: *Could a fresh agent, with
 
 **Note mode:** Write the full handoff to a file, then emit only a short pointer to chat.
 
-1. Persist the handoff prompt as a note file — write it yourself using the Write tool, do **not** route through `/aif-note` (that reshapes into a different template):
+1. Persist the handoff prompt as a note file — write it yourself using the Write tool, do **not** route through `/note` (that reshapes into a different template):
 
    a. Use Bash `ls .ai-factory/handoffs/` to list existing `[0-9][0-9]-*.md` files and find the highest `<NN>` prefix. The new file gets `<NN> + 1`, zero-padded to two digits. If the directory is empty or does not exist (a fresh project — `ls` may error with "No such file or directory"), treat it as no handoffs yet and start at `01`; the Write in step (c) creates the parent directory.
 

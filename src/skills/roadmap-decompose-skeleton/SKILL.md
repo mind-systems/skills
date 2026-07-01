@@ -39,7 +39,7 @@ never re-invoked per task:
 Call graph:
 
 ```
-roadmap-decompose-skeleton ─→ roadmap-engine ─→ aif-note
+roadmap-decompose-skeleton ─→ roadmap-engine ─→ note
                            └─→ test-philosophy
 ```
 

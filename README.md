@@ -5,11 +5,11 @@ Generic AI Factory skills available globally to all projects via Claude Code's p
 ## Setup (one-time, per machine)
 
 ```bash
-ln -s ~/projects/skills/src/skills ~/.claude/skills
-ln -s ~/projects/skills/src/commands ~/.claude/commands
+ln -s ~/projects/skills/active/skills ~/.claude/skills
+ln -s ~/projects/skills/active/commands ~/.claude/commands
 ```
 
-That's it. All skills and slash commands in this repo are now available in every Claude Code session, in every project — no per-project configuration needed.
+`~/.claude` points at `active/` — the curated working set. `active/skills/` and `active/commands/` hold per-item symlinks into `src/` (ours) or `upstream/ai-factory/` (upstream originals we use), so only skills actually in use are loaded, not every skill that exists.
 
 ## Project-specific skills
 
@@ -18,15 +18,15 @@ If a project needs custom skills alongside the generic ones, place them in `.cla
 ## Invoke skills
 
 ```
-/aif          — set up AI context for a project
-/aif-plan     — plan a feature (saves to .ai-factory/plans/)
-/aif-implement — execute a plan
+/aif                 — set up AI context for a project
+/roadmap-outline     — strategic roadmap (high-level milestones)
+/roadmap-decompose   — break milestones into atomic, spec'd tasks
 /aif-skill-generator — create or validate skills
 ```
 
 ## Structure
 
-Each skill is a directory under `src/skills/` containing a `SKILL.md` (frontmatter + instructions) and optional `references/`, `scripts/`, and `templates/` subdirectories.
+Our skills live under `src/skills/`; a pristine mirror of upstream `lee-to/ai-factory` lives under `upstream/ai-factory/` (refresh with `scripts/sync-upstream.sh`); `active/` symlinks the curated working set. Each skill is a directory containing a `SKILL.md` (frontmatter + instructions) and optional `references/`, `scripts/`, and `templates/` subdirectories.
 
 ## Adding Skills
 
@@ -41,4 +41,4 @@ Each skill is a directory under `src/skills/` containing a `SKILL.md` (frontmatt
 /aif-skill-generator validate src/skills/<name>
 ```
 
-External skills from [skills.sh](https://skills.sh) must pass a two-level security scan before use. See `src/skills/aif-skill-generator/SKILL.md` for details.
+External skills from [skills.sh](https://skills.sh) must pass a two-level security scan before use. See `upstream/ai-factory/aif-skill-generator/SKILL.md` for details.

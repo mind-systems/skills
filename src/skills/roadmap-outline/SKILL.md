@@ -1,5 +1,5 @@
 ---
-name: aif-roadmap
+name: roadmap-outline
 description: Create or update a project roadmap with major milestones. Generates .ai-factory/ROADMAP.md — a strategic checklist of high-level goals. Use when user says "roadmap", "project plan", "milestones", or "what to build next".
 argument-hint: "[check | project vision or requirements]"
 allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion Questions Skill
@@ -168,11 +168,11 @@ Next up: **Milestone Name**
 
 ---
 
-### Mode 3: Check Progress (`/aif-roadmap check`)
+### Mode 3: Check Progress (`/roadmap-outline check`)
 
 Automated scan — analyze the codebase and mark completed milestones without interactive questions.
 
-**Requires** `.ai-factory/ROADMAP.md` to exist. If it doesn't — tell the user to run `/aif-roadmap` first.
+**Requires** `.ai-factory/ROADMAP.md` to exist. If it doesn't — tell the user to run `/roadmap-outline` first.
 
 **3.1: Read roadmap and project context**
 

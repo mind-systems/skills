@@ -207,7 +207,7 @@ If **no** → the task is atomic; produce the two-tier artifacts per the engine'
 - Draft a full spec for it (what exists today, the exact change, files/types/methods to touch, guards, how to verify)
 - Ensure `roadmap-engine` is loaded once this chat, then produce the two-tier artifacts per its format, with the following note-handling rule:
   - If the milestone already carries a `Spec:` tag, update the named note file in place with `Write`. The contract line's `Spec:` tag stays unchanged.
-  - If the milestone has no `Spec:` tag (legacy inline spec), write a new note per the engine's format and add the `Spec:` tag. aif-note stays loaded once, not re-invoked here.
+  - If the milestone has no `Spec:` tag (legacy inline spec), write a new note per the engine's format and add the `Spec:` tag. `note` stays loaded once, not re-invoked here.
 - If the milestone bundles 2+ independent concerns, ask if user wants to split it (a split → two notes + two contract lines)
 - Do not bulk-migrate pre-existing legacy inline tasks the skill isn't already touching
 

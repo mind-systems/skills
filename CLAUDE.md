@@ -4,9 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Purpose
 
-This repo (`~/projects/skills`) is the **source of truth for generic AI Factory skills** shared across all of Max's projects. Skills are available globally via `~/.claude/skills` → `~/projects/skills/src/skills` (personal scope in Claude Code).
+This repo (`~/projects/skills`) is the **source of truth for generic AI Factory skills** shared across all of Max's projects.
 
-Skills and commands are treated as **executable code** — they define agent runtime behavior, not documentation. They live under `src/` (skills in `src/skills/`, commands in `src/commands/`), deliberately outside `.claude/`, which holds Claude Code's own config that the agent must not self-edit.
+The repo keeps three concerns physically apart:
+- **`src/`** — skills and commands **authored or reworked by us** (the real product).
+- **`upstream/ai-factory/`** — a **pristine mirror** of `lee-to/ai-factory`'s `skills/`, refreshed by `scripts/sync-upstream.sh` and never hand-edited.
+- **`active/`** — the **curated working set**: `active/skills/` and `active/commands/` hold per-item symlinks into either `src/` (ours) or `upstream/ai-factory/` (the few upstream originals we actually use). This is the only layer `~/.claude` points at, and it lists **only skills actually in use** — not every skill that exists.
+
+Skills are available globally via `~/.claude/skills` → `~/projects/skills/active/skills` and `~/.claude/commands` → `~/projects/skills/active/commands` (personal scope in Claude Code).
+
+Skills and commands are treated as **executable code** — they define agent runtime behavior, not documentation. Ours live under `src/` (skills in `src/skills/`, commands in `src/commands/`), deliberately outside `.claude/`, which holds Claude Code's own config that the agent must not self-edit.
 
 This is a meta-repo: its product is skills, not application code.
 
@@ -20,28 +27,34 @@ This is a meta-repo: its product is skills, not application code.
 
 ```
 skills/
-├── src/
-│   ├── skills/             # Skill packages (symlinked to ~/.claude/skills)
-│   │   ├── aif/            #   project setup & MCP configuration
-│   │   ├── aif-plan/       #   feature planning → .ai-factory/plans/
-│   │   ├── aif-*/          #   other AI Factory lifecycle skills
-│   │   ├── detangle/       #   untangle complex diffs / branches
-│   │   ├── milestone-rescue/
-│   │   ├── roadmap-decompose-skeleton/ #   skeleton/TDD/concurrency decomposition lens
-│   │   ├── roadmap-engine/ #   two-tier artifact-output engine
+├── src/                          # OURS — authored or reworked by us
+│   ├── skills/                   #   custom + reworked-from-upstream + originally ours
+│   │   ├── roadmap-decompose/    #     atomic-deliverability decomposition
+│   │   ├── roadmap-decompose-skeleton/ # skeleton/TDD/concurrency lens
+│   │   ├── roadmap-engine/       #     two-tier artifact format
+│   │   ├── roadmap-outline/      #     strategic high-level roadmap
 │   │   ├── roadmap-prune/
-│   │   ├── temporal-tree/
-│   │   ├── test-philosophy/ #   shared silent-failure testing philosophy
-│   │   └── ui-ux-pro-max/
-│   └── commands/           # Slash commands (symlinked to ~/.claude/commands)
-│       ├── command-handoff.md
-│       └── command-pin-gaps.md
-├── .claude/                # Claude Code project config (.mcp.json, settings.local.json)
-├── .ai-factory/            # Roadmap, notes, architecture, plans
+│   │   ├── roadmap-test-coverage/
+│   │   ├── note/                 #     research-summary note writer
+│   │   ├── test-philosophy/      #     shared silent-failure testing rule
+│   │   ├── milestone-rescue/     #     … and milestone-rescue-audit, detangle,
+│   │   └── …                     #     temporal-tree, observe-logs, aif-docs, aif-plan, ui-ux-pro-max
+│   └── commands/                 #   slash commands (all ours)
+├── upstream/
+│   └── ai-factory/               # PRISTINE mirror of lee-to/ai-factory skills/ (sync script; never hand-edited)
+├── active/                       # CURATED working set — the only layer ~/.claude points at
+│   ├── skills/                   #   per-skill symlinks → src/skills/* or upstream/ai-factory/*
+│   └── commands/                 #   per-command symlinks → src/commands/*
+├── scripts/
+│   └── sync-upstream.sh          # refresh upstream/ai-factory from lee-to/ai-factory
+├── .claude/                      # Claude Code project config (.mcp.json, settings.local.json)
+├── .ai-factory/                  # Roadmap, notes, architecture, plans
 ├── CLAUDE.md
 ├── AGENTS.md
 └── README.md
 ```
+
+**The active set** (what `~/.claude` actually loads): our skills — `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `aif-docs`, `test-philosophy`, `roadmap-outline`, `observe-logs` — plus three upstream originals we use as-is: `aif`, `aif-architecture`, `aif-skill-generator`. Everything else (our `aif-plan`, `ui-ux-pro-max`; all other upstream skills) is stored but **not** symlinked into `active/`. Adding a skill to the working set = create a symlink under `active/skills/`.
 
 Each skill directory contains:
 - `SKILL.md` — required, main instructions (frontmatter + body ≤ 500 lines)
@@ -97,38 +110,39 @@ Built-in `aif*` skills are never scanned at install time — only external skill
 
 ## How Skills Are Used in Projects
 
-Skills from this repo are available globally to all projects via Claude Code's personal skill scope (`~/.claude/skills`). No per-project configuration needed. Projects with custom skills place them in their own `.claude/skills/` directory — Claude Code loads both scopes simultaneously. Skills are invoked as slash commands (e.g. `/aif-plan`, `/aif-implement`). The `$ARGUMENTS` variable receives everything typed after the command name.
+Skills from this repo are available globally to all projects via Claude Code's personal skill scope (`~/.claude/skills`). No per-project configuration needed. Projects with custom skills place them in their own `.claude/skills/` directory — Claude Code loads both scopes simultaneously. Skills are invoked as slash commands (e.g. `/roadmap-outline`, `/roadmap-decompose`). The `$ARGUMENTS` variable receives everything typed after the command name.
 
 ## Key Skill Interactions
 
 - `/aif` → sets up project context (skills + MCP + AGENTS.md + architecture doc)
-- `/aif-plan` → creates `.ai-factory/plans/<NN>-<slug>.md`, then **stops** — never implements
-- `/aif-implement` → executes an existing plan file
 - `/aif-architecture` → generates `.ai-factory/ARCHITECTURE.md`
 - `/aif-skill-generator` → creates or validates skills
 
-The plan → stop → implement-in-separate-session pattern is a hard constraint (see global CLAUDE.md).
+**Planning chain:** `/roadmap-outline` (strategic milestones) → `/roadmap-decompose` (atomic, implementation-ready tasks) → `/roadmap-decompose-skeleton` (optional second pass: skeleton/TDD/concurrency splits on heavy tasks). Each writes two-tier artifacts (contract line + spec note) via `roadmap-engine`.
+
+Planning and implementation are separate processes: this chat produces the roadmap and spec artifacts; the **orchestrator** (a separate run) implements them — never in the planning session. This is a hard constraint (see global CLAUDE.md).
 
 ## Upstream Sync
 
-Upstream source: `https://github.com/lee-to/ai-factory` (skills live in `skills/` subdirectory).
+Upstream source: `https://github.com/lee-to/ai-factory` (skills live in the `skills/` subdirectory), mirrored into `upstream/ai-factory/`.
 
-**Custom skills — never overwrite from upstream:**
-- `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `temporal-tree`, `ui-ux-pro-max`, `aif-note`, `aif-docs`, `test-philosophy`, `aif-roadmap`
+The three-way split makes syncing **conflict-free**: every skill we modified is moved out to `src/skills/`, so `upstream/ai-factory/` stays byte-pristine and refreshing it is an unconditional overwrite — no merge, no conflicts, nothing of ours to protect.
 
-**`src/commands/` — ours, never synced from upstream:**
-- All slash commands under `src/commands/` are local to this repo and are never overwritten by upstream syncs.
-
-**Intentionally diverged from upstream — review diff before updating:**
-- `aif-plan` — uses `TaskCreate`/`TaskUpdate`, custom logging defaults
-
-**All other skills** — safe to overwrite directly from upstream.
-
-**Procedure:**
+**Refresh the mirror:**
 ```bash
-git clone https://github.com/lee-to/ai-factory /tmp/ai-factory-upstream
-# Compare
-diff -rq /tmp/ai-factory-upstream/skills/<name> ~/.claude/skills/<name>
-# Copy new skills
-cp -r /tmp/ai-factory-upstream/skills/<name> ~/.claude/skills/<name>
+scripts/sync-upstream.sh      # clones upstream, rsyncs skills/ → upstream/ai-factory/ (--delete)
 ```
+
+**Reconcile reworked skills (opt-in, manual).** A few of our skills were reworked from an upstream original and still have a counterpart to diff after a refresh — our copy is authoritative and is never auto-overwritten:
+- `aif-docs` ↔ `upstream/ai-factory/aif-docs`
+- `aif-plan` ↔ `upstream/ai-factory/aif-plan`
+
+```bash
+diff -rq src/skills/aif-docs upstream/ai-factory/aif-docs   # port upstream changes by hand if wanted
+```
+
+**Everything else in `src/skills/` is ours** — no upstream counterpart to reconcile, sync never touches it: `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-outline`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `test-philosophy`, `observe-logs`, `ui-ux-pro-max`.
+
+**`src/commands/`** — all ours, no upstream source, never synced.
+
+**Adopting a new upstream skill into the active set:** after a refresh, symlink it — `ln -sfn ../../upstream/ai-factory/<name> active/skills/<name>`. To rework one into ours, copy it into `src/skills/` and repoint its `active/` symlink there.
