@@ -2,7 +2,7 @@
 name: aif-roadmap
 description: Create or update a project roadmap with major milestones. Generates .ai-factory/ROADMAP.md — a strategic checklist of high-level goals. Use when user says "roadmap", "project plan", "milestones", or "what to build next".
 argument-hint: "[check | project vision or requirements]"
-allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion Questions
+allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion Questions Skill
 disable-model-invocation: true
 ---
 
@@ -72,19 +72,7 @@ Scan the project to understand what's already built:
 
 **1.3: Generate ROADMAP.md**
 
-Create `.ai-factory/ROADMAP.md` with this format:
-
-```markdown
-# Project Roadmap
-
-> <project vision — one-liner from DESCRIPTION.md or user input>
-
-## Milestones
-
-- [ ] **Milestone Name** — short description of what this achieves
-- [ ] **Milestone Name** — short description of what this achieves
-- [x] **Milestone Name** — short description (already done based on codebase analysis)
-```
+Draft the roadmap **in memory (do not write `.ai-factory/ROADMAP.md` yet)**. Ensure `roadmap-engine` is loaded once this chat (via the `Skill` tool; don't re-invoke if already loaded), then produce each milestone as a two-tier artifact — a contract line plus a spec note — per its format, at coarse (strategic) granularity. The roadmap vision line is sourced from `DESCRIPTION.md` or user input (per Step 0). Draft each milestone's contract line with a placeholder `` Spec: `<note pending>`. `` — do not write the notes yet; notes are written after confirmation in Step 1.4.
 
 **Rules for milestones:**
 - Each milestone is a **high-level goal**, not a granular task (that's `/aif-plan`)
@@ -106,7 +94,7 @@ Options:
 4. Rewrite — let me give better input
 ```
 
-Apply changes if requested, then save to `.ai-factory/ROADMAP.md`.
+Apply changes if requested, then finalize: **after "Looks good — save it"** — write each confirmed milestone's spec note, then replace the `` Spec: `<note pending>`. `` placeholder with the real `` Spec: `.ai-factory/notes/<NN>-<slug>.md`. `` tag, then save to `.ai-factory/ROADMAP.md`. Milestones removed or rewritten during options 2–4 receive no note; only the confirmed set gets notes.
 
 ---
 
@@ -155,6 +143,7 @@ If confirmed:
 **2.4: Add New Milestones (if chosen)**
 
 - Ask user to describe new milestones
+- Ensure `roadmap-engine` is loaded once this chat, then produce each new milestone as a two-tier artifact (contract line + spec note) per its format
 - Insert them in logical order among existing milestones
 - Update `.ai-factory/ROADMAP.md`
 
@@ -229,20 +218,6 @@ Next up: **Milestone Name**
 ```
 
 ---
-
-## ROADMAP.md Format
-
-```markdown
-# Project Roadmap
-
-> <project vision — one-liner>
-
-## Milestones
-
-- [ ] **Name** — short description
-- [ ] **Name** — short description
-- [x] **Name** — short description
-```
 
 ## Critical Rules
 
