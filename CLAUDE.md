@@ -30,6 +30,7 @@ skills/
 │   │   ├── roadmap-engine/ #   two-tier artifact-output engine
 │   │   ├── roadmap-prune/
 │   │   ├── temporal-tree/
+│   │   ├── test-engine/    #   shared silent-failure testing philosophy
 │   │   └── ui-ux-pro-max/
 │   └── commands/           # Slash commands (symlinked to ~/.claude/commands)
 │       ├── command-handoff.md
@@ -112,7 +113,7 @@ The plan → stop → implement-in-separate-session pattern is a hard constraint
 Upstream source: `https://github.com/lee-to/ai-factory` (skills live in `skills/` subdirectory).
 
 **Custom skills — never overwrite from upstream:**
-- `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-decompose`, `roadmap-engine`, `roadmap-prune`, `temporal-tree`, `ui-ux-pro-max`, `aif-note`, `aif-docs`
+- `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-decompose`, `roadmap-engine`, `roadmap-prune`, `temporal-tree`, `ui-ux-pro-max`, `aif-note`, `aif-docs`, `test-engine`
 
 **`src/commands/` — ours, never synced from upstream:**
 - All slash commands under `src/commands/` are local to this repo and are never overwritten by upstream syncs.
