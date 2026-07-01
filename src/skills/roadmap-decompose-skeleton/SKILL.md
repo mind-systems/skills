@@ -4,9 +4,9 @@ description: >-
   Second decomposition pass over open roadmap tasks along the spec-before-code
   axis (skeleton-first, TDD, concurrency contract) rather than atomic
   deliverability. Extracts interface/abstract skeleton tasks, tests-first tasks
-  filtered by test-engine's silent-failure rule, and no-prod-code contract-tasks
+  filtered by test-philosophy's silent-failure rule, and no-prod-code contract-tasks
   for heavy tasks mixing async I/O + stateful buffer + lifecycle. Renders via
-  roadmap-engine, sources the test rule from test-engine — copies neither. Use
+  roadmap-engine, sources the test rule from test-philosophy — copies neither. Use
   when a task is heavy/hazardous or shares a type surface and needs splitting
   before implementation. Trigger: "skeleton", "tdd tasks", "concurrency contract".
 argument-hint: "[phase/slug or task description]"
@@ -33,15 +33,14 @@ never re-invoked per task:
 
 - `roadmap-engine` — the shared two-tier artifact format (contract line + spec note)
   that every lens renders its output through.
-- the silent-failure test engine, installed in this repo as `test-engine` (referred to
-  as "test-philosophy" in some specs — same skill) — the discriminator the TDD lens
-  applies to decide what gets a test.
+- `test-philosophy` — the silent-failure discriminator the TDD lens applies to decide
+  what gets a test.
 
 Call graph:
 
 ```
 roadmap-decompose-skeleton ─→ roadmap-engine ─→ aif-note
-                           └─→ test-engine
+                           └─→ test-philosophy
 ```
 
 This skill does **not** call `roadmap-decompose` at runtime — the atomic task list it
@@ -81,7 +80,7 @@ appropriate, extract a **skeleton task**: interfaces, types, abstract classes on
   non-obvious surface testable.
 
 **Lens 2 — TDD.** Against the skeleton's public surface, insert a **tests-first task**.
-Ensure `test-engine` is loaded once this chat, then apply its silent-failure
+Ensure `test-philosophy` is loaded once this chat, then apply its silent-failure
 discriminator: write tests only for surfaces that fail *silently* (wrong output, no
 crash); skip surfaces that fail *loudly* (compile error, exception, DI failure, 4xx/5xx).
 Not blanket coverage. Canon (m36): a stateless `PassThroughIndicator` double let cases 3
@@ -138,10 +137,10 @@ avoids duplicating the impl entry or orphaning its spec note.
 ## Critical Rules / What NOT to do
 
 1. No `roadmap-tdd` middle skill — the one TDD-specific sentence ("tests come first,
-   as their own task, filtered by test-engine's rule") lives inline in this skill.
-2. Do not copy `roadmap-engine`'s render machinery or `test-engine`'s discriminator into
-   this skill — load them, once per chat, and let them stay in control of their own
-   content.
+   as their own task, filtered by test-philosophy's rule") lives inline in this skill.
+2. Do not copy `roadmap-engine`'s render machinery or `test-philosophy`'s discriminator
+   into this skill — load them, once per chat, and let them stay in control of their
+   own content.
 3. Do not call `roadmap-decompose` at runtime — the atomic task list already exists;
    this is a second pass over it.
 4. Do not read or modify the orchestrator.

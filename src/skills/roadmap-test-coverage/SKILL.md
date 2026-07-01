@@ -10,7 +10,7 @@ description: >-
 argument-hint: "[roadmap-file]"
 disable-model-invocation: true
 user-invocable: true
-allowed-tools: Read Glob Grep Bash(find *) Bash(npm *) Bash(npx *) Bash(dart *) Bash(flutter *) Bash(python *) Bash(pytest *) Bash(go *) Bash(cargo *) Bash(mkdir *) Bash(git *) AskUserQuestion Agent Write
+allowed-tools: Read Glob Grep Bash(find *) Bash(npm *) Bash(npx *) Bash(dart *) Bash(flutter *) Bash(python *) Bash(pytest *) Bash(go *) Bash(cargo *) Bash(mkdir *) Bash(git *) AskUserQuestion Agent Write Skill
 ---
 
 # roadmap-test-coverage — Test Coverage Orchestrator
@@ -61,19 +61,8 @@ Drop "Full coverage" areas. Carry forward "No coverage" and "Partial".
 This is the most important gate in the pipeline. It prevents Layer 4 from
 wasting agent capacity on areas that already have automatic failure detection.
 
-For each remaining candidate area, ask one question:
-
-> **"If the logic here is wrong, does the system signal it immediately
-> (TypeScript error, runtime exception, DI failure, 4xx/5xx response),
-> or does it continue running and produce wrong output silently?"**
-
-| Fails loudly → skip | Fails silently → keep |
-|---|---|
-| Mapper with wrong field type | Aggregator with off-by-one cursor |
-| Controller missing route param | State machine with wrong transition |
-| DI wiring missing a provider | Dedup logic with wrong key |
-| Thin adapter with no branches | Flush threshold calculated incorrectly |
-| gRPC interceptor that throws | Session expiry computed from wrong timestamp |
+Load `test-philosophy` once via the `Skill` tool, then apply its silent-failure
+discriminator to each remaining candidate area.
 
 Apply the filter to every area. Drop loud-failure areas.
 
@@ -223,6 +212,9 @@ If all tests pass: log "All existing tests pass." and continue to Layer 8.
 
 If any tests fail, launch one `general-purpose` agent with the full test
 output. The agent classifies failures only — it does not write any files.
+The Class A / Class B split below applies `test-philosophy`'s After-the-Fact
+Corollary — the agent runs in isolation and does not load the skill, so the
+classification stays inline in its prompt.
 
 **Agent prompt:**
 

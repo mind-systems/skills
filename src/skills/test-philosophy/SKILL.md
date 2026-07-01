@@ -1,17 +1,17 @@
 ---
-name: test-engine
+name: test-philosophy
 description: >-
   Shared testing philosophy for the roadmap family. Holds one rule — write tests
   only for surfaces that fail silently (wrong output, no crash), skip surfaces that
   fail loudly (compile error, exception, DI failure, 4xx/5xx). Loaded by
   roadmap-test-coverage and roadmap-decompose-skeleton for the discriminator;
   holds no test-generation or coverage-pipeline logic.
-user-invocable: false
+user-invocable: true
 disable-model-invocation: false
 allowed-tools: Read
 ---
 
-# Test Engine — Shared Silent-Failure Testing Philosophy
+# Test Philosophy — Shared Silent-Failure Testing Philosophy
 
 This is a shared pure-content philosophy unit for the roadmap family. It holds one
 discriminator — the rule for which surfaces are worth testing — not any
