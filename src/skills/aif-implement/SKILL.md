@@ -48,9 +48,16 @@ Handoff sync is handled inline — see **Step 0.2** (after reading the plan file
 1. Read `.ai-factory/config.yaml` if it exists to resolve:
    - `paths.description`, `paths.architecture`, `paths.rules_file`, `paths.roadmap`, `paths.research`
    - `paths.plan`, `paths.plans`, `paths.fix_plan`, `paths.patches`
+   - `paths.archive`
    - `paths.rules`
    - `language.ui`, `language.artifacts`
    - `git.enabled`, `git.base_branch`, `git.create_branches`
+   - `workflow.plan_id_format` (default: `slug`) — used by branch-based plan discovery.
+     Active values: `slug` and `sequential`. When `sequential`, the resolver
+     globs `<paths.plans>/[0-9]{4}_<branch-slug>.md` first and falls back to
+     `<paths.plans>/<branch-slug>.md` only if no numbered match is found.
+     `timestamp` and `uuid` are **reserved values** and currently behave like `slug`.
+     Treat any unknown value as `slug`.
    - `rules.base` plus any named `rules.<area>` entries
 2. Parse arguments:
    - --list → list available plans only (no implementation; STOP)
@@ -72,7 +79,10 @@ If `$ARGUMENTS` contains `--list`, run read-only plan discovery and stop.
    git branch --show-current (git mode only)
 2. Convert branch to filename: replace "/" with "-", add ".md" (git mode only)
 3. Check existence of:
-   - <configured plans dir>/<branch-name>.md (git mode only)
+   - <configured plans dir>/<branch-name>.md (git mode only, default `plan_id_format`)
+   - when `workflow.plan_id_format = sequential`: also glob
+     `<configured plans dir>/[0-9][0-9][0-9][0-9]_<branch-name-without-.md>.md`;
+     report all matches (highest-numbered first)
    - if git mode is off or branch creation is disabled: any `*.md` full-mode plan in `<configured plans dir>/`
    - <resolved fast plan path>
    - <resolved fix plan path>
@@ -128,7 +138,8 @@ Small, focused descriptions (e.g. "add GET /healthz returning 200 with {status:\
 
 Inline mode ignores plan files by design. If any of these exist on disk, emit a `WARN [inline]` line so the user notices the intentional skip (do NOT read them, do NOT redirect):
 
-- `<configured plans dir>/<branch>.md` (git mode only)
+- `<configured plans dir>/<branch>.md` (git mode only) — or
+  `<configured plans dir>/[0-9]{4}_<branch>.md` when `workflow.plan_id_format = sequential`
 - resolved fast plan path (`paths.plan`)
 - resolved fix plan path (`paths.fix_plan`)
 
@@ -424,9 +435,17 @@ Then continue with normal execution using the selected plan file.
 ```
 1. Check current git branch:
    git branch --show-current
-   → Convert branch name to filename: replace "/" with "-", add ".md"
-   → Look for <configured plans dir>/<branch-name>.md
-2. If git mode is off or branch-based plan is missing:
+   → Convert branch name to filename: replace "/" with "-" (this is <branch-slug>)
+   → Resolve full-mode plan filename in this order:
+     a. When `workflow.plan_id_format = sequential`, glob
+        `<configured plans dir>/[0-9][0-9][0-9][0-9]_<branch-slug>.md`.
+        - 0 matches → fall through to step (b).
+        - 1 match → use it.
+        - >1 matches → use the **highest-numbered** match and emit
+          `WARN [aif-implement] multiple sequential plans for <branch>: <list>; using <chosen>`.
+     b. `<configured plans dir>/<branch-slug>.md` (default behavior, also used as
+        the fallback when sequential glob returned 0 matches).
+2. If git mode is off or no branch-based plan is found above:
    - Check whether the configured plans dir contains exactly one `*.md` plan file created by `/aif-plan full` without a branch
    - If exactly one exists → use it
    - If multiple exist → ask the user to choose or use `@<path>`
@@ -443,12 +462,15 @@ Then continue with normal execution using the selected plan file.
 4. `paths.plan` (from `/aif-plan fast`) - fallback when no full plan exists
 5. `paths.fix_plan` - redirect to `/aif-fix` (from `/aif-fix` plan mode)
 
+**Note:** Plan discovery scans `paths.plans/` only. Plans archived to `paths.archive/plans/` by `/aif-archive` are excluded from discovery.
+
 **Read the plan file** to understand:
 
 - Context and settings (testing, logging preferences)
 - Commit checkpoints (when to commit)
 - Task dependencies
 - Task checklist format (`- [ ]` / `- [x]`) to keep progress synced
+- Research linkage: if the plan contains `## Research Context`, a `Source:` / `Reference:` line pointing to `RESEARCH.md`, or any path/link to the resolved `paths.research` artifact, treat the Research Context embedded in the plan as the committed requirements snapshot. Read the resolved research artifact before executing tasks only to verify the committed revision marker (`Updated:` and/or `SHA256:` in the plan source line) and to consult `## Sessions` for rationale when needed. If the source line lacks a revision marker or the current `Active Summary` revision differs, emit `WARN [research-drift]` and continue using the plan's embedded Research Context as scope; do not apply requirements from the newer Active Summary unless the user explicitly asks to rebase/refine the plan. A linked plan without `Updated:` or `SHA256:` is a legacy unverified research link, not proof that the current `RESEARCH.md` is still authoritative. Skipping this drift check is a bug.
 
 **Immediately after reading the plan file, check the first line for `<!-- handoff:task:<uuid> -->`:**
 
@@ -877,7 +899,7 @@ Continues from next incomplete task.
 /aif-implement --list
 ```
 
-Lists the resolved fast plan path, resolved fix plan path, and current-branch `<configured plans dir>/<branch>.md` (if present), then exits without implementation.
+Lists the resolved fast plan path, resolved fix plan path, and current-branch `<configured plans dir>/<branch>.md` (or `<configured plans dir>/<NNNN>_<branch>.md` when `workflow.plan_id_format = sequential`), then exits without implementation.
 
 ### Use Explicit Plan File
 

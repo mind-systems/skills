@@ -107,13 +107,27 @@ paths:
   rules: .ai-factory/rules/
 
   # QA artifacts root directory
-  # /aif-qa stores change-summary, test-plan, and test-cases here,
-  # using a deterministic, filesystem-safe derived branch slug as a
-  # subdirectory: <qa>/<branch-slug>/
-  # The slug uses a short hash suffix for collision resistance (see
-  # skills/aif-qa/SKILL.md for the exact algorithm).
+  # /aif-qa stores change-summary, test-plan, and test-cases here.
+  # /aif-qa-check stores qa-check.md here and binds execution results to
+  # the tested revision/build identifier plus deterministic test-cases
+  # digests.
+  # Both commands use the same deterministic, filesystem-safe derived
+  # branch slug as a subdirectory: <qa>/<branch-slug>/
+  # The slug uses mandatory 40-character safe-slug truncation plus a short
+  # hash suffix for collision resistance (see skills/aif-qa/SKILL.md for
+  # the exact algorithm).
   # Default: .ai-factory/qa/
   qa: .ai-factory/qa/
+
+  # Archive directory for completed plans and roadmap snapshots.
+  # /aif-archive moves finished plans here (retaining original filenames,
+  # including any sequential NNNN_ prefix). Subdirectories:
+  #   archive/plans/   — archived plan files
+  #   archive/roadmap/ — dated roadmap snapshots
+  # Referenced by /aif-archive (owner), /aif-plan, /aif-implement,
+  # /aif-verify, /aif-improve.
+  # Default: .ai-factory/archive/
+  archive: .ai-factory/archive/
 
 # =============================================================================
 # Workflow Settings
@@ -126,8 +140,34 @@ workflow:
   auto_create_dirs: true
 
   # Plan ID format for new plans
-  # Options: slug, timestamp, uuid
+  # Options: slug, sequential   (timestamp and uuid are reserved — see below)
   # Default: slug (derived from branch or task description)
+  #
+  # Only `slug` and `sequential` are active right now. `timestamp` and `uuid`
+  # are accepted by `/aif-plan` but currently behave like `slug` (an INFO log
+  # is emitted). They are reserved for a future filename format that the
+  # branch-based consumers (`/aif-implement`, `/aif-improve`, `/aif-verify`,
+  # `/aif-rules-check`) will know how to discover.
+  #
+  # `sequential` writes full-mode plan files as `<NNNN>_<stem>.md` under
+  # `paths.plans/`, where:
+  #   - `stem` is the canonical filename stem chosen by `/aif-plan`:
+  #       1. `HANDOFF_BRANCH_NAME` with `/` replaced by `-`  (Handoff mode)
+  #       2. the generated git branch name with `/` replaced by `-`
+  #       3. the description slug (when no branch is created)
+  #     Branch-based consumers reproduce the same stem at lookup time.
+  #   - NNNN = max(existing 4-digit prefix) + 1, zero-padded to 4 digits;
+  #     an empty plans directory starts from `0001`.
+  # Numbering is derived from currently existing numbered plans in the
+  # directory — if the highest-numbered file is deleted or moved elsewhere,
+  # that number can be reused on the next run; keep plans in place if you
+  # rely on stable cross-references. The format is bounded: 0001..9999.
+  # `/aif-plan` errors out instead of writing `10000_…` so consumer globs
+  # stay aligned. Branch names stay un-numbered (the prefix lives only on the
+  # file). Force-disabled when Handoff owns the branch
+  # (HANDOFF_BRANCH_PREPARED=1) — Handoff requires the plan filename to equal
+  # the branch name. Fast plans (`paths.plan`) and fix plans
+  # (`paths.fix_plan`) are single files and ignore this setting.
   plan_id_format: slug
 
   # Whether the setup/analyze flow updates ARCHITECTURE.md
