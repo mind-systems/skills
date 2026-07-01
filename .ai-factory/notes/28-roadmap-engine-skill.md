@@ -3,6 +3,8 @@
 **Date:** 2026-06-30
 **Source:** conversation context
 
+> **⚠️ Superseded by note 30.** This note frames the engine as a render *procedure* / *layer* that callers "hand a task to" — that framing is wrong and caused milestone 18 to loop 3× at review. The engine is the shared **explanation of the roadmap artifacts** (format + rules), applied contextually by the one agent — **not** a procedure/API/modes. Note 30 is authoritative for the corrected extraction; follow it, not the procedure framing below.
+
 ## Key Findings
 
 - New skill `roadmap-engine` — the shared **output/render layer** for the roadmap family. It owns the *form of external artifacts*, not any decomposition philosophy.

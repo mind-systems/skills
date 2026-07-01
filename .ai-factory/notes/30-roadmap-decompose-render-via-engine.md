@@ -1,46 +1,46 @@
-# roadmap-decompose: render via roadmap-engine
+# roadmap-decompose: extract roadmap-engine (artifact format) from the philosophy
 
 **Date:** 2026-06-30
 **Source:** conversation context
 
 ## Key Findings
 
-- Once `roadmap-engine` exists (note 28), refactor `roadmap-decompose` to **call the engine for all output**, removing the duplicated render machinery.
-- Keep decompose's philosophy intact: the **Atomicity Gate** (Step 1.3.1 / 2.4.1, gate question verbatim), target/mode determination, codebase exploration, `AskUserQuestion` flow.
-- Remove from decompose: the "Two-Tier Output (per task)" rendering steps (ensure-aif-note + write note + write contract line) and the entire "Roadmap File Format" section — these now live in `roadmap-engine`.
+- The current `roadmap-engine` was built as a rigid **render procedure** with an input contract (`{task, spec, target}` → write a fresh contract line + save). That framing is **wrong** — it invented phantom "append-only / no in-place / no insertion-point" limits that looped the decompose refactor 3× at review.
+- **The engine is not a procedure or an API.** Skills are reusable **instructions for one agent**, not executable programs — there is no separate process with a fixed function signature. The engine is simply the shared **explanation of the roadmap artifacts** (what a contract line looks like + its rules, the two-tier spec note via `aif-note`, the roadmap file structure). Knowing that format, the one agent writes / appends / edits the roadmap as each situation needs. No modes, no input contract, no save-ownership belong in the engine.
+- This is the **split of `roadmap-decompose` into two skills**: `roadmap-engine` (the artifact-format explanation) + `roadmap-decompose` (the philosophy remainder). It is done here as one task. After it, `roadmap-engine` ≈ decompose's original "Roadmap File Format" section, verbatim — they are the same text.
+- The engine already works today **inside** decompose (no problems observed). This task just **extracts** it cleanly and redoes the mis-built engine skill.
 
 ## Details
 
-### The seam
+### The task
 
-decompose's current "Two-Tier Output (per task)" is steps 1–5. After the refactor:
-- **Stays in decompose (philosophy):** step 1 (draft the full spec) and step 2 (apply the Atomicity Gate — split into two tasks and recurse if the gate passes).
-- **Moves to roadmap-engine (form):** steps 3–5 (ensure aif-note loaded once, write the note, write the contract line) + save.
+**1. Rewrite `src/skills/roadmap-engine/SKILL.md` as the artifact-format explanation — verbatim from decompose.**
+Its body is decompose's format content, moved as-is:
+- the **"Roadmap File Format"** section (the roadmap structure block + "Rules for writing a contract line");
+- the **two-tier note explanation** (each milestone = a contract line + a full spec note; the note is written following `aif-note`'s format, `aif-note` loaded once per chat; `<NN>` scanned so it never collides; the `Spec:` tag).
 
-New per-task flow: draft full spec → Atomicity Gate → hand `{name, full spec}` to `roadmap-engine` to render note + contract line + save.
+**Drop** the "Input Contract", the numbered "Per-Task Render Procedure", and the "What This Engine Does NOT Own" list. The engine explains the artifacts; it does not prescribe an append-vs-edit procedure, own the file save, or expose modes/parameters. After this, diffing `roadmap-engine` against decompose's removed format section should show the **same content**.
 
-### Concrete edits to `src/skills/roadmap-decompose/SKILL.md`
-
-- **Target file** — decompose keeps its Step 1 `$TARGET_FILE` determination (default `ROADMAP.md`; test context/keywords → `ROADMAP_TESTS.md`) and **passes the resolved file to `roadmap-engine`** on each render call. The engine does not infer it.
-- **Two-Tier Output section** — collapse steps 3–5 into: "Ensure `roadmap-engine` is loaded once in this chat (load-once, same rule decompose currently applies to aif-note), then hand the gated task to it to render." decompose no longer invokes `aif-note` directly — the engine does.
-- **Roadmap File Format section** — delete; the format is the engine's. Reference the engine instead of restating the contract-line rules / char budget / `Spec:` tag.
-- **Mode 1 Step 1.4, Mode 2 Steps 2.4 / 2.5** — where they currently call the Two-Tier Output procedure, they now call the engine per confirmed task.
-- **Frontmatter `allowed-tools`** — keep `Skill` (now used to load `roadmap-engine`); aif-note is reached transitively via the engine.
-- **Atomicity Gate (1.3.1 / 2.4.1)** — untouched, gate question wording unchanged.
-- **Critical Rules** — keep all; "Every task is two-tier" now reads "rendered two-tier via `roadmap-engine`".
+**2. Trim `src/skills/roadmap-decompose/SKILL.md` to the philosophy remainder.**
+- Keep **byte-identical**: the Atomicity Gate (Steps 1.3.1 / 2.4.1, gate wording), the modes (create / update / decompose-existing / check), Step 0 context loading, exploration, and every `AskUserQuestion` block.
+- **Remove** the "Roadmap File Format" section and the inline two-tier render detail (now the engine's).
+- Where decompose produces artifacts, it says: "load `roadmap-engine` once for the artifact format, then produce the two-tier artifacts per that format." The agent renders per each mode (create writes the file, add appends, decompose-existing edits in place) using the engine's format — **no** scaffold/append/content-return machinery, because there is no rigid engine procedure to work around.
+- Frontmatter/intro: the two-tier entry is "rendered per `roadmap-engine`'s format" instead of "written manually following aif-note's note format".
 
 ### Files
 
-- Edit `src/skills/roadmap-decompose/SKILL.md`.
-- `CLAUDE.md` already lists `roadmap-decompose` under "Custom skills — never overwrite from upstream" — no change needed.
+- Rewrite `src/skills/roadmap-engine/SKILL.md` (→ verbatim format extract).
+- Trim `src/skills/roadmap-decompose/SKILL.md` (→ philosophy remainder + reference to the engine).
 
-### Regression guard (static diff)
+### Verify
 
-After the edit, `git diff src/skills/roadmap-decompose/SKILL.md` must contain **only**: the removed "Two-Tier Output" render steps 3–5 + the removed "Roadmap File Format" section, and the added "load `roadmap-engine` once, hand the gated task to it" glue. The text moved into `roadmap-engine` must be **byte-identical** to what was removed here (diff the removed lines against the engine's copy). Any change to preserved text — the Atomicity Gate, modes, exploration, `AskUserQuestion` blocks — is a regression; revert it.
+- `roadmap-engine`'s body is decompose's original "Roadmap File Format" + two-tier note text — same content, not a rewrite.
+- decompose no longer restates the roadmap/contract-line format anywhere.
+- decompose's philosophy (Atomicity Gate wording, modes, exploration, `AskUserQuestion`) is unchanged.
 
 ### What NOT to do
 
-- **Preserve verbatim, do not paraphrase.** The Atomicity Gate (1.3.1 / 2.4.1, gate wording), the modes, exploration, and `AskUserQuestion` blocks stay **byte-identical**. The text moved to the engine (the "Roadmap File Format" section + "Two-Tier Output" steps 3–5) is **copied verbatim** into `roadmap-engine`, not rewritten. The only new prose is the thin "load engine once, hand task to it" glue. A refactor here is a move, not a rewrite.
-- Do not move the Atomicity Gate or the gate question into the engine — it is decompose's philosophy.
-- Do not change the gate wording or restructure the modes.
-- Do not leave a second copy of the roadmap format in decompose — the engine is the single source of truth.
+- Do **not** give the engine an input contract, a per-task render procedure, or modes — it is a format explanation, applied contextually by the agent.
+- Do **not** add scaffold-then-append, append-only, content-return, or insertion-point machinery anywhere — that was the phantom problem this task removes.
+- Do **not** change decompose's philosophy text (Atomicity Gate, modes, exploration, `AskUserQuestion`).
+- The other two philosophy skills (`aif-roadmap`, `roadmap-decompose-skeleton`) follow this same shape and reference the engine's format — do not touch them in this task.

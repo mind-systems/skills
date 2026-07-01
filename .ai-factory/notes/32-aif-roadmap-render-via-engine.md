@@ -12,11 +12,11 @@
 
 ### The change
 
-aif-roadmap currently writes its own milestone lines (`- [ ] **Name** — short description`) with no spec note. After the refactor, each confirmed milestone is handed to `roadmap-engine`, which renders it as a contract line + a spec note at **coarse** (strategic) granularity.
+aif-roadmap currently writes its own milestone lines (`- [ ] **Name** — short description`) with no spec note. After the refactor, each confirmed milestone becomes a two-tier artifact — a contract line + a spec note **per `roadmap-engine`'s format** — at **coarse** (strategic) granularity.
 
 ### Concrete edits to `src/skills/aif-roadmap/SKILL.md`
 
-- **Step 1.3 (Generate ROADMAP.md)** and **Step 2.4 (Add New Milestones)** — replace the inline "short description" rendering with: "Ensure `roadmap-engine` is loaded once in this chat, then hand each confirmed milestone to it to render note + contract line + save."
+- **Step 1.3 (Generate ROADMAP.md)** and **Step 2.4 (Add New Milestones)** — replace the inline "short description" rendering with: "Load `roadmap-engine` once for the artifact format, then produce each confirmed milestone as a two-tier artifact (contract line + spec note) per that format."
 - **"ROADMAP.md Format" section** — delete the local short-description format; the format is the engine's.
 - **Keep:** modes (create/update/check), Step 0 context loading, Step 1.2 exploration, all `AskUserQuestion` blocks, and Critical Rule 1 ("Milestones are high-level — each a major feature/capability, not a task"), which is the granularity philosophy.
 - **Frontmatter `allowed-tools`** — add `Skill` (to load `roadmap-engine`).
@@ -28,7 +28,7 @@ aif-roadmap currently writes its own milestone lines (`- [ ] **Name** — short 
 
 ### Regression guard (static diff)
 
-After the edit, `git diff src/skills/aif-roadmap/SKILL.md` must contain **only**: the removed inline render (Step 1.3 / Step 2.4 short-description output + the "ROADMAP.md Format" section) and the added "load `roadmap-engine` once, hand each milestone to it" glue. Any change to the preserved granularity philosophy — Critical Rule 1, the 5–15-milestones rules, modes, exploration, `AskUserQuestion` blocks — is a regression; revert it.
+After the edit, `git diff src/skills/aif-roadmap/SKILL.md` must contain **only**: the removed inline render (Step 1.3 / Step 2.4 short-description output + the "ROADMAP.md Format" section) and the added "load `roadmap-engine` once, produce two-tier per its format" glue. Any change to the preserved granularity philosophy — Critical Rule 1, the 5–15-milestones rules, modes, exploration, `AskUserQuestion` blocks — is a regression; revert it.
 
 ### What NOT to do
 

@@ -1,33 +1,42 @@
-# roadmap-test-coverage: source silent-failure rule from test-engine
+# test-philosophy: rename from test-engine + separate philosophy from algorithm
 
 **Date:** 2026-06-30
 **Source:** conversation context
 
 ## Key Findings
 
-- Once `test-engine` exists (note 29), refactor `roadmap-test-coverage` to **load test-engine for the silent-failure discriminator** instead of inlining it.
-- Surgical change — only the two places that state the rule: Layer 3 (the Silent-Failure Filter) and Layer 7 (the Class A / Class B classification). The 8-layer pipeline, the parallel agents, the area grouping, and the test-roadmap hand-off are unchanged.
+- `test-engine` is a **misnomer**. What was extracted from `roadmap-test-coverage` is a **philosophy** — "test only what fails silently, skip what fails loudly" — not an engine. Unlike the roadmap family (where `roadmap-decompose`'s artifact format is a genuine shared mechanism), the test family has **no shared algorithm-engine**: `roadmap-test-coverage`'s 8-layer pipeline is its own algorithm and is not shared. The "engine" analogy was forced.
+- Rename the skill `test-engine` → `test-philosophy`. Its consumers (`roadmap-test-coverage`, `roadmap-decompose-skeleton`) then load a **philosophy**, not an abstract engine.
+- This is a **separation of philosophy from algorithm, not a rewrite** — the same discipline the roadmap-engine mistake violated (that extraction turned into a rigid rewrite). Here: pull the philosophy out, keep the algorithm verbatim.
 
 ## Details
 
-### Concrete edits to `src/skills/roadmap-test-coverage/SKILL.md`
+### The rename
 
-- **Layer 3 — Silent-Failure Filter** — replace the inlined core question and the loud/silent table with: "Ensure `test-engine` is loaded once in this chat, then apply its silent-failure discriminator to each candidate area; drop loud-failure areas." Keep the existing "After silent-failure filter: N areas remain (dropped M)" output block and the `$RESEARCH_AREAS` store.
-- **Layer 7 — Existing Tests Run** — the Class A (API drift) / Class B (silent bug) definitions in the agent prompt reference test-engine's corollary rather than restating it. Keep the classification table, the Class A patch / Class B escalate actions, and the re-run gate.
-- **Load-once:** ensure `test-engine` is loaded once per chat (mirrors the family's load-once convention).
-- **Frontmatter `allowed-tools`** — add `Skill` if absent (needed to load test-engine).
+- `src/skills/test-engine/` → `src/skills/test-philosophy/` (directory + frontmatter `name: test-philosophy`). Rename also the H1 heading (`# Test Engine — …` → `# Test Philosophy — …`) and any "engine" wording in the body → "philosophy". The **rule content** is unchanged.
+- **Flip `user-invocable: false` → `true`.** `user-invocable: false` was justified for `roadmap-engine` — it is meaningless standalone (it only renders when a philosophy hands it a task). A **philosophy is usable standalone**: a user can invoke `/test-philosophy` to consult or apply the rule, so it must be user-invocable. Keep `disable-model-invocation: false` (consumers still load it via the Skill tool).
+- Update every reference: `CLAUDE.md` ("never overwrite" list + repo structure), `roadmap-decompose-skeleton` (its TDD lens loads it), and any ROADMAP mentions.
 
-### Files
+### Separate philosophy from algorithm in `roadmap-test-coverage`
 
-- Edit `src/skills/roadmap-test-coverage/SKILL.md`.
-- If `roadmap-test-coverage` is not already protected in `CLAUDE.md` Upstream Sync, add it to "Custom skills — never overwrite from upstream" (it is a local skill).
+Refactor `src/skills/roadmap-test-coverage/SKILL.md` to **load `test-philosophy`** for the silent-failure discriminator instead of inlining it — two sites only:
+- **Layer 3 (Silent-Failure Filter):** replace the inline core question + loud/silent table with "load `test-philosophy` once, apply its discriminator, drop loud-failure areas." Keep the `$RESEARCH_AREAS` output block.
+- **Layer 7:** the Class A (API drift) / Class B (silent bug) definitions reference `test-philosophy`'s corollary. Keep the table + patch/escalate actions.
 
-### Regression guard (static diff)
+Add `Skill` to `allowed-tools` if absent.
 
-After the edit, `git diff src/skills/roadmap-test-coverage/SKILL.md` must contain **only** the two swapped sites: Layer 3's inline question + table replaced by the load-`test-engine` call, and Layer 7's Class A/B referencing test-engine. The text moved into `test-engine` must be **byte-identical** to Layer 3's removed lines. Any change elsewhere — pipeline, agent prompts, test-roadmap hand-off — is a regression; revert it.
+### This is extraction, not a rewrite (the lesson)
+
+- `test-philosophy`'s content is **byte-identical** to test-engine's — only the name changes.
+- `roadmap-test-coverage`'s 8-layer pipeline, its parallel agents, area grouping, and test-roadmap hand-off stay **byte-identical**. Only the discriminator moves from inline → loaded.
+
+### Verify
+
+- `git diff` on `roadmap-test-coverage/SKILL.md` shows **only** the two discriminator sites swapped to a load — nothing else in the algorithm changes.
+- `test-philosophy` = the former test-engine content, renamed, not rewritten.
 
 ### What NOT to do
 
-- **Preserve verbatim, do not paraphrase.** Everything outside the two swapped sites stays **byte-identical**. The silent-failure question + table moved to `test-engine` is **copied verbatim** from Layer 3, not rewritten. A refactor here is a move, not a rewrite.
-- Do not change the pipeline, the agent prompts' research structure, or the test-roadmap hand-off.
-- Do not move any coverage/area logic into test-engine — only the silent-failure discriminator is shared.
+- Do not invent a "test engine" or any shared algorithm — the test family has none; there is only a shared philosophy.
+- Do not rewrite `roadmap-test-coverage`'s pipeline — extract the philosophy, keep the algorithm.
+- Do not change the philosophy content — the rename is name-only.
