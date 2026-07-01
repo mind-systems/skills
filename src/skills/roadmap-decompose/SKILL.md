@@ -133,7 +133,7 @@ Options:
 
 Apply changes if requested, then finalize:
 
-**After "Looks good — save it":** load `roadmap-engine` once for the artifact format, then produce the two-tier artifacts per that format for each confirmed milestone — write each confirmed milestone's spec note, then replace the `` Spec: `<note pending>`. `` placeholder with the real `` Spec: `.ai-factory/notes/<NN>-<slug>.md`. `` — then write the final `$TARGET_FILE`. Milestones removed or rewritten during options 2–4 receive no note; only the confirmed set gets notes.
+**After "Looks good — save it":** ensure `roadmap-engine` is loaded once this chat, then produce the two-tier artifacts per its format for each confirmed milestone — write each confirmed milestone's spec note, then replace the `` Spec: `<note pending>`. `` placeholder with the real `` Spec: `.ai-factory/notes/<NN>-<slug>.md`. `` — then write the final `$TARGET_FILE`. Milestones removed or rewritten during options 2–4 receive no note; only the confirmed set gets notes.
 
 ---
 
@@ -184,7 +184,7 @@ If confirmed:
 
 - Ask user to describe new tasks
 - Explore the codebase for each new task (relevant files, current state)
-- For each new task, load `roadmap-engine` once for the artifact format, then produce the two-tier artifacts per that format — write the spec note, then write the contract line with the `Spec:` tag
+- For each new task, ensure `roadmap-engine` is loaded once this chat, then produce the two-tier artifacts per its format — write the spec note, then write the contract line with the `Spec:` tag
 - Insert in logical order among existing milestones
 - Update `$TARGET_FILE`
 
@@ -205,7 +205,7 @@ If **no** → the task is atomic; produce the two-tier artifacts per the engine'
 - Ask user which to expand
 - Explore the codebase for the selected milestone
 - Draft a full spec for it (what exists today, the exact change, files/types/methods to touch, guards, how to verify)
-- Load `roadmap-engine` once for the artifact format, then produce the two-tier artifacts per that format, with the following note-handling rule:
+- Ensure `roadmap-engine` is loaded once this chat, then produce the two-tier artifacts per its format, with the following note-handling rule:
   - If the milestone already carries a `Spec:` tag, update the named note file in place with `Write`. The contract line's `Spec:` tag stays unchanged.
   - If the milestone has no `Spec:` tag (legacy inline spec), write a new note per the engine's format and add the `Spec:` tag. aif-note stays loaded once, not re-invoked here.
 - If the milestone bundles 2+ independent concerns, ask if user wants to split it (a split → two notes + two contract lines)

@@ -35,6 +35,12 @@ Add `Skill` to `allowed-tools` if absent.
 - `git diff` on `roadmap-test-coverage/SKILL.md` shows **only** the two discriminator sites swapped to a load — nothing else in the algorithm changes.
 - `test-philosophy` = the former test-engine content, renamed, not rewritten.
 
+### Refactor hygiene (pre-empt milestone 30's planning stumbles)
+
+This is a rename + extraction — the same kind of text-move that looped milestone 30 through 3 plan-review rounds. Bake the lessons in so this planner doesn't rediscover them one round at a time:
+- **Enumerate exhaustively, don't work from a partial list.** `grep -rn 'test-engine'` across `src/`, `CLAUDE.md`, and `.ai-factory/`, and handle **every** hit — milestone 30 kept surfacing a missed reference round-by-round (one was hidden inside an Atomicity-Gate block). Sites at minimum: skill dir + frontmatter `name` + H1 + body wording; `CLAUDE.md` (never-overwrite list + repo tree); `roadmap-decompose-skeleton`; all ROADMAP mentions.
+- **Byte-identical carve-out — state it explicitly.** `roadmap-test-coverage`'s 8-layer algorithm stays **verbatim EXCEPT** the two discriminator sites (Layer 3 filter, Layer 7 Class A/B) swapped to a `test-philosophy` load. Naming the carve-out prevents the "keep it verbatim" vs "edit these sites" contradiction that cost milestone 30 a round.
+
 ### What NOT to do
 
 - Do not invent a "test engine" or any shared algorithm — the test family has none; there is only a shared philosophy.

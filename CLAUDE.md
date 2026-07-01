@@ -27,6 +27,7 @@ skills/
 │   │   ├── aif-*/          #   other AI Factory lifecycle skills
 │   │   ├── detangle/       #   untangle complex diffs / branches
 │   │   ├── milestone-rescue/
+│   │   ├── roadmap-decompose-skeleton/ #   skeleton/TDD/concurrency decomposition lens
 │   │   ├── roadmap-engine/ #   two-tier artifact-output engine
 │   │   ├── roadmap-prune/
 │   │   ├── temporal-tree/
@@ -113,7 +114,7 @@ The plan → stop → implement-in-separate-session pattern is a hard constraint
 Upstream source: `https://github.com/lee-to/ai-factory` (skills live in `skills/` subdirectory).
 
 **Custom skills — never overwrite from upstream:**
-- `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-decompose`, `roadmap-engine`, `roadmap-prune`, `temporal-tree`, `ui-ux-pro-max`, `aif-note`, `aif-docs`, `test-engine`
+- `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `temporal-tree`, `ui-ux-pro-max`, `aif-note`, `aif-docs`, `test-engine`
 
 **`src/commands/` — ours, never synced from upstream:**
 - All slash commands under `src/commands/` are local to this repo and are never overwritten by upstream syncs.

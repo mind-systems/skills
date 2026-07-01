@@ -8,7 +8,7 @@ description: >-
   philosophy of its own. Load-once.
 user-invocable: false
 disable-model-invocation: false
-allowed-tools: Read Write Edit Glob Grep Skill
+allowed-tools: Read
 ---
 
 # Roadmap Engine — Shared Two-Tier Artifact Format
@@ -17,20 +17,17 @@ This is the shared explanation of the roadmap artifacts — the contract line, t
 note, and the roadmap file format — not any decomposition philosophy. The calling
 philosophy skill (currently `roadmap-decompose`) stays in control of what to build and
 when; this engine describes the artifact format the caller applies once a task is
-decided. Load this skill once per chat, at each seam where a caller needs the format.
+decided. **Load this skill once per chat** — once loaded, the format stays in context; never re-invoke it per task or per mode.
 
 ## The two-tier artifact
 
-Each milestone is a two-tier entry: a contract line in the roadmap and a full spec
-note.
+Each milestone is a two-tier entry: a contract line in the roadmap plus a full spec
+note at `.ai-factory/notes/<NN>-<slug>.md` (`<NN>` scanned against `.ai-factory/notes/`
+so it never collides; `<slug>` lowercase-hyphenated). The contract line ends with the
+exact tag `` Spec: `.ai-factory/notes/<NN>-<slug>.md`. ``
 
-The note is written following `aif-note`'s note format — if the `aif-note` skill has
-not yet been invoked in this chat, invoke it once (via the Skill tool) so its
-note-writing instructions are in context; it is never re-invoked per task. The note
-lives at `.ai-factory/notes/<NN>-<slug>.md`, where `<NN>` is determined by scanning
-existing files in `.ai-factory/notes/` so it never collides, and `<slug>` is the
-lowercase, hyphenated task name. The contract line ends with the exact tag
-`` Spec: `.ai-factory/notes/<NN>-<slug>.md`. ``
+The note follows `aif-note`'s format — **load `aif-note` once per chat** (via the Skill
+tool, only if not already loaded), never per task.
 
 **Why two tiers:** the contract line lets the user verify intent while fitting 3–4
 tasks on screen; the note holds the full implementation detail. The char budget below

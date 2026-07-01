@@ -24,7 +24,7 @@ roadmap-decompose-skeleton ─→ roadmap-engine ─→ aif-note
                            └─→ test-philosophy
 ```
 
-The skill determines the target, runs the three lenses to produce a sub-atomic task set (with ordering/fusion), then produces the two-tier artifact for each task **per `roadmap-engine`'s format** (load it once for the format). For the TDD lens, it loads `test-philosophy` and applies the silent-failure discriminator against the skeleton surface. It does **not** call `roadmap-decompose` at runtime — the atomic task list it operates on already exists.
+The skill determines the target, runs the three lenses to produce a sub-atomic task set (with ordering/fusion), then produces the two-tier artifact for each task **per `roadmap-engine`'s format** (per the load-once rule above; the engine owns the format + aif-note load-once — do not restate them here). For the TDD lens, it loads `test-philosophy` and applies the silent-failure discriminator against the skeleton surface. It does **not** call `roadmap-decompose` at runtime — the atomic task list it operates on already exists.
 
 All outputs — skeleton, TDD, and contract tasks — render into the **same roadmap the source tasks live in, the main `ROADMAP.md`**, passed to `roadmap-engine` as the target file. The TDD tasks belong to the impl chain (skeleton→TDD→impl), **not** the test roadmap (`ROADMAP_TESTS.md`) — even though they are test tasks. Target-file selection is the caller's; the engine never infers it.
 
