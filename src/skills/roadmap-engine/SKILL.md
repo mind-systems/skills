@@ -3,9 +3,7 @@ name: roadmap-engine
 description: >-
   Shared explanation of the canonical two-tier roadmap artifact format — a ~600-char
   contract line plus a full spec note written via note — applied by the calling
-  agent. Currently loaded by roadmap-decompose; retained as forward-looking
-  shared-format infra for the rest of the roadmap family. Holds no decomposition
-  philosophy of its own. Load-once.
+  agent. Caller-agnostic: holds no decomposition philosophy of its own. Load-once.
 user-invocable: false
 disable-model-invocation: false
 allowed-tools: Read
@@ -16,9 +14,10 @@ loads: note
 
 This is the shared explanation of the roadmap artifacts — the contract line, the spec
 note, and the roadmap file format — not any decomposition philosophy. The calling
-philosophy skill (currently `roadmap-decompose`) stays in control of what to build and
-when; this engine describes the artifact format the caller applies once a task is
-decided. **Load this skill once per chat** — once loaded, the format stays in context; never re-invoke it per task or per mode.
+philosophy skill stays in control of what to build and when; this engine describes the
+artifact format the caller applies once a task is decided. **Load this skill once per
+chat** — once loaded, the format stays in context; never re-invoke it per task or per
+mode.
 
 ## The two-tier artifact
 

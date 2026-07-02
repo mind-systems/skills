@@ -88,18 +88,7 @@ Scan the project to understand what's already built:
 
 **1.3: Generate draft roadmap**
 
-Draft the roadmap **in memory (do not write `$TARGET_FILE` yet)**. The format to build toward:
-
-```markdown
-# Project Roadmap
-
-> <project vision — one-liner from DESCRIPTION.md or user input>
-
-## Milestones
-
-- [ ] **Task Name** — <contract line: problem today + the change + key files/types/guards>. Spec: `<note pending>`.
-- [x] **Task Name** — <contract line>. Spec: `<note pending>`. (already done based on codebase analysis)
-```
+Draft the roadmap **in memory (do not write `$TARGET_FILE` yet)**, per `roadmap-engine`'s roadmap file format, using placeholder `` Spec: `<note pending>`. `` tags on the contract lines.
 
 **Rules for milestones:**
 - Each milestone is **one atomic task** — one file boundary, one concern, one reason to revert
