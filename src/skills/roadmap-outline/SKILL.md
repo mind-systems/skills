@@ -9,221 +9,56 @@ disable-model-invocation: true
 
 # Roadmap - Strategic Project Planning
 
-Create and maintain a high-level project roadmap with major milestones.
+Create and maintain a high-level project roadmap where every milestone is a strategic
+goal, rendered per `roadmap-engine`'s two-tier format.
 
-## Workflow
+Ensure `roadmap-engine` is loaded once this chat (via the Skill tool, only if not
+already loaded) and run its **Roadmap maintenance flow** with the hooks below.
 
-### Step 0: Load Project Context
+## Hooks for `roadmap-engine`'s flow
 
-**Read `.ai-factory/DESCRIPTION.md`** if it exists to understand:
-- Tech stack (language, framework, database, ORM)
-- Project architecture and conventions
-- Non-functional requirements
+### (a) Granularity
 
-**Read `.ai-factory/ARCHITECTURE.md`** if it exists to understand:
-- Chosen architecture pattern and folder structure
-- Module boundaries and communication patterns
+Each entry is a **high-level goal** — a capability the system gains, not a task
+(that's `/roadmap-decompose`). 5–15 milestones is the sweet spot: fewer means too
+vague, more means too granular. Milestones later serve as **phase names** for the
+decomposition pass. Order by logical sequence (dependencies first).
 
-### Step 1: Determine Mode
+Two parity carry-overs the engine's create flow does not itself hold:
+- On first run, mark already-completed milestones as `[x]`.
+- Create-mode gather-input question (fills the engine's
+  `AskUserQuestion: <caller phrases this…>` placeholder): *"What are the major goals
+  for this project?"*
 
-If argument is `check` → Mode 3: Check Progress (requires ROADMAP.md)
+Two-tier rendering at this tier: entries render per the engine's format (contract line
++ spec note) at strategic granularity; the vision line is sourced from
+`DESCRIPTION.md` or user input. The spec note is **optional at this tier** — when the
+contract line alone fully carries the milestone (often just a named capability), skip
+the note and end the entry with no `Spec:` tag rather than pointing at an invented
+one. Write a note only when there is real strategic content the line can't hold
+(constraints, ordering rationale, scope boundaries) — never pad a note to justify its
+existence; `roadmap-decompose` writes the real notes later.
 
-Otherwise check if `.ai-factory/ROADMAP.md` exists:
-- **Does NOT exist** → Mode 1: Create Roadmap
-- **Exists** → Mode 2: Update Roadmap
+### (b) Per-entry gate
 
----
+None. Outline supplies no per-entry gate hook — restraint at the strategic tier is the
+5–15 rule, not a split gate. Do not improvise an atomicity-style gate here; that is
+decompose's gate.
 
-### Mode 1: Create Roadmap (First Run)
+### (c) Target-file routing
 
-**1.1: Gather Input**
+Always `.ai-factory/ROADMAP.md` — trivial policy, no keyword/argument branching.
 
-If user provided arguments (vision/description):
-- Use as primary input for milestones
+### (d) Extra update-mode actions
 
-If no arguments:
-- Ask interactively:
-
-```
-AskUserQuestion: What are the major goals for this project?
-
-Options:
-1. Let me describe the vision
-2. Analyze codebase and suggest milestones
-3. Both — I'll describe, you'll add what's missing
-```
-
-If user chooses to describe → ask follow-up:
-
-```
-AskUserQuestion: Any priorities or deadlines?
-
-Options:
-1. Yes, let me specify
-2. No, just order by logical sequence
-3. Skip — I'll reprioritize later
-```
-
-**1.2: Explore Codebase**
-
-Scan the project to understand what's already built:
-- `Glob` for project structure (key directories, modules)
-- `Grep` for implemented features (routes, models, services)
-- Check git log for completed work: `git log --oneline -20`
-
-**1.3: Generate ROADMAP.md**
-
-Draft the roadmap **in memory (do not write `.ai-factory/ROADMAP.md` yet)**. Ensure `roadmap-engine` is loaded once this chat (via the `Skill` tool; don't re-invoke if already loaded), then produce each milestone as a two-tier artifact — a contract line plus a spec note — per its format, at coarse (strategic) granularity. The roadmap vision line is sourced from `DESCRIPTION.md` or user input (per Step 0). Draft each milestone's contract line with a placeholder `` Spec: `<note pending>`. `` — do not write the notes yet; notes are written after confirmation in Step 1.4.
-
-**Rules for milestones:**
-- Each milestone is a **high-level goal**, not a granular task (that's `/roadmap-decompose`)
-- 5-15 milestones is the sweet spot — fewer means too vague, more means too granular
-- Order by logical sequence (dependencies first)
-- Mark already-completed milestones as `[x]`
-
-**1.4: Confirm with user**
-
-Show the generated roadmap and ask:
-
-```
-AskUserQuestion: Here's the proposed roadmap. What would you like to do?
-
-Options:
-1. Looks good — save it
-2. Add more milestones
-3. Remove/modify some milestones
-4. Rewrite — let me give better input
-```
-
-Apply changes if requested, then finalize: **after "Looks good — save it"** — write each confirmed milestone's spec note, then replace the `` Spec: `<note pending>`. `` placeholder with the real `` Spec: `.ai-factory/notes/<NN>-<slug>.md`. `` tag, then save to `.ai-factory/ROADMAP.md`. Milestones removed or rewritten during options 2–4 receive no note; only the confirmed set gets notes.
-
----
-
-### Mode 2: Update Roadmap (Subsequent Run)
-
-**2.1: Read Current State**
-
-- Read `.ai-factory/ROADMAP.md`
-- Read `.ai-factory/DESCRIPTION.md` for context
-- Explore codebase briefly to check what's changed since last update
-
-**2.2: Determine Action**
-
-If user provided arguments (new milestones/changes):
-- Apply the requested changes directly
-
-If no arguments:
-- Analyze current state and present options:
-
-```
-AskUserQuestion: What would you like to do with the roadmap?
-
-Options:
-1. Review progress — check what's done, mark completed milestones
-2. Add new milestones
-3. Reprioritize — reorder existing milestones
-4. Rewrite — major revision of the roadmap
-```
-
-**2.3: Review Progress (if chosen)**
-
-- Scan codebase for evidence of completed milestones
-- For each unchecked milestone, check if the work appears done
-- Propose marking completed milestones:
-
-```
-These milestones appear to be done:
-- **Milestone Name** — [evidence: files exist, routes implemented, etc.]
-
-Mark them as completed?
-```
-
-If confirmed:
-- Change `- [ ]` to `- [x]` in the Milestones section
-
-**2.4: Add New Milestones (if chosen)**
-
-- Ask user to describe new milestones
-- Ensure `roadmap-engine` is loaded once this chat, then produce each new milestone as a two-tier artifact (contract line + spec note) per its format
-- Insert them in logical order among existing milestones
-- Update `.ai-factory/ROADMAP.md`
-
-**2.5: Reprioritize (if chosen)**
-
-- Show current order
-- Ask user for new order or let them describe priority changes
-- Reorder milestones in `.ai-factory/ROADMAP.md`
-
-**2.6: Save Changes**
-
-Update `.ai-factory/ROADMAP.md` with all modifications.
-
-Show summary:
-```
-## Roadmap Updated
-
-Total milestones: N
-Completed: X/N
-Next up: **Milestone Name**
-```
-
----
-
-### Mode 3: Check Progress (`/roadmap-outline check`)
-
-Automated scan — analyze the codebase and mark completed milestones without interactive questions.
-
-**Requires** `.ai-factory/ROADMAP.md` to exist. If it doesn't — tell the user to run `/roadmap-outline` first.
-
-**3.1: Read roadmap and project context**
-
-- Read `.ai-factory/ROADMAP.md`
-- Read `.ai-factory/DESCRIPTION.md` for tech stack context
-
-**3.2: Analyze each unchecked milestone**
-
-For every `- [ ]` milestone:
-- Determine what evidence would prove it's done (files, routes, models, configs, tests)
-- Use `Glob` and `Grep` to search for that evidence
-- Check `git log --oneline --all -30` for related commits
-- Score: **done** (strong evidence), **partial** (some work started), **not started**
-
-**3.3: Report findings**
-
-```
-## Roadmap Progress Check
-
-✅ Done (ready to mark):
-- **User Authentication** — found: src/auth/, JWT middleware, login/register routes
-- **Database Setup** — found: migrations/, models/, seed scripts
-
-🔨 In Progress:
-- **Payment Integration** — found: src/payments/ exists but Stripe webhook handler missing
-
-⏳ Not Started:
-- **Admin Dashboard**
-- **Email Notifications**
-
-Mark completed milestones? (2 milestones)
-```
-
-**3.4: Apply changes (if confirmed)**
-
-- Mark done milestones `[x]`
-- Leave partial and not-started milestones unchanged
-
-Show updated summary:
-```
-Completed: X/N milestones
-Next up: **Milestone Name**
-```
-
----
+None beyond the engine's built-in menu (review progress / add / reprioritize /
+rewrite). Outline registers no added action.
 
 ## Critical Rules
 
-1. **Milestones are high-level** — each represents a major feature or capability, not a task
-2. **ROADMAP.md is the source of truth** — always read before modifying
-3. **Never remove milestones silently** — always confirm with user before removing
-4. **Completed milestones stay as `[x]` in the list** — `roadmap-prune` moves them to ARCHITECTURE.md
-5. **NO implementation** — this skill only plans; implementation is the orchestrator's job (a separate run)
+1. **Milestones are high-level** — granular tasks belong to `/roadmap-decompose`.
+2. **Every milestone renders two-tier per `roadmap-engine`'s format** — but the spec
+   note is optional at this tier (per hook a); never invent note content to fill a
+   `Spec:` tag.
+3. **NO implementation** — this skill only plans; the orchestrator implements in a
+   separate run.
