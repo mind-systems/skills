@@ -3,10 +3,10 @@ name: roadmap-test-coverage
 description: >-
   Orchestrates full test coverage planning for a project. Reads the roadmap,
   scans existing specs, filters areas by silent-failure risk, runs parallel
-  deep-research agents per area, reviews testability, emits refactor tasks,
-  runs existing tests and classifies failures (API drift vs silent bug), then
-  hands off to /roadmap-decompose. Use when you want a complete test plan from
-  a roadmap with no prior test strategy.
+  deep-research agents per area, reviews testability, collects refactor
+  findings, runs existing tests and classifies failures (API drift vs silent
+  bug), then hands off to /roadmap-decompose. Use when you want a complete
+  test plan from a roadmap with no prior test strategy.
 argument-hint: "[roadmap-file]"
 disable-model-invocation: true
 user-invocable: true
@@ -188,17 +188,19 @@ Collect all verdicts. Do not read source files back into orchestrator context.
 
 ---
 
-## Layer 6 — Refactor Emit
+## Layer 6 — Refactor Collect
 
 For each `needs-refactor` verdict from Layer 5:
 
-1. Add a task to `$ROADMAP_PATH` under a `## Test Infra` phase (create the
-   phase if absent). Task text = the refactor description from the verdict.
+1. Append an entry to `$HANDOFF_LIST` (in-memory, carried through to
+   Layer 8): area name + one-sentence refactor description (from the
+   verdict) + pointer to its Layer-4 note path
+   (`.ai-factory/notes/<NN>-<slug>.md`).
 2. Open the corresponding Layer 4 note and append a `## Refactor Required`
    section: what to refactor, and what the post-refactor API will look like
    so the test implementer knows what to expect.
 
-Log what was added. No user confirmation needed — emit and continue.
+Log what was collected. No user confirmation needed — collect and continue.
 
 ---
 
@@ -254,8 +256,13 @@ Present the classification table to the user.
 **For each Class A failure:** patch the failing test to match the current
 source API. Keep assertions intact — only update the call signature.
 
-**For each Class B failure:** add a task to `$ROADMAP_PATH` under a `## Bugs`
-phase. Task text = area name + reason from the table. Do NOT touch the test.
+**For each Class B failure:** append an entry to `$HANDOFF_LIST` — area name +
+reason from the classification table + the **source file** path (the
+classification table's `Source file` column). The source file matters as a
+fallback pointer: a Class B failure can belong to an area that never got a
+Layer-4 note — Layer 7 runs the whole suite, so a failing test may sit in a
+"Full coverage" area dropped in Layer 2, or a loud-failure area dropped in
+Layer 3 — and those items have no note path. Do NOT touch the test.
 
 Re-run `$TEST_CMD`. All tests must be green before Layer 8.
 
@@ -272,12 +279,35 @@ Notes written: N
   - .ai-factory/notes/<NN>-<slug>.md  (<area name>)
   - ...
 
-Refactor tasks added to roadmap: M
+Refactor items handed off: M
 Existing tests patched (API drift): K
-Silent bugs escalated to roadmap: J
+Class B items handed off: J
 
 Next step: /roadmap-decompose
 ```
+
+Then print `$HANDOFF_LIST` as concrete one-line task descriptions ready to
+paste into `/roadmap-decompose`:
+
+```
+Handoff — paste into /roadmap-decompose:
+
+Refactor:
+  - <area name>: <refactor description>  (.ai-factory/notes/<NN>-<slug>.md)
+  - ...
+
+Bugs (Class B — silent failures):
+  - <area name>: <reason>  (.ai-factory/notes/<NN>-<slug>.md)
+  - <area name>: <reason>  (<source file> — area not researched)
+  - ...
+```
+
+Per-item pointer: attach the Layer-4 note path when the item's area was
+researched — always true for refactor items, and true for Class B items
+whose failing test belongs to a researched area. Otherwise — for Class B
+items from an area that was never researched (dropped in Layer 2 or 3) —
+print the source file path captured in Layer 7. Every handoff line resolves
+to a pointer; none are left blank.
 
 Do not run `/roadmap-decompose` automatically.
 
@@ -285,7 +315,11 @@ Do not run `/roadmap-decompose` automatically.
 
 ## Critical Rules
 
-1. **Never write test files** — research and planning only
+1. **Never write new test files** — research and planning only. The one
+   allowed exception: Layer 7 patching an existing Class-A (API-drift)
+   failure — a test broken because the source API changed, not by an
+   implementation bug. Keep assertions intact — only update the call
+   signature.
 2. **Never write ROADMAP_TESTS.md** — that is `/roadmap-decompose`'s job
 3. **Layer 4 and 5 agents return one line** — never read note contents back
    into the orchestrator context
