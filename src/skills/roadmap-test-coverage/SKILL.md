@@ -25,15 +25,13 @@ summaries back to the orchestrator.
 ## Layer 1 — Load Project Context
 
 Read in order (skip if absent):
-- `.ai-factory/DESCRIPTION.md` — tech stack, test runner, conventions
 - `.ai-factory/ARCHITECTURE.md` — module boundaries, folder structure
 - `ROADMAP.md` (or `$ARGUMENTS` if provided) — all milestones
 
 Store: `$STACK` (e.g. "NestJS/Jest"), `$TEST_CMD` (e.g. `npm test`),
 `$ROADMAP_PATH`.
 
-If no DESCRIPTION.md, infer stack from `package.json` / `pubspec.yaml` /
-`go.mod` / `Cargo.toml`.
+Infer stack from `package.json` / `pubspec.yaml` / `go.mod` / `Cargo.toml`.
 
 ---
 

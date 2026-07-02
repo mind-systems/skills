@@ -81,11 +81,6 @@ it stays in context once loaded; never re-invoke it per entry or per mode.
 
 ### Step 0 — Project context
 
-**Read `.ai-factory/DESCRIPTION.md`** if it exists to understand:
-- Tech stack (language, framework, database, ORM)
-- Project architecture and conventions
-- Non-functional requirements
-
 **Read `.ai-factory/ARCHITECTURE.md`** if it exists to understand:
 - Chosen architecture pattern and folder structure
 - Module boundaries and communication patterns
@@ -155,8 +150,8 @@ note — only the confirmed set gets notes.
 
 ### Update mode (subsequent run)
 
-**Read current state:** `$TARGET_FILE`, `.ai-factory/DESCRIPTION.md` for context,
-and a brief codebase check for what's changed since the last update.
+**Read current state:** `$TARGET_FILE` and a brief codebase check for what's
+changed since the last update.
 
 **Determine the action:** if the argument carries the requested changes, apply them
 directly. Otherwise present the action menu — the caller may register additional

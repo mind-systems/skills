@@ -33,10 +33,6 @@ language:
 # All paths are relative to project root.
 
 paths:
-  # Project description file
-  # Default: .ai-factory/DESCRIPTION.md
-  description: .ai-factory/DESCRIPTION.md
-
   # Architecture guidelines file
   # Default: .ai-factory/ARCHITECTURE.md
   architecture: .ai-factory/ARCHITECTURE.md

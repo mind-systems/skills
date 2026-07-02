@@ -21,7 +21,7 @@ The entire argument is the description. There is no `fast`/`full`/`--parallel`/
 ```text
 /aif-plan Add product search API
 
--> Step 0:   reads DESCRIPTION.md / ARCHITECTURE.md for context
+-> Step 0:   reads ARCHITECTURE.md for context
 -> Step 1:   1-2 Explore agents map the relevant area
 -> Step 1.2: asks preferences — tests? logging level? docs? constraints?
              (user: no tests, minimal logging, no docs)

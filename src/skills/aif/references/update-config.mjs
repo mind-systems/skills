@@ -6,7 +6,6 @@ import path from 'path';
 const SECTION_KEYS = {
   language: ['ui', 'artifacts', 'technical_terms'],
   paths: [
-    'description',
     'architecture',
     'docs',
     'roadmap',

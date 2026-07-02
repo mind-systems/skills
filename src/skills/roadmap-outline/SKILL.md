@@ -31,8 +31,8 @@ Two parity carry-overs the engine's create flow does not itself hold:
   for this project?"*
 
 Two-tier rendering at this tier: entries render per the engine's format (contract line
-+ spec note) at strategic granularity; the vision line is sourced from
-`DESCRIPTION.md` or user input. The spec note is **optional at this tier** — when the
++ spec note) at strategic granularity; the vision line is sourced from user input.
+The spec note is **optional at this tier** — when the
 contract line alone fully carries the milestone (often just a named capability), skip
 the note and end the entry with no `Spec:` tag rather than pointing at an invented
 one. Write a note only when there is real strategic content the line can't hold

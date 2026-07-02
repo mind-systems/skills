@@ -13,13 +13,7 @@ Creates a named plan file with full codebase exploration and preference question
 
 ### Step 0: Load Project Context
 
-**FIRST:** Read `.ai-factory/DESCRIPTION.md` if it exists to understand:
-- Tech stack (language, framework, database, ORM)
-- Project architecture
-- Coding conventions
-- Non-functional requirements
-
-**ALSO:** Read `.ai-factory/ARCHITECTURE.md` if it exists to understand:
+**FIRST:** Read `.ai-factory/ARCHITECTURE.md` if it exists to understand:
 - Chosen architecture pattern
 - Folder structure conventions
 - Layer/module boundaries
@@ -44,7 +38,7 @@ Task(subagent_type: Explore, model: sonnet, prompt:
    Thoroughness: quick. Be concise — return a structured summary, not file contents.")
 ```
 
-Skip if `.ai-factory/DESCRIPTION.md` already provides sufficient context.
+Skip if existing project context is already sufficient.
 
 ### Step 1.2: Ask Preferences
 

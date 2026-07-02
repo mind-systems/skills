@@ -28,21 +28,15 @@ Generate, maintain, and improve project documentation following a landing-page R
 ### Step 0: Load Config & Project Context
 
 **FIRST:** Read `.ai-factory/config.yaml` if it exists to resolve:
-- **Paths:** `paths.description`, `paths.architecture`, and `paths.docs`
+- **Paths:** `paths.architecture` and `paths.docs`
 - **Language:** `language.ui` for prompts and `language.artifacts` for generated docs
 
 If config.yaml doesn't exist, use defaults:
-- DESCRIPTION.md: `.ai-factory/DESCRIPTION.md`
 - ARCHITECTURE.md: `.ai-factory/ARCHITECTURE.md`
 - Docs directory: `docs/`
 - Language: `en` (English)
 
 **Note:** `README.md` remains the landing page in the project root. Detailed docs are written to the resolved `paths.docs` directory (default: `docs/`).
-
-**THEN:** Read `.ai-factory/DESCRIPTION.md` (use path from config) if it exists to understand:
-- Tech stack (language, framework, database)
-- Project purpose and architecture
-- Key features and conventions
 
 **Also read `.ai-factory/ARCHITECTURE.md`** (use path from config) if it exists to align documentation with the project's structure and boundaries.
 
@@ -472,8 +466,8 @@ Suggest the user to free up context space if needed: `/clear` (full reset) or `/
 ## Artifact Ownership
 
 - Primary ownership: `README.md`, `<resolved docs dir>/*`, the Documentation section in `AGENTS.md`, and the `## Documentation` section in `CLAUDE.md`.
-- Config use: `config.yaml` resolves `paths.description`, `paths.architecture`, `paths.docs`, `language.ui`, and `language.artifacts`.
-- Read-only context: `.ai-factory/DESCRIPTION.md`, `.ai-factory/ARCHITECTURE.md`, roadmap/rules/research artifacts unless the user explicitly asks for broader edits.
+- Config use: `config.yaml` resolves `paths.architecture`, `paths.docs`, `language.ui`, and `language.artifacts`.
+- Read-only context: `.ai-factory/ARCHITECTURE.md`, roadmap/rules/research artifacts unless the user explicitly asks for broader edits.
 
 ## Important Rules
 

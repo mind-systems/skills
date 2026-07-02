@@ -27,10 +27,6 @@ The same three roles repeat recursively at every zoom level.
 
 ## Before you start — load project context
 
-If `.ai-factory/DESCRIPTION.md` exists — read it. It tells you the tech stack, module
-boundaries, and architectural constraints. This is pre-documented knowledge; don't
-re-derive from code what's already written down.
-
 If `.ai-factory/ARCHITECTURE.md` exists — read it. It describes module communication
 patterns and where boundaries are intentionally drawn.
 

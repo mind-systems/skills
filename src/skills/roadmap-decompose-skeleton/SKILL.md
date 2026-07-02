@@ -59,8 +59,6 @@ skeleton, TDD, or concurrency split on its own. Do not over-engineer targeting.
 
 ### Step 0: Load Project Context
 
-**Read `.ai-factory/DESCRIPTION.md`** if it exists, for tech stack and conventions.
-
 **Read `.ai-factory/ARCHITECTURE.md`** if it exists, for architecture pattern and
 module boundaries.
 
