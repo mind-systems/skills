@@ -21,6 +21,7 @@ This is a meta-repo: its product is skills, not application code.
 
 | Doc | What it covers |
 |-----|----------------|
+| [Skill workflow](docs/workflow.md) | The canonical end-to-end pipeline — chat intent → `roadmap-outline` → `roadmap-decompose` → `roadmap-decompose-skeleton` → `command-pin-gaps` → orchestrator → `milestone-rescue`/`-audit` → `roadmap-test-coverage` → `roadmap-prune` → `aif-docs`. Operational sequence (Russian); the composition model covers the mechanism, this covers the order. Authoritative home of the workflow — the orchestrator's docs point here. |
 | [Skill composition model](docs/skill-composition-model.md) | The mechanism/policy model for authoring skills — engine vs philosophy, the context-cost of abstraction, when to extract a skill. Narrative explainer (Russian); the normative rule lives in `.ai-factory/ARCHITECTURE.md` → "Composition: mechanism vs policy". |
 
 ## Repository Structure
