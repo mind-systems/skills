@@ -18,7 +18,7 @@ Generate, maintain, and improve project documentation following a landing-page R
 
 1. **README is a landing page, not a manual.** ~80-120 lines. First impression, install, quick example, links to details.
 2. **Details go to the resolved docs directory** (`paths.docs`, default: `docs/`). Each file is self-contained — one topic, one page. A user should be able to read a single doc file and get the full picture on that topic.
-3. **No duplication.** If information lives in the resolved docs directory, README links to it — does not repeat it. Exception: installation command can appear in both (users expect it in README).
+3. **No duplication.** If information lives in the resolved docs directory, README links to it — does not repeat it. Exception: installation command can appear in both (users expect it in README). **The documentation index lives in the project's CLAUDE.md** — a `## Documentation` table (`| Doc | What it covers |`), README not listed in it. README carries at most one pointer line to the docs directory, never an index table.
 4. **Cross-links use relative paths.** From README: link to the resolved docs directory path (for example `docs/workflow.md` by default). Between doc pages in the same directory: `workflow.md`.
 5. **Scannable.** Use tables, bullet lists, and code blocks. Avoid long paragraphs. Users scan, they don't read.
 6. **State, not process.** Every sentence describes **what is** — factual present-tense behavior, structure, or API. Never state how something came to be: no "we changed", "was added", "this replaces", "previously", "because we", "this milestone". History belongs in commit messages. This rule applies to every run, every mode, no exceptions.
@@ -205,7 +205,7 @@ Options:
 1. Create the target file in the resolved docs directory
 2. If merging into an existing doc — append content under a new section header, avoid duplicating info that's already there
 3. **Do NOT delete originals yet** — keep them until the review step confirms everything is in place
-4. Add the new doc page to README's Documentation table using the correct path relative to README
+4. Add the new doc page to CLAUDE.md's Documentation section
 5. Update any links in other files that pointed to the old root-level file
 6. Record which files were moved/merged — this list is used in Step 4.1
 
@@ -288,14 +288,7 @@ Brief 2-3 sentence description of what this project does and why it exists.
 
 ---
 
-## Documentation
-
-| Guide | Description |
-|-------|-------------|
-| [Getting Started](<readme-to-docs-dir>/getting-started.md) | Installation, setup, first steps |
-| [Architecture](<readme-to-docs-dir>/architecture.md) | Project structure and patterns |
-| [API Reference](<readme-to-docs-dir>/api.md) | Endpoints, request/response formats |
-| [Configuration](<readme-to-docs-dir>/configuration.md) | Environment variables, config files |
+See [documentation](<readme-to-docs-dir>/) for full docs.
 
 ## License
 
@@ -308,9 +301,27 @@ MIT (or whatever is in the project)
 - Quick Start with real installation commands (detect from package manager)
 - Key Features as bullet list (3-6 items, scannable)
 - Real usage example that shows the "wow factor"
-- Documentation table with links to the resolved docs directory
+- Single pointer line to the docs directory (no index table)
 - License at the bottom
 - **NO long descriptions, NO full API reference, NO configuration details**
+
+#### 2.2b: Update the CLAUDE.md Documentation Index
+
+Create or update the `## Documentation` section in the project's CLAUDE.md — this is the single home for the documentation index (not README):
+
+```markdown
+## Documentation
+
+| Doc | What it covers |
+|-----|-----------------|
+| [Getting Started](<repo-root-to-docs-dir>/getting-started.md) | Installation, setup, first steps |
+| [Architecture](<repo-root-to-docs-dir>/architecture.md) | Project structure and patterns |
+```
+
+- One row per doc page in the resolved docs directory — README is **not** listed
+- Descriptions under ~12 words
+- Rows follow the docs directory's logical reading order (getting started → workflow → details)
+- If CLAUDE.md doesn't exist, create it with only this section plus a one-line header
 
 #### 2.3: Generate documentation files in the resolved docs directory
 
@@ -371,7 +382,7 @@ Read README.md and identify:
 - "Why?" / key features bullet list
 - Quick install (1-3 commands)
 - Brief example
-- Documentation links table
+- Pointer line to the docs directory
 - External links, license
 
 **Moves to the resolved docs directory:**
@@ -392,7 +403,7 @@ README.md (~100 lines) — keep as landing page:
   ✓ Key features
   ✓ Quick install
   ✓ Example
-  ✓ Documentation links table
+  ✓ Pointer line to docs dir
 
 Move to docs dir:
   → "Installation" section → <resolved docs dir>/getting-started.md
@@ -407,7 +418,7 @@ Proceed?
 
 1. Create the resolved docs directory
 2. Create each doc file with content from README
-3. Rewrite README as landing page with Documentation links table
+3. Rewrite README as landing page with a pointer line to the docs dir; create/update the `## Documentation` section in CLAUDE.md
 4. **Verify no content was lost** — every section from old README must exist somewhere
 
 ### Step 2 (State C): Improve Existing Docs
@@ -422,6 +433,7 @@ Check for:
 - **Stale content** — do docs reference files/APIs that no longer exist? (**Suppressed in `MODE = 3D`** — absent code is expected, not stale; all other audit checks still run)
 - **Broken links** — verify all internal links point to existing files/anchors
 - **Consistency** — same formatting style across all docs
+- **Legacy README table** — does README still carry a documentation index table? Flag it as a legacy layout and propose moving the index to CLAUDE.md's `## Documentation` section
 - **Standards compliance** — does existing documentation match the current skill standards? (see 2.1.1)
 
 #### 2.1.1: Standards compliance check
@@ -546,12 +558,13 @@ Read `AGENTS.md` and find the `## Documentation` section. Update it to reflect t
 ```
 
 **Rules:**
-- List README.md first, then all doc files in the resolved docs directory in the same order as the README Documentation table
+- List README.md first, then all doc files in the resolved docs directory in the same order as the CLAUDE.md `## Documentation` section (docs directory's logical reading order)
 - If files were moved/merged from root during Step 1.1, reflect the new locations
 - If new doc pages were created, add them
 - If doc pages were removed, remove them
 - Keep descriptions concise (under 10 words)
 - If `AGENTS.md` doesn't exist, skip this step silently
+- If `AGENTS.md` is a one-line redirect to CLAUDE.md, the CLAUDE.md `## Documentation` section (Step 2.2b) is the single source and AGENTS.md is left untouched
 
 ### Context Cleanup
 
@@ -559,7 +572,7 @@ Suggest the user to free up context space if needed: `/clear` (full reset) or `/
 
 ## Artifact Ownership
 
-- Primary ownership: `README.md`, `<resolved docs dir>/*`, and the Documentation section in `AGENTS.md`.
+- Primary ownership: `README.md`, `<resolved docs dir>/*`, the Documentation section in `AGENTS.md`, and the `## Documentation` section in `CLAUDE.md`.
 - Config use: `config.yaml` resolves `paths.description`, `paths.architecture`, `paths.docs`, `language.ui`, and `language.artifacts`.
 - Read-only context: `.ai-factory/DESCRIPTION.md`, `.ai-factory/ARCHITECTURE.md`, roadmap/rules/research artifacts unless the user explicitly asks for broader edits.
 
@@ -571,4 +584,4 @@ Suggest the user to free up context space if needed: `/clear` (full reset) or `/
 4. **Use the project's language** — if project README is in Russian, write docs in Russian
 5. **Preserve existing badges/logos** — don't remove them during restructuring
 6. **Add to .gitignore** if generating HTML: add `docs-html/` to .gitignore
-7. **Ownership boundary** — this command owns documentation artifacts (`README.md`, `<resolved docs dir>/*`, and the Documentation section in `AGENTS.md`), not the roadmap, RULES.md, or research artifacts resolved from config
+7. **Ownership boundary** — this command owns documentation artifacts (`README.md`, `<resolved docs dir>/*`, the Documentation section in `AGENTS.md`, and the `## Documentation` section in `CLAUDE.md`), not the roadmap, RULES.md, or research artifacts resolved from config. The CLAUDE.md ownership is scoped to that section only, not the whole file
