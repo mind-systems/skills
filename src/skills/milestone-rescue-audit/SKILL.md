@@ -35,10 +35,14 @@ layout and directory structure see `milestone-rescue`.
 ## Step 1 — Reconstruct the finding→fix chain
 
 Read every plan-review and code-review for this task, in round order. For each
-round build one row:
+round, capture: the finding(s) + severity, the fix applied, and whether that fix
+introduced or revealed the next round's finding.
 
-| Round | Finding(s) + severity | Fix applied | Did this fix introduce or reveal the next round's finding? |
-|---|---|---|---|
+This reconstruction is **internal working material, not the deliverable** — organize
+it however is convenient while analyzing (a scratch table, one row per round, is a
+fine way to keep it straight). The capture list above is a checklist of what to note
+per round, nothing more. The **user-facing form is produced in Step 6**, as a
+narrative — not this scratch structure.
 
 Note the total round count, whether severity trended up, down, or flat across
 rounds, and the final outcome (pass or fail).
@@ -125,8 +129,8 @@ State the verdict on this spectrum:
 
 Include:
 - **Confidence:** low / medium / high
-- **Evidence:** 2–3 bullet points from the chain and discriminators that most
-  strongly support the verdict
+- **Evidence:** the narrative is the evidence; the verdict sentence names the 1–2
+  strongest signals from it
 
 "Mixed" is a valid verdict when some findings are independent and some are symptoms
 of a common gap. Default to the left (legitimate) end of the spectrum in the
@@ -138,25 +142,40 @@ absence of strong common-root-cause evidence.
 
 Emit the diagnosis to chat. No files written, no ROADMAP edited.
 
-**Always include:**
-1. Verdict + confidence + one-line justification
-2. The finding→fix chain table from Step 1 as the evidence base
+**Form: a chronological narrative in plain prose** — the same register as
+`milestone-rescue`'s Diagnosis Report. Tell the milestone's story round by round, in
+complete sentences: what the implementation did, what the review found, what the fix
+changed, and what that fix introduced or revealed next. One short paragraph per round
+is the natural shape; a single-round audit may be a single paragraph. Weave reviewer
+findings in as quotes or paraphrases rather than listing them. **No tables, no
+fragment-style bullet lists** — the deliverable is a story the user reads once, top
+to bottom, not a grid to reconstruct. Round counts and severity trends are legitimate
+vocabulary within the prose — convergence across rounds is the audit's subject; the
+ban is on tabular/fragment *form*, not on mentioning rounds. **Length scales with the
+number of rounds** — never compress a multi-round chain to fit a size budget.
 
-**When verdict is Band-aid accretion or Mixed, also include:**
-3. The root-cause sentence from Step 3 (the missing spec/design clause)
-4. The structural reframe — the *what*-level change (data-model / derived-state /
-   invariant) that dissolves all N findings by construction rather than patching
-   each symptom; do not prescribe implementation (no *how*)
-5. A mapping: each band-aid fix → what the structural change replaces it with
-6. One upstream recommendation, stated plainly:
-   - *Amend the spec note* — if the gap fits cleanly in one sentence
-   - *Decompose the milestone* — if the structural reframe spans multiple concerns
-   - *Re-architect before retrying* — if the gap is foundational
-   - *Accept as-is* — if the cost of the structural change outweighs the benefit
-     (mixed verdict, low round count, low severity)
+**The narrative ends with the verdict**: spectrum position (independent legitimate
+fixes / mixed / band-aid accretion) + confidence, in one or two sentences whose
+support the narrative has already told through the rounds above it.
+
+**When verdict is Band-aid accretion or Mixed, continue past the verdict with:**
+- The root-cause sentence from Step 3 (the missing spec/design clause) as the payoff
+  line, placed immediately after the verdict and visually set off as a block quote.
+- The structural reframe — the *what*-level change (data-model / derived-state /
+  invariant) that dissolves all N findings by construction rather than patching each
+  symptom — as a short prose paragraph; do not prescribe implementation (no *how*).
+  Weave the per-fix mapping into this same paragraph: for each band-aid fix, one or
+  two sentences on what the structural change replaces it with — not a mapping table
+  or arrow list.
+- One upstream recommendation, stated plainly as the closing sentence:
+  - *Amend the spec note* — if the gap fits cleanly in one sentence
+  - *Decompose the milestone* — if the structural reframe spans multiple concerns
+  - *Re-architect before retrying* — if the gap is foundational
+  - *Accept as-is* — if the cost of the structural change outweighs the benefit
+    (mixed verdict, low round count, low severity)
 
 **Always end with:**
-- Cost note: round count, wall-clock if known
+- Cost note as a single line: round count, wall-clock if known
 
 ---
 
@@ -168,5 +187,8 @@ Emit the diagnosis to chat. No files written, no ROADMAP edited.
 - Do not judge any individual fix in isolation — judge the **sequence**
 - Do not treat a passing milestone as automatically healthy; loops on cosmetic
   findings are a weak signal, but one structural-root signal outweighs them
+- Do not present the finding→fix chain as a table or as compressed fragments in the
+  output — tables are permitted only as internal scratch during Step 1; the
+  deliverable is a story the user reads once, top to bottom
 - Both outcomes are valid — healthy convergence is the expected result; band-aid
   accretion is the exception worth naming
