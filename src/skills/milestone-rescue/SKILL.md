@@ -14,8 +14,10 @@ allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion
 
 # Milestone Rescue
 
-When the orchestrator exhausts its iteration limit and stops, all artifacts remain
-uncommitted on disk. This skill reads them, diagnoses how deep the root cause reaches
+The orchestrator exhausting its iteration limit and stopping is the tripwire — how the
+failure was noticed, not what failed. The subject of this skill is the defect in the
+task's specification (spec note + contract line) and its implementation: it reads the
+artifacts left uncommitted on disk, diagnoses how deep that defect reaches
 (specification gap? bad plan? broken implementation?), and repairs to exactly that
 depth — then rolls the sidecar and the artifact set back to the matching repaired state
 so the orchestrator re-validates from there rather than starting blind.
@@ -58,8 +60,9 @@ implementer addressed it. Read them all before drawing any conclusions.
 
 ## Step 2 — Diagnose root cause and depth
 
-Determine which phase failed and how deep the root cause runs. The outcome feeds the
-depth choice in Step 4.
+Determine which phase failed and how deep the root cause runs. This classification is
+an **internal routing signal** that feeds the depth choice in Step 4 — it is not itself
+the diagnosis the user receives; the substantive diagnosis is Step 3's Diagnosis Report.
 
 **Plan-phase failure** — no plan-review file contains `PLAN_REVIEW_PASS` on its own
 line. Root cause is likely a specification gap or scope overload; repair depth starts
@@ -79,8 +82,9 @@ of re-running. This is a distinct outcome: no rollback, no artifact cleanup.
 Keep the severity inspection here lightweight — blocking/non-blocking only, not a full
 issue extraction (that is Step 3's job).
 
-State the diagnosis explicitly before proceeding: failure phase, root-cause category,
-and likely repair depth.
+State the diagnosis explicitly before proceeding, in this order: root-cause category
+first, then likely repair depth, with the failure phase mentioned last as routing
+context only.
 
 ---
 
@@ -104,6 +108,34 @@ Root-cause categories (context for depth + scope-overload flag):
 Identify the dominant root cause and whether any issue is recurring. Carry both into
 Step 4 — they drive the depth choice and the scope-overload flag.
 
+**Write the Diagnosis Report.** Before presenting the Step 4 depth menu, print a
+mandatory Diagnosis Report to the user — a first-class deliverable, produced without
+the user asking for it.
+
+Form: a chronological narrative in plain prose. Tell the story of the implementation
+attempt as a sequence of events — what the implementation did, what defect the review
+found, what the fix changed, and what new defect that fix introduced — round by round,
+in complete sentences. One short paragraph per review round is the natural shape; a
+single-round failure may be a single paragraph. Length scales with the number of
+rounds — never compress a multi-round chain to fit a sentence budget. Weave reviewer
+findings from the recurring rounds (2+) into the narrative as quotes or paraphrases, as
+evidence.
+
+No tables, no fragment-style bullet lists inside the Diagnosis Report — the causal
+story is read top to bottom, not reconstructed from a grid.
+
+Domain language only: describe what the spec note / contract line stated wrongly or
+left ambiguous, and how the plan or code went wrong as a consequence. Zero orchestrator
+vocabulary — no iteration counts, no PASS markers, no phase names, no sidecar.
+
+End with a standalone root-cause sentence, visually set off (e.g. a block quote): one
+sentence stating the missing or wrong constraint in the spec/contract, phrased so that,
+had it been present, the failure chain would not have occurred.
+
+Attach the root-cause category (specification gap / scope overload / mechanical error)
+and the recurring-issue signal to the report as a classification, not as a substitute
+for the narrative — they carry into Step 4 to drive the depth choice.
+
 ---
 
 ## Step 4 — Choose repair depth
@@ -118,11 +150,12 @@ Read `$TARGET_FILE` and locate the milestone line matching the slug identified i
 **When classification is non-convergence** — present via `AskUserQuestion`:
 
 ```
-The implementation appears complete and correct.
+The deliverable is complete and correct; remaining findings are cosmetic:
+<one-line summary of what they are>.
 
-Every review round was non-blocking (all findings Low/Informational).
-Deliverables are present on disk. The pipeline failed to emit REVIEW_PASS only because
-the reviewer kept generating cosmetic nits without clearing the bar.
+Deliverables are present on disk and every review round raised only Low/Informational
+nits — the pipeline never emitted REVIEW_PASS because the reviewer kept generating
+those nits, not because of a real defect.
 
 Recommended: commit the deliverable — another run would likely loop again.
 
@@ -258,6 +291,9 @@ do not let them diverge.
 
 Note: `"plan_reviewed"` is intentionally not written by this skill. The new flow writes only `"planned"` (spec+plan depth), `"implemented"` (spec+plan+code depth), or deletes the sidecar (spec depth). The other three values stay in the table as the orchestrator-contract reference only.
 
+Restate the Diagnosis Report's conclusion in one paragraph — what was wrong, what was
+repaired, and at which depth — before the file bookkeeping below.
+
 Show the user the list of deleted files and confirm the rescue is complete.
 
 ---
@@ -312,3 +348,7 @@ If no matches found, or all issues are domain-specific to the failed milestone, 
   absent — both are always-valid states the orchestrator accepts without artifact
   checks, so writing one after deleting the plan `.md` (or before any working diff
   exists) silently sends the orchestrator into the wrong phase
+- Never present orchestrator mechanics — iteration limits, missing PASS markers, phase
+  names, sidecar states — as "the problem". They are how the failure surfaced, not what
+  failed. This constrains your *output and reporting*, not your analysis: pipeline
+  signals are still read internally to route the repair depth
