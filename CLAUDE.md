@@ -13,6 +13,8 @@ The repo keeps three concerns physically apart:
 
 Skills are available globally via `~/.claude/skills` → `~/projects/skills/active/skills` and `~/.claude/commands` → `~/projects/skills/active/commands` (personal scope in Claude Code).
 
+The **global CLAUDE.md** (user-level instructions loaded into every session of every project) is version-controlled here too: `src/global/CLAUDE.md` is the source; `~/.claude/CLAUDE.md` → `active/CLAUDE.md` → `../src/global/CLAUDE.md`. Any write through `~/.claude/CLAUDE.md` lands in this repo's working tree and shows up in `git diff`.
+
 Skills and commands are treated as **executable code** — they define agent runtime behavior, not documentation. Ours live under `src/` (skills in `src/skills/`, commands in `src/commands/`), deliberately outside `.claude/`, which holds Claude Code's own config that the agent must not self-edit.
 
 This is a meta-repo: its product is skills, not application code.
@@ -40,12 +42,14 @@ skills/
 │   │   ├── test-philosophy/      #     shared silent-failure testing rule
 │   │   ├── milestone-rescue/     #     … and milestone-rescue-audit, detangle,
 │   │   └── …                     #     temporal-tree, observe-logs, aif-docs, aif-plan, ui-ux-pro-max
-│   └── commands/                 #   slash commands (all ours)
+│   ├── commands/                 #   slash commands (all ours)
+│   └── global/                   #   global CLAUDE.md — user-level instructions, symlinked from ~/.claude
 ├── upstream/
 │   └── ai-factory/               # PRISTINE mirror of lee-to/ai-factory skills/ (sync script; never hand-edited)
 ├── active/                       # CURATED working set — the only layer ~/.claude points at
 │   ├── skills/                   #   per-skill symlinks → src/skills/* or upstream/ai-factory/*
-│   └── commands/                 #   per-command symlinks → src/commands/*
+│   ├── commands/                 #   per-command symlinks → src/commands/*
+│   └── CLAUDE.md                 #   symlink → ../src/global/CLAUDE.md (target of ~/.claude/CLAUDE.md)
 ├── scripts/
 │   └── sync-upstream.sh          # refresh upstream/ai-factory from lee-to/ai-factory
 ├── .claude/                      # Claude Code project config (.mcp.json, settings.local.json)

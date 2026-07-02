@@ -1,0 +1,47 @@
+# Global Instructions
+
+## User
+
+Read `~/.claude/memory/user-personality.md` at the start of every conversation.
+
+## Documentation style
+
+- **Describe behavior, not code.** Docs explain what a feature does and how it works — not list methods, fields, event types, or endpoint tables. That's just copying the code.
+- **No file/directory trees.** The only place a directory tree belongs is in ARCHITECTURE.md as a module template. Everywhere else — never.
+- **Match the language of existing docs.** Before writing or editing a doc file, check what language neighboring docs use and match it — even if project instructions say otherwise.
+- **No prev/next navigation links.** Never add `[← Previous](...)` / `[Next →](...)` header navigation to doc files — it's useless clutter.
+- **No "See Also" sections.** Never add a "See Also" footer to doc files.
+- **No README documentation table.** The documentation index belongs in the project's CLAUDE.md, not in README.md.
+- **Describe current state only.** Never reference what was changed, removed, or added. No "X was replaced", "Y was added". History belongs in commit messages.
+
+## Project CLAUDE.md authoring
+
+- **No skill or command names in project files.** A project CLAUDE.md never routes to skills or commands by name (`/aif-plan`-style routing sections) — names rot when skills are renamed or retired, leaving dead routing that costs context on every run. Describe routing in task terms; skill names live only in this file and in the skills repo.
+- **One home per fact.** Anything stated in two places will drift. AGENTS.md is a one-line pointer to CLAUDE.md; the documentation index lives in CLAUDE.md (never in README); a module map lives in ARCHITECTURE.md or the code itself — CLAUDE.md points, it does not copy.
+- **Monorepo roots route by ownership.** Tasks go to the sub-repo they belong to — into its `.ai-factory/` (contract line in `ROADMAP.md`, spec note in `notes/`). Resolution: an explicit sub-repo prefix at the start of the argument wins (strip it, process the rest); otherwise detect from the task description; if ambiguous — ask. The root CLAUDE.md holds only the project-specific prefix/keyword tables — this protocol is not restated there.
+
+## Memory
+
+- **Never write to memory.** Do not save anything to `~/.claude/memory/` or any memory files unless the user explicitly asks to remember something.
+- **Allowed trigger phrases only.** Writing to memory is permitted only when the user uses one of these exact commands (in any language):
+  - EN: "remember this", "save this", "save to memory", "add to memory", "memorize this"
+  - RU: "запомни", "сохрани в память", "добавь в память", "запиши в память"
+- **Explanations of workflow, process, or context are NOT a trigger.** If the user explains how something works or describes a process, do not interpret it as a request to save to memory.
+
+## Git
+
+- **NEVER commit without explicit permission.** If there are uncommitted changes, assume they are intentional or ask what to do. Do not auto-commit.
+
+## Commit messages
+
+- **Short noun phrase or imperative**, no trailing period.
+- **Sentence case** — capitalize the first word and proper nouns only.
+- **No type prefixes.** Never use `feat:`, `fix:`, `chore:`, `refactor:` or any other conventional-commit prefix.
+- **No body** for single-concern commits. A body is acceptable when one commit covers multiple unrelated changes — use it to list them.
+
+## Planning workflow
+
+- **Chat plans; the orchestrator implements.** In a chat session, only plan and write planning artifacts (roadmaps, spec notes, docs) — don't touch application code unless the user directly and unambiguously asks for a specific change here. The default is plan-only; implementation is the orchestrator's job, run separately.
+- **Do not drift into coding.** Never start editing code on your own initiative — not mid-session, not after a plan is "done". A vague or implied signal is not a request; if you think code needs changing, say so and ask.
+- **Planning chain.** `/roadmap-outline` → `/roadmap-decompose` (plus `/roadmap-decompose-skeleton` on heavy tasks). Every task is two-tier: a contract line in `ROADMAP.md` plus a spec note in `.ai-factory/notes/`.
+- **Deferred questions mean unfinished planning.** If a session ends with questions "left for the planning stage", the tasks are not ready — keep decomposing and close every question before the roadmap is handed to the orchestrator.
