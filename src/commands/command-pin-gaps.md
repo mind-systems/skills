@@ -7,7 +7,7 @@ argument-hint: "[path | scan]"
 allowed-tools: Read Edit Grep Glob Bash(ls *) Bash(rg *) Bash(git grep *)
 ---
 
-Target: the file in `$ARGUMENTS`, else the newest `.ai-factory/plans/*.md`, else the task under discussion.
+Target, in priority order: the file(s) in `$ARGUMENTS`, if given — else the scope under discussion in chat (a named task, phase, or note) — else all open `- [ ]` tasks above `---STOP---` in `.ai-factory/ROADMAP.md`, scanning each contract line and its `Spec:` note file.
 
 Any question that would need an answer *during implementation* is space for the agent to fantasize. Close all of it now.
 
