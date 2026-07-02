@@ -52,27 +52,6 @@ If config.yaml doesn't exist, use defaults:
 - Look for existing docs, comments, API endpoints, CLI commands
 - Check for existing README.md and the resolved docs directory
 
-**Read `.ai-factory/skill-context/aif-docs/SKILL.md`** — MANDATORY if the file exists.
-
-This file contains project-specific rules accumulated by `/aif-evolve` from patches,
-codebase conventions, and tech-stack analysis. These rules are tailored to the current project.
-
-**How to apply skill-context rules:**
-- Treat them as **project-level overrides** for this skill's general instructions
-- When a skill-context rule conflicts with a general rule written in this SKILL.md,
-  **the skill-context rule wins** (more specific context takes priority — same principle as nested CLAUDE.md files)
-- When there is no conflict, apply both: general rules from SKILL.md + project rules from skill-context
-- Do NOT ignore skill-context rules even if they seem to contradict this skill's defaults —
-  they exist because the project's experience proved the default insufficient
-- **CRITICAL:** skill-context rules apply to ALL outputs of this skill — including README.md,
-  documentation pages, and their templates. The templates in this SKILL.md are **base structures**.
-  If a skill-context rule says "docs MUST include X" or "README MUST have section Y" — you MUST
-  augment the templates accordingly. Generating documentation that violates skill-context rules
-  is a bug.
-
-**Enforcement:** After generating any output artifact, verify it against all skill-context rules.
-If any rule is violated — fix the output before presenting it to the user.
-
 **Scan for scattered markdown files in project root:**
 
 Use `Glob` to find all `*.md` files in the project root (exclude `node_modules/`, `.ai-factory/`, agent dirs):
@@ -153,41 +132,11 @@ Options:
 
 If scattered `.md` files were found in the project root (from Step 0), propose consolidating them into the resolved docs directory.
 
-**Common files that should move to the resolved docs directory:**
-
-| Root file | Target in docs dir | Merge or move? |
-|-----------|-----------------|----------------|
-| `CONTRIBUTING.md` | `<resolved docs dir>/contributing.md` | Move |
-| `ARCHITECTURE.md` | `<resolved docs dir>/architecture.md` | Move |
-| `DEPLOYMENT.md` | `<resolved docs dir>/deployment.md` | Move |
-| `SETUP.md` | `<resolved docs dir>/getting-started.md` | Merge (append to existing) |
-| `DEVELOPMENT.md` | `<resolved docs dir>/getting-started.md` or `<resolved docs dir>/contributing.md` | Merge |
-| `API.md` | `<resolved docs dir>/api.md` | Move |
-| `TESTING.md` | `<resolved docs dir>/testing.md` | Move |
-| `SECURITY.md` | `<resolved docs dir>/security.md` | Move |
-
-**Files that stay in root** (standard convention):
-- `README.md` — always stays
-- `CHANGELOG.md` — standard root-level file, keep as-is
-- `LICENSE` / `LICENSE.md` — standard root-level file, keep as-is
-- `CODE_OF_CONDUCT.md` — standard root-level file, keep as-is
+Consolidation targets and the sample proposal dialog → read `references/consolidation.md`.
 
 **If scattered files found, ask the user:**
 
 ```
-Found [N] markdown files in the project root:
-
-  CONTRIBUTING.md (45 lines) — contribution guidelines
-  ARCHITECTURE.md (120 lines) — system architecture overview
-  DEPLOYMENT.md (80 lines) — deployment instructions
-  SETUP.md (30 lines) — setup guide (overlaps with getting-started)
-
-Suggested actions:
-  → Move CONTRIBUTING.md → <resolved docs dir>/contributing.md
-  → Move ARCHITECTURE.md → <resolved docs dir>/architecture.md
-  → Move DEPLOYMENT.md → <resolved docs dir>/deployment.md
-  → Merge SETUP.md into <resolved docs dir>/getting-started.md
-
 AskUserQuestion: Would you like to apply the consolidation?
 
 Options:
@@ -334,38 +283,7 @@ Content organized by subtopic with headers, code examples, and tables.
 Keep each section self-contained.
 ```
 
-**Content guidelines per topic:**
-
-**getting-started.md:**
-- Prerequisites (runtime versions, tools needed)
-- Step-by-step installation
-- First run / quick start
-- Verify it works (expected output)
-- Next steps links
-
-**architecture.md:**
-- High-level overview (diagram if useful)
-- Directory structure with explanations
-- Key patterns (naming, imports, error handling)
-- Data flow
-
-**api.md:**
-- Base URL / configuration
-- Authentication
-- Endpoints grouped by resource
-- Request/response examples
-- Error codes
-
-**configuration.md:**
-- All environment variables with descriptions and defaults
-- Config files and their purpose
-- Feature flags
-
-**deployment.md:**
-- Build steps
-- Environment setup
-- CI/CD pipeline description
-- Monitoring / health checks
+Content guidelines per topic → read `references/topic-guides.md` when generating State A pages.
 
 ### Step 2 (State B): Split Existing README into the resolved docs directory
 
@@ -464,28 +382,9 @@ Apply fixes?
 
 When `--web` flag is passed, generate a static HTML site from the markdown docs.
 
-#### 3.1: Create docs-html/ directory
-
-```bash
-mkdir -p docs-html
-```
-
-#### 3.2: Generate HTML files
-
-For each markdown file (README.md + `<resolved docs dir>/*.md`), generate an HTML version:
-
-Read the HTML template from `templates/html-template.html` and use it for each page.
-Customize: `{page_title}`, `{project_name}`, `{nav_links}`, `{content}`.
-
-#### 3.3: Convert markdown to HTML
-
-For each doc file: parse markdown → convert to HTML elements → fix `.md` links to `.html` → generate nav bar → write to `docs-html/`.
-
 File mapping: `README.md` → `index.html`, `<resolved docs dir>/*.md` → `*.html`.
 
-#### 3.4: Output result
-
-Show tree of generated files and `open docs-html/index.html` hint.
+HTML build mechanics → read `references/html-generation.md` when `--web` is passed.
 
 ## Step 4: Documentation Review
 
