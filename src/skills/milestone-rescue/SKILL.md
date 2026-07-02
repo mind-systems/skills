@@ -51,6 +51,16 @@ user: there is nothing to rescue.
 (e.g. `03-milestone-rescue`). Extract the slug from the filenames. If files from
 multiple slugs are present, ask the user which milestone to rescue before proceeding.
 
+**Read the phase's governing spec.** Determine `$TARGET_FILE` (the same resolution
+Step 4 uses: argument-named file if given, else `.ai-factory/ROADMAP_TESTS.md` for test
+slugs, else `.ai-factory/ROADMAP.md`), read it, and locate the phase section the
+milestone belongs to. Check the phase header and its intro lines for a
+`Governing spec:` reference. If present, read every named document in full before
+proceeding to Step 2 — this is unconditional, not suspicion-based. If the milestone is
+under no phase, or no `Governing spec:` is named, proceed as today. This read is
+additive to Step 4's own `$TARGET_FILE` resolution and milestone-line locate — it does
+not replace it.
+
 **Read every artifact file found** — all rounds, not just the latest. The pattern of
 failures across rounds matters as much as the final round. A plan-review from round 1
 reveals what the planner missed first; a patch from round 2 shows whether the
@@ -104,6 +114,13 @@ Root-cause categories (context for depth + scope-overload flag):
 - **Specification gap** — ambiguous or missing constraint / edge case / scope boundary
 - **Scope overload** — too many concerns; planner or implementer loses coherence
 - **Mechanical error** — recurring execution mistakes independent of the task spec
+
+When a governing spec was read in Step 1, judge the recurring findings against it: a
+candidate "specification gap" may actually be a violation of an already-ratified
+contract that the spec note failed to restate — the root cause and the repair target
+differ (amend the spec note to carry the governing constraint vs. invent a new
+decision). The Diagnosis Report must state whether the failure violates the governing
+spec and quote the relevant clause.
 
 Identify the dominant root cause and whether any issue is recurring. Carry both into
 Step 4 — they drive the depth choice and the scope-overload flag.
@@ -227,6 +244,8 @@ Do NOT touch the sidecar. Proceed directly to Step 5.5.
 **Depth: spec** — repair spec note + contract line; full reset.
 
 1. Edit the spec note (`.ai-factory/notes/<NN>-<slug>.md`) to address the root cause.
+   If a governing spec was read in Step 1, do not copy its content into the spec note
+   wholesale — quote/restate only the clauses implicated by the findings.
 2. Edit the contract line in `$TARGET_FILE` to match (keep it concise;
    each constraint is one semicolon-separated clause matching surrounding style).
 3. Delete: plan `.md`, all plan-review files, all review files, all patch files for
@@ -342,6 +361,10 @@ If no matches found, or all issues are domain-specific to the failed milestone, 
 - Do not delete committed files or files belonging to other milestone slugs
 - Do not skip reading earlier rounds — the pattern of failures across rounds is the
   primary signal, not just the final round
+- Do not issue a semantic diagnosis, blocker, or spec repair without having read the
+  phase's `Governing spec:` documents when the phase names them — otherwise the
+  ratified spec tier does not participate in the rescue at all. This read is
+  unconditional whenever the phase names a governing spec, never suspicion-gated.
 - Do not overwrite `planner`, `implementer`, or `elapsed` in the sidecar — only `step`
   is updated; on a full reset (spec depth) the sidecar is deleted entirely alongside
   the plan
