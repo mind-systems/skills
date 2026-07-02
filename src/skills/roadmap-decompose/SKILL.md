@@ -233,11 +233,11 @@ Next up: **Task Name**
 
 ---
 
-### Mode 3: Check Progress (`/decompose check`)
+### Mode 3: Check Progress (`/roadmap-decompose check`)
 
 Automated scan — analyze the codebase and mark completed milestones without interactive questions.
 
-**Requires** `$TARGET_FILE` to exist. If it doesn't — tell the user to run `/decompose` first.
+**Requires** `$TARGET_FILE` to exist. If it doesn't — tell the user to run `/roadmap-decompose` first.
 
 **3.1: Read roadmap and project context**
 
@@ -288,5 +288,5 @@ Next up: **Task Name**
 2. **`$TARGET_FILE` is the source of truth** — always read it before modifying
 3. **Never remove milestones silently** — always confirm with user before removing
 4. **Completed milestones stay as `[x]` in the list** — `roadmap-prune` moves them to ARCHITECTURE.md
-5. **NO implementation** — this skill only plans, use `/aif-plan` to start a task and `/aif-implement` to execute
+5. **NO implementation** — this skill only plans; implementation is the orchestrator's job (a separate run)
 6. **Every task is two-tier** — a contract line in the roadmap plus a spec note, rendered per `roadmap-engine`'s format; never write a full spec inline in the roadmap

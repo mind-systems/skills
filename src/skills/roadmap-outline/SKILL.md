@@ -76,7 +76,7 @@ Scan the project to understand what's already built:
 Draft the roadmap **in memory (do not write `.ai-factory/ROADMAP.md` yet)**. Ensure `roadmap-engine` is loaded once this chat (via the `Skill` tool; don't re-invoke if already loaded), then produce each milestone as a two-tier artifact — a contract line plus a spec note — per its format, at coarse (strategic) granularity. The roadmap vision line is sourced from `DESCRIPTION.md` or user input (per Step 0). Draft each milestone's contract line with a placeholder `` Spec: `<note pending>`. `` — do not write the notes yet; notes are written after confirmation in Step 1.4.
 
 **Rules for milestones:**
-- Each milestone is a **high-level goal**, not a granular task (that's `/aif-plan`)
+- Each milestone is a **high-level goal**, not a granular task (that's `/roadmap-decompose`)
 - 5-15 milestones is the sweet spot — fewer means too vague, more means too granular
 - Order by logical sequence (dependencies first)
 - Mark already-completed milestones as `[x]`
@@ -226,4 +226,4 @@ Next up: **Milestone Name**
 2. **ROADMAP.md is the source of truth** — always read before modifying
 3. **Never remove milestones silently** — always confirm with user before removing
 4. **Completed milestones stay as `[x]` in the list** — `roadmap-prune` moves them to ARCHITECTURE.md
-5. **NO implementation** — this skill only plans, use `/aif-plan` to start a feature and `/aif-implement` to execute
+5. **NO implementation** — this skill only plans; implementation is the orchestrator's job (a separate run)
