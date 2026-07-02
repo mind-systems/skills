@@ -59,7 +59,7 @@ skills/
 └── README.md
 ```
 
-**The active set** (what `~/.claude` actually loads): our skills — `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `aif-docs`, `test-philosophy`, `roadmap-outline`, `observe-logs` — plus three upstream originals we use as-is: `aif`, `aif-architecture`, `aif-skill-generator`. Everything else (our `aif-plan`, `ui-ux-pro-max`; all other upstream skills) is stored but **not** symlinked into `active/`. Adding a skill to the working set = create a symlink under `active/skills/`.
+**The active set** (what `~/.claude` actually loads): our skills — `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `aif`, `aif-docs`, `test-philosophy`, `roadmap-outline`, `observe-logs` — plus two upstream originals we use as-is: `aif-architecture`, `aif-skill-generator`. Everything else (our `aif-plan`, `ui-ux-pro-max`; all other upstream skills) is stored but **not** symlinked into `active/`. Adding a skill to the working set = create a symlink under `active/skills/`.
 
 Each skill directory contains:
 - `SKILL.md` — required, main instructions (frontmatter + body ≤ 500 lines)
@@ -159,11 +159,13 @@ scripts/sync-upstream.sh      # clones upstream, rsyncs skills/ → upstream/ai-
 ```
 
 **Reconcile reworked skills (opt-in, manual).** A few of our skills were reworked from an upstream original and still have a counterpart to diff after a refresh — our copy is authoritative and is never auto-overwritten:
+- `aif` ↔ `upstream/ai-factory/aif`
 - `aif-docs` ↔ `upstream/ai-factory/aif-docs`
 - `aif-plan` ↔ `upstream/ai-factory/aif-plan`
 
 ```bash
-diff -rq src/skills/aif-docs upstream/ai-factory/aif-docs   # port upstream changes by hand if wanted
+diff -rq src/skills/aif upstream/ai-factory/aif             # port upstream changes by hand if wanted
+diff -rq src/skills/aif-docs upstream/ai-factory/aif-docs
 ```
 
 **Everything else in `src/skills/` is ours** — no upstream counterpart to reconcile, sync never touches it: `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-outline`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `test-philosophy`, `observe-logs`, `ui-ux-pro-max`.
