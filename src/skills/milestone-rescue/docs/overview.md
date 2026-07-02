@@ -143,8 +143,9 @@ slug:
 - Files marked `A ` (staged) → `git rm -f -- <path>`
 
 Do NOT delete `.json` sidecar files from `plans/` — the next sub-step reads and
-rewrites the sidecar. Do NOT delete committed files. Do NOT touch
-`.ai-factory/notes/`. Do NOT delete files belonging to other milestone slugs.
+rewrites the sidecar. Do NOT delete committed files. Do NOT touch the spec file
+(wherever its `Spec:` tag points). Do NOT delete files belonging to other milestone
+slugs.
 
 **Update the sidecar** — after cleanup, locate `.ai-factory/plans/{seq}-{slug}.json`.
 Read it as JSON (start from `{}` if absent). Inspect which plan-review and review

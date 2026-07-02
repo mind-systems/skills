@@ -89,8 +89,8 @@ Store confirmed list as `$RESEARCH_AREAS`.
 
 Determine next note number:
 ```bash
-mkdir -p .ai-factory/notes
-find .ai-factory/notes -name "[0-9][0-9]-*.md" | sort | tail -1
+mkdir -p .ai-factory/specs
+find .ai-factory/specs -name "[0-9][0-9]-*.md" | sort | tail -1
 ```
 Extract highest two-digit prefix + 1. If none, start at `01`.
 Store as `$NEXT_NOTE_NUM`.
@@ -107,7 +107,7 @@ You are researching test coverage for one area of a codebase.
 Area: <area name>
 Source file(s): <file paths>
 Existing spec file (if any): <path or "none">
-Note to write: .ai-factory/notes/<NN>-<slug>.md
+Note to write: .ai-factory/specs/<NN>-<slug>.md
 
 Your task:
 1. Read the source file(s) in full — every public method, constructor args,
@@ -122,7 +122,7 @@ For each test case write:
   - Which method/function it exercises
   - Any non-obvious setup needed
 
-Write the following document to .ai-factory/notes/<NN>-<slug>.md:
+Write the following document to .ai-factory/specs/<NN>-<slug>.md:
 
 # <Area Name> — Test Plan
 
@@ -146,7 +146,7 @@ List what needs to be mocked and how.)
 (Timers, private fields, fire-and-forget async, decorator bypass, invariants.)
 
 After writing the file, return exactly one line:
-saved: .ai-factory/notes/<NN>-<slug>.md
+saved: .ai-factory/specs/<NN>-<slug>.md
 ```
 
 Collect all one-line confirmations. Proceed to Layer 5.
@@ -193,7 +193,7 @@ For each `needs-refactor` verdict from Layer 5:
 1. Append an entry to `$HANDOFF_LIST` (in-memory, carried through to
    Layer 8): area name + one-sentence refactor description (from the
    verdict) + pointer to its Layer-4 note path
-   (`.ai-factory/notes/<NN>-<slug>.md`).
+   (`.ai-factory/specs/<NN>-<slug>.md`).
 2. Open the corresponding Layer 4 note and append a `## Refactor Required`
    section: what to refactor, and what the post-refactor API will look like
    so the test implementer knows what to expect.
@@ -274,7 +274,7 @@ Print:
 Test coverage research complete.
 
 Notes written: N
-  - .ai-factory/notes/<NN>-<slug>.md  (<area name>)
+  - .ai-factory/specs/<NN>-<slug>.md  (<area name>)
   - ...
 
 Refactor items handed off: M
@@ -291,11 +291,11 @@ paste into `/roadmap-decompose`:
 Handoff — paste into /roadmap-decompose:
 
 Refactor:
-  - <area name>: <refactor description>  (.ai-factory/notes/<NN>-<slug>.md)
+  - <area name>: <refactor description>  (.ai-factory/specs/<NN>-<slug>.md)
   - ...
 
 Bugs (Class B — silent failures):
-  - <area name>: <reason>  (.ai-factory/notes/<NN>-<slug>.md)
+  - <area name>: <reason>  (.ai-factory/specs/<NN>-<slug>.md)
   - <area name>: <reason>  (<source file> — area not researched)
   - ...
 ```

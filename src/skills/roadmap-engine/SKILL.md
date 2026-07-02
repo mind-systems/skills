@@ -23,12 +23,14 @@ mode.
 ## The two-tier artifact
 
 Each milestone is a two-tier entry: a contract line in the roadmap plus a full spec
-note at `.ai-factory/notes/<NN>-<slug>.md` (`<NN>` scanned against `.ai-factory/notes/`
+note at `.ai-factory/specs/<NN>-<slug>.md` (`<NN>` scanned against `.ai-factory/specs/`
 so it never collides; `<slug>` lowercase-hyphenated). The contract line ends with the
-exact tag `` Spec: `.ai-factory/notes/<NN>-<slug>.md`. ``
+exact tag `` Spec: `.ai-factory/specs/<NN>-<slug>.md`. ``
 
 The note follows `note`'s format — **load `note` once per chat** (via the Skill
-tool, only if not already loaded), never per task.
+tool, only if not already loaded), never per task. When invoking `note`, pass
+destination `.ai-factory/specs/` via `note`'s destination hook; per-directory
+numbering happens there.
 
 **Why two tiers:** the contract line lets the user verify intent while fitting 3–4
 tasks on screen; the note holds the full implementation detail. The char budget below
@@ -46,9 +48,9 @@ the note is the implementation.
 
 ## Milestones
 
-- [ ] **Name** — <problem today + the exact change + key files/types/guards involved>. Spec: `.ai-factory/notes/<NN>-<slug>.md`.
-- [ ] **Name** — <same pattern>. Spec: `.ai-factory/notes/<NN>-<slug>.md`.
-- [x] **Name** — <same pattern>. Spec: `.ai-factory/notes/<NN>-<slug>.md`.
+- [ ] **Name** — <problem today + the exact change + key files/types/guards involved>. Spec: `.ai-factory/specs/<NN>-<slug>.md`.
+- [ ] **Name** — <same pattern>. Spec: `.ai-factory/specs/<NN>-<slug>.md`.
+- [x] **Name** — <same pattern>. Spec: `.ai-factory/specs/<NN>-<slug>.md`.
 ```
 
 **Rules for writing a contract line:**
@@ -144,7 +146,7 @@ Options:
 
 Apply changes if requested, then finalize: **only after "Looks good — save it"** —
 write each confirmed entry's spec note, then replace its `` Spec: `<note pending>`. ``
-placeholder with the real `` Spec: `.ai-factory/notes/<NN>-<slug>.md`. `` tag, then
+placeholder with the real `` Spec: `.ai-factory/specs/<NN>-<slug>.md`. `` tag, then
 write `$TARGET_FILE`. Entries removed or rewritten during confirmation receive no
 note — only the confirmed set gets notes.
 

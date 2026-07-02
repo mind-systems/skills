@@ -11,8 +11,8 @@ in plans (`.ai-factory/plans/`); milestones live in the roadmap.
 ## ROADMAP.md format
 
 Each milestone is a **two-tier** entry rendered per `roadmap-engine`'s format: a contract
-line in `ROADMAP.md` ending with a `` Spec: `.ai-factory/notes/<NN>-<slug>.md` `` tag,
-backed by a full spec note in `.ai-factory/notes/`. The contract line carries the
+line in `ROADMAP.md` ending with a `` Spec: `.ai-factory/specs/<NN>-<slug>.md` `` tag,
+backed by a full spec note in `.ai-factory/specs/`. The contract line carries the
 milestone's intent at a glance; the note holds the detail.
 
 ```markdown
@@ -22,8 +22,8 @@ milestone's intent at a glance; the note holds the detail.
 
 ## Milestones
 
-- [ ] **Feature name** — contract line naming the capability and its key surfaces. Spec: `.ai-factory/notes/07-feature.md`.
-- [x] **Feature name** — contract line. Spec: `.ai-factory/notes/03-feature.md`. (completed)
+- [ ] **Feature name** — contract line naming the capability and its key surfaces. Spec: `.ai-factory/specs/07-feature.md`.
+- [x] **Feature name** — contract line. Spec: `.ai-factory/specs/03-feature.md`. (completed)
 ```
 
 No `## Completed` table. Completed milestones stay in the list marked `[x]` until

@@ -53,7 +53,7 @@ skills/
 ├── scripts/
 │   └── sync-upstream.sh          # refresh upstream/ai-factory from lee-to/ai-factory
 ├── .claude/                      # Claude Code project config (.mcp.json, settings.local.json)
-├── .ai-factory/                  # Roadmap, notes, architecture, plans
+├── .ai-factory/                  # Roadmap, specs, notes, handoffs, architecture, plans
 ├── CLAUDE.md
 ├── AGENTS.md
 └── README.md
@@ -144,6 +144,8 @@ Skills from this repo are available globally to all projects via Claude Code's p
 - `/aif-skill-generator` → creates or validates skills
 
 **Planning chain:** `/roadmap-outline` (strategic milestones) → `/roadmap-decompose` (atomic, implementation-ready tasks) → `/roadmap-decompose-skeleton` (optional second pass: skeleton/TDD/concurrency splits on heavy tasks). Each writes two-tier artifacts (contract line + spec note) via `roadmap-engine`.
+
+New spec notes land in `.ai-factory/specs/`; older ones still sit in `.ai-factory/notes/` and stay valid — every reader resolves the note through the contract line's `Spec:` tag, never a hardcoded directory. `.ai-factory/handoffs/` holds session handoffs, a separate genre.
 
 Planning and implementation are separate processes: this chat produces the roadmap and spec artifacts; the **orchestrator** (a separate run) implements them — never in the planning session. This is a hard constraint (see global CLAUDE.md).
 

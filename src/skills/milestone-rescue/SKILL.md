@@ -23,7 +23,7 @@ depth — then rolls the sidecar and the artifact set back to the matching repai
 so the orchestrator re-validates from there rather than starting blind.
 
 The roadmap contract line (in `$TARGET_FILE`) is the roadmap half of the two-tier spec
-pair (alongside the spec note in `.ai-factory/notes/`). It IS edited when the spec
+pair (alongside the spec note the milestone's `Spec:` tag names). It IS edited when the spec
 tier is repaired. The output is not a single ROADMAP edit — it is a depth-keyed
 repair: spec note + contract line, plan `.md`, or working-tree code, depending on how
 deep the root cause runs. The user picks the depth; an explicit "fix Y / delete X"
@@ -42,7 +42,8 @@ Filter results to the four artifact directories only:
 - `reviews/`
 - `patches/`
 
-Ignore any uncommitted files outside these directories (e.g. `notes/`).
+Ignore any uncommitted files outside these four directories — the spec note itself
+lives wherever the milestone's `Spec:` tag points, not in a fixed directory.
 
 If no uncommitted files are found in any of the four directories, stop and tell the
 user: there is nothing to rescue.
@@ -183,8 +184,8 @@ Options:
 3. Fold recurring spec-traceable nits into the spec note before committing
 ```
 
-Option 3: scan findings for nits that reference a gap in the spec note
-(`.ai-factory/notes/<NN>-….md`), propose the minimal clause addition, apply it, then
+Option 3: scan findings for nits that reference a gap in the spec note the `Spec:` tag
+points at, propose the minimal clause addition, apply it, then
 proceed as option 1. Proceed to Step 5 with the user's choice for all three options.
 
 ---
@@ -229,8 +230,9 @@ using git-native commands only:
 - Files marked `??` (untracked) → `git clean -f -- <path>`
 - Files marked `A ` (staged/added) → `git rm -f -- <path>`
 
-Never delete committed files. Never touch `.ai-factory/notes/` except the deliberate
-spec-note repair below. Never delete files belonging to other milestone slugs.
+Never delete committed files. Never touch the spec file (wherever its `Spec:` tag
+points) except the deliberate spec-note repair below. Never delete files belonging to
+other milestone slugs.
 
 ---
 
@@ -243,8 +245,8 @@ Do NOT touch the sidecar. Proceed directly to Step 5.5.
 
 **Depth: spec** — repair spec note + contract line; full reset.
 
-1. Edit the spec note (`.ai-factory/notes/<NN>-<slug>.md`) to address the root cause.
-   If a governing spec was read in Step 1, do not copy its content into the spec note
+1. Edit the spec note (the file the contract line's `Spec:` tag points at) to address
+   the root cause. If a governing spec was read in Step 1, do not copy its content into the spec note
    wholesale — quote/restate only the clauses implicated by the findings.
 2. Edit the contract line in `$TARGET_FILE` to match (keep it concise;
    each constraint is one semicolon-separated clause matching surrounding style).
