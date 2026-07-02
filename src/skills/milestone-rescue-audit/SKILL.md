@@ -10,7 +10,7 @@ description: >-
   or cold on any looped/outlier task. Trigger phrases: "audit", "convergence audit",
   "did it converge or band-aid", "band-aid check", "outside-view audit".
 argument-hint: "[milestone slug | leave empty if artifacts already in context]"
-allowed-tools: Read
+allowed-tools: Read Glob Grep Bash(git *)
 ---
 
 # Milestone Rescue Audit
