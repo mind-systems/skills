@@ -12,6 +12,7 @@ description: >-
 argument-hint: "[phase/slug or task description]"
 disable-model-invocation: true
 allowed-tools: Read Write Edit Glob Grep AskUserQuestion Skill
+loads: roadmap-engine test-philosophy
 ---
 
 # Roadmap Decompose Skeleton — Skeleton / TDD / Concurrency Decomposition Lens

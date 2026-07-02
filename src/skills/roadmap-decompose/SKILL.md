@@ -8,6 +8,7 @@ description: >-
   milestones that need to be implementation-ready.
 argument-hint: "[check | task description or requirements]"
 allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion Skill
+loads: roadmap-engine
 disable-model-invocation: true
 ---
 

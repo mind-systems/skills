@@ -11,6 +11,7 @@ argument-hint: "[roadmap-file]"
 disable-model-invocation: true
 user-invocable: true
 allowed-tools: Read Glob Grep Bash(find *) Bash(npm *) Bash(npx *) Bash(dart *) Bash(flutter *) Bash(python *) Bash(pytest *) Bash(go *) Bash(cargo *) Bash(mkdir *) Bash(git *) AskUserQuestion Agent Write Skill
+loads: test-philosophy
 ---
 
 # roadmap-test-coverage — Test Coverage Orchestrator

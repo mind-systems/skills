@@ -9,6 +9,7 @@ description: >-
 user-invocable: false
 disable-model-invocation: false
 allowed-tools: Read
+loads: note
 ---
 
 # Roadmap Engine — Shared Two-Tier Artifact Format

@@ -69,6 +69,26 @@ Each skill directory contains:
 
 Factor a capability into its own skill only when it carries **shared content** (a mechanism, rule, or format) used by ≥2 callers — every loaded line is a recurring context cost, so a pure router with no content of its own is negative value. **Engine** skills hold mechanism (the shared *how*); **philosophy** skills hold policy (the gate/lens that decides) and invoke engines, staying in control. Full model: `.ai-factory/ARCHITECTURE.md` → "Composition: mechanism vs policy".
 
+### Dependencies and the skill graph
+
+Every skill that loads another declares it in its own frontmatter `loads:` field (space-separated skill names) — colocated with the depending skill, not in a separate map. Direction is one-way: engines never list their callers, so there is no `loaded-by:` field anywhere.
+
+- **Forward graph** (what a skill loads): read its `loads:` field.
+- **Reverse graph** (who loads a skill): `grep -l "<name>" src/skills/*/SKILL.md src/commands/*.md`.
+
+The declarations *are* the map — there is no central dependency map to generate or keep in sync. Do not add one.
+
+Cross-file invariants that grep can't derive — a shared output register, a table that must stay mirrored across two files — get one sentence declared at the coupling point in **both** files, not just one.
+
+Editing rules that follow from this:
+- Before touching an engine (e.g. `roadmap-engine`, `test-philosophy`), grep for its callers — their expectations are part of its contract.
+- Never inline an engine's content into a philosophy skill that calls it; load it instead.
+- "Behavior-identical" and "word-for-word" in spec notes are contract text — the only type system this code has. Honor them literally.
+- A skill's output register (e.g. narrative prose vs. tables) is behavior, not formatting — never simplify a prose-narrative requirement into bullets or tables.
+- A refactored skill is unverified until a live run compares its actual output to the pre-refactor baseline.
+
+Pointers: `docs/skill-composition-model.md` (semantics), `docs/workflow.md` (pipeline order).
+
 ### SKILL.md frontmatter (required fields)
 
 ```yaml
