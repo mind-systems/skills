@@ -2,7 +2,7 @@
 name: roadmap-outline
 description: Create or update a project roadmap with major milestones. Generates .ai-factory/ROADMAP.md — a strategic checklist of high-level goals. Use when user says "roadmap", "project plan", "milestones", or "what to build next".
 argument-hint: "[check | project vision or requirements]"
-allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion Questions Skill
+allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion Skill
 loads: roadmap-engine
 disable-model-invocation: true
 ---
