@@ -43,12 +43,28 @@ pipeline expression (`| key="value"`) after the label selector:
 
 ## Endpoint
 
-Read from environment variable `OBS_LOKI_URL`; defaults to
-`http://localhost:3100`. Never assume a cloud vendor; never hard-code a URL.
+Two environment variables control the connection. Neither has a hardcoded
+fallback beyond the local default — the skill never stores or assumes a
+credential.
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `OBS_LOKI_URL` | `http://localhost:3100` | Loki base URL |
+| `OBS_LOKI_AUTH` | _(unset)_ | Full `Authorization` header value |
+
+**Local backend (no auth):** leave both unset. The script hits Loki directly
+on localhost.
+
+**Remote via Grafana Service Account:** set both. The datasource UID goes
+into the URL:
 
 ```bash
-export OBS_LOKI_URL=http://localhost:3100   # already the default
+export OBS_LOKI_URL=https://grafana.example.com/api/datasources/proxy/uid/<uid>
+export OBS_LOKI_AUTH="Bearer <service-account-token>"
 ```
+
+Set these in the shell environment or a secrets manager — never in committed
+files.
 
 If the backend is down the script prints one clear line with a recovery hint
 (`make backend-up` in the observability repo) and exits non-zero immediately.
@@ -170,6 +186,9 @@ bash scripts/query-loki.sh window 1h --project platform --limit 1000
 ## Raw LogQL templates
 
 For ad-hoc queries beyond the three slices, use `curl` directly:
+
+For a remote authenticated backend, add `-H "Authorization: ${OBS_LOKI_AUTH}"` to
+each `curl` below (omit it when running against local Loki).
 
 ```bash
 # All error logs in the last hour

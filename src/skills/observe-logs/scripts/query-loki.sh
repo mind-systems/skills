@@ -8,9 +8,16 @@ set -euo pipefail
 # Configuration
 # ---------------------------------------------------------------------------
 LOKI_URL="${OBS_LOKI_URL:-http://localhost:3100}"
+LOKI_AUTH="${OBS_LOKI_AUTH:-}"
 DEFAULT_LIMIT=200
 PAGE_SIZE=5000        # Loki's default max_entries_limit_per_query; used by query_range_all
 DEFAULT_WINDOW="1h"
+
+# Auth args for curl, built once. Empty when OBS_LOKI_AUTH is unset — byte-identical
+# behavior to no-auth. Never expand unguarded (bash 3.2 aborts on unbound-array
+# expansion under `set -u`); use ${AUTH_ARGS[@]+"${AUTH_ARGS[@]}"} at call-sites.
+AUTH_ARGS=()
+[[ -n "$LOKI_AUTH" ]] && AUTH_ARGS=(-H "Authorization: ${LOKI_AUTH}")
 
 # ---------------------------------------------------------------------------
 # Backend-down guard
@@ -19,6 +26,7 @@ check_backend() {
   local http_code
   http_code=$(curl -s -o /dev/null -w "%{http_code}" \
     --max-time 3 --connect-timeout 2 \
+    ${AUTH_ARGS[@]+"${AUTH_ARGS[@]}"} \
     "${LOKI_URL}/ready" 2>/dev/null || true)
 
   if [[ "$http_code" != "2"* ]]; then
@@ -102,6 +110,7 @@ query_range() {
 
   response=$(curl -s --max-time 30 \
     --get \
+    ${AUTH_ARGS[@]+"${AUTH_ARGS[@]}"} \
     --data-urlencode "query=${logql}" \
     --data-urlencode "start=${start_ns}" \
     --data-urlencode "end=${end_ns}" \
@@ -436,6 +445,7 @@ Usage:
 
 Environment:
   OBS_LOKI_URL   Loki base URL (default: http://localhost:3100)
+  OBS_LOKI_AUTH  Full Authorization header value (default: unset — no auth)
 
 Notes:
   - Index labels: project, service_name, level
