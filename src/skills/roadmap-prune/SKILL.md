@@ -2,11 +2,12 @@
 name: roadmap-prune
 description: >-
   Prunes completed tasks from ROADMAP.md by grouping them into named features,
-  anchoring each feature to its commit hash in ARCHITECTURE.md, and deleting the
-  pruned tasks from the roadmap. Use when ROADMAP.md has accumulated many [x] tasks
-  and needs to be trimmed without losing navigational history.
+  anchoring each feature to its commit hash in ARCHITECTURE.md, sweeping the
+  completed work's artifact dirs and specs, and deleting the pruned tasks from
+  the roadmap. Use when ROADMAP.md has accumulated many [x] tasks and needs to
+  be trimmed without losing navigational history.
 argument-hint: "[path/to/ROADMAP.md]"
-allowed-tools: Read Write Edit Bash(git *)
+allowed-tools: Read Write Edit Bash(git *) Bash(rm *)
 ---
 
 # Roadmap Prune
@@ -158,9 +159,26 @@ Follow the table format and grouping rules from Step 2.2. Additional rules:
 
 ---
 
-## Step 5 — Update ROADMAP.md
+## Step 5 — Sweep completed artifacts and specs
 
-Delete the pruned `[x]` tasks from `## Milestones`. Do not replace them with a table —
+Run this after Step 4 and before Step 6. Tags are captured before any ROADMAP.md line is deleted.
+
+Derive the **target repo root**: the parent of the `.ai-factory/` directory the target ROADMAP.md lives in (from the skill argument). Anchor every deletion in this step at that root. For a sub-repo roadmap at `<subrepo>/.ai-factory/ROADMAP.md`, the target repo root is `<subrepo>`, and the sweep touches only `<subrepo>/.ai-factory/*`.
+
+1. **Capture** the `Spec:` tag path of every `[x]` line — both the lines being pruned and any `[x]` lines kept as recent context. A `[x]` line with no `Spec:` tag contributes nothing — skip it, never synthesize a path.
+2. `rm -rf` the four artifact dirs, directly under `<target repo root>/.ai-factory/`: `plans/`, `plan-reviews/`, `reviews/`, `patches/`.
+3. `rm -f` each captured spec path — the captured paths are repo-root-relative and already begin with `.ai-factory/`; join them onto the target repo root, not onto `.ai-factory/`.
+
+Spec deletion goes only through `[x]` lines' `Spec:` tags — no spec directory is ever scanned or swept, so open `[ ]` tasks' specs are never touched.
+
+When pruning `ROADMAP_TESTS.md`, apply the same sweep, and `test-runs/` joins the swept dirs in that mode only.
+
+---
+
+## Step 6 — Update ROADMAP.md
+
+Delete the pruned `[x]` tasks from `## Milestones` — only after Step 5's tag capture has run.
+Do not replace them with a table —
 the tasks are gone from the roadmap. Their history lives in ARCHITECTURE.md.
 
 Keep `## Milestones` with all remaining `[ ]` tasks. Additionally, always retain the
@@ -169,7 +187,7 @@ continuity so agents can follow the sequence without confusion.
 
 ---
 
-## Step 6 — Verify
+## Step 7 — Verify
 
 Before finishing, verify:
 
@@ -184,14 +202,34 @@ Before finishing, verify:
 
 ---
 
+## Step 8 — Summary report
+
+List the dirs swept in Step 5 and the spec files deleted in Step 5.
+
+---
+
+## Commit (on request only, never automatic)
+
+The run ends with all changes in the working tree — no commit is made. When the user says
+to commit (any wording): `git add -A` scoped to the target repo root, then one commit with
+the message exactly `Roadmap prune` — no body, no prefixes, no co-author line, no per-file
+commits, never ask about the message.
+
+---
+
 ## What NOT to do
 
 - Do not prune `[ ]` tasks — only `[x]` tasks are candidates
 - Do not invent commit hashes — find real ones from `git log`
 - Do not merge unrelated features into one row to save space
-- Do not delete the notes/ directory or individual note files — they are referenced
-  by commit hash and must stay in the repo
 - Do not update the first hash when a feature only had minor internal changes
+- Do not scan or sweep a spec directory — spec deletion goes only through `[x]` lines'
+  `Spec:` tags; never touch a path an open `[ ]` line's tag names
+- Do not touch `handoffs/` — it is never swept
+- Do not use `git rm` — deletion is plain `rm`; staging happens once, at commit time, via `git add -A`
+- Do not resolve artifacts per task — no slug derivation, no discovery, no orphan report, no extended verify
+- Do not add rationale or explanation prose to the skill body — instructions only
+- Do not commit automatically — on request only; exactly one commit, exactly `Roadmap prune`
 
 ---
 
