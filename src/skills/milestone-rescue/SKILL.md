@@ -3,8 +3,9 @@ name: milestone-rescue
 description: >-
   Reads failed orchestrator artifacts (plans, plan-reviews, code reviews, patches),
   diagnoses how deep the root cause reaches, repairs to that depth (spec / spec+plan /
-  spec+plan+code), and rolls the sidecar + artifacts back to exactly the repaired state
-  so the orchestrator re-validates from there. Also checks downstream milestones for
+  spec+plan+code / plan-ratified-implementation-absent), and rolls the sidecar +
+  artifacts back to exactly the repaired state so the orchestrator re-validates from
+  there. Also checks downstream milestones for
   the same gaps. Use when the pipeline stops with "PLAN_REVIEW_PASS never achieved" or
   "REVIEW_PASS never achieved" — trigger phrases: "rescue", "milestone failed",
   "pipeline stopped".
@@ -83,6 +84,14 @@ at spec.
 but no review file contains `REVIEW_PASS`. Root cause is a defect in the code or plan;
 repair depth is at least spec+plan.
 
+**Stale implementer session (plan ratified, implementation absent)** — implement-phase
+condition holds (a `PLAN_REVIEW_PASS` plan-review is present, no `REVIEW_PASS`), AND
+every review round reports the product file(s) byte-identical to HEAD — i.e. no round
+ever produced a real diff, not merely a defective one. This is a pipeline-state defect
+(the implementer session's memory has gone stale), not a spec, plan, or code defect —
+the plan itself needs no repair. Repair depth is the plan-ratified rollback (Step 5),
+not spec/spec+plan/spec+plan+code.
+
 **Non-convergence (terminal, commit-as-is)** — implement-phase condition holds (PLAN_REVIEW_PASS
 present, no REVIEW_PASS) AND every review contains only Low or Informational findings
 AND the plan's deliverables are present/produced on disk (for `modify`-type deliverables,
@@ -115,6 +124,9 @@ Root-cause categories (context for depth + scope-overload flag):
 - **Specification gap** — ambiguous or missing constraint / edge case / scope boundary
 - **Scope overload** — too many concerns; planner or implementer loses coherence
 - **Mechanical error** — recurring execution mistakes independent of the task spec
+- **Stale implementer session** — every review round found the product file(s)
+  byte-identical to HEAD; the plan was ratified but no attempt ever produced a diff for
+  it to describe
 
 When a governing spec was read in Step 1, judge the recurring findings against it: a
 candidate "specification gap" may actually be a violation of an already-ratified
@@ -143,6 +155,11 @@ change it in both files or neither.
 No tables, no fragment-style bullet lists inside the Diagnosis Report — the causal
 story is read top to bottom, not reconstructed from a grid.
 
+For a stale-implementer-session classification, the narrative has no defect chain to
+tell: state plainly that the plan was ratified, that every round left the product
+file(s) unchanged from HEAD, and that the gap is in the pipeline's record of the
+attempt rather than in the spec, plan, or code.
+
 Domain language only: describe what the spec note / contract line stated wrongly or
 left ambiguous, and how the plan or code went wrong as a consequence. Zero orchestrator
 vocabulary — no iteration counts, no PASS markers, no phase names, no sidecar.
@@ -151,9 +168,10 @@ End with a standalone root-cause sentence, visually set off (e.g. a block quote)
 sentence stating the missing or wrong constraint in the spec/contract, phrased so that,
 had it been present, the failure chain would not have occurred.
 
-Attach the root-cause category (specification gap / scope overload / mechanical error)
-and the recurring-issue signal to the report as a classification, not as a substitute
-for the narrative — they carry into Step 4 to drive the depth choice.
+Attach the root-cause category (specification gap / scope overload / mechanical error /
+stale implementer session) and the recurring-issue signal to the report as a
+classification, not as a substitute for the narrative — they carry into Step 4 to drive
+the depth choice.
 
 ---
 
@@ -190,19 +208,25 @@ proceed as option 1. Proceed to Step 5 with the user's choice for all three opti
 
 ---
 
-**For real defects (plan-phase or implement-phase failure):**
+**For real defects (plan-phase or implement-phase failure, or a stale implementer session):**
 
 **Scope-overload flag:** if the dominant root cause is scope overload — the task has
 too many unrelated concerns or is fundamentally mis-framed — do NOT decompose here.
 Flag this to the user and point to `/roadmap-decompose`. The user decides whether to
 remove/replace or rewrite. Skip the depth menu in this case.
 
+**Stale-implementer-session flag:** if Step 2 classified the failure as a stale
+implementer session (plan ratified, implementation absent), do not present the standard
+three depths (spec / spec+plan / spec+plan+code) — the plan needs no repair, so none of
+them apply. Present only option 4 below as the recommended rollback; the user's
+explicit "fix Y / delete X" still overrides.
+
 Otherwise, present the repair depth via `AskUserQuestion`. Each option states what gets
 repaired and what the rollback state is. The user's explicit "fix Y / delete X" overrides
 this menu.
 
 ```
-Root cause: <spec-gap | mechanical-error | scope-overload>
+Root cause: <spec-gap | mechanical-error | scope-overload | stale-implementer-session>
 Dominant recurring issue: <one line>
 
 Choose repair depth:
@@ -215,9 +239,16 @@ Choose repair depth:
 
 3. spec + plan + code — repair spec + plan + code by hand in the working tree
    Rollback: reviews, patches deleted; sidecar step → "implemented"
+
+4. plan ratified, implementation absent — keep the plan and its passing plan-review(s);
+   the implementer session never produced a diff
+   Rollback: reviews, patches deleted; sidecar step → "plan_reviewed"; `implementer`
+   session dropped; orchestrator resumes at implement, iteration 1, with a fresh session
 ```
 
-After the user confirms, proceed to Step 5 with the chosen depth.
+Offer option 4 only when a passing plan-review is on disk for this slug — the plan was
+ratified but the product diff is empty (see the diagnosis signal in Step 2–3). After the
+user confirms, proceed to Step 5 with the chosen depth.
 
 ---
 
@@ -268,11 +299,13 @@ Emit: `Sidecar deleted (full reset).`
 3. Delete: all plan-review files, all review files, all patch files for this slug.
    Keep the plan `.md` and sidecar.
 4. Locate the sidecar at `.ai-factory/plans/{seq}-{slug}.json`. Read it if present;
-   start from `{}` if absent. Update **only** the `step` key to `"planned"`. Preserve
-   every other key — `planner`, `implementer`, `elapsed`, and any others — untouched.
-   Write back as JSON with 2-space indentation.
+   start from `{}` if absent. Set the `step` key to `"planned"` and **delete** the
+   `implementer` key — it names the session whose implementation was just discarded, so
+   its memory no longer describes anything on disk. Preserve every other key —
+   `planner`, `elapsed`, and any others — untouched. Write back as JSON with 2-space
+   indentation.
 
-Emit: `Sidecar updated: step set to "planned".`
+Emit: `Sidecar updated: step set to "planned"; implementer session dropped.`
 
 ---
 
@@ -289,6 +322,27 @@ Emit: `Sidecar updated: step set to "planned".`
    as the spec+plan depth above.
 
 Emit: `Sidecar updated: step set to "implemented".`
+
+---
+
+**Depth: plan ratified, implementation absent** — the plan and its passing
+plan-review(s) stand; only the (missing) implementation is discarded; roll back to
+`"plan_reviewed"`.
+
+1. Keep the plan `.md` and every plan-review file for this slug untouched — the plan
+   was ratified and needs no repair.
+2. Delete: all review files and all patch files for this slug — there is no
+   implementation for them to describe.
+3. Locate the sidecar at `.ai-factory/plans/{seq}-{slug}.json`. Read it if present;
+   start from `{}` if absent. Set the `step` key to `"plan_reviewed"` and **delete** the
+   `implementer` key — the session it names never produced the implementation, so its
+   memory would only mislead the next implement attempt. Preserve every other key —
+   `planner`, `elapsed`, and any others — untouched. Write back as JSON with 2-space
+   indentation.
+4. Validation contract: only write `"plan_reviewed"` when a plan-review file ending
+   with `PLAN_REVIEW_PASS` is present on disk for this slug — never write it otherwise.
+
+Emit: `Sidecar updated: step set to "plan_reviewed"; implementer session dropped.`
 
 ---
 
@@ -311,7 +365,12 @@ do not let them diverge.
 **Test mode:** `review_failed:N` is replaced by `test_run_failed:N` (artifact: `test-runs/{seq}-{slug}-test-N.txt`).
 **Always-valid guard:** `"planned"` and `"implemented"` carry no artifact reference and always validate — write `"planned"` only when the plan `.md` is present; write `"implemented"` only when the plan `.md` is present and a non-empty working diff exists. Never write `"planned"` after deleting the plan `.md`.
 
-Note: `"plan_reviewed"` is intentionally not written by this skill. The new flow writes only `"planned"` (spec+plan depth), `"implemented"` (spec+plan+code depth), or deletes the sidecar (spec depth). The other three values stay in the table as the orchestrator-contract reference only.
+Note: `"plan_reviewed"` **is** written by this skill — exactly by the plan-ratified
+rollback (Step 5), and only when a plan-review file ending with `PLAN_REVIEW_PASS` is
+present on disk for the slug. Otherwise the flow writes only `"planned"` (spec+plan
+depth), `"implemented"` (spec+plan+code depth), or deletes the sidecar (spec depth).
+`"plan_review_failed:N"` and `"review_failed:N"` remain not written — reference-only
+values from the orchestrator contract.
 
 Restate the Diagnosis Report's conclusion in one paragraph — what was wrong, what was
 repaired, and at which depth — before the file bookkeeping below.
@@ -367,9 +426,13 @@ If no matches found, or all issues are domain-specific to the failed milestone, 
   phase's `Governing spec:` documents when the phase names them — otherwise the
   ratified spec tier does not participate in the rescue at all. This read is
   unconditional whenever the phase names a governing spec, never suspicion-gated.
-- Do not overwrite `planner`, `implementer`, or `elapsed` in the sidecar — only `step`
-  is updated; on a full reset (spec depth) the sidecar is deleted entirely alongside
-  the plan
+- Do not overwrite `planner` or `elapsed` in the sidecar — these persist untouched at
+  every depth. `implementer` is the one exception: delete it whenever the repair
+  discards the implementation the session produced (spec+plan depth, and the
+  plan-ratified rollback depth), since the key would otherwise name a session whose
+  memory describes a discarded attempt. Do not keep `implementer` around "for the
+  elapsed stats" — those stats live in `elapsed`, which is retained regardless. On a
+  full reset (spec depth) the sidecar is deleted entirely alongside the plan
 - Do not write `"planned"` or `"implemented"` when the corresponding artifact is
   absent — both are always-valid states the orchestrator accepts without artifact
   checks, so writing one after deleting the plan `.md` (or before any working diff
