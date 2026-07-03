@@ -82,6 +82,8 @@ Every skill that loads another declares it in its own frontmatter `loads:` field
 
 The declarations *are* the map — there is no central dependency map to generate or keep in sync. Do not add one.
 
+The coupling is declared on both sides: the caller's frontmatter states *whom* it loads; the engine's body states *that it is loaded* and how to find by whom — every engine (any skill named in a `loads:` field) carries a reverse-graph marker in its body, added when the first `loads:` edge to it appears.
+
 Cross-file invariants that grep can't derive — a shared output register, a table that must stay mirrored across two files — get one sentence declared at the coupling point in **both** files, not just one.
 
 Editing rules that follow from this:

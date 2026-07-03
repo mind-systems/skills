@@ -17,7 +17,10 @@ This is a shared pure-content philosophy unit for the roadmap family. It holds o
 discriminator — the rule for which surfaces are worth testing — not any
 test-generation procedure or coverage pipeline. The calling skill (`roadmap-test-coverage`,
 `roadmap-decompose-skeleton`) stays in control of when and how it applies the rule; this
-skill has no I/O of its own. Load this skill once per chat.
+skill has no I/O of its own. Load this skill once per chat. This is a load-once engine:
+its callers depend on its exact behavior — edits here must honor their expectations as
+part of its contract; the reverse graph resolves via
+`` grep -l "test-philosophy" src/skills/*/SKILL.md src/commands/*.md ``.
 
 ## The Silent-Failure Discriminator
 

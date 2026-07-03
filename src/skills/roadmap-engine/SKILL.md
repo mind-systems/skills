@@ -18,7 +18,9 @@ note, and the roadmap file format — not any decomposition philosophy. The call
 philosophy skill stays in control of what to build and when; this engine describes the
 artifact format the caller applies once a task is decided. **Load this skill once per
 chat** — once loaded, the format stays in context; never re-invoke it per task or per
-mode.
+mode. This is a load-once engine: its callers depend on its exact behavior — edits here
+must honor their expectations as part of its contract; the reverse graph resolves via
+`` grep -l "roadmap-engine" src/skills/*/SKILL.md src/commands/*.md ``.
 
 ## The two-tier artifact
 

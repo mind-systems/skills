@@ -18,6 +18,10 @@ allowed-tools: Read Write Bash(ls *) Bash(mkdir *) Glob
 
 Extracts key findings from the current conversation context and saves them as a numbered note file.
 
+This is a load-once engine: its callers depend on its exact behavior — edits here must
+honor their expectations as part of its contract; the reverse graph resolves via
+`` grep -l "note" src/skills/*/SKILL.md src/commands/*.md ``.
+
 ## Workflow
 
 ### Hooks (caller inputs)
