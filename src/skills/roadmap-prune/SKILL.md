@@ -7,7 +7,8 @@ description: >-
   the roadmap. Use when ROADMAP.md has accumulated many [x] tasks and needs to
   be trimmed without losing navigational history.
 argument-hint: "[path/to/ROADMAP.md]"
-allowed-tools: Read Write Edit Bash(git *) Bash(rm *)
+allowed-tools: Read Write Edit Bash(git *) Bash(rm *) Glob Grep
+loads: orchestrator-artifacts
 ---
 
 # Roadmap Prune
@@ -16,6 +17,43 @@ Cleans up a roadmap by collapsing completed tasks into architectural features wi
 commit-level precision. The tasks disappear from the roadmap; the features appear in
 ARCHITECTURE.md with GPS-accurate commit hashes so the history is never lost — just
 moved to the right place.
+
+---
+
+## Step 0 — Deferred-observations gate
+
+Ensure `orchestrator-artifacts` is loaded once this chat (via the Skill tool, only if
+not already loaded) — it defines the `## Deferred observations` section format and the
+status-marker grammar / **pinned** definition referenced below.
+
+1. Derive the target repo root from the skill argument (parent of the `.ai-factory/`
+   holding the target ROADMAP.md) — same anchoring rule Step 5 uses.
+2. Scan every `.md` file under `<target repo root>/.ai-factory/plan-reviews/` and
+   `<target repo root>/.ai-factory/reviews/` for a `## Deferred observations` section.
+   A file with no such section contributes nothing to this step — but capture it for
+   step 6 below before moving on, since Step 5 deletes these files and Step 8 runs
+   after the sweep.
+3. Collect every entry line (`- Affects: <target> — <observation>`) that is **not
+   pinned** per the engine's grammar (pinned = the entry line carries ≥1 bracketed
+   status marker — do not redefine, cite the engine).
+4. If any unpinned entry exists → stop the skill entirely: print one line per unpinned
+   entry as `<file>:<line> — <entry text>`, state that pruning is blocked until every
+   entry is pinned, and name the resolution — run `milestone-rescue-audit` in prune
+   mode (`milestone-rescue-audit prune`) first. Make no edits, no sweep, no
+   ARCHITECTURE/ROADMAP changes, no partial prune.
+5. If none are unpinned → proceed to `## Before you start` and the normal flow,
+   unchanged.
+6. While scanning, for every file that has **no** `## Deferred observations` section,
+   also check it for any pre-standardization marker phrase — `latent`, `forward risk`,
+   `no action needed`, `out of scope for this milestone`, `flagging so Phase`,
+   `Surface this to the orchestrator`. Capture the matching paragraph(s) with their
+   source file now, before Step 5 deletes the file — Step 8 only echoes what is
+   captured here, it never re-reads these dirs.
+
+`ROADMAP_TESTS.md` parity: the gate scans the shared `plan-reviews/`/`reviews/` dirs
+identically in both modes; `test-runs/` files carry no review sections and are not
+scanned. Prune never promotes, evaluates, or marks entries — this gate is
+read-and-refuse only.
 
 ---
 
@@ -205,6 +243,12 @@ Before finishing, verify:
 ## Step 8 — Summary report
 
 List the dirs swept in Step 5 and the spec files deleted in Step 5.
+
+Report-only, never gates: echo the paragraph(s) captured by Step 0.6 under a "possible
+unharvested margins" heading, one entry per source file. Do not re-scan
+`plan-reviews/`/`reviews/` here — Step 5 already deleted them; this step only reports
+what Step 0 captured before the sweep. Free-form prose has no entry line to pin; this
+never affects the Step 0 gate. If Step 0 captured nothing, omit the heading.
 
 ---
 
