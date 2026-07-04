@@ -11,6 +11,7 @@ description: >-
   "pipeline stopped".
 argument-hint: "[path/to/ROADMAP.md | ROADMAP_TESTS.md]"
 allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion
+loads: orchestrator-artifacts
 ---
 
 # Milestone Rescue
@@ -30,27 +31,27 @@ repair: spec note + contract line, plan `.md`, or working-tree code, depending o
 deep the root cause runs. The user picks the depth; an explicit "fix Y / delete X"
 overrides.
 
+Ensure `orchestrator-artifacts` is loaded once this chat (via the Skill tool, only if
+not already loaded) — it defines the artifact layout, naming, signals, sidecar
+fields, and marker grammar referenced below.
+
 ---
 
 ## Step 1 — Discover artifacts
 
 Run `git status --short -- .ai-factory/` to find all uncommitted files under `.ai-factory/`.
 
-Filter results to the four artifact directories only:
+Filter results to the artifact directories (`plans/`, `plan-reviews/`, `reviews/`,
+`patches/`) — layout and naming conventions are described in `orchestrator-artifacts`.
 
-- `plans/`
-- `plan-reviews/`
-- `reviews/`
-- `patches/`
-
-Ignore any uncommitted files outside these four directories — the spec note itself
+Ignore any uncommitted files outside these directories — the spec note itself
 lives wherever the milestone's `Spec:` tag points, not in a fixed directory.
 
-If no uncommitted files are found in any of the four directories, stop and tell the
-user: there is nothing to rescue.
+If no uncommitted files are found in any of the artifact directories, stop and tell
+the user: there is nothing to rescue.
 
-**Identify the milestone slug.** Artifact filenames share a common `<NN>-<slug>` prefix
-(e.g. `03-milestone-rescue`). Extract the slug from the filenames. If files from
+**Identify the milestone slug.** Extract the `<seq>-<slug>` shared by the artifact
+filenames (see `orchestrator-artifacts` for the naming convention). If files from
 multiple slugs are present, ask the user which milestone to rescue before proceeding.
 
 **Read the phase's governing spec.** Determine `$TARGET_FILE` (the same resolution
@@ -75,6 +76,8 @@ implementer addressed it. Read them all before drawing any conclusions.
 Determine which phase failed and how deep the root cause runs. This classification is
 an **internal routing signal** that feeds the depth choice in Step 4 — it is not itself
 the diagnosis the user receives; the substantive diagnosis is Step 3's Diagnosis Report.
+Signal semantics (`PLAN_REVIEW_PASS`, `REVIEW_PASS`, last-line requirement) are defined
+in `orchestrator-artifacts`; the classification below only applies them.
 
 **Plan-phase failure** — no plan-review file contains `PLAN_REVIEW_PASS` on its own
 line. Root cause is likely a specification gap or scope overload; repair depth starts
