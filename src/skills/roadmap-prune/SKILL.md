@@ -215,13 +215,15 @@ When pruning `ROADMAP_TESTS.md`, apply the same sweep, and `test-runs/` joins th
 
 ## Step 6 — Update ROADMAP.md
 
-Delete the pruned `[x]` tasks from `## Milestones` — only after Step 5's tag capture has run.
+Delete the pruned `[x]` tasks from the task-holding sections — a flat `## Milestones`
+list, or direction sections (`## <Direction name>` → `### Phase N` → `N.M` tasks) —
+only after Step 5's tag capture has run.
 Do not replace them with a table —
 the tasks are gone from the roadmap. Their history lives in ARCHITECTURE.md.
 
-Keep `## Milestones` with all remaining `[ ]` tasks. Additionally, always retain the
-last phase header and its 2 most recent `[x]` tasks — this preserves phase numbering
-continuity so agents can follow the sequence without confusion.
+Keep the task-holding sections with all remaining `[ ]` tasks. Additionally, always
+retain the last phase header and its 2 most recent `[x]` tasks — this preserves phase
+numbering continuity so agents can follow the sequence without confusion.
 
 **Emptied-phase sweep:** after deleting a phase's last task, if the `### Phase N`
 header now has no tasks left under it, delete the header and its intro prose too —
@@ -229,6 +231,14 @@ never renumber surviving phases; numbering is historic and gaps are normal (a
 deleted phase's number may still be referenced from specs, commits, and
 ARCHITECTURE.md features). This coexists with the retain rule above: a phase that
 still holds a kept `[x]` task is not emptied and keeps its header.
+
+**Emptied-direction sweep:** after the emptied-phase sweep removes a direction
+section's last phase header, if the `## <Direction name>` section now has no phases
+or tasks left under it, delete the header and its preamble prose too — never
+renumber anything; phase numbering is historic and file-global, so a deleted
+direction's phase numbers stay as gaps. This coexists with the retain rule above:
+the retain-last-phase-header rule keeps the newest direction alive by construction,
+so this sweep can only fire on older, fully-pruned directions.
 
 ---
 
