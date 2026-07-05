@@ -48,11 +48,18 @@ the note is the implementation.
 
 > <project vision — one-liner>
 
-## Milestones
+## <Direction name>
 
-- [ ] **Name** — <problem today + the exact change + key files/types/guards involved>. Spec: `.ai-factory/specs/<NN>-<slug>.md`.
-- [ ] **Name** — <same pattern>. Spec: `.ai-factory/specs/<NN>-<slug>.md`.
-- [x] **Name** — <same pattern>. Spec: `.ai-factory/specs/<NN>-<slug>.md`.
+<direction preamble: source handoff/spec links, hard rules, gating for this direction>
+
+### Phase N — <Phase title>
+
+<phase intro as prose, no checkbox: gate ("blocked on X"), the problem today,
+key contracts / pinned decisions the phase rests on>
+
+- [ ] **N.1 — <Task name>** — <problem today + the exact change + key files/types/guards involved>. Spec: `.ai-factory/specs/<NN>-<slug>.md`.
+- [ ] **N.2 — <Task name>** — <same pattern>. Spec: `.ai-factory/specs/<NN>-<slug>.md`.
+- [x] **N.3 — <Task name>** — <same pattern>. Spec: `.ai-factory/specs/<NN>-<slug>.md`.
 ```
 
 **Rules for writing a contract line:**
@@ -63,6 +70,21 @@ the note is the implementation.
 - Always end with the `Spec:` tag pointing at the spec note
 - One reason to revert — if two concerns are independently shippable, make two milestones
 - Full current-state / target / guards / verify detail lives in the spec note, not the roadmap line
+
+**Numbering rules:**
+- **Phase numbers are globally sequential** across the whole file — a new section
+  (including the first phases of a new direction) continues from the file-wide
+  maximum phase number, never restarts at 1; gaps are legal and expected (pruning
+  leaves holes).
+- **Task numbers are `N.M`** — `N` comes from the parent phase header, `M` is a
+  1-based ordinal within that phase.
+- **Split sub-numbering:** splitting an already-numbered task `N.M` yields children
+  `N.M.1 … N.M.k` in chain order; the original impl line is renumbered to the
+  **last child** `N.M.k`, and `N.M` ceases to exist as a task number — it becomes
+  the family prefix. Outside references to `N.M` stay valid as family references.
+  Never cascade-renumber the rest of the phase.
+- **Flat fallback:** a file, or a region of a file, with no phase headers keeps the
+  flat unnumbered bullet format — never invent a phase header to number against.
 
 ## Roadmap maintenance flow
 
@@ -130,9 +152,12 @@ structure, `Grep` for implemented features, and `git log --oneline -20` for
 completed work.
 
 **Draft the roadmap in memory** — do not write `$TARGET_FILE` yet. Produce each
-entry as a two-tier artifact per the format above, with a placeholder
-`` Spec: `<note pending>`. `` on the contract line. Before writing a drafted entry's
-contract line, apply the caller's per-entry gate (hook b) if one is supplied.
+entry per the caller's hook (a) shape. When that shape is two-tier, render it per
+the format above with a placeholder `` Spec: `<note pending>`. `` on the contract
+line — the two-tier placeholder mechanics apply only to two-tier shapes; a shape
+with no contract line (e.g. a phase header) carries no placeholder. Before writing
+a drafted entry's contract line (where its shape has one), apply the caller's
+per-entry gate (hook b) if one is supplied.
 
 **Confirm with the user:**
 
@@ -147,10 +172,12 @@ Options:
 ```
 
 Apply changes if requested, then finalize: **only after "Looks good — save it"** —
-write each confirmed entry's spec note, then replace its `` Spec: `<note pending>`. ``
-placeholder with the real `` Spec: `.ai-factory/specs/<NN>-<slug>.md`. `` tag, then
-write `$TARGET_FILE`. Entries removed or rewritten during confirmation receive no
-note — only the confirmed set gets notes.
+for each confirmed entry whose shape is **two-tier** (hook a), write its spec note,
+then replace its `` Spec: `<note pending>`. `` placeholder with the real
+`` Spec: `.ai-factory/specs/<NN>-<slug>.md`. `` tag. Entries whose shape carries no
+placeholder (e.g. a phase header) need neither a note nor a tag swap. Then write
+`$TARGET_FILE`. Entries removed or rewritten during confirmation receive no note —
+only the confirmed set gets notes.
 
 ### Update mode (subsequent run)
 
@@ -174,9 +201,11 @@ Options:
 - **Review progress:** scan the codebase for evidence of completed entries; for
   each unchecked entry, check whether the work appears done; propose marking the
   confirmed-done entries `[x]`; apply on confirmation; leave the rest unchanged.
-- **Add:** explore the codebase for each new entry, produce its two-tier artifacts
-  per the format above (applying the per-entry gate hook if supplied), and insert
-  each in logical order among existing entries.
+- **Add:** explore the codebase for each new entry, produce it per the caller's
+  hook (a) shape (applying the per-entry gate hook if supplied, where the shape has
+  a contract line to gate) — the two-tier `Spec:` placeholder mechanics apply only
+  when that shape is two-tier — and insert each in logical order among existing
+  entries.
 - **Reprioritize:** show the current order, ask for the new order or let the user
   describe priority changes, then reorder entries in `$TARGET_FILE`.
 - **Rewrite:** re-run the Create-mode draft→confirm cycle (gather input, explore,

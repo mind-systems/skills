@@ -30,6 +30,13 @@ revert. Two-tier discipline applies: a contract line in the roadmap plus a full 
 note per `roadmap-engine`'s format — never a full spec inline. Order entries by
 logical sequence (dependencies first).
 
+Numbering: tasks render as flat checkbox bullets directly under their parent
+`### Phase N` header, numbered `**N.M — Name**` (`N` from the header, `M` a 1-based
+ordinal continuing after the highest existing `M` in that phase). **Flat fallback:**
+when the target file/region has no phase headers, emit unnumbered bullets exactly as
+today — never invent a phase header to hang a number on (covers `ROADMAP_TESTS.md`,
+legacy flat roadmaps, and this repo's own ROADMAP.md).
+
 Two parity carry-overs the engine's create flow does not itself hold:
 - On first run, mark already-completed milestones as `[x]`.
 - Create-mode gather-input question (fills the engine's
@@ -68,7 +75,10 @@ Note-handling rule:
 - Legacy inline (no tag) → write a new note per `roadmap-engine`'s format and add the
   `Spec:` tag.
 - If the milestone bundles 2+ independent concerns, offer a split (a split → two notes
-  + two contract lines).
+  + two contract lines). When the target task is already numbered `N.M`, number the
+  split per the engine's sub-numbering rule — children `N.M.1 … N.M.k` in chain
+  order, with the original line renumbered to the last child `N.M.k`; an unnumbered
+  (flat) task's split stays unnumbered.
 - Never bulk-migrate untouched legacy tasks.
 
 ## Critical Rules

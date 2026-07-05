@@ -1,0 +1,48 @@
+# Plan: Roadmap family: two-level phase grammar — outline emits `### Phase N` headers, decompose/skeleton emit `N.M` tasks
+
+## Context
+Teach the roadmap-family skills the two-level grammar the tradeoxy sessions settled: `roadmap-engine` owns the render format + numbering rules; `roadmap-outline` emits `### Phase N` headers with prose intros; `roadmap-decompose`/`-skeleton` emit `N.M`/`N.M.x` tasks under them; `roadmap-prune` deletes emptied phase headers — all with a flat fallback so legacy roadmaps stay untouched.
+
+## Settings
+- Testing: no
+- Logging: minimal
+- Docs: no
+
+## Tasks
+
+### Phase 1: Engine grammar (foundation)
+
+- [x] **Task 1: Rewrite `roadmap-engine`'s format section to the two-level grammar + numbering rules**
+  Files: `src/skills/roadmap-engine/SKILL.md`
+  Rewrite the **"Roadmap File Format"** section (currently the stale flat `## Milestones` block, lines ~44–56) to the canonical two-level grammar from the spec: a `## <Direction name>` section with a prose preamble; `### Phase N — <Title>` headers each followed by a **prose intro paragraph** (no checkbox, no `Spec:` tag — gate/"blocked on X", problem, key contracts); tasks as **flat** `- [ ] **N.M — Name** — <contract line>. Spec: …` bullets directly under their phase header (flat, never indented/nested). Keep the existing **"Rules for writing a contract line"** block unchanged — it now describes the task tier. Add a new **Numbering rules** subsection in the format section with exactly the four rules from spec decision block: (a) phase numbers globally sequential across the whole file, new sections continue from the file-wide maximum, never restart, gaps legal; (b) task numbers `N.M` — `N` from the parent phase header, `M` a 1-based ordinal within the phase; (c) split sub-numbering — splitting numbered task `N.M` yields children `N.M.1 … N.M.k` in chain order, the original impl line is renumbered to the **last child** `N.M.k` and `N.M` ceases to exist as a task number (becomes the family prefix), outside references to `N.M` stay valid as family references, **never** cascade-renumber the phase tail; (d) flat fallback — a file or file region without phase headers keeps the flat unnumbered bullet format, never invent headers to number against. **Guards:** engine stays caller-agnostic — name no skill in the format section; keep the direction preamble and phase intro as **prose**, not bullet lists, in the example (output register is behavior); keep the file ≤500 lines and the reverse-graph marker / load-once framing intact.
+
+- [x] **Task 2: Loosen `roadmap-engine`'s create-mode draft AND finalize steps to hook (a)'s shape** (depends on Task 1)
+  Files: `src/skills/roadmap-engine/SKILL.md`
+  Per spec decision 8, loosen the two-tier/placeholder mechanics at **both** points where they are currently unconditional, so an outline phase entry (no note, no `Spec:` tag, no placeholder per decision 6) never trips a note-writing instruction:
+  1. **Draft step** ("Draft the roadmap in memory", lines ~132–136): instead of hard-mandating "produce each entry as a two-tier artifact … with a placeholder `Spec: <note pending>`", produce each entry **per hook (a)'s shape**; the two-tier `Spec: <note pending>` placeholder mechanics apply **only when that shape is two-tier**.
+  2. **Finalize step** (lines ~149–153): the current wording — "write **each confirmed entry's** spec note, then replace its `Spec: <note pending>` placeholder with the real tag" — is unconditional and would force note mechanics on outline's phases even after the draft-step fix (the conditional lives in a different sentence). Gate this step on the two-tier shape: for each confirmed **two-tier** entry, write its note and swap the placeholder; entries whose shape carries no placeholder (e.g. a phase header) need neither. This keeps genuinely two-tier callers (decompose/skeleton) unaffected.
+  3. **Update-mode "Add" action** (lines ~177–179): the current wording — "produce its **two-tier artifacts per the format above** … and insert each in logical order" — is the identical unconditional two-tier mandate, one mode over, and this is the dominant outline call (adding phases to an existing ROADMAP.md routes here, not to create mode). Loosen "produce its two-tier artifacts" to hook (a)'s shape: the two-tier/placeholder mechanics apply only when that shape is two-tier — so outline's phase-add emits a header + prose intro (no note, no `Spec:` tag) while decompose/skeleton stay two-tier. Leave the **Rewrite** action untouched (it re-runs the create-mode draft→confirm cycle and inherits fixes 1–2) and **Reprioritize** untouched (reorder only).
+  Touch only these three steps' two-tier/placeholder sentences — the rest of the flow (confirm menu, "removed/rewritten entries receive no note", the write of `$TARGET_FILE`) stays byte-identical. Do not add skill names.
+
+### Phase 2: Caller hooks
+
+- [x] **Task 3: Rewrite `roadmap-outline` hook (a) — phases as headers, drop check mode and the spec-note clause** (depends on Task 1)
+  Files: `src/skills/roadmap-outline/SKILL.md`
+  **Frontmatter:** drop the now-stale `check` token from `argument-hint` (line 4) — it becomes `argument-hint: "[project vision or requirements]"` since outline no longer honors check mode (decompose keeps its own `check`; only outline changes).
+  Full rewrite of **hook (a)** (lines ~20–41): an entry is a **phase** — a `### Phase N — <Title>` header plus a **prose intro paragraph** (gate/"blocked on X", problem today, key contracts and pinned decisions), **never a checkbox bullet, no contract line, no `Spec:` tag**. Numbering: continue from the highest phase number anywhere in the file (per the engine's file-level invariant); when creating the first phases of a **new direction section**, also emit the `##` direction header and preamble prose. Keep 5–15 phases as the granularity sweet spot and dependencies-first ordering; replace "milestones later serve as phase names" with "phases are what `/roadmap-decompose` fills with tasks". **Parity carry-overs:** delete the `[x]`-on-first-run carry-over (no checkboxes to mark); keep the gather-input question. **Spec-note clause:** delete the "optional at this tier" paragraph entirely (decision 6); add one sentence permitting plain-markdown links to handoff/spec notes inside the intro/preamble prose. **Check mode:** explicitly opt out — add a statement that outline registers no check mode (nothing to scan at this tier; progress derives from `N.M` tasks); keep create/update modes and the confirm cycle on the engine's flow. **Critical Rules** (lines ~57–64): update to match — phases not milestones; replace the "every milestone renders two-tier" rule with "phases render as headers + prose per the engine's format; tasks are decompose's tier"; leave the NO-implementation rule unchanged.
+
+- [x] **Task 4: Add `N.M` numbering + sub-numbering to `roadmap-decompose` hooks (a) and (d)** (depends on Task 1)
+  Files: `src/skills/roadmap-decompose/SKILL.md`
+  In **hook (a)** (lines ~26–38): state that tasks are emitted as flat checkbox bullets directly under their parent `### Phase N` header, numbered `**N.M — Name**` (`N` from the header, `M` a 1-based ordinal continuing after the highest existing `M` in that phase). Everything else about a task stays: two-tier per the engine (contract line + spec note + `Spec:` tag), the Atomicity Gate, dependencies-first ordering. Add the **flat fallback** explicitly: when the target file/region has no phase headers → emit unnumbered bullets exactly as today; **never invent a phase header** to hang a number on (covers `ROADMAP_TESTS.md`, legacy flat roadmaps, and this repo's own ROADMAP.md). In **hook (d) "Decompose existing"** (lines ~60–72): when a split of an already-numbered task `N.M` is offered and accepted, number per the engine's sub-numbering rule — children `N.M.1 … N.M.k`, original line becomes the last child; leave the note-handling rules unchanged.
+
+- [x] **Task 5: Number `roadmap-decompose-skeleton` insertions `N.M.1…k` with impl as last child** (depends on Task 1)
+  Files: `src/skills/roadmap-decompose-skeleton/SKILL.md`
+  In the **"Disposition of the original task"** paragraph (Step 4, lines ~128–134): when the target task is numbered `N.M`, number the inserted skeleton/TDD/contract milestones `N.M.1 … N.M.(k-1)` in chain order (skeleton → TDD/contract → …), and renumber the in-place original impl line to `N.M.k` (last child) — its contract-line text and `Spec:` note tag stay. State the flat fallback: an unnumbered target task (flat roadmap) → insertions stay unnumbered, today's behavior. No renumbering outside the family. Keep the existing keep-impl-in-place / insert-before discipline and the note-content-update rule intact.
+
+- [x] **Task 6: Add the emptied-phase sweep rule to `roadmap-prune`** (depends on Task 1)
+  Files: `src/skills/roadmap-prune/SKILL.md`
+  In **Step 6 — Update ROADMAP.md** (lines ~216–225): add one rule — after deleting a phase's last task, delete the now-empty `### Phase N` header and its intro prose; **never renumber** surviving phases (numbering is historic; gaps are normal — they may still be referenced from specs, commits, and ARCHITECTURE.md features). Ensure this coexists with the existing retain-last-phase-header-and-2-recent-`[x]` rule: a phase that still holds a kept `[x]` task is not emptied and keeps its header. Leave the unrelated "Never copy a phase or section header as a feature name" rule (Step 2.2 / 2.1) untouched.
+
+## Commit Plan
+- **Commit 1** (after tasks 1-2): "Rewrite roadmap-engine to two-level phase grammar with numbering rules"
+- **Commit 2** (after tasks 3-6): "Adopt two-level grammar in roadmap outline, decompose, skeleton, and prune hooks"

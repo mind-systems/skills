@@ -223,6 +223,13 @@ Keep `## Milestones` with all remaining `[ ]` tasks. Additionally, always retain
 last phase header and its 2 most recent `[x]` tasks — this preserves phase numbering
 continuity so agents can follow the sequence without confusion.
 
+**Emptied-phase sweep:** after deleting a phase's last task, if the `### Phase N`
+header now has no tasks left under it, delete the header and its intro prose too —
+never renumber surviving phases; numbering is historic and gaps are normal (a
+deleted phase's number may still be referenced from specs, commits, and
+ARCHITECTURE.md features). This coexists with the retain rule above: a phase that
+still holds a kept `[x]` task is not emptied and keeps its header.
+
 ---
 
 ## Step 7 — Verify

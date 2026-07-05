@@ -133,6 +133,13 @@ it. **Insert** the new skeleton/TDD/contract milestones immediately **before** i
 `ROADMAP.md`. This mirrors `roadmap-decompose`'s in-place note-update discipline and
 avoids duplicating the impl entry or orphaning its spec note.
 
+**Numbering:** when the target task is numbered `N.M`, number the inserted
+skeleton/TDD/contract milestones `N.M.1 … N.M.(k-1)` in chain order (skeleton →
+TDD/contract → …), and renumber the in-place original impl line to `N.M.k` — the
+last child; its contract-line text and `Spec:` note tag stay unchanged. **Flat
+fallback:** an unnumbered target task (flat roadmap) → the insertions stay
+unnumbered, today's behavior. Never renumber anything outside the family.
+
 ## Critical Rules / What NOT to do
 
 1. No `roadmap-tdd` middle skill — the one TDD-specific sentence ("tests come first,
