@@ -24,10 +24,12 @@ must honor their expectations as part of its contract; the reverse graph resolve
 
 ## The two-tier artifact
 
-Each milestone is a two-tier entry: a contract line in the roadmap plus a full spec
-note at `.ai-factory/specs/<NN>-<slug>.md` (`<NN>` scanned against `.ai-factory/specs/`
-so it never collides; `<slug>` lowercase-hyphenated). The contract line ends with the
-exact tag `` Spec: `.ai-factory/specs/<NN>-<slug>.md`. ``
+A task-tier entry with a contract line is a two-tier entry: the contract line in the
+roadmap plus a full spec note at `.ai-factory/specs/<NN>-<slug>.md` (`<NN>` scanned
+against `.ai-factory/specs/` so it never collides; `<slug>` lowercase-hyphenated). A
+caller's hook (a) may define entries with no contract line (e.g. a phase header) — the
+note and tag machinery here applies only where a contract line exists. The contract
+line ends with the exact tag `` Spec: `.ai-factory/specs/<NN>-<slug>.md`. ``
 
 The note follows `note`'s format — **load `note` once per chat** (via the Skill
 tool, only if not already loaded), never per task. When invoking `note`, pass
@@ -199,8 +201,11 @@ Options:
 ```
 
 - **Review progress:** scan the codebase for evidence of completed entries; for
-  each unchecked entry, check whether the work appears done; propose marking the
-  confirmed-done entries `[x]`; apply on confirmation; leave the rest unchanged.
+  each unchecked **checkbox entry**, check whether the work appears done; propose
+  marking the confirmed-done entries `[x]`; apply on confirmation; leave the rest
+  unchanged. Entries whose shape carries no checkbox (e.g. a phase header) are
+  never marked — where such an entry's child tasks are all `[x]`, its progress may
+  be **reported** as complete, report-only.
 - **Add:** explore the codebase for each new entry, produce it per the caller's
   hook (a) shape (applying the per-entry gate hook if supplied, where the shape has
   a contract line to gate) — the two-tier `Spec:` placeholder mechanics apply only
@@ -223,6 +228,10 @@ Next up: **Entry Name**
 ```
 
 ### Check mode
+
+Check mode operates on **checkbox entries only**; when the caller's entry shape
+(hook a) carries no checkbox, there is nothing to scan and the caller registers no
+check mode (its argument routing should not advertise one).
 
 Non-interactive scan — analyze the codebase and mark completed entries without
 interactive questions.
