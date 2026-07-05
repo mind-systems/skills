@@ -60,8 +60,11 @@ Append-only space-separated bracketed suffix at the end of the entry line. Marke
 `[audit-dismissed]`. Entry text and `Affects:` are never rewritten — markers only
 accumulate. **Pinned** = the entry line carries ≥1 marker. Dedup rule: whoever pins
 an entry pins every occurrence across that milestone's review files (dedup by
-`Affects:` target + gist). All four markers are written by `milestone-rescue-audit`
-only.
+`Affects:` target + gist). Markers are written by downstream **disposal** tools,
+never by the reviewer; `[promoted → <path>]` is written by whichever disposal skill
+routes the observation into a roadmap task, at the moment of routing; the
+evaluative markers `[audit-corroborated]` / `[audit-dismissed]` and the sweep
+marker `[unrouted-reported]` remain `milestone-rescue-audit`'s.
 
 ## 7. Mirrors-the-orchestrator invariant
 
