@@ -15,3 +15,6 @@ __pycache__/
 *.pyc
 *.pyo
 **/.DS_Store
+
+# observe-logs env registry (contains tokens — .env.example stays tracked)
+/src/skills/observe-logs/.env

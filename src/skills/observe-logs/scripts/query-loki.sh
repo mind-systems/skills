@@ -7,17 +7,78 @@ set -euo pipefail
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-LOKI_URL="${OBS_LOKI_URL:-http://localhost:3100}"
-LOKI_AUTH="${OBS_LOKI_AUTH:-}"
+# LOKI_URL / LOKI_AUTH are populated only by env resolution (resolve_env, below) —
+# no localhost default, no implicit no-auth path.
+LOKI_URL=""
+LOKI_AUTH=""
 DEFAULT_LIMIT=200
 PAGE_SIZE=5000        # Loki's default max_entries_limit_per_query; used by query_range_all
 DEFAULT_WINDOW="1h"
 
-# Auth args for curl, built once. Empty when OBS_LOKI_AUTH is unset — byte-identical
-# behavior to no-auth. Never expand unguarded (bash 3.2 aborts on unbound-array
-# expansion under `set -u`); use ${AUTH_ARGS[@]+"${AUTH_ARGS[@]}"} at call-sites.
+# Resolve the script's own location (not $PWD) so the `.env` registry is found
+# through the ~/.claude/skills symlink regardless of caller's working directory.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REGISTRY_FILE="${SCRIPT_DIR}/../.env"
+
+# Auth args for curl, built once by resolve_env() after --env is resolved. Empty
+# when the resolved entry has no auth field. Never expand unguarded (bash 3.2
+# aborts on unbound-array expansion under `set -u`); use
+# ${AUTH_ARGS[@]+"${AUTH_ARGS[@]}"} at call-sites.
 AUTH_ARGS=()
-[[ -n "$LOKI_AUTH" ]] && AUTH_ARGS=(-H "Authorization: ${LOKI_AUTH}")
+
+# ---------------------------------------------------------------------------
+# Environment registry (.env next to this script — parsed, never sourced)
+# ---------------------------------------------------------------------------
+
+# Prints the space-separated list of environment names found in the registry,
+# or a hint to create it if the registry file is missing.
+list_env_names() {
+  if [[ ! -f "$REGISTRY_FILE" ]]; then
+    echo "(none — .env not found; copy .env.example to .env)"
+    return
+  fi
+
+  local name url auth
+  local names=()
+  while IFS='|' read -r name url auth || [[ -n "$name" ]]; do
+    [[ -z "$name" || "$name" == \#* ]] && continue
+    names+=("$name")
+  done < "$REGISTRY_FILE"
+
+  echo "${names[*]}"
+}
+
+# Resolves LOKI_URL / LOKI_AUTH / AUTH_ARGS for the requested environment name
+# by parsing (never sourcing) the .env registry. Hard-errors with no fallback
+# if the registry is missing or the name isn't found.
+resolve_env() {
+  local requested="$1"
+
+  if [[ ! -f "$REGISTRY_FILE" ]]; then
+    echo "ERROR: No .env registry found at ${REGISTRY_FILE}" >&2
+    echo "       Copy .env.example to .env next to the skill and fill in your environments." >&2
+    exit 1
+  fi
+
+  local name url auth
+  while IFS='|' read -r name url auth || [[ -n "$name" ]]; do
+    [[ -z "$name" || "$name" == \#* ]] && continue
+    if [[ "$name" == "$requested" ]]; then
+      LOKI_URL="$url"
+      LOKI_AUTH="$auth"
+      break
+    fi
+  done < "$REGISTRY_FILE"
+
+  if [[ -z "$LOKI_URL" ]]; then
+    echo "ERROR: Unknown environment '${requested}'." >&2
+    echo "       Available environments: $(list_env_names)" >&2
+    exit 1
+  fi
+
+  AUTH_ARGS=()
+  [[ -n "$LOKI_AUTH" ]] && AUTH_ARGS=(-H "Authorization: ${LOKI_AUTH}")
+}
 
 # ---------------------------------------------------------------------------
 # Backend-down guard
@@ -31,7 +92,7 @@ check_backend() {
 
   if [[ "$http_code" != "2"* ]]; then
     echo "ERROR: Loki backend unreachable at ${LOKI_URL} (HTTP ${http_code})" >&2
-    echo "       To start it: make backend-up  (in the observability repo)" >&2
+    echo "       Check the URL/token for this environment in .env, and your network/VPN connectivity." >&2
     exit 1
   fi
 }
@@ -430,22 +491,23 @@ cmd_window() {
 # Usage
 # ---------------------------------------------------------------------------
 usage() {
-  cat >&2 <<'EOF'
+  cat >&2 <<EOF
 query-loki.sh — read-only Loki log slice tool
 
 Usage:
-  query-loki.sh since-restart <service> [--project P]
+  query-loki.sh --env <name> since-restart <service> [--project P]
       Fetch logs since the service's last restart (requires event.name="service.start" marker).
 
-  query-loki.sh trace <trace_id> [--limit N]
+  query-loki.sh --env <name> trace <trace_id> [--limit N]
       Fetch all log lines for a trace ID (searched in structured metadata, last 24h).
 
-  query-loki.sh window <range> [--level L] [--project P] [--service S] [--limit N]
+  query-loki.sh --env <name> window <range> [--level L] [--project P] [--service S] [--limit N]
       Fetch logs in a time window. Range: 15m, 2h, 1d, etc.
 
 Environment:
-  OBS_LOKI_URL   Loki base URL (default: http://localhost:3100)
-  OBS_LOKI_AUTH  Full Authorization header value (default: unset — no auth)
+  --env <name>   Required. Selects an entry from the .env registry next to this
+                 script (copy .env.example to .env, fill in your environments).
+  Available environments: $(list_env_names)
 
 Notes:
   - Index labels: project, service_name, level
@@ -459,6 +521,24 @@ EOF
 # ---------------------------------------------------------------------------
 # Main dispatch
 # ---------------------------------------------------------------------------
+# --env <name> is required and must lead; resolve it before check_backend
+# (check_backend needs LOKI_URL/AUTH_ARGS already resolved).
+if [[ "${1:-}" != "--env" ]]; then
+  echo "ERROR: --env <name> is required as the first argument." >&2
+  echo "       Available environments: $(list_env_names)" >&2
+  exit 1
+fi
+shift
+if [[ $# -lt 1 ]]; then
+  echo "ERROR: --env requires a value" >&2
+  echo "       Available environments: $(list_env_names)" >&2
+  exit 1
+fi
+ENV_NAME="$1"
+shift
+
+resolve_env "$ENV_NAME"
+
 check_backend
 
 case "${1:-}" in

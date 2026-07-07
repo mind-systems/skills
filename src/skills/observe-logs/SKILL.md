@@ -7,7 +7,7 @@ description: >-
   optional level/project/service filters. Use when debugging services ("logs",
   "loki", "since restart", "by trace", "лог", "логи", "логи сервиса",
   "покажи логи") or when you need a quick structured view of recent activity.
-argument-hint: "[since-restart <svc> | trace <id> | window <range>]"
+argument-hint: "--env <name> [since-restart <svc> | trace <id> | window <range>]"
 allowed-tools: Bash Read
 ---
 
@@ -43,31 +43,33 @@ pipeline expression (`| key="value"`) after the label selector:
 
 ## Endpoint
 
-Two environment variables control the connection. Neither has a hardcoded
-fallback beyond the local default — the skill never stores or assumes a
-credential.
+Environments live in a `.env` registry next to this skill — the user copies
+`.env.example` to `.env`, fills in one pipe-delimited line per environment
+(`stage` / `dev` / `prod`, each with its Grafana datasource-proxy URL and
+`Authorization` header value), and runs `chmod 600 .env`. The skill never
+stores or assumes a credential itself.
 
-| Variable | Default | Purpose |
-|---|---|---|
-| `OBS_LOKI_URL` | `http://localhost:3100` | Loki base URL |
-| `OBS_LOKI_AUTH` | _(unset)_ | Full `Authorization` header value |
-
-**Local backend (no auth):** leave both unset. The script hits Loki directly
-on localhost.
-
-**Remote via Grafana Service Account:** set both. The datasource UID goes
-into the URL:
+`--env <name>` is **required** on every invocation — there is no default
+endpoint and no direct-Loki / no-auth path. It must lead the argument list:
 
 ```bash
-export OBS_LOKI_URL=https://grafana.example.com/api/datasources/proxy/uid/<uid>
-export OBS_LOKI_AUTH="Bearer <service-account-token>"
+bash scripts/query-loki.sh --env stage window 30m --project mind
 ```
 
-Set these in the shell environment or a secrets manager — never in committed
-files.
+Infer `--project` from the current project/repo when the user doesn't name
+one (e.g. working in `mind` → `--project mind`, in `tradeoxy` → `--project
+tradeoxy`); the user only needs to name the environment. If the user names a
+project explicitly, that overrides the inferred one.
 
-If the backend is down the script prints one clear line with a recovery hint
-(`make backend-up` in the observability repo) and exits non-zero immediately.
+When invoked as `/observe-logs <env>` with nothing else specified, run a
+recent `window` slice for the current project — unless the user's phrasing
+asks for `since-restart` or `trace`. If no environment is given at all, don't
+guess one: ask the user, or invoke the script without `--env` and let it
+error with the list of available environment names.
+
+If the backend is unreachable the script prints one clear line pointing at the
+`.env` URL/token for that environment and network/VPN connectivity, then
+exits non-zero immediately.
 
 ---
 
@@ -79,10 +81,10 @@ skill root, or from any project directory via its absolute path.
 
 ```bash
 # From the skill root
-bash scripts/query-loki.sh <subcommand> [args]
+bash scripts/query-loki.sh --env <name> <subcommand> [args]
 
 # Or via Claude's Bash tool:
-bash /path/to/observe-logs/scripts/query-loki.sh <subcommand> [args]
+bash /path/to/observe-logs/scripts/query-loki.sh --env <name> <subcommand> [args]
 ```
 
 Output format: `[timestamp] [level] [project/service] message` — one line per
@@ -96,7 +98,7 @@ Fetch the **full log feed** for a service since its most recent restart — no
 line cap. Uses client-side pagination past Loki's per-call limit.
 
 ```bash
-bash scripts/query-loki.sh since-restart <service_name> [--project P]
+bash scripts/query-loki.sh --env <name> since-restart <service_name> [--project P]
 ```
 
 **Two-step process** (spelled out below):
@@ -121,8 +123,8 @@ restarted in the 7-day lookback window).
 
 **Example:**
 ```bash
-bash scripts/query-loki.sh since-restart api-gateway
-bash scripts/query-loki.sh since-restart worker --project payments
+bash scripts/query-loki.sh --env stage since-restart api-gateway
+bash scripts/query-loki.sh --env prod since-restart worker --project payments
 ```
 
 ---
@@ -132,7 +134,7 @@ bash scripts/query-loki.sh since-restart worker --project payments
 Fetch all log lines associated with a trace ID. Looks back 24 hours.
 
 ```bash
-bash scripts/query-loki.sh trace <trace_id> [--limit N]
+bash scripts/query-loki.sh --env <name> trace <trace_id> [--limit N]
 ```
 
 `trace_id` is structured metadata — the script filters with `| trace_id="…"`.
@@ -142,8 +144,8 @@ Use `--limit N` (default 200) to raise the cap for high-volume traces.
 
 **Example:**
 ```bash
-bash scripts/query-loki.sh trace 4bf92f3577b34da6a3ce929d0e0e4736
-bash scripts/query-loki.sh trace 4bf92f3577b34da6a3ce929d0e0e4736 --limit 1000
+bash scripts/query-loki.sh --env stage trace 4bf92f3577b34da6a3ce929d0e0e4736
+bash scripts/query-loki.sh --env stage trace 4bf92f3577b34da6a3ce929d0e0e4736 --limit 1000
 ```
 
 ---
@@ -153,7 +155,7 @@ bash scripts/query-loki.sh trace 4bf92f3577b34da6a3ce929d0e0e4736 --limit 1000
 Fetch logs in a relative time window with optional filters.
 
 ```bash
-bash scripts/query-loki.sh window <range> [--level L] [--project P] [--service S] [--limit N]
+bash scripts/query-loki.sh --env <name> window <range> [--level L] [--project P] [--service S] [--limit N]
 ```
 
 `<range>` formats: `15m`, `2h`, `1d` (minutes / hours / days).
@@ -174,45 +176,49 @@ when 200 lines aren't enough — e.g. `--limit 2000` for a busier window.
 
 **Examples:**
 ```bash
-bash scripts/query-loki.sh window 30m
-bash scripts/query-loki.sh window 2h --service payment-processor
-bash scripts/query-loki.sh window 1h --level error --project platform
-bash scripts/query-loki.sh window 15m --project api --service gateway --level warn
-bash scripts/query-loki.sh window 1h --project platform --limit 1000
+bash scripts/query-loki.sh --env stage window 30m
+bash scripts/query-loki.sh --env stage window 2h --service payment-processor
+bash scripts/query-loki.sh --env prod window 1h --level error --project platform
+bash scripts/query-loki.sh --env dev window 15m --project api --service gateway --level warn
+bash scripts/query-loki.sh --env prod window 1h --project platform --limit 1000
 ```
 
 ---
 
 ## Raw LogQL templates
 
-For ad-hoc queries beyond the three slices, use `curl` directly:
+For ad-hoc queries beyond the three slices, use `curl` directly. Pull the URL
+and `Authorization` value for the target environment from `.env` (the same
+registry `--env` resolves) and export them first:
 
-For a remote authenticated backend, add `-H "Authorization: ${OBS_LOKI_AUTH}"` to
-each `curl` below (omit it when running against local Loki).
+```bash
+export LOKI_URL="<url from the .env line for your environment>"
+export LOKI_AUTH="<auth from the .env line for your environment>"
+```
 
 ```bash
 # All error logs in the last hour
-curl -sG "${OBS_LOKI_URL}/loki/api/v1/query_range" \
+curl -sG -H "Authorization: ${LOKI_AUTH}" "${LOKI_URL}/loki/api/v1/query_range" \
   --data-urlencode 'query={level="error"}' \
   --data-urlencode "start=$(python3 -c 'import time; print(int((time.time()-3600)*1e9))')" \
   --data-urlencode "end=$(python3 -c 'import time; print(int(time.time()*1e9))')" \
   --data-urlencode 'limit=100' | jq -r '.data.result[].values[][1]'
 
 # Specific service, specific level
-curl -sG "${OBS_LOKI_URL}/loki/api/v1/query_range" \
+curl -sG -H "Authorization: ${LOKI_AUTH}" "${LOKI_URL}/loki/api/v1/query_range" \
   --data-urlencode 'query={service_name="api-gateway",level="error"}' \
   ...
 
 # Filter by trace (structured metadata)
-curl -sG "${OBS_LOKI_URL}/loki/api/v1/query_range" \
+curl -sG -H "Authorization: ${LOKI_AUTH}" "${LOKI_URL}/loki/api/v1/query_range" \
   --data-urlencode 'query={service_name="api-gateway"} | trace_id="abc123"' \
   ...
 
 # List all known labels
-curl -s "${OBS_LOKI_URL}/loki/api/v1/labels" | jq '.data[]'
+curl -s -H "Authorization: ${LOKI_AUTH}" "${LOKI_URL}/loki/api/v1/labels" | jq '.data[]'
 
 # List values for a label
-curl -s "${OBS_LOKI_URL}/loki/api/v1/label/service_name/values" | jq '.data[]'
+curl -s -H "Authorization: ${LOKI_AUTH}" "${LOKI_URL}/loki/api/v1/label/service_name/values" | jq '.data[]'
 ```
 
 ---
