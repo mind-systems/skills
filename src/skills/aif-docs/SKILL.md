@@ -1,7 +1,7 @@
 ---
 name: aif-docs
-description: Generate and maintain project documentation. Creates a lean README as a landing page with detailed docs pages split by topic in the configured docs directory. Use when user says "create docs", "write documentation", "update docs", "generate readme", or "document project".
-argument-hint: "[--web] [3d|3д]"
+description: Generate and maintain project documentation as a living ТЗ — a present-tense governing spec of behavior, protocols, data flows, and connections — split by topic in the configured docs directory, with a lean README (plus its onboarding relatives) as the exception. Use when user says "create docs", "write documentation", "update docs", "generate readme", or "document project".
+argument-hint: "[--web]"
 allowed-tools: Read Write Edit Glob Grep Bash(mkdir *) Bash(npx *) Bash(python *) AskUserQuestion WebFetch WebSearch
 disable-model-invocation: false
 metadata:
@@ -10,18 +10,20 @@ metadata:
   category: documentation
 ---
 
-# Docs - Project Documentation Generator
+# Docs - ТЗ & Documentation Generator
 
-Generate, maintain, and improve project documentation following a landing-page README + detailed docs-directory structure.
+Generate, maintain, and improve project documentation as the project's **ТЗ** — a present-tense governing spec of behavior, protocols, data flows, and connections — landing on a lean README + detailed docs-directory structure. README and its onboarding relatives (CHANGELOG.md, CONTRIBUTING.md, LICENSE) are the exception to the ТЗ genre, not its center.
 
 ## Core Principles
 
+Everything written under the resolved docs directory (`paths.docs`, default: `docs/`) is ТЗ genre — behavior, protocols, data flows, connections, stated in present tense — whether the code behind it exists yet or not. Only the onboarding surface (README + its relatives) is exempt from that genre.
+
 1. **README is a landing page, not a manual.** ~80-120 lines. First impression, install, quick example, links to details.
 2. **Details go to the resolved docs directory** (`paths.docs`, default: `docs/`). Each file is self-contained — one topic, one page. A user should be able to read a single doc file and get the full picture on that topic.
-3. **No duplication.** If information lives in the resolved docs directory, README links to it — does not repeat it. Exception: installation command can appear in both (users expect it in README). **The documentation index lives in the project's CLAUDE.md** — a `## Documentation` table (`| Doc | What it covers |`), README not listed in it. README carries at most one pointer line to the docs directory, never an index table.
+3. **No duplication — one home per fact.** Structure and boundaries live in ARCHITECTURE.md; behavior lives in the topic docs; the documentation index lives in the project's CLAUDE.md (a `## Documentation` table, `| Doc | What it covers |`); onboarding lives in README + its relatives (CHANGELOG.md, CONTRIBUTING.md, LICENSE). A fact stated in two homes becomes a link from the second to the first — README carries at most one pointer line to the docs directory, never an index table. Exception: the installation command can appear in both README and getting-started.md (users expect it in README).
 4. **Cross-links use relative paths.** From README: link to the resolved docs directory path (for example `docs/workflow.md` by default). Between doc pages in the same directory: `workflow.md`.
 5. **Scannable.** Use tables, bullet lists, and code blocks. Avoid long paragraphs. Users scan, they don't read.
-6. **State, not process.** Every sentence describes **what is** — factual present-tense behavior, structure, or API. Never state how something came to be: no "we changed", "was added", "this replaces", "previously", "because we", "this milestone". History belongs in commit messages. This rule applies to every run, every mode, no exceptions.
+6. **State, not process.** Every sentence describes **what is** — factual present-tense behavior, structure, or API. Never state how something came to be: no "we changed", "was added", "this replaces", "previously", "because we", "this milestone". History belongs in commit messages. This rule applies to every run, no exceptions.
 
 ## Workflow
 
@@ -61,40 +63,11 @@ Record each file, its size, and a brief summary of its content. This list is use
 
 ```
 --web  → Generate HTML version of documentation
-3d     → Document-Driven Development mode (also accepts 3д, case-insensitive)
 ```
-
-**MODE detection:**
-- If the invocation arguments contain the token `3d` or `3д` (case-insensitive, standalone token) → set `MODE = 3D` for the entire workflow.
-- Otherwise → `MODE = normal`. Behavior is byte-identical to pre-3D operation (plus Change A: no-motivation rule, which is always active).
-- Both `3d` and `--web` can be present simultaneously.
-
-### Document-Driven Development (3D mode)
-
-**3D is the docs analogue of TDD.** In `MODE = 3D`, you author documentation as if the feature is **already shipped** — present tense, target behavior, end to end. The doc you write is the contract; code will be written to conform to it.
-
-Key rules for 3D:
-- Documenting APIs, columns, endpoints, CLI flags, or files that **do not yet exist is the intended behavior** — not an error, not stale.
-- Write in present tense describing what the feature **does** when it is done, not what it will do.
-- All Core Principles still apply, including Principle 6 (state, not process) — target-state docs are pure behavior with no history/rationale language.
-- All formatting, language-matching, scannability, and ownership rules apply unchanged.
-- The "current state only" doc-style is reinterpreted as "target shipped state" — still present tense, still behavior-focused, still no history.
-
-**After authoring in 3D**, print the following line (do **not** auto-insert it into ROADMAP or any file — the user places it manually):
-
-```
-implementation must conform to `<doc-path>`
-```
-
-This mirrors the `Spec:` tag rhythm: it is a pointer for the human, not an automated annotation.
-
----
 
 ### Step 1: Determine Current State
 
-**If `MODE = 3D`:** The State A/B/C detection still runs to determine what files exist, but the **content source** is the feature's *target state* — gather what the feature **will do** from the stated user intent, spec note, or ROADMAP milestone if one is provided or discoverable in the project. Do not use existing code as the content source; use the intended design. Proceed through the applicable State branch with target-state content.
-
-**If `MODE = normal`:** Check what documentation already exists:
+Determine the subject to document — behavior, invariants, protocols, data flows, and connections. Where the code exists, read it and treat it as the referent. Where it does not yet exist, treat the doc itself as the contract: gather the target behavior from the stated user intent, spec note, or ROADMAP milestone if one is discoverable, and write it in present tense as if it already ships. Then check what documentation already exists:
 
 ```
 State A: No README.md                        → Full generation (README + docs dir)
@@ -342,10 +315,11 @@ When both README.md and the resolved docs directory exist.
 Check for:
 - **README length** — is it still a landing page (<150 lines)?
 - **Missing topics** — are there aspects of the project not documented?
-- **Stale content** — do docs reference files/APIs that no longer exist? (**Suppressed in `MODE = 3D`** — absent code is expected, not stale; all other audit checks still run)
+- **Stale content** — do docs reference files/APIs that no longer exist? Conditional on the referent: flag staleness only for surfaces whose code exists; where the code does not exist, the doc is the spec and this check does not apply
 - **Broken links** — verify all internal links point to existing files/anchors
 - **Consistency** — same formatting style across all docs
 - **Legacy README table** — does README still carry a documentation index table? Flag it as a legacy layout and propose moving the index to CLAUDE.md's `## Documentation` section
+- **Coordination-trio staleness** — on every run, check README, the CLAUDE.md `## Documentation` index, and ARCHITECTURE.md for drift. Refresh what this skill owns (README length/pointer line, the CLAUDE.md index rows). For ARCHITECTURE.md, check for staleness but do not edit it — it stays read-only here (Step 0, Artifact Ownership); flag any drift found for the user or `aif-architecture` to fix
 - **Standards compliance** — does existing documentation match the current skill standards? (see 2.1.1)
 
 #### 2.1.1: Standards compliance check
@@ -388,16 +362,16 @@ HTML build mechanics → read `references/html-generation.md` when `--web` is pa
 
 Read every generated/modified file and evaluate it against both checklists from `references/REVIEW-CHECKLISTS.md`. Two checklists: **Technical Accuracy** and **Readability & Completeness**.
 
-**No-motivation pass (mandatory, all modes):** Before presenting any result, scan every generated or modified file for motivation/history/process language. Flag and remove any sentence containing: "we changed", "was added", "was replaced", "this replaces", "previously", "because we", "this milestone", "was introduced", "has been". Rewrite flagged sentences to describe the current (or target) state in present tense.
+**No-motivation pass (mandatory):** Before presenting any result, scan every generated or modified file for motivation/history/process language. Flag and remove any sentence containing: "we changed", "was added", "was replaced", "this replaces", "previously", "because we", "this milestone", "was introduced", "has been". Rewrite flagged sentences to describe the current (or target) state in present tense.
 
 Fix any issues found before presenting the result to the user. Display results as a compact table with ✅/❌/⚠️ status per item.
 
-**`MODE = 3D` Technical Accuracy carve-out:** Skip the following Technical Checklist items — they are inapplicable when code does not yet exist:
+**Referent-conditional Technical Accuracy checks:** Each of the following Technical Checklist items is conditional on the referent existing — verified against the code where the documented surface exists, skipped (the doc is the spec) where it does not:
 - "Code examples use the project's actual commands/syntax"
 - "Installation instructions are real and work (verified from package manager files)"
 - Stale-content / broken-reference checks against the live codebase
 
-**Keep fully active in 3D:** Readability & Completeness checklist, README length, no-motivation pass (Principle 6). 3D drops *current-state* verification but **never** drops the no-history rule.
+The Readability & Completeness checklist, README length, and the no-motivation pass (Principle 6) run unconditionally, regardless of referent.
 
 ### Step 4.1: Clean Up Moved Files
 

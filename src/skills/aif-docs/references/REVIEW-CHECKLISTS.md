@@ -8,11 +8,11 @@ Verify structure, links, and completeness:
 - [ ] README has: title, tagline, quick start, example, license (+ optionally a single pointer line to the docs dir)
 - [ ] No content was lost during split/reorganization
 - [ ] All internal links work (no broken references, no dead anchors)
-- [ ] Code examples use the project's actual commands/syntax *(skip in `MODE = 3D` — target-state code does not yet exist)*
-- [ ] Installation instructions are real and work (verified from package manager files) *(skip in `MODE = 3D`)*
+- [ ] Code examples use the project's actual commands/syntax — verified against the code where the documented surface exists; where it does not yet exist, the doc is the spec and this item does not apply
+- [ ] Installation instructions are real and work (verified from package manager files) — verified where the install surface exists; where it does not yet exist, the doc is the spec and this item does not apply
 - [ ] No duplicate content between README and docs/
 - [ ] No scattered root-level `.md` files that should be in docs/
-- [ ] No motivation/history/process language — every sentence states factual present-tense state; no "we changed / was added / was replaced / this replaces / previously / because we / this milestone / was introduced / has been" (applies in all modes including 3D)
+- [ ] No motivation/history/process language — every sentence states factual present-tense state; no "we changed / was added / was replaced / this replaces / previously / because we / this milestone / was introduced / has been"
 
 ## Readability Checklist — "New User Eyes"
 
@@ -39,9 +39,9 @@ Read every page as if you are a developer who has **never seen this project befo
 - [ ] Are there no assumptions about internal knowledge? ("as described in the RFC" — which RFC?)
 - [ ] Would a junior developer understand each page without asking a colleague?
 
-### Navigation and flow
-- [ ] After reading README, is it clear where to go next?
-- [ ] Is the `## Documentation` section in CLAUDE.md ordered by the path a new user would follow? (getting started → workflow → details)
+### Cross-links
+- [ ] Where a doc names a feature that a deeper doc expands, does it link to that doc by relative path? Cross-links form a feature tree — edges/leaves grown across runs — not a fixed linear reading order
+- [ ] In ARCHITECTURE.md, do module/subsystem mentions link to their topic docs? Check-only for this skill — verify the links' presence; authoring or repairing them is `aif-architecture`'s or a human's job, since ARCHITECTURE.md stays read-only here
 
 ### Motivation
 - [ ] Does the README answer "why should I care?" before "how does it work?"

@@ -5,7 +5,6 @@
 - Step-by-step installation
 - First run / quick start
 - Verify it works (expected output)
-- Next steps links
 
 **architecture.md:**
 - High-level overview (diagram if useful)
