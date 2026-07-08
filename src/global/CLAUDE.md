@@ -4,6 +4,10 @@
 
 Read `~/.claude/memory/user-personality.md` at the start of every conversation.
 
+## Grounding claims
+
+Ground truth (code, command output, the actual file) overrides any description of it (docs, CLAUDE.md, handoffs, memory) — descriptions drift. Before reasoning or acting on the artifact in front of you, read **down its chain of explicit references to the leaf** — every file it names (a task line names its spec note; a spec names its code), then every file those name: depth along named edges, never breadth across unrelated files. Reading a task's roadmap line while its named spec note sits unread is the failure this forbids — the direct references an artifact names are non-negotiable; only deeper branches genuinely irrelevant to the question may be pruned, and any reference you deliberately don't open you attribute ("per the spec…") rather than invent.
+
 ## Documentation style
 
 - **Describe behavior, not code.** Docs explain what a feature does and how it works — not list methods, fields, event types, or endpoint tables. That's just copying the code.
