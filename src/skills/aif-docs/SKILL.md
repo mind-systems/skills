@@ -1,6 +1,6 @@
 ---
 name: aif-docs
-description: Generate and maintain project documentation as a living ТЗ — a present-tense governing spec of behavior, protocols, data flows, and connections — split by topic in the configured docs directory, with a lean README (plus its onboarding relatives) as the exception. Use when user says "create docs", "write documentation", "update docs", "generate readme", or "document project".
+description: Generate and maintain project documentation as a present-tense governing spec of behavior, protocols, data flows, and connections — split by topic in the configured docs directory, with a lean README (plus its onboarding relatives) as the exception. Use when user says "create docs", "write documentation", "update docs", "generate readme", "document project", "напиши ТЗ", or "техническое задание".
 argument-hint: "[--web]"
 allowed-tools: Read Write Edit Glob Grep Bash(mkdir *) Bash(npx *) Bash(python *) AskUserQuestion WebFetch WebSearch
 disable-model-invocation: false
@@ -10,13 +10,13 @@ metadata:
   category: documentation
 ---
 
-# Docs - ТЗ & Documentation Generator
+# Documentation Generator
 
-Generate, maintain, and improve project documentation as the project's **ТЗ** — a present-tense governing spec of behavior, protocols, data flows, and connections — landing on a lean README + detailed docs-directory structure. README and its onboarding relatives (CHANGELOG.md, CONTRIBUTING.md, LICENSE) are the exception to the ТЗ genre, not its center.
+Generate, maintain, and improve project documentation as the project's **governing spec** — present-tense behavior, protocols, data flows, and connections — landing on a lean README + detailed docs-directory structure. README and its onboarding relatives (CHANGELOG.md, CONTRIBUTING.md, LICENSE) are the exception to that genre, not its center.
 
 ## Core Principles
 
-Everything written under the resolved docs directory (`paths.docs`, default: `docs/`) is ТЗ genre — behavior, protocols, data flows, connections, stated in present tense — whether the code behind it exists yet or not. Only the onboarding surface (README + its relatives) is exempt from that genre.
+Everything written under the resolved docs directory (`paths.docs`, default: `docs/`) is governing-spec genre — behavior, protocols, data flows, connections, stated in present tense — whether the code behind it exists yet or not. Only the onboarding surface (README + its relatives) is exempt from that genre.
 
 1. **README is a landing page, not a manual.** ~80-120 lines. First impression, install, quick example, links to details.
 2. **Details go to the resolved docs directory** (`paths.docs`, default: `docs/`). Each file is self-contained — one topic, one page. A user should be able to read a single doc file and get the full picture on that topic.
