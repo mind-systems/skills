@@ -37,6 +37,6 @@ None. No missing steps, no wrong path/API assumption, no missing migration, no a
 - Settings (no tests / minimal logging / no docs) are appropriate for agent-instruction markdown with no runtime surface; `note`'s description already lists "handoffs."
 
 ## Deferred observations
-- Affects: spec 15 §36 (a future re-plan, outside this milestone's file boundary) — The self-check gate is *replaced* wholesale by the abstract tree-completeness question, discarding the current gate's operational (a) execute-next-step / (b) avoid-every-logged-mistake / (c) per-subsystem-completeness scaffolding. The plan faithfully implements the governing spec's "replace the gate" instruction, so this is not a plan defect; flagging only in case a later iteration wants tree-completeness to *subsume and restate* those three concrete tests rather than drop them — a spec-level judgment the plan cannot make.
+- Affects: spec 15 §36 (a future re-plan, outside this milestone's file boundary) — The self-check gate is *replaced* wholesale by the abstract tree-completeness question, discarding the current gate's operational (a) execute-next-step / (b) avoid-every-logged-mistake / (c) per-subsystem-completeness scaffolding. The plan faithfully implements the governing spec's "replace the gate" instruction, so this is not a plan defect; flagging only in case a later iteration wants tree-completeness to *subsume and restate* those three concrete tests rather than drop them — a spec-level judgment the plan cannot make. [audit-dismissed]
 
 PLAN_REVIEW_PASS
