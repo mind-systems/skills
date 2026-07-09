@@ -419,17 +419,26 @@ If no matches found, or all issues are domain-specific to the failed milestone, 
 ## Step 5.6 — Pin disposed observations
 
 When deferred-observation entries encountered in the artifacts read this session are
-routed into roadmap tasks — a new task + spec written (e.g. via `/roadmap-decompose`
-in the same chat) or folded into a spec repaired at Step 5 — append
-`[promoted → <spec path>]` to the entry and to every sibling occurrence across that
-milestone's review files, per the engine's dedup rule (`orchestrator-artifacts` §6;
-do not redefine the grammar, the pinned definition, or the dedup rule). Scope the pin
-to review files still present on disk at pin time — Step 5 may already have deleted
-the rescued slug's review files (spec / spec+plan depth delete both genres;
-spec+plan+code and plan-ratified depth delete reviews, keep plan-reviews), and a
-deleted file has nothing to pin and nothing left for `roadmap-prune`'s gate to flag.
-Pin at the moment the task/spec lands, not at session end. Entries not disposed
-in-session stay unmarked, left for `milestone-rescue-audit` prune mode.
+disposed of, pin the entry and every sibling occurrence across that milestone's
+review files, per the engine's dedup rule (`orchestrator-artifacts` §6; do not
+redefine the grammar, the pinned definition, or the dedup rule). Two disposal
+branches:
+
+- **Routed** — a new task + spec written (e.g. via `/roadmap-decompose` in the same
+  chat) or folded into a spec repaired at Step 5 — append `[promoted → <spec path>]`.
+- **Evaluated and found moot / already handled in code** — nothing to route: the fix
+  already exists, or the observation is stale or wrong — append `[audit-dismissed]`.
+
+Scope the pin to review files still present on disk at pin time — Step 5 may already
+have deleted the rescued slug's review files (spec / spec+plan depth delete both
+genres; spec+plan+code and plan-ratified depth delete reviews, keep plan-reviews),
+and a deleted file has nothing to pin and nothing left for `roadmap-prune`'s gate to
+flag. Pin at the moment of the judgment — routing or dismissal — not at session end.
+
+Rescue still does not corroborate a finding against a root-cause chain
+(`[audit-corroborated]`) or sweep unrouted entries (`[unrouted-reported]`) — those
+stay `milestone-rescue-audit`'s. Entries rescue never evaluated this session stay
+unmarked, left for `milestone-rescue-audit` prune mode.
 
 ---
 
@@ -461,8 +470,8 @@ in-session stay unmarked, left for `milestone-rescue-audit` prune mode.
   names, sidecar states — as "the problem". They are how the failure surfaced, not what
   failed. This constrains your *output and reporting*, not your analysis: pipeline
   signals are still read internally to route the repair depth
-- Do not write `[audit-corroborated]`, `[audit-dismissed]`, or `[unrouted-reported]` —
-  and do not dismiss an observation by marker. Rescue's only marker is
-  `[promoted → <path>]`, written only for observations actually routed into a task or
-  spec this session; evaluating, dismissing, and sweeping stay
-  `milestone-rescue-audit`'s
+- Do not write `[audit-corroborated]` or `[unrouted-reported]`, and do not mark any
+  observation rescue did not actually evaluate this session. Rescue pins only what it
+  disposed of — `[promoted → <path>]` for what it routes, `[audit-dismissed]` for what
+  it evaluates and finds moot; corroborating against a root-cause chain and sweeping
+  unrouted entries stay `milestone-rescue-audit`'s
