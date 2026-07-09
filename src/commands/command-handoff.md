@@ -3,32 +3,20 @@ description: >-
   Mine the live session and emit a dense, self-contained handoff prompt that
   transfers context to a future agent or session. Run this while the
   originating session's context is still live — that is the only moment
-  there is something to mine. Optionally persist the handoff as a durable
-  note (pass "note" / "ноут" / "давай ноут" / "с ноутом" as the argument).
-argument-hint: "[note] [narrative]"
+  there is something to mine. Always persists the handoff as a durable note
+  under `.ai-factory/handoffs/`.
+argument-hint: ""
 allowed-tools: Read Write Bash(ls *) Bash(mkdir *) Glob Skill
 loads: note
 ---
 
-Read `$ARGUMENTS`. Determine two orthogonal axes — do not collapse them into one four-way enum.
-
-**Destination axis:**
-- **Note mode** — triggered when `$ARGUMENTS` contains any of: `note`, `ноут`, `давай ноут`, `с ноутом` (case-insensitive, substring match).
-- **Chat mode** — everything else, including empty arguments.
-
-**Register axis:**
-- **Skeleton register** (state-transfer) — the existing 11-section skeleton (Step 2). Fits sessions of mechanical progress across many work-units, where the successor needs what's done / what's next / what to re-check.
-- **Narrative register** (understanding-transfer) — flowing prose carrying the causal thread to one or two decisions (Step 2).
-
-Selection: an explicit user cue wins — *narrative* / *повествование* / *story*, or a rejection of the numbered form (e.g. "not the numbered skeleton"). Otherwise infer from session shape: many mechanical units mid-flight → skeleton; a reasoning journey to one or two decisions → narrative. When genuinely ambiguous, default to skeleton (safe for state-transfer) and name the choice.
-
-**How Steps 1–2 apply:** the agent performs the mining (Step 1) and composition (Step 2) itself for **chat destination** (either register) and for **narrative + note destination**, producing the full handoff body now. **Only skeleton + note destination** instead has Steps 1–2 define the lens and blank skeleton that `note` executes in Step 3 — the agent does not mine the session or populate the skeleton itself there; it hands the skeleton and policy text to `note` as hooks, and `note` performs the mining and population.
+Read `$ARGUMENTS`.
 
 ---
 
-## Step 1 — Mine the session
+## Step 1 — Define the mining lens
 
-Review the entire visible conversation context. Extract:
+`note` (Step 3) performs the mining and population, not the agent here. The following is the lens the agent hands `note` via the template hook — blank 11-section placeholders for the grid shape, folded into the free-form body directive for the prose shape — so `note` knows what to extract from the session:
 
 - What project / domain / problem we are working on
 - Every file that was read, edited, or created
@@ -46,13 +34,13 @@ Review the entire visible conversation context. Extract:
 
 ## Step 2 — Compose the handoff prompt
 
+Every handoff is verbose and transfers the full **tree of meanings** the session built — the leaf→branch→trunk perception the successor would otherwise re-derive — rehydrating the next agent to the whole session's understanding, minus the dross: irrelevant tool-calls and dead-end file reads are stripped, only the load-bearing tree is carried.
+
 Write **in English** regardless of the conversation language.
 
-Compose in the register selected above.
+Compose in the shape inferred from the session's type.
 
-**Skeleton register.** Use the skeleton below exactly — do not change section names or order. Omit a section only if it is genuinely empty for this session (no invented content). Optional sections (7–11) appear only when the session produced material for them.
-
-**Output length and granularity must track how much was actually done.** A session that touched many work-units (phases, modules, files, tasks) must enumerate each one individually with its specific state and the specific thing to re-check — never collapse a whole subsystem to summary bullets. A small session still yields a short handoff. Proportional, not maximal — a trivial session padded to migration-guide length is itself a failure.
+**Grid shape.** Use the skeleton below exactly — do not change section names or order. Omit a section only if it is genuinely empty for this session (no invented content). Optional sections (7–11) appear only when the session produced material for them.
 
 **The read-first map scopes to the next step, not the session.** "Must-read now" lists only what a fresh agent must read to execute the next concrete action and avoid every mistake in the error log — not an inventory of everything touched. A subsystem that was touched but requires nothing from the successor's next action does not belong under "must-read now" (it may still appear under "Read on demand" if genuinely useful later, or be dropped from the map entirely). When a session spanned several independent work-units, the handoff hands off several small cross-linked trees — one lean must-read set per unit — not one merged inventory tree; keep cross-linking between them, just don't flatten them into a single list.
 
@@ -114,45 +102,33 @@ everything into one inventory.>
 <For each work-unit touched: one line of what it became + one line of the non-obvious thing to verify (where the work was tricky or a mistake nearly happened). Distinct from the flat "Current state" list. Only if the session covered many work-units.>
 ~~~
 
-**Narrative register.** Write flowing prose carrying the causal thread: the path walked, the false turns, the decision made and its rationale. References to files, specs, and notes appear inline at the moment they are load-bearing, not catalogued in a separate read-map. End by making the durable next step and the working discipline explicit — woven into the prose, not sectioned away.
+**Prose shape.** Write flowing prose carrying the causal thread: the path walked, the false turns, the decision made and its rationale. References to files, specs, and notes appear inline at the moment they are load-bearing, not catalogued in a separate read-map. End by making the durable next step and the working discipline explicit — woven into the prose, not sectioned away.
 
-The proportionality principle applies to both registers: a small session yields a short narrative; padding a trivial session to migration-guide length is still a failure.
+Both shapes populate via `note` in Step 3 — do not populate here. The agent's job in this step is to shape the lens and directive `note` will use; `note` fills the grid or composes the prose from what the session actually produced — no placeholders, no invented content.
 
-**Chat destination** (either register): populate every field (skeleton register) or compose the full narrative (narrative register) from what you actually observed in the session — no placeholders, no invented content. **Narrative + note destination:** the agent composes and populates the narrative itself here too — it `Write`s the result directly in Step 3, not via `note`. **Skeleton + note destination:** do not populate the skeleton here — pass it blank to `note` in Step 3; `note` performs the mining and population itself.
-
-Before emitting, apply this self-check to your draft: *Could a fresh agent, with only this note, (a) execute the next step, (b) avoid every mistake in the error log, and (c) for each subsystem touched, know what it became and what to re-check?* If a whole subsystem collapsed to one bullet, or the recurring contracts aren't listed — expand before emitting. Proportionality guard: if the session was small, a short handoff passes this check — do not pad. In **chat mode** this gate applies to the chat output. In **note mode** this gate applies to the content written to the note file; the chat pointer is intentionally minimal regardless of session size and is exempt from the proportionality gate.
+Before emitting, apply this self-check to your draft: *Could a fresh agent, from this handoff alone, hold the same perception tree — leaf→branch→trunk — the session ended with, without the irrelevant exploration? Could it execute the next step, avoid every mistake in the error log, and for each subsystem touched, know what it became and what to re-check?* If a whole subsystem collapsed to one bullet, or the recurring contracts aren't listed — expand before emitting. This gate applies to the content written to the note file; the paste-back pointer is intentionally minimal and is exempt from the tree-completeness gate — the full tree lives in the persisted file.
 
 ---
 
 ## Step 3 — Output
 
-**Chat destination** (either register): Emit the handoff prompt directly to chat. Do not write any file. Do not use any tools.
-
-**Note destination — skeleton register:** unchanged. Delegate composition and file mechanics to `note` (loaded via `loads: note` above) — do not mine, number, slug, `mkdir`, or `Write` yourself. Invoke `note` once this chat, supplying only hooks:
+**Delegate to `note`.** Delegate composition and file mechanics to `note` (loaded via `loads: note` above) — do not mine, number, slug, `mkdir`, or `Write` yourself. Invoke `note` once this chat, supplying only hooks:
 
 - **Destination directory** = `.ai-factory/handoffs/`
-- **Template** = the skeleton from Step 2 above, passed **blank** — its placeholder descriptions are the mining lens `note` uses to distill the session. Do NOT pre-fill it: a filled-in skeleton would make `note`'s distillation a no-op.
-- **Verbosity directive** = the proportionality policy from Step 2 ("Output length and granularity must track how much was actually done…") plus the self-check gate above, both applied to the note-file content before `note` writes it.
+- **Template** = the chosen shape: for the grid shape, the skeleton from Step 2 above passed **blank** — its placeholder descriptions are the mining lens `note` uses to distill the session (do NOT pre-fill it: a filled-in skeleton would make `note`'s distillation a no-op); for the prose shape, a free-form body directive through the same template hook — the causal-thread structure from Step 2's prose guidance, not a section skeleton.
+- **Verbosity directive** = "verbose; carry the full meaning-tree and its causal thread; strip irrelevant tool-calls and dead-end reads" — this exercises `note`'s Rule-2 override so the causal thread survives distillation.
 - **Slug** (`note`'s `$1` / topic derivation, not a named hook) = derived semantically from the session's subject matter — lowercase words joined by hyphens, specific to what was actually worked on. Do NOT use the literal word `handoff`.
 
-`note` performs its own numbering, directory creation, and Write to `.ai-factory/handoffs/<NN>-<slug>.md`. Its own Step 4 report is **not** surfaced — once `note` completes, emit only the minimal paste-back pointer below.
+`note` performs its own numbering, directory creation, and file write. Its own Step 4 report is **not** surfaced — once `note` completes, emit only the minimal paste-back pointer below.
 
-**Note destination — narrative register:** the agent composes the prose itself (Step 2) and `Write`s it directly to `.ai-factory/handoffs/<NN>-<slug>.md` — **explicitly not** via `note`. `note` distils, and distillation flattens the exact causal thread the narrative exists to carry. Because there is no `note` call on this path, the agent owns the numbering mechanic `note` would otherwise handle:
-
-- `<NN>` is a zero-padded **two-digit** sequence number (`01`, `02`, `03` …) — the same rule `note` uses for this directory. Scan `.ai-factory/handoffs/` (via `Bash(ls *)` or `Glob`) for files matching `[0-9][0-9]-*.md`; `<NN>` is the highest existing prefix + 1. If no numbered files exist yet, start at `01`.
-- `<slug>` is derived semantically from the session's subject — lowercase words joined by hyphens, and never the literal word "handoff".
-- `mkdir -p .ai-factory/handoffs/` first if it does not already exist, then `Write` the composed narrative to `.ai-factory/handoffs/<NN>-<slug>.md`.
-
-Once the file is written, emit only the minimal paste-back pointer below — do not re-emit the full narrative in chat.
-
-**Minimal paste-back pointer (both note-destination paths):** exactly one chat block, not the full handoff body re-emitted. The pointer must be paste-back-able (the user drops it into the next session to orient the fresh agent). It contains:
+**Minimal paste-back pointer:** exactly one chat block, not the full handoff body re-emitted. The pointer must be paste-back-able (the user drops it into the next session to orient the fresh agent). It contains:
 
 - The path of the written file (e.g. `.ai-factory/handoffs/03-auth-refactor.md`)
-- The one-sentence frame (skeleton register: section 1 of the handoff; narrative register: the opening framing line of the prose)
-- The next step (skeleton register: section 4 of the handoff; narrative register: the closing next-step sentence of the prose)
-- Optionally: the count of work-units covered (e.g. "5 tasks covered") — skeleton register only
+- The one-sentence frame (grid shape: section 1 of the handoff; prose shape: the opening framing line of the prose)
+- The next step (grid shape: section 4 of the handoff; prose shape: the closing next-step sentence of the prose)
+- Optionally: the count of work-units covered (e.g. "5 tasks covered") — grid shape only
 
-This pointer stays consistent with the self-check gate above ("the chat pointer is intentionally minimal … exempt from the proportionality gate") for both registers.
+This pointer stays consistent with the self-check gate above ("the paste-back pointer is intentionally minimal … exempt from the tree-completeness gate") for both shapes.
 
 Example shape (adapt wording to the actual session):
 

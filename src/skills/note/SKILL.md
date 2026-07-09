@@ -29,8 +29,8 @@ honor their expectations as part of its contract; the reverse graph resolves via
 Three optional inputs a caller may supply; all default to today's standalone behavior when unset:
 
 - **Destination directory** — target directory for the note. Unset → default `.ai-factory/notes/` exactly as now. When set, every directory-scoped step uses it: the `mkdir -p`, the `[0-9][0-9]-*.md` numbering scan, and the final path. Numbering stays **per-directory** (scan the chosen directory only).
-- **Template** — a section skeleton for the note body. Unset → the current default template (Key Findings / Details / Open Questions). When set, the note body follows the caller's skeleton verbatim; `note` supplies only the mechanism (mining, distillation, numbering, placement) and does not reshape the caller's structure.
-- **Verbosity directive** — free-text depth/length policy for the distillation. Unset → the current default (Important Rule 1, "Be concise"). When set, the caller's directive **replaces** the default concision rule for this run; all other Important Rules still apply.
+- **Template** — a section skeleton for the note body, or a free-form (non-skeleton) body directive the caller passes verbatim. Unset → the current default template (Key Findings / Details / Open Questions). When set, the note body follows the caller's directive verbatim — a section skeleton or a free-form structure (grid or prose); `note` supplies only the mechanism (mining, distillation, numbering, placement) and does not reshape the caller's structure.
+- **Verbosity directive** — free-text depth/length policy for the distillation. Unset → the current default (Important Rule 1, "Be concise", and Important Rule 2, "Focus on findings"). When set, the caller's directive **replaces both** the default concision rule (Rule 1) and the findings-focus/not-process rule (Rule 2) for this run; all other Important Rules — file paths, English — still apply.
 
 ### Step 1: Analyze Context
 
@@ -59,7 +59,7 @@ To determine `<NN>`, find the highest existing `NN` prefix among files matching 
 mkdir -p <destination>
 ```
 
-**Note file template:** when the template hook is unset, the note follows the default template block below, unchanged. When the template hook is set, the note body follows the caller's skeleton verbatim instead. Findings-focus, file paths, and English always apply to both cases. Concision (Important Rule 1) is the *default* verbosity directive; when the caller supplies a verbosity directive, it replaces concision for this run — the other Important Rules are unaffected.
+**Note file template:** when the template hook is unset, the note follows the default template block below, unchanged. When the template hook is set, the note body follows the caller's directive (section skeleton or free-form) verbatim instead. File paths and English always apply to both cases. Concision (Important Rule 1) and findings-focus (Important Rule 2) are the *default* verbosity directive; when the caller supplies a verbosity directive, it replaces both Rule 1 and Rule 2 for this run.
 
 Default template (unset case):
 
