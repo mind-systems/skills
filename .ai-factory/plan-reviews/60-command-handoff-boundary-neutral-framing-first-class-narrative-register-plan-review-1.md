@@ -30,6 +30,6 @@ The register axis introduces explicit user cues (`narrative` / `повество
 - Task dependencies (3→4→5) and the two-commit split (Facet A, then Facet B) match the facet structure and satisfy the global commit-message rules (imperative, sentence case, no type prefix).
 
 ## Deferred observations
-- Affects: unknown / receiving-agent behavior — The spec's motivating failure was a *receiving* agent narrating a false "we had a compact" premise. This plan correctly removes the false assertion at the source (the emitted handoff), which is the right and sufficient fix within this milestone's boundary; no change to any consuming skill is warranted here. Noted only so a future reader does not expect downstream edits.
+- Affects: unknown / receiving-agent behavior — The spec's motivating failure was a *receiving* agent narrating a false "we had a compact" premise. This plan correctly removes the false assertion at the source (the emitted handoff), which is the right and sufficient fix within this milestone's boundary; no change to any consuming skill is warranted here. Noted only so a future reader does not expect downstream edits. [promoted → .ai-factory/specs/15-command-handoff-single-path-transfer-the-meaning-tree.md]
 
 Finding 1 above is a genuine internal-consistency gap within the edited block, so this review does not pass.
