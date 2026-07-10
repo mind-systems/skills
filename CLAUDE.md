@@ -23,8 +23,10 @@ This is a meta-repo: its product is skills, not application code.
 
 | Doc | What it covers |
 |-----|----------------|
-| [Skill workflow](docs/workflow.md) | The canonical end-to-end pipeline — chat intent → `roadmap-outline` → `roadmap-decompose` → `roadmap-decompose-skeleton` → `command-pin-gaps` → orchestrator → `milestone-rescue`/`-audit` → `roadmap-test-coverage` → `roadmap-prune` → `aif-docs`. Operational sequence (Russian); the composition model covers the mechanism, this covers the order. Authoritative home of the workflow — the orchestrator's docs point here. |
+| [Skill cycle](docs/skill-cycle.md) | How the package is used over one project cycle — idea → `roadmap-outline` (phases) → `aif-docs` (ТЗ as the phase's `Governing spec:`) → `roadmap-decompose` (∥ ТЗ amended) → `agent-architect` pass → `roadmap-decompose-skeleton` (feedback edge: skeleton surfaces spec holes → ТЗ edits) → `command-pin-gaps` → orchestrator → `milestone-rescue`/`-audit` → `roadmap-test-coverage` → `roadmap-prune` → final `aif-docs` verification pass. Descriptive sequence (Russian), the authoritative home of the order; the composition model covers the mechanism. |
 | [Skill composition model](docs/skill-composition-model.md) | The mechanism/policy model for authoring skills — engine vs philosophy, the context-cost of abstraction, when to extract a skill. Narrative explainer (Russian); the normative rule lives in `.ai-factory/ARCHITECTURE.md` → "Composition: mechanism vs policy". |
+| [Skill pyramid](docs/skill-pyramid.md) | The macro-shape of the skill graph — tiny authoritative top-level lenses over expanding engines, the CLAUDE.md analogy, hook-encoded authority (caller overrides engine defaults), the funnel of the whole family into `note`, and folder-carried style. Narrative explainer (Russian); the composition model covers one edge, this covers the shape the repeated rule produces. |
+| [Context tree](docs/context-tree.md) | The project's knowledge as one tree — CLAUDE.md the trunk, docs the crown, code the root system, links the edges, the roadmap the time axis (the `[x]`/`[ ]` seam as the entry aim, `[x]` lines as strata with supersession); how a session raises the map at entry and walks a branch to the leaf at the moment of action, why held context decays, and why one-home-per-fact links are the walked edges. Narrative explainer (Russian); the normative rule lives in the global CLAUDE.md § "Grounding claims". |
 
 ## Repository Structure
 
@@ -95,7 +97,7 @@ Editing rules that follow from this:
 - A skill's output register (e.g. narrative prose vs. tables) is behavior, not formatting — never simplify a prose-narrative requirement into bullets or tables.
 - A refactored skill is unverified until a live run compares its actual output to the pre-refactor baseline.
 
-Pointers: `docs/skill-composition-model.md` (semantics), `docs/workflow.md` (pipeline order).
+Pointers: `docs/skill-composition-model.md` (semantics), `docs/skill-cycle.md` (pipeline order).
 
 ### SKILL.md frontmatter (required fields)
 
