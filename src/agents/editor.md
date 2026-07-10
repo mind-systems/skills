@@ -5,7 +5,7 @@ description: >-
   applies a work-order exactly as written, self-verifies, and reports back by fact.
   Spawn once at the start of a paired-loop session and keep it — send every
   subsequent work-order to the same spawn via SendMessage, never a fresh spawn per
-  task. The architect (src/agents/agent-architect) is the only caller; do not spawn
+  task. The architect (src/skills/agent-architect) is the only caller; do not spawn
   this agent to reason about or decide a change, only to apply one already decided.
 tools: Read, Grep, Glob, Bash, Write, Edit, Skill
 model: sonnet

@@ -43,7 +43,7 @@ skills/
 │   │   ├── milestone-rescue/     #     … and milestone-rescue-audit, detangle,
 │   │   └── …                     #     temporal-tree, observe-logs, aif-docs, aif-plan, ui-ux-pro-max
 │   ├── commands/                 #   slash commands (all ours)
-│   ├── agents/                   #   paired-loop agent skills (agent-architect + editor)
+│   ├── agents/                   #   agent definitions (editor — the paired-loop subagent)
 │   └── global/                   #   global CLAUDE.md — user-level instructions, symlinked from ~/.claude
 ├── upstream/
 │   └── ai-factory/               # PRISTINE mirror of lee-to/ai-factory skills/ (sync script; never hand-edited)
@@ -176,7 +176,7 @@ diff -rq src/skills/aif-architecture upstream/ai-factory/aif-architecture
 diff -rq src/skills/aif-docs upstream/ai-factory/aif-docs
 ```
 
-**Everything else in `src/skills/` is ours** — no upstream counterpart to reconcile, sync never touches it: `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-outline`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `test-philosophy`, `observe-logs`, `ui-ux-pro-max`. The same holds for `src/agents/` — the `agent-architect` skill (and its editor sibling) has no upstream counterpart; a re-sync must never overwrite it.
+**Everything else in `src/skills/` is ours** — no upstream counterpart to reconcile, sync never touches it: `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-outline`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `test-philosophy`, `observe-logs`, `ui-ux-pro-max`, `agent-architect`. The same holds for `src/agents/` — the `editor` agent definition has no upstream counterpart; a re-sync must never overwrite it.
 
 **`src/commands/`** — all ours, no upstream source, never synced.
 
