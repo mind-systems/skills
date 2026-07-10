@@ -9,9 +9,9 @@ This repo (`~/projects/skills`) is the **source of truth for generic AI Factory 
 The repo keeps three concerns physically apart:
 - **`src/`** — skills and commands **authored or reworked by us** (the real product).
 - **`upstream/ai-factory/`** — a **pristine mirror** of `lee-to/ai-factory`'s `skills/`, refreshed by `scripts/sync-upstream.sh` and never hand-edited.
-- **`active/`** — the **curated working set**: `active/skills/` and `active/commands/` hold per-item symlinks into either `src/` (ours) or `upstream/ai-factory/` (the few upstream originals we actually use). This is the only layer `~/.claude` points at, and it lists **only skills actually in use** — not every skill that exists.
+- **`active/`** — the **curated working set**: `active/skills/`, `active/commands/`, and `active/agents/` hold per-item symlinks into either `src/` (ours) or `upstream/ai-factory/` (the few upstream originals we actually use). This is the only layer `~/.claude` points at, and it lists **only skills actually in use** — not every skill that exists.
 
-Skills are available globally via `~/.claude/skills` → `~/projects/skills/active/skills` and `~/.claude/commands` → `~/projects/skills/active/commands` (personal scope in Claude Code).
+Skills are available globally via `~/.claude/skills` → `~/projects/skills/active/skills`, `~/.claude/commands` → `~/projects/skills/active/commands`, and `~/.claude/agents` → `~/projects/skills/active/agents` (personal scope in Claude Code).
 
 The **global CLAUDE.md** (user-level instructions loaded into every session of every project) is version-controlled here too: `src/global/CLAUDE.md` is the source; `~/.claude/CLAUDE.md` → `active/CLAUDE.md` → `../src/global/CLAUDE.md`. Any write through `~/.claude/CLAUDE.md` lands in this repo's working tree and shows up in `git diff`.
 
@@ -50,6 +50,7 @@ skills/
 ├── active/                       # CURATED working set — the only layer ~/.claude points at
 │   ├── skills/                   #   per-skill symlinks → src/skills/* or upstream/ai-factory/*
 │   ├── commands/                 #   per-command symlinks → src/commands/*
+│   ├── agents/                   #   per-item symlinks → src/agents/* (e.g. editor.md)
 │   └── CLAUDE.md                 #   symlink → ../src/global/CLAUDE.md (target of ~/.claude/CLAUDE.md)
 ├── scripts/
 │   └── sync-upstream.sh          # refresh upstream/ai-factory from lee-to/ai-factory

@@ -7,9 +7,10 @@ Generic AI Factory skills available globally to all projects via Claude Code's p
 ```bash
 ln -s ~/projects/skills/active/skills ~/.claude/skills
 ln -s ~/projects/skills/active/commands ~/.claude/commands
+ln -s ~/projects/skills/active/agents ~/.claude/agents
 ```
 
-`~/.claude` points at `active/` — the curated working set. `active/skills/` and `active/commands/` hold per-item symlinks into `src/` (ours) or `upstream/ai-factory/` (upstream originals we use), so only skills actually in use are loaded, not every skill that exists.
+`~/.claude` points at `active/` — the curated working set. `active/skills/`, `active/commands/`, and `active/agents/` hold per-item symlinks into `src/` (ours) or `upstream/ai-factory/` (upstream originals we use), so only skills actually in use are loaded, not every skill that exists.
 
 ## Project-specific skills
 
