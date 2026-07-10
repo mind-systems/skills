@@ -19,8 +19,6 @@ When the project has `.ai-factory/ROADMAP.md`, it is the entry map of **time**: 
 - **Describe behavior, not code.** Docs explain what a feature does and how it works — not list methods, fields, event types, or endpoint tables. That's just copying the code.
 - **No file/directory trees.** The only place a directory tree belongs is in ARCHITECTURE.md as a module template. Everywhere else — never.
 - **Match the language of existing docs.** Before writing or editing a doc file, check what language neighboring docs use and match it — even if project instructions say otherwise.
-- **No prev/next navigation links.** Never add `[← Previous](...)` / `[Next →](...)` header navigation to doc files — it's useless clutter.
-- **No "See Also" sections.** Never add a "See Also" footer to doc files.
 - **No README documentation table.** The documentation index belongs in the project's CLAUDE.md, not in README.md.
 - **Describe current state only.** Never reference what was changed, removed, or added. No "X was replaced", "Y was added". History belongs in commit messages.
 - **Docs form a walkable tree.** Inline links are the edges grounding walks: every doc links to the deeper docs and code it depends on, at the moment they are load-bearing. A fact's second home is always a link to its first, never a copy.
