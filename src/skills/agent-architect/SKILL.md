@@ -55,7 +55,9 @@ reach it by, a digest of what it has accumulated, and the recovery path —
 continue in place if it is still alive, respawn and re-brief from the digest if
 it is not. Losing the editor is never fatal — work-orders are self-contained, so
 a fresh editor picks up from the next one alone — but losing it silently is a
-defect. Recording it is not optional.
+defect. Recording it is not optional. The handoff must also name your buffer's
+path (`.ai-factory/notes/<NN>-architect-buffer.md`), so the re-invoked architect
+can find it.
 
 ## The disciplines
 
