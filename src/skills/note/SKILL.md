@@ -32,6 +32,8 @@ Three optional inputs a caller may supply; all default to today's standalone beh
 - **Template** — a section skeleton for the note body, or a free-form (non-skeleton) body directive the caller passes verbatim. Unset → the current default template (Key Findings / Details / Open Questions). When set, the note body follows the caller's directive verbatim — a section skeleton or a free-form structure (grid or prose); `note` supplies only the mechanism (mining, distillation, numbering, placement) and does not reshape the caller's structure.
 - **Verbosity directive** — free-text depth/length policy for the distillation. Unset → the current default (Important Rule 1, "Be concise", and Important Rule 2, "Focus on findings"). When set, the caller's directive **replaces both** the default concision rule (Rule 1) and the findings-focus/not-process rule (Rule 2) for this run; all other Important Rules — file paths, English — still apply.
 
+Below these three hooks sits one more, always-on layer: folder style (Step 3) reads the destination folder's most recent siblings to match its prevailing register. It never outranks a hook — precedence is hooks first (template/verbosity define structure and depth), folder style second (fills only what hooks leave unsaid), engine defaults last.
+
 ### Step 1: Analyze Context
 
 Review the full conversation to identify:
@@ -53,6 +55,8 @@ Use `$1` if provided. Otherwise derive a short descriptive slug from the researc
 - `<NN>` is a zero-padded two-digit sequence number (`01`, `02`, `03` …)
 
 To determine `<NN>`, find the highest existing `NN` prefix among files matching `[0-9][0-9]-*.md` in `<destination>` and add 1. If no numbered files exist yet, start at `01`.
+
+**Folder style:** before composing the body, reuse that same `[0-9][0-9]-*.md` scan to read the 1–2 most recent (highest-numbered) sibling files in `<destination>` and learn the folder's prevailing register, prose-vs-list density, and heading/formatting habits. Hold to that style **only where the caller's hooks are silent** — style is *matched*, never content-copied. Precedence, high to low: (1) caller hooks (template/verbosity) always win, (2) neighbor style fills only what hooks leave unsaid, (3) engine defaults last. Guards: empty `<destination>` (no numbered files) or a hook that already fully determines the body → skip silently, no ceremony; at most 2 sibling reads.
 
 **Before saving, ensure directory exists:**
 ```bash
