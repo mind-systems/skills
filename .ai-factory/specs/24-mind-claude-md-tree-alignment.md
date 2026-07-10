@@ -25,7 +25,9 @@ One pass over the eight `CLAUDE.md` files (root + seven leaves), three operation
 - **Hoist** — a meaning repeated across 2+ leaves belongs to the root: move it up, leave pointers (or nothing, where the root is auto-loaded context anyway). The root holds shared meaning and ownership routing; leaf-specific facts stay in leaves.
 - **Resolve root↔leaf conflicts** — where the root claims X and a leaf claims Y: never pick silently. Read down to ground truth (the code/config the claim describes); the file that matches ground truth wins; rewrite the loser. A conflict that ground truth cannot settle (a genuine product decision) is escalated in the report, not invented. Every conflict found — resolved or escalated — is listed explicitly in the implementation report.
 
-Also enforce while passing: no skill/command names as routing in any of the files; current-state-only (no "was changed/replaced" history); root `AGENTS.md` stays a one-line pointer.
+Also enforce while passing: **no skill or command names as routing** in any of the files — names rot when skills are renamed or retired, leaving dead routing paid on every run; routing is described in task terms (this rule is the task's own, not a loaded global — apply it from here); current-state-only (no "was changed/replaced" history); root `AGENTS.md` stays a one-line pointer.
+
+**Fourth operation — rules hygiene.** The family's rules files (`mind_api/.ai-factory/RULES.md` — 57 lines, `mind_mobile/.ai-factory/RULES.md` — 9, plus any `rules/` dirs in `camera_ppg_kit`/`mind_web`) pass the counter-default filter: a rule survives iff the executor would do otherwise by default AND code alone cannot teach it, and it carries its why; generic style conventions the agent follows unprompted are deleted as noise. The files stay in place — they are the orchestrator's dedicated mandatory-read channel — only their content is filtered; every dropped rule is listed in the report.
 
 ## Files & types
 
@@ -34,7 +36,7 @@ Also enforce while passing: no skill/command names as routing in any of the file
 
 ## Guards
 
-- **Scope is the CLAUDE.md tree** — no edits to mind's code, docs/, README, or any `.ai-factory/`; this pass aligns the instruction layer only.
+- **Scope is the instruction layer** — the eight CLAUDE.mds plus the rules files named above; no edits to mind's code, docs/, README, or anything else under `.ai-factory/`. Rules files are filtered in place, never deleted, never folded into CLAUDE.md — RULES.md is the imperative-genre channel the orchestrator reads with override authority.
 - **Grounding over preference** — every kept, moved, or rewritten claim is verified against the leaf's actual code/docs (read down the named edges); no claim is invented or "improved" beyond what ground truth supports.
 - **Preserve each file's language and register** — match what's there; this is alignment, not restyling.
 - **Cross-repo anchoring** — the target is `~/projects/mind` by absolute path; nothing in the skills repo changes in this task.

@@ -27,7 +27,6 @@ When the project has `.ai-factory/ROADMAP.md`, it is the entry map of **time**: 
 
 ## Project CLAUDE.md authoring
 
-- **No skill or command names in project files.** A project CLAUDE.md never routes to skills or commands by name (`/aif-plan`-style routing sections) — names rot when skills are renamed or retired, leaving dead routing that costs context on every run. Describe routing in task terms; skill names live only in this file and in the skills repo.
 - **One home per fact.** Anything stated in two places will drift. AGENTS.md is a one-line pointer to CLAUDE.md; the documentation index lives in CLAUDE.md (never in README); a module map lives in ARCHITECTURE.md or the code itself — CLAUDE.md points, it does not copy.
 - **Monorepo roots route by ownership.** Tasks go to the sub-repo they belong to — into its `.ai-factory/` (contract line in `ROADMAP.md`, spec note in `specs/`). Resolution: an explicit sub-repo prefix at the start of the argument wins (strip it, process the rest); otherwise detect from the task description; if ambiguous — ask. The root CLAUDE.md holds only the project-specific prefix/keyword tables — this protocol is not restated there.
 

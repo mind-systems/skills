@@ -15,6 +15,8 @@ One pyramid pass using the established `references/` pattern:
 
 ## Guards
 
+- **Runs strictly after 1.9.1** — the rules-generation template this pass moves to `references/` is the already-filtered one (counter-default + why genre); the move must not resurrect the pre-filter examples.
+
 - **Behavior-identical** — every mode produces the same artifacts with the same content; moved text lands byte-identical in `references/` (progressive disclosure, not rewriting).
 - Frontmatter unchanged; the reconcile-by-diff relationship with `upstream/ai-factory/aif` noted in CLAUDE.md stays meaningful — moved content must remain diffable (note the mapping in the spec-note of the move, not in the skill body).
 - Live baseline before the next phase task: run `/aif` in a scratch project pre/post and diff the generated CLAUDE.md / config.yaml / rules artifacts.
