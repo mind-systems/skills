@@ -25,11 +25,10 @@ depth — then rolls the sidecar and the artifact set back to the matching repai
 so the orchestrator re-validates from there rather than starting blind.
 
 The roadmap contract line (in `$TARGET_FILE`) is the roadmap half of the two-tier spec
-pair (alongside the spec note the milestone's `Spec:` tag names). It IS edited when the spec
-tier is repaired. The output is not a single ROADMAP edit — it is a depth-keyed
-repair: spec note + contract line, plan `.md`, or working-tree code, depending on how
-deep the root cause runs. The user picks the depth; an explicit "fix Y / delete X"
-overrides.
+pair (alongside the spec note the milestone's `Spec:` tag names) and is edited when the
+spec tier is repaired. The repair is depth-keyed, not a single ROADMAP edit: spec note +
+contract line, plan `.md`, or working-tree code, depending on how deep the root cause
+runs. The user picks the depth; an explicit "fix Y / delete X" overrides.
 
 Ensure `orchestrator-artifacts` is loaded once this chat (via the Skill tool, only if
 not already loaded) — it defines the artifact layout, naming, signals, sidecar
@@ -74,10 +73,10 @@ implementer addressed it. Read them all before drawing any conclusions.
 ## Step 2 — Diagnose root cause and depth
 
 Determine which phase failed and how deep the root cause runs. This classification is
-an **internal routing signal** that feeds the depth choice in Step 4 — it is not itself
-the diagnosis the user receives; the substantive diagnosis is Step 3's Diagnosis Report.
-Signal semantics (`PLAN_REVIEW_PASS`, `REVIEW_PASS`, last-line requirement) are defined
-in `orchestrator-artifacts`; the classification below only applies them.
+an **internal routing signal** for Step 4's depth choice, not itself the diagnosis the
+user receives — that's Step 3's Diagnosis Report. Signal semantics (`PLAN_REVIEW_PASS`,
+`REVIEW_PASS`, last-line requirement) are defined in `orchestrator-artifacts`; the
+classification below only applies them.
 
 **Plan-phase failure** — no plan-review file contains `PLAN_REVIEW_PASS` on its own
 line. Root cause is likely a specification gap or scope overload; repair depth starts
@@ -87,40 +86,36 @@ at spec.
 but no review file contains `REVIEW_PASS`. Root cause is a defect in the code or plan;
 repair depth is at least spec+plan.
 
-**Stale implementer session (plan ratified, implementation absent)** — implement-phase
-condition holds (a `PLAN_REVIEW_PASS` plan-review is present, no `REVIEW_PASS`), AND
-every review round reports the product file(s) byte-identical to HEAD — i.e. no round
-ever produced a real diff, not merely a defective one. This is a pipeline-state defect
-(the implementer session's memory has gone stale), not a spec, plan, or code defect —
-the plan itself needs no repair. Repair depth is the plan-ratified rollback (Step 5),
-not spec/spec+plan/spec+plan+code.
+**Stale implementer session (plan ratified, implementation absent)** — the implement-phase
+condition holds, AND every review round reports the product file(s) byte-identical to
+HEAD — no round ever produced a real diff, not merely a defective one. This is a
+pipeline-state defect (the implementer session's memory has gone stale), not a spec,
+plan, or code defect — the plan itself needs no repair. Repair depth is the
+plan-ratified rollback (Step 5), not spec/spec+plan/spec+plan+code.
 
-**Non-convergence (terminal, commit-as-is)** — implement-phase condition holds (PLAN_REVIEW_PASS
-present, no REVIEW_PASS) AND every review contains only Low or Informational findings
-AND the plan's deliverables are present/produced on disk (for `modify`-type deliverables,
-confirm via patches or reviews that the change landed — file existence alone is not
-sufficient). When all three hold, the work is likely done; recommend committing instead
-of re-running. This is a distinct outcome: no rollback, no artifact cleanup.
+**Non-convergence (terminal, commit-as-is)** — the implement-phase condition holds AND
+every review contains only Low or Informational findings AND the plan's deliverables
+are present/produced on disk (for `modify`-type deliverables, confirm via patches or
+reviews that the change landed — file existence alone is not sufficient). When all
+three hold, the work is likely done; recommend committing instead of re-running. No
+rollback, no artifact cleanup.
 
-Keep the severity inspection here lightweight — blocking/non-blocking only, not a full
-issue extraction (that is Step 3's job).
-
-State the diagnosis explicitly before proceeding, in this order: root-cause category
-first, then likely repair depth, with the failure phase mentioned last as routing
-context only.
+Keep this severity pass lightweight — blocking/non-blocking only; full issue extraction
+is Step 3's job. State the diagnosis explicitly before proceeding, in this order:
+root-cause category, then likely repair depth, with the failure phase mentioned last as
+routing context only.
 
 ---
 
 ## Step 3 — Extract root cause
 
-Scan all artifact files for problems and improvement requests. Real artifacts use
-inconsistent formats — do not hardcode heading names. Common patterns: `### Issues`,
-`## Critical Issues`, `## Suggestions`, `### Task 1:`, inline numbered lists.
+Scan all artifact files for problems and improvement requests. Formats are
+inconsistent — `### Issues`, `## Critical Issues`, `## Suggestions`, `### Task 1:`,
+inline numbered lists — so don't hardcode heading names.
 
-Read all rounds, not just the latest. **Recurring issues** (present in 2+ rounds) are
+Read all rounds (Step 1's mandate). **Recurring issues** (present in 2+ rounds) are
 the primary signal — the implementer could not fix them even with a patch, so the
-description is the only reliable enforcement. The recurring root cause determines the
-repair depth.
+description is the only reliable enforcement, and they determine the repair depth.
 
 Root-cause categories (context for depth + scope-overload flag):
 
@@ -138,12 +133,11 @@ differ (amend the spec note to carry the governing constraint vs. invent a new
 decision). The Diagnosis Report must state whether the failure violates the governing
 spec and quote the relevant clause.
 
-Identify the dominant root cause and whether any issue is recurring. Carry both into
-Step 4 — they drive the depth choice and the scope-overload flag.
+Identify the dominant root cause and whether any issue is recurring — both carry into
+Step 4, driving the depth choice and the scope-overload flag.
 
-**Write the Diagnosis Report.** Before presenting the Step 4 depth menu, print a
-mandatory Diagnosis Report to the user — a first-class deliverable, produced without
-the user asking for it.
+**Write the Diagnosis Report** — a mandatory, first-class deliverable printed before the
+Step 4 depth menu, without the user asking for it.
 
 Form: a chronological narrative in plain prose. Tell the story of the implementation
 attempt as a sequence of events — what the implementation did, what defect the review
@@ -224,9 +218,9 @@ three depths (spec / spec+plan / spec+plan+code) — the plan needs no repair, s
 them apply. Present only option 4 below as the recommended rollback; the user's
 explicit "fix Y / delete X" still overrides.
 
-Otherwise, present the repair depth via `AskUserQuestion`. Each option states what gets
-repaired and what the rollback state is. The user's explicit "fix Y / delete X" overrides
-this menu.
+Otherwise, present the repair depth via `AskUserQuestion` — each option states what gets
+repaired and the rollback state; the user's explicit "fix Y / delete X" overrides this
+menu.
 
 ```
 Root cause: <spec-gap | mechanical-error | scope-overload | stale-implementer-session>
@@ -376,9 +370,8 @@ depth), `"implemented"` (spec+plan+code depth), or deletes the sidecar (spec dep
 values from the orchestrator contract.
 
 Restate the Diagnosis Report's conclusion in one paragraph — what was wrong, what was
-repaired, and at which depth — before the file bookkeeping below.
-
-Show the user the list of deleted files and confirm the rescue is complete.
+repaired, and at which depth — then show the user the list of deleted files and confirm
+the rescue is complete.
 
 ---
 
@@ -418,11 +411,10 @@ If no matches found, or all issues are domain-specific to the failed milestone, 
 
 ## Step 5.6 — Pin disposed observations
 
-When deferred-observation entries encountered in the artifacts read this session are
-disposed of, pin the entry and every sibling occurrence across that milestone's
-review files, per the engine's dedup rule (`orchestrator-artifacts` §6; do not
-redefine the grammar, the pinned definition, or the dedup rule). Two disposal
-branches:
+When a deferred-observation entry read this session is disposed of, pin it and every
+sibling occurrence across that milestone's review files, per the engine's dedup rule
+(`orchestrator-artifacts` §6 — do not redefine the grammar, the pinned definition, or
+the dedup rule). Two disposal branches:
 
 - **Routed** — a new task + spec written (e.g. via `/roadmap-decompose` in the same
   chat) or folded into a spec repaired at Step 5 — append `[promoted → <spec path>]`.
