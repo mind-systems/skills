@@ -43,6 +43,7 @@ skills/
 │   │   ├── milestone-rescue/     #     … and milestone-rescue-audit, detangle,
 │   │   └── …                     #     temporal-tree, observe-logs, aif-docs, aif-plan, ui-ux-pro-max
 │   ├── commands/                 #   slash commands (all ours)
+│   ├── agents/                   #   paired-loop agent skills (agent-architect + editor)
 │   └── global/                   #   global CLAUDE.md — user-level instructions, symlinked from ~/.claude
 ├── upstream/
 │   └── ai-factory/               # PRISTINE mirror of lee-to/ai-factory skills/ (sync script; never hand-edited)
@@ -59,7 +60,7 @@ skills/
 └── README.md
 ```
 
-**The active set** (what `~/.claude` actually loads): our skills — `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `aif`, `aif-architecture`, `aif-docs`, `test-philosophy`, `roadmap-outline`, `observe-logs`, `orchestrator-artifacts` — plus one upstream original we use as-is: `aif-skill-generator`. Everything else (our `aif-plan`, `ui-ux-pro-max`; all other upstream skills) is stored but **not** symlinked into `active/`. Adding a skill to the working set = create a symlink under `active/skills/`.
+**The active set** (what `~/.claude` actually loads): our skills — `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `aif`, `aif-architecture`, `aif-docs`, `test-philosophy`, `roadmap-outline`, `observe-logs`, `orchestrator-artifacts`, `agent-architect` — plus one upstream original we use as-is: `aif-skill-generator`. Everything else (our `aif-plan`, `ui-ux-pro-max`; all other upstream skills) is stored but **not** symlinked into `active/`. Adding a skill to the working set = create a symlink under `active/skills/`.
 
 Each skill directory contains:
 - `SKILL.md` — required, main instructions (frontmatter + body ≤ 500 lines)
@@ -174,7 +175,7 @@ diff -rq src/skills/aif-architecture upstream/ai-factory/aif-architecture
 diff -rq src/skills/aif-docs upstream/ai-factory/aif-docs
 ```
 
-**Everything else in `src/skills/` is ours** — no upstream counterpart to reconcile, sync never touches it: `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-outline`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `test-philosophy`, `observe-logs`, `ui-ux-pro-max`.
+**Everything else in `src/skills/` is ours** — no upstream counterpart to reconcile, sync never touches it: `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-outline`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `test-philosophy`, `observe-logs`, `ui-ux-pro-max`. The same holds for `src/agents/` — the `agent-architect` skill (and its editor sibling) has no upstream counterpart; a re-sync must never overwrite it.
 
 **`src/commands/`** — all ours, no upstream source, never synced.
 
