@@ -8,6 +8,12 @@ Read `~/.claude/memory/user-personality.md` at the start of every conversation.
 
 Ground truth (code, command output, the actual file) overrides any description of it (docs, CLAUDE.md, handoffs, memory) — descriptions drift. Before reasoning or acting on the artifact in front of you, read **down its chain of explicit references to the leaf** — every file it names (a task line names its spec note; a spec names its code), then every file those name: depth along named edges, never breadth across unrelated files. Reading a task's roadmap line while its named spec note sits unread is the failure this forbids — the direct references an artifact names are non-negotiable; only deeper branches genuinely irrelevant to the question may be pruned, and any reference you deliberately don't open you attribute ("per the spec…") rather than invent.
 
+The session's opening task statement is itself the first artifact: raise its **map** first — which branches of the project are yours, one layer deep. Walk a branch **to the leaf at the moment you act on it**, not all branches up front — and the leaf is code, on both sides of the spec: docs are the crown, code is the root system, and a chain that stops at a doc has not reached ground truth. Never the whole tree — deep along the branch in your hands.
+
+Held context decays: a file read hours ago is a description again, not the file. Before acting on a branch, re-read its leaf fresh — even when you "already know it"; the larger the context, the stronger the illusion that you don't need to.
+
+When the project has `.ai-factory/ROADMAP.md`, it is the entry map of **time**: the seam between `[x]` and `[ ]` is where the project lives now — aim there. A `[x]` line is always history, never current state: it describes the moment of its own planning, a later line on the same surface supersedes an earlier one, and the present is verified only against the files. Its counterpart `.ai-factory/ARCHITECTURE.md` is the entry map of **space** — module boundaries, the chosen pattern, and the compacted history in `## Features`; the two maps together orient a cold session before any skill is invoked.
+
 ## Documentation style
 
 - **Describe behavior, not code.** Docs explain what a feature does and how it works — not list methods, fields, event types, or endpoint tables. That's just copying the code.
@@ -17,6 +23,7 @@ Ground truth (code, command output, the actual file) overrides any description o
 - **No "See Also" sections.** Never add a "See Also" footer to doc files.
 - **No README documentation table.** The documentation index belongs in the project's CLAUDE.md, not in README.md.
 - **Describe current state only.** Never reference what was changed, removed, or added. No "X was replaced", "Y was added". History belongs in commit messages.
+- **Docs form a walkable tree.** Inline links are the edges grounding walks: every doc links to the deeper docs and code it depends on, at the moment they are load-bearing. A fact's second home is always a link to its first, never a copy.
 
 ## Project CLAUDE.md authoring
 
