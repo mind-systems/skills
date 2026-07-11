@@ -12,6 +12,7 @@ One pyramid pass continuing the same pattern:
 - **Move to `references/`:** remaining long per-state procedures and audit checklists not already moved — each behind its branch pointer.
 - **Verbatim-protected:** every `AskUserQuestion` dialog (contract text — never compressed), the Core Principles wording — above all the genre sentence (`:19`).
 - **Closure rule — protection is by criterion, not enumeration:** *any* sentence stating a contract is protected verbatim whether or not listed above; a contract-bearing sentence discovered mid-pass joins the protected set on the spot — it is not a plan defect and does not require re-planning.
+- **Re-basing rule — the one documented exception to byte-identical:** moving text changes the base its relative references resolve against, so inside every moved block a relative pointer is rewritten for the new position — a `references/<X>` path becomes the sibling form `<X>` once the text itself lives inside `references/`; a cross-reference to a step number/label that ceases to exist is re-pointed to its new home. Applied **symmetrically to every occurrence** (find them by grep, never by enumeration); all other bytes land identical. An occurrence discovered mid-pass is fixed on the spot — not a plan defect.
 - **The diet must not dilute the orientation:** the skill is fully tuned to writing the ТЗ — that identity may only sharpen through this pass, never blur into generic "documentation maintenance".
 - Two-reader register.
 

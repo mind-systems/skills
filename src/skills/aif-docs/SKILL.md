@@ -127,101 +127,7 @@ Options:
 
 **IMPORTANT:** Never force-move files. Always show the plan and get user approval first.
 
-### Step 2 (State A): Generate from Scratch
-
-When no README.md exists, generate the full documentation set.
-
-#### 2.1: Analyze project for documentation topics
-
-Explore the codebase and identify documentation topics:
-
-```
-Always include:
-- getting-started.md    (installation, setup, quick start)
-
-Include if relevant:
-- architecture.md       (if project has clear architecture: services, modules, layers)
-- api.md                (if project exposes API endpoints)
-- configuration.md      (if project has config files, env vars, feature flags)
-- deployment.md         (if Dockerfile, CI/CD, deploy scripts exist)
-- contributing.md       (if open-source or team project)
-- security.md           (if auth, permissions, or security patterns exist)
-- testing.md            (if test suite exists)
-- cli.md                (if project has CLI commands)
-```
-
-**Ask the user:**
-
-```
-I've analyzed your project and suggest these documentation pages:
-
-1. getting-started.md — Installation, setup, quick start
-2. architecture.md — Project structure and patterns
-3. api.md — API endpoints reference
-4. configuration.md — Environment variables and config
-
-AskUserQuestion: Would you like to generate these documentation pages?
-
-Options:
-1. Generate all of these
-2. Let me pick which ones
-3. Add more topics
-```
-
-**Based on choice:**
-- Generate all → proceed to generate README.md and all listed doc files in the resolved docs directory
-- Let me pick → present each topic for individual approval, generate only approved
-- Add more topics → ask what additional topics to include, confirm final list, then generate
-
-#### 2.2: Generate README.md
-
-Structure (aim for ~80-120 lines):
-
-```markdown
-# Project Name
-
-> One-line tagline describing the project.
-
-Brief 2-3 sentence description of what this project does and why it exists.
-
-## Quick Start
-
-\`\`\`bash
-# Installation steps (1-3 commands)
-\`\`\`
-
-## Key Features
-
-- **Feature 1** — brief description
-- **Feature 2** — brief description
-- **Feature 3** — brief description
-
-## Example
-
-\`\`\`
-# Show a real usage example — this is where users decide "I want this"
-\`\`\`
-
----
-
-See [documentation](<readme-to-docs-dir>/) for full docs.
-
-## License
-
-MIT (or whatever is in the project)
-```
-
-**Key rules for README:**
-- Logo/badge line at the top (if project has one)
-- Tagline as blockquote
-- Quick Start with real installation commands (detect from package manager)
-- Key Features as bullet list (3-6 items, scannable)
-- Real usage example that shows the "wow factor"
-- Single pointer line to the docs directory (no index table)
-- License at the bottom
-- **NO long descriptions, NO full API reference, NO configuration details**
-
-#### 2.2b: Update the CLAUDE.md Documentation Index
+### Update the CLAUDE.md Documentation Index
 
 Create or update the `## Documentation` section in the project's CLAUDE.md — this is the single home for the documentation index (not README):
 
@@ -239,112 +145,23 @@ Create or update the `## Documentation` section in the project's CLAUDE.md — t
 - Rows follow the docs directory's logical reading order (getting started → workflow → details)
 - If CLAUDE.md doesn't exist, create it with only this section plus a one-line header
 
-#### 2.3: Generate documentation files in the resolved docs directory
+### Step 2 (State A): Generate from Scratch
 
-For each approved topic, create a doc file:
+When no README.md exists, generate the full documentation set.
 
-```markdown
-# Topic Title
-
-Content organized by subtopic with headers, code examples, and tables.
-Keep each section self-contained.
-```
-
-Content guidelines per topic → read `references/topic-guides.md` when generating State A pages.
+→ read `references/generate-state-a.md`
 
 ### Step 2 (State B): Split Existing README into the resolved docs directory
 
 When README.md exists but is long (150+ lines) and there's no resolved docs directory yet.
 
-#### 2.1: Analyze README structure
-
-Read README.md and identify:
-- Which sections should stay (landing page content)
-- Which sections should move to the resolved docs directory (detailed content)
-
-**Stays in README:**
-- Title, tagline, badges
-- "Why?" / key features bullet list
-- Quick install (1-3 commands)
-- Brief example
-- Pointer line to the docs directory
-- External links, license
-
-**Moves to the resolved docs directory:**
-- Detailed setup instructions → `getting-started.md`
-- Architecture / project structure → `architecture.md`
-- Full API reference → `api.md`
-- Configuration details → `configuration.md`
-- Contributing guidelines → `contributing.md`
-- Any section longer than ~30 lines that covers a single topic
-
-#### 2.2: Propose changes to user
-
-```
-Your README.md is [N] lines. I suggest splitting it:
-
-README.md (~100 lines) — keep as landing page:
-  ✓ Title + tagline
-  ✓ Key features
-  ✓ Quick install
-  ✓ Example
-  ✓ Pointer line to docs dir
-
-Move to docs dir:
-  → "Installation" section → <resolved docs dir>/getting-started.md
-  → "Configuration" section → <resolved docs dir>/configuration.md
-  → "API Reference" section → <resolved docs dir>/api.md
-  → "Architecture" section → <resolved docs dir>/architecture.md
-
-Proceed?
-```
-
-#### 2.3: Execute the split
-
-1. Create the resolved docs directory
-2. Create each doc file with content from README
-3. Rewrite README as landing page with a pointer line to the docs dir; create/update the `## Documentation` section in CLAUDE.md
-4. **Verify no content was lost** — every section from old README must exist somewhere
+→ read `references/split-state-b.md`
 
 ### Step 2 (State C): Improve Existing Docs
 
 When both README.md and the resolved docs directory exist.
 
-#### 2.1: Audit current documentation
-
-Check for:
-- **README length** — is it still a landing page (<150 lines)?
-- **Missing topics** — are there aspects of the project not documented?
-- **Stale content** — do docs reference files/APIs that no longer exist? Conditional on the referent: flag staleness only for surfaces whose code exists; where the code does not exist, the doc is the spec and this check does not apply
-- **Broken links** — verify all internal links point to existing files/anchors
-- **Consistency** — same formatting style across all docs
-- **Legacy README table** — does README still carry a documentation index table? Flag it as a legacy layout and propose moving the index to CLAUDE.md's `## Documentation` section
-- **Coordination-trio staleness** — on every run, check README, the CLAUDE.md `## Documentation` index, and ARCHITECTURE.md for drift. Refresh what this skill owns (README length/pointer line, the CLAUDE.md index rows). For ARCHITECTURE.md, check for staleness but do not edit it — it stays read-only here (Step 0, Artifact Ownership); flag any drift found for the user or `aif-architecture` to fix
-- **Standards compliance** — does existing documentation match the current skill standards? (see 2.1.1)
-
-#### 2.1.1: Standards compliance check
-
-Check existing docs against current Core Principles for gaps (stale formats). For the full compliance table and auto-fix rules → read `references/REVIEW-CHECKLISTS.md` (Standards Compliance section).
-
-**When gaps are found**, include them in the audit report alongside content issues (Step 2.2). Treat them as regular improvements — show the plan and get user approval before applying.
-
-#### 2.2: Propose improvements
-
-```
-Documentation audit results:
-
-✅ README is lean (105 lines)
-⚠️  <resolved docs dir>/api.md is missing — project has 12 API endpoints
-⚠️  <resolved docs dir>/configuration.md references old env var DB_HOST (now DATABASE_URL)
-❌ <resolved docs dir>/getting-started.md links to setup.md which doesn't exist
-
-Proposed fixes:
-1. Create <resolved docs dir>/api.md with endpoint reference
-2. Update DATABASE_URL in <resolved docs dir>/configuration.md
-3. Fix broken link in <resolved docs dir>/getting-started.md
-
-Apply fixes?
-```
+→ read `references/audit-state-c.md`
 
 ### Step 3: Generate HTML Version (--web flag)
 
@@ -431,7 +248,7 @@ Read `AGENTS.md` and find the `## Documentation` section. Update it to reflect t
 - If doc pages were removed, remove them
 - Keep descriptions concise (under 10 words)
 - If `AGENTS.md` doesn't exist, skip this step silently
-- If `AGENTS.md` is a one-line redirect to CLAUDE.md, the CLAUDE.md `## Documentation` section (Step 2.2b) is the single source and AGENTS.md is left untouched
+- If `AGENTS.md` is a one-line redirect to CLAUDE.md, the CLAUDE.md `## Documentation` section (see "Update the CLAUDE.md Documentation Index") is the single source and AGENTS.md is left untouched
 
 ### Context Cleanup
 

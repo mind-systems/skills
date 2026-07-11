@@ -12,6 +12,7 @@ One pyramid pass:
 - **Move to `references/`:** raw LogQL templates and schema detail beyond the choosing-level facts — read only when the canned subcommands don't fit and a hand-written query is needed.
 - **Verbatim-protected:** the subcommand flag semantics (`--limit` default 200 and where it applies; unbounded `since-restart`), read-only `GET`-only discipline.
 - **Closure rule — protection is by criterion, not enumeration:** *any* sentence stating a contract is protected verbatim whether or not listed above; a contract-bearing sentence discovered mid-pass joins the protected set on the spot — it is not a plan defect and does not require re-planning.
+- **Re-basing rule — the one documented exception to byte-identical:** moving text changes the base its relative references resolve against, so inside every moved block a relative pointer is rewritten for the new position — a `references/<X>` path becomes the sibling form `<X>` once the text itself lives inside `references/`; a cross-reference to a step number/label that ceases to exist is re-pointed to its new home. Applied **symmetrically to every occurrence** (find them by grep, never by enumeration); all other bytes land identical. An occurrence discovered mid-pass is fixed on the spot — not a plan defect.
 - Two-reader register.
 
 ## Guards

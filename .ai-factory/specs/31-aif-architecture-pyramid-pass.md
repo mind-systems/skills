@@ -12,6 +12,7 @@ One pyramid pass:
 - **Move to `references/`:** the decision matrix and the full ARCHITECTURE.md template (both policy branches) — read at the step that uses them.
 - **Verbatim-protected:** the Alignment Check procedure, the template's reserved `## Features` section, the recommendation flow's decision wording.
 - **Closure rule — protection is by criterion, not enumeration:** *any* sentence stating a contract is protected verbatim whether or not listed above; a contract-bearing sentence discovered mid-pass joins the protected set on the spot — it is not a plan defect and does not require re-planning.
+- **Re-basing rule — the one documented exception to byte-identical:** moving text changes the base its relative references resolve against, so inside every moved block a relative pointer is rewritten for the new position — a `references/<X>` path becomes the sibling form `<X>` once the text itself lives inside `references/`; a cross-reference to a step number/label that ceases to exist is re-pointed to its new home. Applied **symmetrically to every occurrence** (find them by grep, never by enumeration); all other bytes land identical. An occurrence discovered mid-pass is fixed on the spot — not a plan defect.
 - Two-reader register.
 
 ## Guards
