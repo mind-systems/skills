@@ -57,8 +57,7 @@ the feature's birth batch — the moment the last task of the first implementati
 git show <first-hash>
 ```
 
-Read the patch. Note what files were added or modified, what was removed, and what the code
-structure looked like at that exact moment. This is the original design surface.
+This is the original design surface.
 
 ---
 
