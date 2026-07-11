@@ -57,9 +57,6 @@ Drop "Full coverage" areas. Carry forward "No coverage" and "Partial".
 
 ## Layer 3 — Silent-Failure Filter
 
-This is the most important gate in the pipeline. It prevents Layer 4 from
-wasting agent capacity on areas that already have automatic failure detection.
-
 Load `test-philosophy` once via the `Skill` tool, then apply its silent-failure
 discriminator to each remaining candidate area.
 
@@ -97,7 +94,6 @@ Store as `$NEXT_NOTE_NUM`.
 
 Launch one `Explore` agent per area in a **single message** (parallel).
 Each agent writes its note to disk and returns one line to the orchestrator.
-Do not read note contents back — one-line confirmations only.
 
 **Agent prompt template:**
 
@@ -149,7 +145,7 @@ After writing the file, return exactly one line:
 saved: .ai-factory/specs/<NN>-<slug>.md
 ```
 
-Collect all one-line confirmations. Proceed to Layer 5.
+Collect all one-line confirmations.
 
 ---
 
@@ -182,7 +178,7 @@ Return exactly one line in this format:
   needs-refactor | <area name> | <one sentence: what to refactor and why>
 ```
 
-Collect all verdicts. Do not read source files back into orchestrator context.
+Collect all verdicts.
 
 ---
 
@@ -209,7 +205,7 @@ Run the test suite:
 <$TEST_CMD>
 ```
 
-If all tests pass: log "All existing tests pass." and continue to Layer 8.
+If all tests pass: log "All existing tests pass."
 
 If any tests fail, launch one `general-purpose` agent with the full test
 output. The agent classifies failures only — it does not write any files.
