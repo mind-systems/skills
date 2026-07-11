@@ -73,13 +73,12 @@ Read the target ROADMAP.md in full — do not start grouping until you have read
 
 ## Step 1 — Identify the pruning slice
 
-Count all `[x]` tasks. The goal is to leave ~20 lines of active context in Milestones
-(open tasks + the most recent completed tasks that still provide context for what's
-coming next). Everything older than that is a candidate for pruning.
+Count all `[x]` tasks. The pruning slice is **all `[x]` tasks** — every completed
+task is pruned by default.
 
-Determine the slice: tasks to prune = all `[x]` tasks except the most recent N that
-provide active context. N is usually 0–5. When in doubt, prune more — the history
-is preserved in git and ARCHITECTURE.md.
+The only exception is a `[x]` line the user explicitly names for retention — at
+invocation or at the confirmation step. Absent such an explicit instruction, prune
+every `[x]` task; the history is preserved in git and ARCHITECTURE.md.
 
 ---
 
@@ -211,11 +210,16 @@ Run this after Step 4 and before Step 6. Tags are captured before any ROADMAP.md
 
 Derive the **target repo root**: the parent of the `.ai-factory/` directory the target ROADMAP.md lives in (from the skill argument). Anchor every deletion in this step at that root. For a sub-repo roadmap at `<subrepo>/.ai-factory/ROADMAP.md`, the target repo root is `<subrepo>`, and the sweep touches only `<subrepo>/.ai-factory/*`.
 
-1. **Capture** the `Spec:` tag path of every `[x]` line — both the lines being pruned and any `[x]` lines kept as recent context. A `[x]` line with no `Spec:` tag contributes nothing — skip it, never synthesize a path.
+1. **Capture** the `Spec:` tag path of every `[x]` line being pruned. A user-kept `[x]`
+   line's `Spec:` tag is not captured — its roadmap line and its spec file both stay
+   untouched. A `[x]` line with no `Spec:` tag contributes nothing — skip it, never
+   synthesize a path.
 2. `rm -rf` the four artifact dirs, directly under `<target repo root>/.ai-factory/`: `plans/`, `plan-reviews/`, `reviews/`, `patches/`.
 3. `rm -f` each captured spec path — the captured paths are repo-root-relative and already begin with `.ai-factory/`; join them onto the target repo root, not onto `.ai-factory/`.
 
-Spec deletion goes only through `[x]` lines' `Spec:` tags — no spec directory is ever scanned or swept, so open `[ ]` tasks' specs are never touched.
+Spec deletion goes only through the **pruned** `[x]` lines' `Spec:` tags — no spec
+directory is ever scanned or swept, so a user-kept `[x]` line's spec and open `[ ]`
+tasks' specs are never touched.
 
 When pruning `ROADMAP_TESTS.md`, apply the same sweep, and `test-runs/` joins the swept dirs in that mode only.
 
@@ -230,15 +234,17 @@ Do not replace them with a table —
 the tasks are gone from the roadmap. Their history lives in ARCHITECTURE.md.
 
 Keep the task-holding sections with all remaining `[ ]` tasks. Additionally, always
-retain the last phase header and its 2 most recent `[x]` tasks — this preserves phase
-numbering continuity so agents can follow the sequence without confusion.
+retain the last phase header — this preserves phase numbering continuity so agents
+can follow the sequence without confusion, even when the header is emptied of all
+its tasks.
 
 **Emptied-phase sweep:** after deleting a phase's last task, if the `### Phase N`
 header now has no tasks left under it, delete the header and its intro prose too —
 never renumber surviving phases; numbering is historic and gaps are normal (a
 deleted phase's number may still be referenced from specs, commits, and
 ARCHITECTURE.md features). This coexists with the retain rule above: a phase that
-still holds a kept `[x]` task is not emptied and keeps its header.
+still holds a user-kept `[x]` task is not emptied and keeps its header; the last
+phase header is kept regardless.
 
 **Emptied-direction sweep:** after the emptied-phase sweep removes a direction
 section's last phase header, if the `## <Direction name>` section now has no phases
@@ -260,7 +266,7 @@ Before finishing, verify:
   git cat-file -t <hash>   # should output "commit"
   ```
 - ROADMAP.md has no orphaned `[x]` tasks (all checked items are either deleted
-  or intentionally kept as recent context)
+  or explicitly kept by the user)
 - The Milestones section still reads coherently without the pruned tasks
 
 ---
@@ -292,8 +298,9 @@ commits, never ask about the message.
 - Do not invent commit hashes — find real ones from `git log`
 - Do not merge unrelated features into one row to save space
 - Do not update the first hash when a feature only had minor internal changes
-- Do not scan or sweep a spec directory — spec deletion goes only through `[x]` lines'
-  `Spec:` tags; never touch a path an open `[ ]` line's tag names
+- Do not scan or sweep a spec directory — spec deletion goes only through the **pruned**
+  `[x]` lines' `Spec:` tags; never touch a path an open `[ ]` line's tag names or a
+  user-kept `[x]` line's tag names
 - Do not touch `handoffs/` — it is never swept
 - Do not use `git rm` — deletion is plain `rm`; staging happens once, at commit time, via `git add -A`
 - Do not resolve artifacts per task — no slug derivation, no discovery, no orphan report, no extended verify
