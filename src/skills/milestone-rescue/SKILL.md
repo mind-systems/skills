@@ -10,7 +10,7 @@ description: >-
   "REVIEW_PASS never achieved" — trigger phrases: "rescue", "milestone failed",
   "pipeline stopped".
 argument-hint: "[path/to/ROADMAP.md | ROADMAP_TESTS.md]"
-allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion
+allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion Skill
 loads: orchestrator-artifacts
 ---
 

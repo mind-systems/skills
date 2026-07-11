@@ -7,7 +7,7 @@ description: >-
   Caller-agnostic: holds no decomposition philosophy of its own. Load-once.
 user-invocable: false
 disable-model-invocation: false
-allowed-tools: Read
+allowed-tools: Read Skill
 loads: note
 ---
 

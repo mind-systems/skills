@@ -12,7 +12,7 @@ description: >-
   Trigger phrases: "audit", "convergence audit", "did it converge or band-aid",
   "band-aid check", "outside-view audit".
 argument-hint: "[task-slug]"
-allowed-tools: Read Glob Grep Bash(git *)
+allowed-tools: Read Glob Grep Bash(git *) Skill
 loads: orchestrator-artifacts
 ---
 

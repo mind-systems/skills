@@ -7,7 +7,7 @@ description: >-
   the roadmap. Use when ROADMAP.md has accumulated many [x] tasks and needs to
   be trimmed without losing navigational history.
 argument-hint: "[path/to/ROADMAP.md]"
-allowed-tools: Read Write Edit Bash(git *) Bash(rm *) Glob Grep
+allowed-tools: Read Write Edit Bash(git *) Bash(rm *) Glob Grep Skill
 loads: orchestrator-artifacts
 ---
 
