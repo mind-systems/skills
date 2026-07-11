@@ -4,18 +4,15 @@ description: >-
   Outside-view audit of a milestone that looped (2–3 rounds at plan-review or
   implement-review) or is a wall-clock outlier — even if it ultimately passed.
   Diagnoses whether convergence came from genuine understanding or from band-aid
-  accretion around one structural/spec gap the implementation routed around. Two
-  modes: `rescue` (default) emits a diagnosis plus one upstream recommendation to
-  chat, appending only status marks on evaluated deferred observations — no content
-  rewrites, no ROADMAP edits; `prune` runs when `roadmap-prune`'s gate refused,
-  pinning every unpinned observation via the same marks plus promotion appends into
-  existing files. Run `rescue` right after `milestone-rescue` while artifacts are
-  warm, or cold on any looped/outlier task; run `prune` when a roadmap prune is
-  blocked on unpinned observations. Trigger phrases: "audit", "convergence audit",
-  "did it converge or band-aid", "band-aid check", "outside-view audit", "prune gate
-  blocked", "pin deferred observations".
-argument-hint: "[rescue|prune]"
-allowed-tools: Read Edit Glob Grep Bash(git *)
+  accretion around one structural/spec gap the implementation routed around. Emits
+  a diagnosis plus one upstream recommendation to chat only — no files written, no
+  ROADMAP edits. Run right after `milestone-rescue` while artifacts are warm, or
+  cold on any looped/outlier task — or in any session, on smell, when you suspect
+  the orchestrator stuck crutches around crooked architecture or spaghetti code.
+  Trigger phrases: "audit", "convergence audit", "did it converge or band-aid",
+  "band-aid check", "outside-view audit".
+argument-hint: "[task-slug]"
+allowed-tools: Read Glob Grep Bash(git *)
 loads: orchestrator-artifacts
 ---
 
@@ -28,44 +25,22 @@ was never named. This audit tells the difference.
 
 ---
 
-## Run mode
-
-`$1` selects the mode. The dispatch is total: `$1 == "prune"` selects prune mode;
-everything else — absent, `rescue`, or any other token (including a bare task slug
-from the historic invocation form) — selects rescue mode. When `$1` selects rescue
-mode but is neither absent nor `rescue`, treat it as the cold-rescue slug (the `$2`
-role in `## Inputs` below) rather than an error.
-
-- **`rescue`** — the historic behavior. Runs on one failed/looped task's artifacts,
-  warm (right after `milestone-rescue`) or cold, hunting for band-aid accretion.
-- **`prune`** — runs when `roadmap-prune`'s deferred-observations gate refused to
-  proceed. Evaluates and pins every unpinned `## Deferred observations` entry across
-  the target repo's review artifacts so the gate can pass on the next `roadmap-prune`
-  run.
-
-Ensure `orchestrator-artifacts` is loaded once this chat (via the Skill tool, only if
-not already loaded) — it defines the artifact layout, naming, rounds, signals, and the
-status-marker grammar both modes rely on below.
-
----
-
 ## Inputs
 
-**`rescue` mode:** the orchestrator artifacts for **one task** — the plan, all
-plan-reviews (every round), implementation diffs or patches, code-reviews (every
-round), and any final state files. When run right after `milestone-rescue` these are
-already in context. If run cold, locate and read them before Step 1: cold rescue takes
-an optional slug naming the task, as `$2` when `$1` is `rescue`, or as `$1` itself per
-the `## Run mode` dispatch rule (the historic bare-slug invocation); when no slug
-arrives either way, identify the target from the user's prose plus a `Glob` over
-`plan-reviews/`/`reviews/` for the matching `<seq>-<slug>-*` artifacts.
+The orchestrator artifacts for **one task** — the plan, all plan-reviews (every
+round), implementation diffs or patches, code-reviews (every round), and any final
+state files. When run right after `milestone-rescue` these are already in context.
+If run cold, locate and read them before Step 1: cold rescue takes an optional slug
+naming the task as `$1`; when no slug arrives, identify the target from the user's
+prose plus a `Glob` over `plan-reviews/`/`reviews/` for the matching
+`<seq>-<slug>-*` artifacts.
 
-**`prune` mode:** the target repo's `.ai-factory/plan-reviews/` and
-`.ai-factory/reviews/` directories **in full** — every file in both, not one task's
-slice.
+Ensure `orchestrator-artifacts` is loaded once this chat (via the Skill tool, only
+if not already loaded) — it defines the artifact layout, naming, rounds, signals,
+and the deferred-observations section format this audit relies on below.
 
-For the artifact layout, naming convention, round numbering, and PASS signals, see the
-loaded `orchestrator-artifacts` engine.
+For the artifact layout, naming convention, round numbering, and PASS signals, see
+the loaded `orchestrator-artifacts` engine.
 
 ---
 
@@ -90,11 +65,8 @@ Do not interpret yet — just reconstruct. The full chain is the evidence.
 review's `## Deferred observations` section are **excluded** from the finding→fix
 chain, the round count, and the severity trend — per `orchestrator-artifacts` they are
 non-findings. Capture each one as separate working material: round, `Affects:` target,
-and a one-line gist. Skip any entry that already carries an `audit-*` marker (per the
-engine's grammar) — it has already been evaluated by a prior audit; its existing
-verdict may still be cited as-is, it just does not need re-evaluating. This capture is
-internal scratch, same as the finding→fix chain above — see `orchestrator-artifacts`
-for the section format and marker grammar; do not redefine either here.
+and a one-line gist. This capture is internal scratch, same as the finding→fix chain
+above — see `orchestrator-artifacts` for the section format; do not redefine it here.
 
 ---
 
@@ -140,14 +112,6 @@ and routed around instead of fixed. This is **corroborative only**: it never rep
 the one-sentence test above, and the absence of a matching observation carries no
 weight either way — do not treat "no matching observation" as evidence against
 band-aid accretion.
-
-Mark only the observations the audit actually evaluated against the chain/code —
-append `[audit-corroborated]` (it matches the root-cause gap) or `[audit-dismissed]`
-(evaluated and found unrelated or stale) to the entry line via `Edit`, per the engine's
-append-only status-marker grammar. Observations merely captured in Step 1 but never
-weighed against a verdict stay unmarked — never mark an entry you did not actually
-judge. When marking, mark every sibling occurrence of the same entry across the
-milestone's review files (dedup by `Affects:` target + gist, per the engine's rule).
 
 ---
 
@@ -204,8 +168,7 @@ absence of strong common-root-cause evidence.
 
 ## Step 6 — Output (to chat only)
 
-Emit the diagnosis to chat. Beyond the status-suffix marks in the Write contract
-below, no files are written and the ROADMAP is never edited.
+Emit the diagnosis to chat. No files are written and the ROADMAP is never edited.
 
 **Form: a chronological narrative in plain prose** — the same register as
 `milestone-rescue`'s Diagnosis Report. Tell the milestone's story round by round, in
@@ -244,77 +207,11 @@ support the narrative has already told through the rounds above it.
 
 ---
 
-## Prune mode — pin every deferred observation
-
-This section runs only when `$1` is `prune`. It does not touch Steps 1–6 above —
-those remain the rescue pipeline, unchanged, for `rescue` mode.
-
-Prune mode exists because `roadmap-prune`'s deferred-observations gate refuses to
-proceed while any unpinned entry remains. This mode evaluates and pins every one of
-them so the next `roadmap-prune` run can pass the gate.
-
-1. **Discover.** Scan every `.md` file under `<target repo root>/.ai-factory/plan-reviews/`
-   and `<target repo root>/.ai-factory/reviews/` for a `## Deferred observations`
-   section (same scan `roadmap-prune`'s gate performs). Collect every entry line that
-   is **not pinned** per the engine's grammar (pinned = the entry line carries ≥1
-   bracketed status marker — do not redefine, cite the engine).
-
-2. **Dedup.** Group the collected entries by `Affects:` target + gist, per the
-   engine's dedup rule — a real-world gap reported in more than one review file is one
-   observation with several sibling occurrences, not several observations.
-
-3. **Evaluate each distinct observation** against the current code and roadmap: does
-   the gap it describes still hold, or has it since been resolved or obsoleted by
-   later work?
-
-4. **Pin per the engine's markers**, then apply the same marker to **every** sibling
-   occurrence across the milestone's review files (dedup rule from step 2):
-   - Stale, wrong, or already resolved by later work → `[audit-dismissed]`
-   - Real, and `Affects:` resolves to an existing file under the target repo root →
-     append the entry verbatim (plus the source `<seq>-<slug>` slug) under a
-     `## Deferred observations` heading in that target file — create the heading at
-     the end of the file if it is absent — then mark the source entry/entries
-     `[promoted → <path>]`
-   - Real but unroutable (`Affects:` names a phase, `unknown`, or a path that does not
-     resolve to an existing file) → report the observation verbatim in this mode's
-     output and mark it `[unrouted-reported]`
-
-   **No route-guessing**: no phase-name resolution, no fuzzy matching. Only an
-   `Affects:` value that resolves to an existing file under the target repo root
-   promotes — anything else is unrouted, never guessed.
-
-5. **Exit criterion.** Continue until zero unpinned entries remain across both dirs.
-
-6. **Summary.** End with counts per marker (`audit-dismissed`, `promoted`,
-   `unrouted-reported`) and the full unrouted list, so the user can route those by
-   hand.
-
----
-
-## Write contract
-
-Both modes are chat-first; the only writes either one ever performs are these two,
-both append-only:
-
-- **Status-suffix marks** on a deferred-observation entry line in a review file —
-  `[audit-corroborated]` or `[audit-dismissed]` from rescue mode's Step 3 corroboration
-  pass; `[audit-dismissed]`, `[promoted → <path>]`, or `[unrouted-reported]` from prune
-  mode's evaluation of each entry — appended per the engine's grammar. The entry text
-  and its `Affects:` value are never rewritten.
-- **Promotion appends**, prune mode only: the entry, verbatim, plus its source
-  `<seq>-<slug>` slug, appended under a `## Deferred observations` heading in the
-  `Affects:`-target file — creating that heading at end-of-file only if it is absent.
-
-No other file is ever written or edited, in either mode. Step 6's diagnosis is chat
-output only — it is never written to a patch, a spec note, a plan, or the ROADMAP.
-
----
-
 ## What NOT to do
 
 - Do not rewrite the plan or implement anything — produce only a chat diagnosis
-- Do not write any file beyond the Write contract above — no patches, no spec-note
-  edits, no ROADMAP changes, no rewriting plan or review file content
+- Write no file, ever — no patches, no spec-note edits, no ROADMAP changes, no
+  rewriting plan or review file content
 - Do not declare band-aid accretion without the single-sentence test in Step 3
 - Do not judge any individual fix in isolation — judge the **sequence**
 - Do not treat a passing milestone as automatically healthy; loops on cosmetic
@@ -328,11 +225,4 @@ output only — it is never written to a patch, a spec note, a plan, or the ROAD
   count, the severity trend, or the whack-a-mole discriminator in Step 4
 - Do not let a matching deferred observation replace the one-sentence root-cause test
   in Step 3 — it corroborates a verdict already reached, never substitutes for reaching it
-- Do not guess routes in prune mode — no phase-name resolution, no fuzzy matching;
-  only an `Affects:` value that resolves to an existing file promotes
-- Do not redefine the marker grammar, rewrite entry text, rewrite `Affects:` values, or
-  rewrite existing markers — status suffixes only ever accumulate
-- Do not mark an observation `[audit-corroborated]`, `[audit-dismissed]`, or
-  `[unrouted-reported]` unless it was actually evaluated against the chain/code
-- Do not sweep, delete, or touch the roadmap in either mode — that is `roadmap-prune`'s
-  job, not this skill's
+- Sweeping or deleting the roadmap is not this skill's job — do not touch it

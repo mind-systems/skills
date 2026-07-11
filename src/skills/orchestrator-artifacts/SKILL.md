@@ -55,18 +55,23 @@ markers — the field after the observation text is reserved for downstream tool
 
 ## 6. Status-marker grammar
 
-Append-only space-separated bracketed suffix at the end of the entry line. Markers:
-`[promoted → <path>]`, `[unrouted-reported]`, `[audit-corroborated]`,
-`[audit-dismissed]`. Entry text and `Affects:` are never rewritten — markers only
-accumulate. **Pinned** = the entry line carries ≥1 marker. Dedup rule: whoever pins
-an entry pins every occurrence across that milestone's review files (dedup by
-`Affects:` target + gist). Markers are written by downstream **disposal** tools,
-never by the reviewer; `[promoted → <path>]` and `[audit-dismissed]` are written by
-whichever disposal skill actually disposes of the observation, at the moment of
-disposal — routing it into a roadmap task (promote) or evaluating it and finding it
-moot / already handled (dismiss). Only `[audit-corroborated]` (root-cause
-corroboration, an audit rescue-mode judgment) and `[unrouted-reported]` (an audit
-prune-mode sweep) remain named as `milestone-rescue-audit`'s.
+Append-only space-separated bracketed suffix at the end of the entry line. Written by
+the **resolution session** — the dedicated session the user opens from the parked
+prune's handoff — at the moment it disposes of an observation:
+
+- `[fixed]` — the gap is fixed directly in this session
+- `[routed → <path>]` — routed into an **open** task's spec; `<path>` must resolve to
+  an editable surface (an open task's spec note), never a completed or frozen one
+- `[dismissed]` — evaluated and found moot, stale, or already handled
+
+The reviewer never writes or imitates markers. Entry text and `Affects:` are never
+rewritten — markers only accumulate. **Pinned** = the entry line carries ≥1 marker.
+Dedup rule: whoever pins an entry pins every occurrence across that milestone's
+review files (dedup by `Affects:` target + gist).
+
+**Legacy markers** `[promoted → <path>]`, `[audit-corroborated]`, `[audit-dismissed]`,
+`[unrouted-reported]` are retired from the active vocabulary; encountered in old
+repos they still count as pinned (lazy migration — history is never rewritten).
 
 ## 7. Mirrors-the-orchestrator invariant
 
