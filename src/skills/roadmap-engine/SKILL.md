@@ -26,15 +26,18 @@ must honor their expectations as part of its contract; the reverse graph resolve
 
 A task-tier entry with a contract line is a two-tier entry: the contract line in the
 roadmap plus a full spec note at `.ai-factory/specs/<NN>-<slug>.md` (`<NN>` scanned
-against `.ai-factory/specs/` so it never collides; `<slug>` lowercase-hyphenated). A
+against the destination in play — `.ai-factory/specs/` default,
+`.ai-factory/specs/<slug>/` named — so it never collides; `<slug>`
+lowercase-hyphenated). A
 caller's hook (a) may define entries with no contract line (e.g. a phase header) — the
 note and tag machinery here applies only where a contract line exists. The contract
 line ends with the exact tag `` Spec: `.ai-factory/specs/<NN>-<slug>.md`. ``
 
 The note follows `note`'s format — **load `note` once per chat** (via the Skill
 tool, only if not already loaded), never per task. When invoking `note`, pass
-destination `.ai-factory/specs/` via `note`'s destination hook; per-directory
-numbering happens there.
+destination `.ai-factory/specs/` for the default roadmap or
+`.ai-factory/specs/<slug>/` for a named one, via `note`'s destination hook;
+per-directory numbering happens there.
 
 **Why two tiers:** the contract line lets the user verify intent while fitting 3–4
 tasks on screen; the note holds the full implementation detail. The char budget below
@@ -42,6 +45,34 @@ is guidance, not a hard clamp.
 
 **Never write a full spec inline in the roadmap** — the contract line is the header;
 the note is the implementation.
+
+## Named roadmaps
+
+**Resolution order** for the roadmap in play: explicit argument (path or filename)
+wins always; "my roadmap" only when the user asks for it or context names it — the
+engine never infers multiuser mode — resolves to `.ai-factory/roadmaps/<slug>.md`;
+otherwise the default `.ai-factory/ROADMAP.md`.
+
+**Slug derivation:** the local-part of `git config user.email`, lowercased, every
+non-alphanumeric run collapsed to a single hyphen (`kg.wmservice@gmail.com` →
+`kg-wmservice`); fallback — slugified `user.name` when email is unset.
+
+**Owner line:** the first line of every named roadmap is `> Owner: <full email>`,
+written at creation. Every resolution of "my roadmap" verifies it against the
+current git identity; a mismatch is a hard stop that names the owner and the two
+exits (fix git identity / pass the roadmap name explicitly). No silent fallback.
+
+**Test sibling:** a named roadmap's test roadmap is
+`.ai-factory/roadmaps/<slug>-tests.md` — always derived from the roadmap in play,
+never independently from identity; same owner line, same single-writer.
+
+**Spec destination:** a named roadmap's spec notes land in
+`.ai-factory/specs/<slug>/`, passed through `note`'s existing destination hook;
+numbering is per-directory as already built. The default roadmap keeps flat
+`.ai-factory/specs/`. For a named roadmap the contract line's `Spec:` tag carries
+the same `<slug>/` subdirectory — it reflects the exact path `note` returns
+(`.ai-factory/specs/<slug>/<NN>-<slug>.md`), so readers resolving through the tag
+reach the note.
 
 ## Roadmap File Format
 
