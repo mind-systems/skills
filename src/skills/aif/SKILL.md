@@ -143,44 +143,39 @@ node ~/.claude/skills/aif/references/update-config.mjs \
 
 **Create `.ai-factory/rules/base.md` from codebase evidence:**
 
-After language resolution and config write, analyze the codebase to detect:
-- Naming conventions (camelCase, snake_case, PascalCase)
-- Module boundaries (src/core/, src/cli/, src/utils/)
-- Error handling patterns (try/catch, error codes)
-- Control flow patterns (guard clauses, early returns/continues, nested conditionals)
-- Logging patterns (console.log, winston, pino)
-- Test patterns (jest, mocha, vitest)
+After language resolution and config write, analyze the codebase as a search for **counter-defaults** — branded/opaque types, serialization quirks, forbidden operations, non-obvious invariants — not as a style-inventory pass. Ground truth in the code shows what *is*; it never shows what must *never* change, so that second thing is what this file exists to carry.
 
-Create `.ai-factory/rules/base.md` with detected conventions. Use fixed **English** headings and service text in this file:
+A rule earns its line in `rules/base.md` iff **both**:
+- **(a)** the executor would do otherwise by its own defaults, and
+- **(b)** code alone cannot teach it.
+
+Every emitted rule **carries its why** — the incident or invariant behind it. This is the costliest instruction surface per line in the whole system (see the composition-model reasoning in `.ai-factory/specs/41-aif-rules-counter-default-filter.md`): the orchestrator reads this file mandatorily at Step 0 of all four agents with override authority, treating every line as mandatory. A line that fails either gate is pure ongoing cost with no benefit.
+
+**Excluded anti-pattern:** generic language/style conventions the agent already follows by default are **not** rules and must never be emitted — this includes case styles (`snake_case`, `PascalCase`, `UPPER_SNAKE_CASE`), formatting, idiomatic naming, and boilerplate error/logging idioms. These fail gate (b): code alone teaches them, so a generated rule restating them is waste, not guidance.
+
+When the codebase surfaces no counter-default, the correct result is a **near-empty file** — header note plus nothing. The criterion admits nothing rather than manufacturing rules to fill sections.
+
+Create `.ai-factory/rules/base.md` with only the rules that pass the filter above. Use fixed **English** headings and service text in this file:
 
 ```markdown
 # Project Base Rules
 
-> Auto-detected conventions from codebase analysis. Edit as needed.
+> Counter-defaults the executor would otherwise violate by its own defaults, each with its why. Generic style/formatting conventions are deliberately excluded. If the codebase has no counter-default, this file stays empty below this note — that is the correct result, not a gap to fill in.
 
-## Naming Conventions
+## Data Types
 
-- Files: [detected pattern]
-- Variables: [detected pattern]
-- Functions: [detected pattern]
-- Classes: [detected pattern]
+- Proto numeric fields are carried as strings, not native ints — why: cross-language proto codegen silently truncates int64 on JS clients.
 
-## Module Structure
+## Identifiers
 
-- [detected module boundaries]
+- Entity IDs use branded/opaque types (e.g. `UserId`), never raw `string` — why: prevents accidental mixing of unrelated entity IDs at compile time.
 
-## Error Handling
+## Migrations
 
-- [detected error handling pattern]
-
-## Control Flow
-
-- Prefer flat, readable control flow over deeply nested conditionals. Use guard clauses, early `return`/`continue`, small named helper methods, or explicit classification logic when they make the code easier to follow. Handle edge cases and irrelevant branches early so the main path stays visible.
-
-## Logging
-
-- [detected logging pattern]
+- No hand-written SQL migrations — all schema changes go through the generator — why: hand-written migrations previously drifted from the ORM schema and broke a prod rollback.
 ```
+
+*The sections and rules above (modeled on `tradeoxy_core/RULES.md`) are illustrative of the **genre** only, not a literal scaffold — generation must substitute the target project's own counter-defaults. Never emit these literal proto/branded-ID/migration rules into a project that has no protos, branded IDs, or migrations. Emit a section only where a real counter-default was found; an idiomatic or greenfield project correctly yields just the header note with no sections below it.*
 
 ---
 
@@ -241,7 +236,7 @@ Proceed? [Y/n]
 5. Delete `.ai-factory/config.update.json` after the helper succeeds
 6. **Create rules/base.md**:
    - Ensure `.ai-factory/rules/` directory exists
-   - Write `.ai-factory/rules/base.md` with detected conventions in English
+   - Write `.ai-factory/rules/base.md` with the filtered counter-default rules in English
 7. Configure MCP in `.mcp.json`
 8. Generate `AGENTS.md` in project root (see [AGENTS.md Generation](#agentsmd-generation))
 9. Generate architecture document via `/aif-architecture` only after config exists with resolved language settings (see [CRITICAL: Do NOT Implement](#critical-do-not-implement))
