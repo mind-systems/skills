@@ -140,7 +140,7 @@ Domain names reflect the product boundaries of this specific project, not generi
 
 Internal/refactor work goes last under an **Internal** header. The only rows under **Internal** are:
 - Named rows for significant architectural subsystems established during this prune (e.g. a new layer pattern, a new protocol integration) — only if the subsystem has its own behaviour contract
-- `Roadmap drop history` — always the last row; it holds exactly one hash per prune — the Step-4.1 snapshot, the last known intact roadmap before that prune (the commit before which the prune deleted roadmap lines; equivalently `<prune-commit>^`). Storing the snapshot is what makes `git show <hash>:.ai-factory/ROADMAP.md` reconstruct the pre-prune roadmap directly. Maintenance work (refactors, cleanups, dep fixes, renames, doc changes) writes no hash anywhere — it is captured by the nearest prune snapshot, never a named row
+- `Roadmap drop history` — always the last row; it holds exactly one hash per prune — the Step-4.1 snapshot, the last known intact roadmap before that prune (the commit before which the prune deleted roadmap lines; equivalently `<prune-commit>^`). Storing the snapshot is what makes `git show <hash>:.ai-factory/ROADMAP.md` reconstruct the pre-prune roadmap directly. In a multiuser project (`.ai-factory/roadmaps/` exists), the snapshot commit holds all files, so one repo-wide ledger serves every roadmap — `git show <snapshot>:<roadmap path>` reconstructs any roadmap at that prune; no per-roadmap ledger rows. Maintenance work (refactors, cleanups, dep fixes, renames, doc changes) writes no hash anywhere — it is captured by the nearest prune snapshot, never a named row
 
 Example structure:
 
@@ -196,6 +196,11 @@ git rev-parse --short HEAD
 This hash points to the last commit where ROADMAP.md still contains all the tasks being pruned.
 
 **4.2 — Write Features and drop history**
+
+In a multiuser project (`.ai-factory/roadmaps/` exists), prune runs on the integration
+branch, one actor, after merges — never per-developer; Features are project features
+(authorship lives in commit history, not the table), and single-actor prune keeps both
+the drop-history row and the feature rows single-writer.
 
 **4.2a — Legacy self-heal pre-pass.** Before writing anything, open ARCHITECTURE.md and
 read the `## Features (...)` header marker (matched by prefix, per the format-version
