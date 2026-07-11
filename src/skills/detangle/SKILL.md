@@ -27,12 +27,10 @@ The same three roles repeat recursively at every zoom level.
 
 ## Before you start — load project context
 
-If `.ai-factory/ARCHITECTURE.md` exists — read it. It describes module communication
-patterns and where boundaries are intentionally drawn.
-
-If `.ai-factory/ROADMAP.md` exists — read it. It tells you what's already done and
-what's coming next. The element you're looking at may be part of an in-progress or
-planned milestone — that changes the impact analysis.
+Whichever of `.ai-factory/ARCHITECTURE.md` / `.ai-factory/ROADMAP.md` exists is already
+raised as one of the project's entry maps per global § "Grounding claims" — re-read it
+fresh here for detangle's own angle: is the element you're looking at part of an
+in-progress or planned roadmap milestone? That changes the impact analysis in Step 4.
 
 ---
 
