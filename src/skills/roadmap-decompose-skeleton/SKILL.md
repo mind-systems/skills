@@ -55,7 +55,8 @@ skeleton, TDD, or concurrency split on its own. Do not over-engineer targeting.
 **Read `.ai-factory/ARCHITECTURE.md`** if it exists, for architecture pattern and
 module boundaries.
 
-**Read the target roadmap** (`ROADMAP.md`, or the file named by the arg/context) and
+**Read the target roadmap** (resolved per `roadmap-engine`'s named-roadmap
+resolution order — argument → "my roadmap" → default `.ai-factory/ROADMAP.md`) and
 collect its open **`- [ ]`** tasks — this is the set the three lenses run over. Never
 touch closed `- [x]` tasks — those are `roadmap-prune` / `roadmap-test-coverage`
 territory.

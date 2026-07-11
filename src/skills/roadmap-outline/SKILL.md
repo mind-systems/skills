@@ -48,7 +48,11 @@ decompose's gate.
 
 ### (c) Target-file routing
 
-Always `.ai-factory/ROADMAP.md` — trivial policy, no keyword/argument branching.
+Resolve `$TARGET_FILE` per `roadmap-engine`'s named-roadmap resolution order:
+explicit argument wins, then "my roadmap", then the default `.ai-factory/ROADMAP.md`
+— see the engine's "Named roadmaps" section for the slug/owner mechanics. Strategic
+tier still adds **no keyword branching** on top of that resolution (unlike
+decompose's test-keyword branch).
 
 ### (d) Extra update-mode actions
 

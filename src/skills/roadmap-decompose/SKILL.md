@@ -58,11 +58,17 @@ value.
 
 ### (c) Target-file routing
 
-Resolve `$TARGET_FILE` before the flow runs:
-- Default → `.ai-factory/ROADMAP.md`
+Resolve `$TARGET_FILE` before the flow runs, per `roadmap-engine`'s named-roadmap
+resolution order:
 - An explicit filename argument (e.g. `ROADMAP_TESTS.md`) wins
-- Test-context keywords (test, tests, spec, testing, тест, тесты) →
-  `.ai-factory/ROADMAP_TESTS.md`
+- "My roadmap" (per the engine's resolution — see its "Named roadmaps" section for
+  the slug/owner mechanics)
+- Default → `.ai-factory/ROADMAP.md`
+
+Test-context keywords (test, tests, spec, testing, тест, тесты) route to the **test
+sibling of the roadmap in play**, not a bare literal: default roadmap →
+`.ai-factory/ROADMAP_TESTS.md` (as today); a named roadmap → its sibling per the
+engine's "Test sibling" rule (`.ai-factory/roadmaps/<slug>-tests.md`).
 
 ### (d) Extra update action — "Decompose existing"
 
