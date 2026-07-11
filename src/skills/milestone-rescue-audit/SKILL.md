@@ -36,11 +36,9 @@ prose plus a `Glob` over `plan-reviews/`/`reviews/` for the matching
 `<seq>-<slug>-*` artifacts.
 
 Ensure `orchestrator-artifacts` is loaded once this chat (via the Skill tool, only
-if not already loaded) — it defines the artifact layout, naming, rounds, signals,
-and the deferred-observations section format this audit relies on below.
-
-For the artifact layout, naming convention, round numbering, and PASS signals, see
-the loaded `orchestrator-artifacts` engine.
+if not already loaded) — see it for the artifact layout, naming, round numbering,
+PASS signals, and the deferred-observations section format this audit relies on
+below.
 
 ---
 
@@ -48,25 +46,20 @@ the loaded `orchestrator-artifacts` engine.
 
 Read every plan-review and code-review for this task, in round order. For each
 round, capture: the finding(s) + severity, the fix applied, and whether that fix
-introduced or revealed the next round's finding.
+introduced or revealed the next round's finding. Note the total round count,
+whether severity trended up, down, or flat across rounds, and the final outcome
+(pass or fail).
 
-This reconstruction is **internal working material, not the deliverable** — organize
-it however is convenient while analyzing (a scratch table, one row per round, is a
-fine way to keep it straight). The capture list above is a checklist of what to note
-per round, nothing more. The **user-facing form is produced in Step 6**, as a
-narrative — not this scratch structure.
-
-Note the total round count, whether severity trended up, down, or flat across
-rounds, and the final outcome (pass or fail).
-
-Do not interpret yet — just reconstruct. The full chain is the evidence.
+This is **internal working material, not the deliverable** — organize it however
+is convenient (a scratch table, one row per round, works). The **user-facing form
+is produced in Step 6**, as a narrative, not this scratch structure.
 
 **Deferred observations are captured separately, not as findings.** Entries under a
 review's `## Deferred observations` section are **excluded** from the finding→fix
 chain, the round count, and the severity trend — per `orchestrator-artifacts` they are
 non-findings. Capture each one as separate working material: round, `Affects:` target,
-and a one-line gist. This capture is internal scratch, same as the finding→fix chain
-above — see `orchestrator-artifacts` for the section format; do not redefine it here.
+and a one-line gist — see `orchestrator-artifacts` for the section format; do not
+redefine it here.
 
 ---
 

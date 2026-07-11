@@ -1,0 +1,48 @@
+# Plan: 1.6.2 — milestone-rescue-audit: pyramid pass
+
+## Context
+Compress `src/skills/milestone-rescue-audit/SKILL.md` — the single-mode band-aid hunter left behind by 1.6.1 — by cutting procedural ceremony and protocol restated from the loaded `orchestrator-artifacts` engine, while landing every contract block byte-identical. A compression, not a redesign: behavior-identical.
+
+## Settings
+- Testing: no
+- Logging: minimal
+- Docs: no
+
+## Tasks
+
+### Phase 1: Compress milestone-rescue-audit to a lens
+
+- [x] **Task 1: Pin the verbatim-protected inventory + cut list**
+  Files: (read-only) `src/skills/milestone-rescue-audit/SKILL.md`, `.ai-factory/specs/26-milestone-rescue-audit-pyramid-pass.md`, `src/skills/orchestrator-artifacts/SKILL.md`
+  Do not edit yet — this is preparatory reading with **no diff**; Task 1 and Task 2 run in one implement session, and the checklist is fully re-derivable from SKILL.md + spec 26 + the engine (all readable at Task 2 time). An empty diff here is expected, not a stale/no-op implementation. Read the current skill, the spec, and the engine, and record as an in-session checklist for Task 2 — the contract Task 2 must not break. Two lists:
+  - **Verbatim-protected (must land byte-identical):**
+    (1) the one-sentence root-cause test — Step 3 in full: the "write one sentence" instrument, the structural-vs-mechanical branch (names a data-model invariant / state-machine constraint / derivation rule / API contract → band-aid accretion; name the sentence + state the structural reframe), and the "no single sentence covers all N findings → declare **healthy convergence** and stop at Step 5 — skip Step 4's discriminators" early-exit;
+    (2) the **"Default is NOT band-aid."** paragraph — word-for-word, including "Over-flagging independent legitimate fixes as band-aid accretion is itself a failure mode… Require the single-sentence test to succeed before claiming accretion. If uncertain, declare 'Mixed' with low confidence.";
+    (3) the discriminators-corroborative-only framing — Step 4's header and its "Run these only when Step 3 found a candidate root-cause sentence. They corroborate or weaken the claim — they do not substitute for Step 3." plus the closing "Use the discriminators to raise or lower confidence in the Step 3 verdict, not to override it." (the two signal lists themselves are protected content — copy through untouched);
+    (4) the prose-narrative deliverable register — Step 6's Form paragraph (chronological narrative in plain prose, "the same register as `milestone-rescue`'s Diagnosis Report", one short paragraph per round, weave findings as quotes/paraphrases, **No tables, no fragment-style bullet lists**, round-counts/severity-trends legitimate vocabulary but tabular/fragment form banned, length scales with rounds), the verdict-ends-the-narrative clause, the Band-aid/Mixed continuation (root-cause sentence as block quote → structural reframe paragraph → one upstream recommendation), and the "Always end with: Cost note" line;
+    (5) the single-mode output contract — the description/body invariant that the audit is chat-only and **writes nothing, ever** (Step 6's "No files are written and the ROADMAP is never edited"), the verdict spectrum block in Step 5 with its Confidence / Evidence("the narrative is the evidence") items and the "'Mixed' is a valid verdict… Default to the left" paragraph, and Step 2's central-question A/B statement;
+    (6) the entire "What NOT to do" list — every bullet byte-identical (it already carries the chat-only, single-sentence-test, judge-the-sequence, deferred-observations-are-not-findings, corroboration-never-substitutes, and don't-touch-roadmap clauses).
+  - **Cut candidates (ceremony / restated protocol):** any sentence restating what `orchestrator-artifacts` already carries — the artifact layout, `<seq>-<slug>` naming mechanics, round numbering, PASS-signal semantics, and the `## Deferred observations` section format — replace with a link/reference to the engine, never a restatement; transitional prose between contract blocks; step-narration an executor performs unprompted ("Do not interpret yet — just reconstruct" style glosses that the surrounding structure already enforces); duplicated rationale prose. Frontmatter (`loads: orchestrator-artifacts`, `allowed-tools`, `argument-hint`, `description`) is unchanged.
+  - **The Inputs section is a genuine cut site, but tread carefully.** Lines 38–43 already collapse toward links ("For the artifact layout, naming convention, round numbering, and PASS signals, see the loaded `orchestrator-artifacts` engine"). Keep the load-once mandate (ensure `orchestrator-artifacts` is loaded once this chat) and the cold-run target-identification procedure (slug as `$1`, else Glob over `plan-reviews/`/`reviews/`) — those are policy this skill owns, not restated protocol. Merge the two redundant "see the engine" restatements (lines 40 and 42–43) into one link. Do not delete the cold-run location procedure.
+  - **The deferred-observations capture (Step 1, lines 64–69) is NOT a restatement to cut.** It is this skill's own policy — that deferred observations are excluded from the finding→fix chain and captured as separate scratch — and it already links the section *format* out to the engine ("see `orchestrator-artifacts` for the section format; do not redefine it here"). Keep the policy; the only trim permitted is confirming the format is a link, not a restatement (it already is).
+
+- [x] **Task 2: Compress the file** (depends on Task 1)
+  Files: `src/skills/milestone-rescue-audit/SKILL.md`
+  Rewrite for compression, not redesign — the step structure (Inputs → Step 1 … Step 6 → What NOT to do) and every routing/verdict decision stay identical; only ceremony and restated protocol shrink. Requirements:
+  - **Land every verbatim-protected block from Task 1 byte-identical.** Do not paraphrase, re-order clauses within, or "improve" a protected block — copy it through untouched. This especially covers the one-sentence root-cause test, the "Default is NOT band-aid" paragraph, the healthy-convergence early-exit, the prose-narrative deliverable, and the "What NOT to do" list.
+  - **Cut protocol the engine owns:** anything `orchestrator-artifacts` states (artifact layout, `<seq>-<slug>` naming, round numbering, PASS signals, deferred-observations section format) becomes a single link to the engine, never a restatement. Follow the composition rule: a top loads the engine, never inlines it (`.ai-factory/ARCHITECTURE.md` → "Composition: mechanism vs policy").
+  - **Cut procedural narration and duplicated rationale:** collapse transitional prose and remove step-narration of obvious executor actions. Merge the two redundant "see the engine" links in Inputs into one. Do not delete the cold-run target-identification procedure or the deferred-observations exclusion policy — both are this skill's own content.
+  - **Two-reader register throughout:** rules stated as intent for the executing agent; contracts pinned exact for the editor. (Spec: "Two-reader register throughout.")
+  - **Frontmatter unchanged:** `loads: orchestrator-artifacts`, `allowed-tools`, `argument-hint`, `description` all byte-identical — including the "no files written, no ROADMAP edits" and "in any session, on smell" wording 1.6.1 left. No `loads:` edits beyond what 1.6.1 already made.
+  - Write in English.
+
+- [x] **Task 3: Verify against guards** (depends on Task 2)
+  Files: (read-only) `src/skills/milestone-rescue-audit/SKILL.md`
+  Confirm each spec guard before declaring done:
+  - **Protected blocks byte-identical:** `git diff src/skills/milestone-rescue-audit/SKILL.md` shows the six Task-1 protected blocks unchanged — no hunk touches their text. Removed hunks are ceremony / protocol-restatement only. Report any protected-block edit as a failure. Spot-check the decisive lines: "**Default is NOT band-aid.**", "declare **healthy convergence** and stop at Step 5", "**No tables, no fragment-style bullet lists**", and every "What NOT to do" bullet — each must survive verbatim.
+  - **Protocol-restatement reduced:** the body no longer restates artifact layout, `<seq>-<slug>` naming, round numbering, PASS-signal semantics, or the deferred-observations section format as its own prose — each such fact is either gone or a single link to `orchestrator-artifacts`. Confirm the Inputs section holds one "see the engine" link, not two.
+  - **Chat-only / zero file writes intact:** Step 6's "No files are written and the ROADMAP is never edited" and the "What NOT to do" write-nothing bullets are unchanged — the single-mode output contract 1.6.1 established is preserved verbatim.
+  - **Frontmatter intact:** `loads: orchestrator-artifacts`, `allowed-tools`, `argument-hint`, and `description` unchanged.
+  - **Every analysis/verdict decision preserved:** Step 1 reconstruction (incl. deferred-observations capture-separately policy), Step 2's A/B central question, Step 3's decisive test + branches + corroboration-from-observations paragraph, Step 4 discriminators-corroborative-only, Step 5 verdict spectrum, and Step 6's output form all still present and unchanged in behavior.
+  - **Line count:** report actual; meaningful ceremony shrinkage expected, but the analysis pipeline and the two discriminator signal lists are legal mass — do not pad or clamp to a line number.
+  - Note for the reviewer: the spec's live baseline (run the audit cold on a past looped milestone and compare the narrative and verdict to a pre-rewrite run) requires real looped-milestone artifacts and is **user-run**, not orchestrator-fabricated. Flag it as user-run; do not invent a baseline.
