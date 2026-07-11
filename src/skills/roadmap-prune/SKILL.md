@@ -38,9 +38,17 @@ status-marker grammar / **pinned** definition referenced below.
    status marker — do not redefine, cite the engine).
 4. If any unpinned entry exists → stop the skill entirely: print one line per unpinned
    entry as `<file>:<line> — <entry text>`, state that pruning is blocked until every
-   entry is pinned, and name the resolution — run `milestone-rescue-audit` in prune
-   mode (`milestone-rescue-audit prune`) first. Make no edits, no sweep, no
-   ARCHITECTURE/ROADMAP changes, no partial prune.
+   entry is pinned, and name the resolution — the prune is parked, not engineered
+   around:
+   1. the user runs `/command-handoff` on this session — the handoff carries every
+      unpinned observation (gist, original reviewer text, `Affects:`, `file:line` of
+      the entry) plus the gate context into `.ai-factory/handoffs/`;
+   2. a **dedicated resolution session** works through the findings — fixing, routing
+      into an **open** task's spec, or dismissing — and sets pins per
+      `orchestrator-artifacts` § 6 (`[fixed]` / `[routed → <path>]` / `[dismissed]`);
+   3. `roadmap-prune` is re-run when every entry is pinned; the gate passing is the
+      resolution's proof, never manufactured.
+   Make no edits, no sweep, no ARCHITECTURE/ROADMAP changes, no partial prune.
 5. If none are unpinned → proceed to `## Before you start` and the normal flow,
    unchanged.
 6. While scanning, for every file that has **no** `## Deferred observations` section,
