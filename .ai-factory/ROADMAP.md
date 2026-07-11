@@ -182,7 +182,7 @@ Opens with its own substrate (1.1–1.3) — the philosophy substrate lands befo
 
 - [x] **1.13 — temporal-tree: pyramid revision** — borderline (157 lines): audit against the pyramid and the two-reader register; fix only findings (restated shared contracts → links, ceremony out); **"no change" + a one-paragraph audit report is a legal, complete outcome** — padding a conformant skill is its own failure. Spec: `.ai-factory/specs/33-temporal-tree-pyramid-revision.md`. [11m 6s]
 
-- [ ] **1.14 — roadmap-decompose-skeleton: pyramid revision** — already the pyramid shape (top over two engines); audit for leaked engine content and ceremony; the three lenses' decision contracts (fuse-at-1:1, scaffold-at-2+, heavy ≥2-of-{async I/O, buffer, lifecycle}) stay pinned verbatim; "no change" is a legal outcome. Spec: `.ai-factory/specs/34-roadmap-decompose-skeleton-pyramid-revision.md`.
+- [x] **1.14 — roadmap-decompose-skeleton: pyramid revision** — already the pyramid shape (top over two engines); audit for leaked engine content and ceremony; the three lenses' decision contracts (fuse-at-1:1, scaffold-at-2+, heavy ≥2-of-{async I/O, buffer, lifecycle}) stay pinned verbatim; "no change" is a legal outcome. Spec: `.ai-factory/specs/34-roadmap-decompose-skeleton-pyramid-revision.md`. [9m 9s]
 
 - [ ] **1.15 — detangle: pyramid revision** — predates `docs/context-tree.md` but describes the same motion from the leaf upward; reconcile into one model: what the doc and the global grounding rule now own becomes a link; detangle keeps its own contribution (the leaf-upward climb, the multi-tree shared-contract raise — never reduced to a link); "no change" is a legal outcome. Spec: `.ai-factory/specs/35-detangle-pyramid-revision.md`.
 

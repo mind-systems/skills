@@ -37,13 +37,6 @@ never re-invoked per task:
 - `test-philosophy` — the silent-failure discriminator the TDD lens applies to decide
   what gets a test.
 
-Call graph:
-
-```
-roadmap-decompose-skeleton ─→ roadmap-engine ─→ note
-                           └─→ test-philosophy
-```
-
 This skill does **not** call `roadmap-decompose` at runtime — the atomic task list it
 operates on already exists; this is a second pass over it, not a re-decomposition. It
 never reads or modifies the orchestrator.
@@ -79,12 +72,11 @@ appropriate, extract a **skeleton task**: interfaces, types, abstract classes on
   non-obvious surface testable.
 
 **Lens 2 — TDD.** Against the skeleton's public surface, insert a **tests-first task**.
-Ensure `test-philosophy` is loaded once this chat, then apply its silent-failure
-discriminator: write tests only for surfaces that fail *silently* (wrong output, no
-crash); skip surfaces that fail *loudly* (compile error, exception, DI failure, 4xx/5xx).
-Not blanket coverage. Canon (m36): a stateless `PassThroughIndicator` double let cases 3
-and 4 pass even when `loadHistory` omitted re-instantiation — a stateful double, forced
-by writing the test against the skeleton first, would have caught it.
+Load `test-philosophy` once via the `Skill` tool, then apply its silent-failure
+discriminator to that surface. Not blanket coverage. Canon (m36): a stateless
+`PassThroughIndicator` double let cases 3 and 4 pass even when `loadHistory` omitted
+re-instantiation — a stateful double, forced by writing the test against the skeleton
+first, would have caught it.
 
 **Lens 3 — Concurrency.** For a **heavy** task (the 45–80 min wall-clock kind) that
 touches **≥2 of** three hazard classes — (a) async I/O, (b) stateful buffer / event
@@ -133,12 +125,10 @@ it. **Insert** the new skeleton/TDD/contract milestones immediately **before** i
 `ROADMAP.md`. This mirrors `roadmap-decompose`'s in-place note-update discipline and
 avoids duplicating the impl entry or orphaning its spec note.
 
-**Numbering:** when the target task is numbered `N.M`, number the inserted
-skeleton/TDD/contract milestones `N.M.1 … N.M.(k-1)` in chain order (skeleton →
-TDD/contract → …), and renumber the in-place original impl line to `N.M.k` — the
-last child; its contract-line text and `Spec:` note tag stay unchanged. **Flat
-fallback:** an unnumbered target task (flat roadmap) → the insertions stay
-unnumbered, today's behavior. Never renumber anything outside the family.
+**Numbering:** apply `roadmap-engine`'s split sub-numbering rule (and its flat
+fallback) to number the inserted milestones, in this skill's chain order —
+skeleton → TDD/contract → … — with the in-place original impl line as the last
+child `N.M.k`; its contract-line text and `Spec:` note tag stay unchanged.
 
 ## Critical Rules / What NOT to do
 
