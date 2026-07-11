@@ -43,3 +43,11 @@ A philosophy skill invokes an engine for mechanism; the engine holds no policy a
 - `name` in frontmatter = directory name (enforced by validator)
 - `argument-hint` values with `[...]` must be quoted in YAML
 - External skills are scanned before use; built-in `aif*` skills are not
+
+## Features (roadmap-prune v2)
+
+No feature rows accumulate here: this repo's features are the skills themselves, enumerated under `src/` with per-file git history. The table holds only the prune ledger — one snapshot hash per prune, the last intact roadmap before it.
+
+| Feature | Hashes |
+|---------|--------|
+| Roadmap drop history | 2d2f3f6 |
