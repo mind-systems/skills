@@ -13,11 +13,6 @@ loads: orchestrator-artifacts
 
 # Roadmap Prune
 
-Cleans up a roadmap by collapsing completed tasks into architectural features with
-commit-level precision. The tasks disappear from the roadmap; the features appear in
-ARCHITECTURE.md with GPS-accurate commit hashes so the history is never lost — just
-moved to the right place.
-
 ---
 
 ## Step 0 — Deferred-observations gate
@@ -33,9 +28,9 @@ status-marker grammar / **pinned** definition referenced below.
    A file with no such section contributes nothing to this step — but capture it for
    step 6 below before moving on, since Step 5 deletes these files and Step 8 runs
    after the sweep.
-3. Collect every entry line (`- Affects: <target> — <observation>`) that is **not
-   pinned** per the engine's grammar (pinned = the entry line carries ≥1 bracketed
-   status marker — do not redefine, cite the engine).
+3. Collect every entry line that is **not pinned** per the engine's grammar (pinned =
+   the entry line carries ≥1 bracketed status marker — do not redefine, cite the
+   engine).
 4. If any unpinned entry exists → stop the skill entirely: print one line per unpinned
    entry as `<file>:<line> — <entry text>`, state that pruning is blocked until every
    entry is pinned, and name the resolution — the prune is parked, not engineered
@@ -94,7 +89,10 @@ For every task in the pruning slice, ask one question:
 
 > "Could you write an e2e test for this that didn't exist before?"
 
-If yes — it's a feature. The Features table is the answer to "what does this system know how to do?" — a capability inventory that stays current because the system changes through the roadmap. Any verifiable interaction counts: user→system, system→system, system→external service, or a distinct internal subsystem with its own behaviour contract (e.g. structured logging with disk persistence and replay). If no — it's internal.
+If yes — it's a feature. Any verifiable interaction counts: user→system, system→system,
+system→external service, or a distinct internal subsystem with its own behaviour
+contract (e.g. structured logging with disk persistence and replay). If no — it's
+internal.
 
 Based on the answer, assign one of three outcomes:
 
@@ -121,7 +119,6 @@ delivers one operator-visible thing is still one feature row.
 - When uncertain: prefer fewer, larger features over many small ones
 
 Name each feature in 2–5 words from the operator's perspective (what it does, not how it's built).
-The name becomes a row in ARCHITECTURE.md — meaningful enough to navigate to without reading the tasks.
 
 Then sort the features by domain and group them under bold section headers. Features in the same
 domain (e.g. all transport-layer work, all persistence work, all UI panels) should be adjacent.
@@ -152,8 +149,7 @@ Use an empty Hashes cell (`| |`) for section header rows — they are visual sep
 
 ## Step 3 — Find the commit hash for each feature
 
-For each feature, find the commit where its last task was closed. That commit is the
-GPS coordinate: it captures the moment the feature was complete enough to prune.
+For each feature, find the commit where its last task was closed.
 
 ```bash
 # Find commits that touched ROADMAP.md
@@ -183,7 +179,7 @@ Before touching any files, record the current HEAD:
 git rev-parse --short HEAD
 ```
 
-This hash points to the last commit where ROADMAP.md still contains all the tasks being pruned. Anyone can run `git show <hash>:.ai-factory/ROADMAP.md` to restore the full picture.
+This hash points to the last commit where ROADMAP.md still contains all the tasks being pruned.
 
 **4.2 — Write Features and drop history**
 
@@ -229,14 +225,11 @@ When pruning `ROADMAP_TESTS.md`, apply the same sweep, and `test-runs/` joins th
 
 Delete the pruned `[x]` tasks from the task-holding sections — a flat `## Milestones`
 list, or direction sections (`## <Direction name>` → `### Phase N` → `N.M` tasks) —
-only after Step 5's tag capture has run.
-Do not replace them with a table —
-the tasks are gone from the roadmap. Their history lives in ARCHITECTURE.md.
+only after Step 5's tag capture has run. Do not replace them with a table — the tasks
+are gone from the roadmap.
 
 Keep the task-holding sections with all remaining `[ ]` tasks. Additionally, always
-retain the last phase header — this preserves phase numbering continuity so agents
-can follow the sequence without confusion, even when the header is emptied of all
-its tasks.
+retain the last phase header, even when it is emptied of all its tasks.
 
 **Emptied-phase sweep:** after deleting a phase's last task, if the `### Phase N`
 header now has no tasks left under it, delete the header and its intro prose too —
@@ -306,25 +299,3 @@ commits, never ask about the message.
 - Do not resolve artifacts per task — no slug derivation, no discovery, no orphan report, no extended verify
 - Do not add rationale or explanation prose to the skill body — instructions only
 - Do not commit automatically — on request only; exactly one commit, exactly `Roadmap prune`
-
----
-
-## Reading the history later
-
-When a future agent needs context on a feature:
-
-```bash
-# See the feature's patch
-git show <hash>
-
-# See the roadmap state at that moment
-git show <hash>:.ai-factory/ROADMAP.md
-
-# See plans committed around that time
-git log --oneline <hash>~5..<hash>
-git diff <hash>~1 <hash> -- .ai-factory/plans/
-```
-
-The first hash in a feature row is a permanent GPS coordinate. It never changes unless
-the feature is completely rewritten from scratch — only erase it when nothing of the
-original implementation remains.

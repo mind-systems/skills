@@ -11,6 +11,7 @@ One pyramid pass:
 - **Body keeps:** the step flow, the Alignment Check, the CRITICAL `references/architecture.md` read, the `## Features` reserved-section rule, the CLAUDE.md pointer contract.
 - **Move to `references/`:** the decision matrix and the full ARCHITECTURE.md template (both policy branches) — read at the step that uses them.
 - **Verbatim-protected:** the Alignment Check procedure, the template's reserved `## Features` section, the recommendation flow's decision wording.
+- **Closure rule — protection is by criterion, not enumeration:** *any* sentence stating a contract is protected verbatim whether or not listed above; a contract-bearing sentence discovered mid-pass joins the protected set on the spot — it is not a plan defect and does not require re-planning.
 - Two-reader register.
 
 ## Guards

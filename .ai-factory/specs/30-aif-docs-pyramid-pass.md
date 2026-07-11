@@ -11,6 +11,7 @@ One pyramid pass continuing the same pattern:
 - **Body keeps:** state detection, Core Principles (the governing-spec genre statement — present tense whether the code exists yet or not — and state-not-process), the CLAUDE.md `## Documentation` index contract, the key-artifact updating duty (the agent perceives the ТЗ through CLAUDE.md and the index — this stays first-class), when-to-read pointers.
 - **Move to `references/`:** remaining long per-state procedures and audit checklists not already moved — each behind its branch pointer.
 - **Verbatim-protected:** every `AskUserQuestion` dialog (contract text — never compressed), the Core Principles wording — above all the genre sentence (`:19`).
+- **Closure rule — protection is by criterion, not enumeration:** *any* sentence stating a contract is protected verbatim whether or not listed above; a contract-bearing sentence discovered mid-pass joins the protected set on the spot — it is not a plan defect and does not require re-planning.
 - **The diet must not dilute the orientation:** the skill is fully tuned to writing the ТЗ — that identity may only sharpen through this pass, never blur into generic "documentation maintenance".
 - Two-reader register.
 

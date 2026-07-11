@@ -11,6 +11,7 @@ One pyramid pass using the established `references/` pattern:
 - **Body keeps (the lens):** the three-mode skeleton and mode detection, CLAUDE.md-first ordering, the language-resolution rule, the final `/aif-architecture` call, and per-topic one-line pointers to references.
 - **Move to `references/`:** per-stack analysis detail, MCP catalog/setup mechanics, the `rules/base.md` template content, any long generation templates — each read only on the branch that needs it.
 - **Verbatim-protected:** the config.yaml machinery (`update-config.mjs` + template — explicitly verbatim per the fork's own contract), the CLAUDE.md update-not-clobber rule, mode-detection wording.
+- **Closure rule — protection is by criterion, not enumeration:** *any* sentence stating a contract is protected verbatim whether or not listed above; a contract-bearing sentence discovered mid-pass joins the protected set on the spot — it is not a plan defect and does not require re-planning.
 - Two-reader register.
 
 ## Guards

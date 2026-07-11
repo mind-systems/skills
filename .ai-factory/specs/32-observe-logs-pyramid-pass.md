@@ -11,6 +11,7 @@ One pyramid pass:
 - **Body keeps (the lens):** when-to-use, the three subcommands with one-line semantics each (`since-restart` / `trace` / `window` + flags), the read-only discipline, `OBS_LOKI_URL` and its default, and the one schema fact callers must know to *choose* a query (label names; `service.name`→`service_name`).
 - **Move to `references/`:** raw LogQL templates and schema detail beyond the choosing-level facts — read only when the canned subcommands don't fit and a hand-written query is needed.
 - **Verbatim-protected:** the subcommand flag semantics (`--limit` default 200 and where it applies; unbounded `since-restart`), read-only `GET`-only discipline.
+- **Closure rule — protection is by criterion, not enumeration:** *any* sentence stating a contract is protected verbatim whether or not listed above; a contract-bearing sentence discovered mid-pass joins the protected set on the spot — it is not a plan defect and does not require re-planning.
 - Two-reader register.
 
 ## Guards
