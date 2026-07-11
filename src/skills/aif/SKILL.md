@@ -62,120 +62,9 @@ Options:
 4. Other — specify manually
 ```
 
-**Git workflow detection (if `config.yaml` is missing or the `git:` section is incomplete):**
+Git workflow detection and config.yaml persistence machinery → read `references/config-persistence.md`
 
-1. Check whether the project uses git:
-   - If `.git` exists - set `git.enabled: true`
-   - If `.git` does not exist - set `git.enabled: false` and `git.create_branches: false`
-2. If git is enabled, detect the default/base branch from git metadata:
-   - Prefer `origin/HEAD`
-   - Fallback to remote metadata (`git remote show origin`)
-   - Fallback to `main`
-3. If git is enabled, ask whether full plans should create a new branch (sets `git.create_branches`):
-
-```
-AskUserQuestion: How should full plans behave in git?
-
-Options:
-1. Create a new branch (Recommended) - a full plan creates a branch and saves as a branch-scoped file
-2. Stay on the current branch - a full plan still gets written, but without creating a new branch
-```
-
-**Persist resolved settings in `.ai-factory/config.yaml`:**
-
-- Never reconstruct `config.yaml` from memory or by free-writing YAML text.
-- Always use `~/.claude/skills/aif/references/update-config.mjs` with `~/.claude/skills/aif/references/config-template.yaml` as the canonical source.
-- Write or update `.ai-factory/config.yaml` after `CLAUDE.md` is generated.
-- This write MUST happen before `rules/base.md`, MCP config, `AGENTS.md`, and before invoking `/aif-architecture`.
-- Ensure `.ai-factory/` exists before writing the payload or target file.
-- First write a temporary payload file (for example `.ai-factory/config.update.json`) via `Write`.
-- Then invoke the helper:
-
-```bash
-node ~/.claude/skills/aif/references/update-config.mjs \
-  --template ~/.claude/skills/aif/references/config-template.yaml \
-  --target .ai-factory/config.yaml \
-  --payload .ai-factory/config.update.json
-```
-
-- Use `mode: "create"` when `.ai-factory/config.yaml` does not exist.
-- Use `mode: "merge"` when `.ai-factory/config.yaml` already exists.
-- Preserve `language.technical_terms` from existing config when present; otherwise set it to `keep` when writing config.
-- In `set`, include only values explicitly resolved in the current run and that must be written now.
-- In `fillMissing`, include canonical defaults that should be backfilled only when the key or section is missing or incomplete.
-- Managed keys for this helper are limited to:
-  - `language.ui`
-  - `language.artifacts`
-  - `language.technical_terms`
-  - `paths.*` (including current schema keys such as `paths.qa`)
-  - `workflow.*`
-  - `git.enabled`
-  - `git.base_branch`
-  - `git.create_branches`
-  - `git.branch_prefix`
-  - `git.skip_push_after_commit`
-  - `rules.base`
-- Never normalize or overwrite `rules.<area>` entries — those are managed by area-specific rules tooling outside this skill.
-- The helper must preserve comments, blank lines, section order, inline comments, unknown sections, custom user values outside targeted keys, and the commented `rules.*` examples from the template.
-- If the helper reports an unsafe structure or invalid payload, STOP. Do **not** fall back to free-form YAML generation.
-- After the helper succeeds, remove the temporary payload file.
-
-**Payload shape:**
-
-```json
-{
-  "mode": "create|merge",
-  "set": {
-    "language.ui": "en",
-    "language.artifacts": "en",
-    "language.technical_terms": "keep",
-    "paths.qa": ".ai-factory/qa/"
-  },
-  "fillMissing": {
-    "git.branch_prefix": "feature/",
-    "rules.base": ".ai-factory/rules/base.md"
-  }
-}
-```
-
-- Initial create: pass the resolved canonical values through `set`.
-- Rerun merge: use `set` only for values re-resolved in this run; use `fillMissing` for canonical defaults that should be restored only when absent or incomplete.
-
-**Create `.ai-factory/rules/base.md` from codebase evidence:**
-
-After language resolution and config write, analyze the codebase as a search for **counter-defaults** — branded/opaque types, serialization quirks, forbidden operations, non-obvious invariants — not as a style-inventory pass. Ground truth in the code shows what *is*; it never shows what must *never* change, so that second thing is what this file exists to carry.
-
-A rule earns its line in `rules/base.md` iff **both**:
-- **(a)** the executor would do otherwise by its own defaults, and
-- **(b)** code alone cannot teach it.
-
-Every emitted rule **carries its why** — the incident or invariant behind it. This is the costliest instruction surface per line in the whole system (see the composition-model reasoning in `.ai-factory/specs/41-aif-rules-counter-default-filter.md`): the orchestrator reads this file mandatorily at Step 0 of all four agents with override authority, treating every line as mandatory. A line that fails either gate is pure ongoing cost with no benefit.
-
-**Excluded anti-pattern:** generic language/style conventions the agent already follows by default are **not** rules and must never be emitted — this includes case styles (`snake_case`, `PascalCase`, `UPPER_SNAKE_CASE`), formatting, idiomatic naming, and boilerplate error/logging idioms. These fail gate (b): code alone teaches them, so a generated rule restating them is waste, not guidance.
-
-When the codebase surfaces no counter-default, the correct result is a **near-empty file** — header note plus nothing. The criterion admits nothing rather than manufacturing rules to fill sections.
-
-Create `.ai-factory/rules/base.md` with only the rules that pass the filter above. Use fixed **English** headings and service text in this file:
-
-```markdown
-# Project Base Rules
-
-> Counter-defaults the executor would otherwise violate by its own defaults, each with its why. Generic style/formatting conventions are deliberately excluded. If the codebase has no counter-default, this file stays empty below this note — that is the correct result, not a gap to fill in.
-
-## Data Types
-
-- Proto numeric fields are carried as strings, not native ints — why: cross-language proto codegen silently truncates int64 on JS clients.
-
-## Identifiers
-
-- Entity IDs use branded/opaque types (e.g. `UserId`), never raw `string` — why: prevents accidental mixing of unrelated entity IDs at compile time.
-
-## Migrations
-
-- No hand-written SQL migrations — all schema changes go through the generator — why: hand-written migrations previously drifted from the ORM schema and broke a prod rollback.
-```
-
-*The sections and rules above (modeled on `tradeoxy_core/RULES.md`) are illustrative of the **genre** only, not a literal scaffold — generation must substitute the target project's own counter-defaults. Never emit these literal proto/branded-ID/migration rules into a project that has no protos, branded IDs, or migrations. Emit a section only where a real counter-default was found; an idiomatic or greenfield project correctly yields just the header note with no sections below it.*
+Counter-default filter and the `rules/base.md` template → read `references/rules-generation.md`
 
 ---
 
@@ -185,15 +74,7 @@ Create `.ai-factory/rules/base.md` with only the rules that pass the filter abov
 
 **Step 1: Scan Project**
 
-Read these files (if they exist):
-- `package.json` → Node.js dependencies
-- `composer.json` → PHP (Laravel, Symfony)
-- `requirements.txt` / `pyproject.toml` → Python
-- `go.mod` → Go
-- `Cargo.toml` → Rust
-- `docker-compose.yml` → Services
-- `prisma/schema.prisma` → Database schema
-- Directory structure (`src/`, `app/`, `api/`, etc.)
+Project-file scan list → read `references/stack-analysis.md`
 
 **Step 2: Resolve Language Settings** — see [Language Resolution](#language-resolution); resolve before generating any setup-time text artifact.
 
@@ -205,10 +86,7 @@ Immediately after language resolution, create `.ai-factory/` if needed and write
 
 **Step 5: Recommend MCP**
 
-| Detection | MCP |
-|-----------|-----|
-| Prisma/PostgreSQL | `postgres` |
-| GitHub repo (.git) | `github` |
+MCP detection table → read `references/stack-analysis.md`
 
 **Step 6: Present Plan & Confirm**
 
@@ -314,127 +192,7 @@ Configure MCP, generate `AGENTS.md`, and generate architecture document via `/ai
 
 ## MCP Configuration
 
-AI Factory writes MCP config to `.mcp.json`, but the outer settings shape depends on the runtime.
-
-### Runtime Format Matrix
-
-| Runtime | Write under | Entry shape |
-|---------|-------------|-------------|
-| Standard MCP runtimes (Claude Code, Cursor, Roo Code, Kilo Code, Qwen Code, Universal / Other) | `mcpServers.<server>` | `{ "command": "...", "args": [...], "env": {...} }` |
-| OpenCode | `mcp.<server>` | `{ "type": "local", "command": ["...", "..."], "environment": {...} }` |
-| GitHub Copilot | `servers.<server>` | `{ "type": "stdio", "command": "...", "args": [...], "env": {...} }` |
-| Codex app | `[mcp_servers.<server>]` in `.codex/config.toml` | `command = "..."`, optional `args = [...]`, credential placeholders as `env_vars = ["VAR"]`, literal values under `[mcp_servers.<server>.env]` |
-
-Use the canonical server templates below as the source values, then wrap them using the runtime-specific format above.
-
-### Canonical Server Templates
-
-#### GitHub
-**When:** Project has `.git` or uses GitHub
-
-```json
-{
-  "github": {
-    "command": "npx",
-    "args": ["-y", "@modelcontextprotocol/server-github"],
-    "env": { "GITHUB_TOKEN": "${GITHUB_TOKEN}" }
-  }
-}
-```
-
-#### Postgres
-**When:** Uses PostgreSQL, Prisma, Drizzle, Supabase
-
-```json
-{
-  "postgres": {
-    "command": "npx",
-    "args": ["-y", "@modelcontextprotocol/server-postgres"],
-    "env": { "DATABASE_URL": "${DATABASE_URL}" }
-  }
-}
-```
-
-#### Filesystem
-**When:** Needs advanced file operations
-
-```json
-{
-  "filesystem": {
-    "command": "npx",
-    "args": ["-y", "@modelcontextprotocol/server-filesystem", "."]
-  }
-}
-```
-
-#### Playwright
-**When:** Needs browser automation, web testing, interaction via accessibility tree
-
-```json
-{
-  "playwright": {
-    "command": "npx",
-    "args": ["-y", "@playwright/mcp@latest"]
-  }
-}
-```
-
-### Runtime-Specific Wrapper Examples
-
-Standard MCP runtimes (`mcpServers`):
-
-```json
-{
-  "mcpServers": {
-    "filesystem": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."]
-    }
-  }
-}
-```
-
-OpenCode (`mcp` + `type: "local"` + command array):
-
-```json
-{
-  "mcp": {
-    "filesystem": {
-      "type": "local",
-      "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "."]
-    }
-  }
-}
-```
-
-GitHub Copilot (`servers` + `type: "stdio"`):
-
-```json
-{
-  "servers": {
-    "filesystem": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."]
-    }
-  }
-}
-```
-
-Codex app (`.codex/config.toml` + `mcp_servers` TOML tables):
-
-```toml
-[mcp_servers.filesystem]
-command = "npx"
-args = ["-y", "@modelcontextprotocol/server-filesystem", "."]
-
-[mcp_servers.github]
-command = "npx"
-args = ["-y", "@modelcontextprotocol/server-github"]
-env_vars = ["GITHUB_TOKEN"]
-```
-
-For GitHub Copilot, convert credential placeholders from `${VAR}` to `${env:VAR}` in the final config file. For OpenCode, use `environment` instead of `env` when the server requires credentials. For Codex app, convert credential placeholders from `${VAR}` to `env_vars = ["VAR"]`; only literal values belong under `[mcp_servers.<server>.env]`.
+MCP runtime format matrix, canonical server templates, and wrapper examples → read `references/mcp-configuration.md`
 
 ---
 
