@@ -38,10 +38,18 @@ status-marker grammar / **pinned** definition referenced below.
 1. Derive the target repo root from the skill argument (parent of the `.ai-factory/`
    holding the target ROADMAP.md) — same anchoring rule Step 5 uses.
 2. Scan every `.md` file under `<target repo root>/.ai-factory/plan-reviews/` and
-   `<target repo root>/.ai-factory/reviews/` for a `## Deferred observations` section.
-   A file with no such section contributes nothing to this step — but capture it for
-   step 6 below before moving on, since Step 5 deletes these files and Step 8 runs
-   after the sweep.
+   `<target repo root>/.ai-factory/reviews/`, at any depth (including files nested in
+   per-roadmap stem subdirectories), for a `## Deferred observations` section. This
+   scan is repo-wide by design — prune is an integration-branch act, so any
+   developer's unpinned observation blocks it regardless of author; do not scope the
+   scan to the pruned roadmap's stem. A file with no such section contributes nothing
+   to this step — but capture it for step 6 below, before moving on, if it falls
+   within Step 5's sweep scope for this prune (the flat `plan-reviews/`/`reviews/`
+   files for a default-pair prune, or the pruned stem's `plan-reviews/<stem>/` and
+   `reviews/<stem>/` files for a named prune) — Step 5 deletes only those files and
+   Step 8 runs after the sweep. A file outside that sweep scope is scanned for the
+   gate here but not handed off to step 6 (the gate scan stays repo-wide; margin
+   capture follows the sweep scope, not the reverse).
 3. Collect every entry line that is **not pinned** per the engine's grammar (pinned =
    the entry line carries ≥1 bracketed status marker — do not redefine, cite the
    engine).
@@ -60,17 +68,19 @@ status-marker grammar / **pinned** definition referenced below.
    Make no edits, no sweep, no ARCHITECTURE/ROADMAP changes, no partial prune.
 5. If none are unpinned → proceed to `## Before you start` and the normal flow,
    unchanged.
-6. While scanning, for every file that has **no** `## Deferred observations` section,
-   also check it for any pre-standardization marker phrase — `latent`, `forward risk`,
-   `no action needed`, `out of scope for this milestone`, `flagging so Phase`,
-   `Surface this to the orchestrator`. Capture the matching paragraph(s) with their
-   source file now, before Step 5 deletes the file — Step 8 only echoes what is
-   captured here, it never re-reads these dirs.
+6. While scanning, for every file that has **no** `## Deferred observations` section
+   **and falls within Step 5's sweep scope for this prune** (per item 2's hand-off
+   clause above — at any depth, scoped to the sweep, never repo-wide), also check it
+   for any pre-standardization marker phrase — `latent`, `forward risk`, `no action
+   needed`, `out of scope for this milestone`, `flagging so Phase`, `Surface this to
+   the orchestrator`. Capture the matching paragraph(s) with their source file now,
+   before Step 5 deletes the file — Step 8 only echoes what is captured here, it
+   never re-reads these dirs.
 
-`ROADMAP_TESTS.md` parity: the gate scans the shared `plan-reviews/`/`reviews/` dirs
-identically in both modes; `test-runs/` files carry no review sections and are not
-scanned. Prune never promotes, evaluates, or marks entries — this gate is
-read-and-refuse only.
+`ROADMAP_TESTS.md` parity: the gate scans the shared `plan-reviews/`/`reviews/`
+trees, at any depth, identically in both modes; `test-runs/` files carry no review
+sections and are not scanned. Prune never promotes, evaluates, or marks entries —
+this gate is read-and-refuse only.
 
 ---
 
@@ -264,14 +274,30 @@ Derive the **target repo root**: the parent of the `.ai-factory/` directory the 
    line's `Spec:` tag is not captured — its roadmap line and its spec file both stay
    untouched. A `[x]` line with no `Spec:` tag contributes nothing — skip it, never
    synthesize a path.
-2. `rm -rf` the four artifact dirs, directly under `<target repo root>/.ai-factory/`: `plans/`, `plan-reviews/`, `reviews/`, `patches/`.
+2. Determine the sweep scope from the same skill argument used to anchor this step,
+   then `rm -rf`:
+   - **Default pair** — the target is `.ai-factory/ROADMAP.md` or
+     `.ai-factory/ROADMAP_TESTS.md` — `rm -rf` the three flat dirs directly under
+     `<target repo root>/.ai-factory/`: `plans/`, `plan-reviews/`, `reviews/`.
+   - **Named roadmap** — the target is under `.ai-factory/roadmaps/…` — derive
+     `<stem>`: a named main roadmap `roadmaps/<name>.md` gives `<stem> = <name>`; its
+     test sibling `roadmaps/<name>-tests.md` also gives `<stem> = <name>` (the
+     `-tests` suffix stripped — never the raw basename `<name>-tests`). `rm -rf` only
+     `plans/<stem>/`, `plan-reviews/<stem>/`, `reviews/<stem>/` under
+     `<target repo root>/.ai-factory/` — never the flat dirs, never a sibling stem's
+     subdirectories (another developer's completed artifacts are not this prune's to
+     delete).
 3. `rm -f` each captured spec path — the captured paths are repo-root-relative and already begin with `.ai-factory/`; join them onto the target repo root, not onto `.ai-factory/`.
 
 Spec deletion goes only through the **pruned** `[x]` lines' `Spec:` tags — no spec
 directory is ever scanned or swept, so a user-kept `[x]` line's spec and open `[ ]`
 tasks' specs are never touched.
 
-When pruning `ROADMAP_TESTS.md`, apply the same sweep, and `test-runs/` joins the swept dirs in that mode only.
+`test-runs/` is swept only when the pruned target is the **test** roadmap —
+`ROADMAP_TESTS.md` for the default pair, `roadmaps/<name>-tests.md` for a named
+pair — never on a main-roadmap prune. In that case the swept dir is flat
+`test-runs/` for the default pair and `test-runs/<stem>/` for a named test roadmap,
+using the same `-tests`-stripped `<stem>` derived above.
 
 ---
 
@@ -320,13 +346,17 @@ Before finishing, verify:
 
 ## Step 8 — Summary report
 
-List the dirs swept in Step 5 and the spec files deleted in Step 5.
+List the dirs swept in Step 5 — the flat three dirs (plus flat `test-runs/` in tests
+mode) for a default-pair prune, or the pruned stem's `plans/<stem>/`,
+`plan-reviews/<stem>/`, `reviews/<stem>/` (plus `test-runs/<stem>/` in tests mode) for
+a named prune — and the spec files deleted in Step 5.
 
 Report-only, never gates: echo the paragraph(s) captured by Step 0.6 under a "possible
 unharvested margins" heading, one entry per source file. Do not re-scan
-`plan-reviews/`/`reviews/` here — Step 5 already deleted them; this step only reports
-what Step 0 captured before the sweep. Free-form prose has no entry line to pin; this
-never affects the Step 0 gate. If Step 0 captured nothing, omit the heading.
+`plan-reviews/`/`reviews/` here — Step 5 already deleted the swept files; this step
+only reports what Step 0 captured before the sweep. Free-form prose has no entry line
+to pin; this never affects the Step 0 gate. If Step 0 captured nothing, omit the
+heading.
 
 ---
 
