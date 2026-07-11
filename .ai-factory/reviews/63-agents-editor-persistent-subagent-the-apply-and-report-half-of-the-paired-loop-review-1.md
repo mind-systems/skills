@@ -40,6 +40,6 @@ The system prompt describes the paired loop only — no project-domain terms; th
 None. No runtime break, no missing activation step, no type/schema mismatch, no security concern. The body is a faithful transcription of the ratified design source with one correct clarifying addition (the `loads:`-engines-via-Skill sentence), consistent with spec 17's Verification.
 
 ## Deferred observations
-- Affects: `.ai-factory/ARCHITECTURE.md` (line 24) — line 24 still enumerates *"the only layer `~/.claude/skills` and `~/.claude/commands` point at,"* now missing `~/.claude/agents`. This is the same observation raised and pinned as out-of-scope in plan-review-1: spec 17's Files & types deliberately scopes doc edits to `CLAUDE.md` + `README.md` only, and the implementation correctly honored that boundary (ARCHITECTURE.md untouched). Not a finding — recorded for a future docs/prune pass that owns agents-category doc consistency.
+- Affects: `.ai-factory/ARCHITECTURE.md` (line 24) — line 24 still enumerates *"the only layer `~/.claude/skills` and `~/.claude/commands` point at,"* now missing `~/.claude/agents`. This is the same observation raised and pinned as out-of-scope in plan-review-1: spec 17's Files & types deliberately scopes doc edits to `CLAUDE.md` + `README.md` only, and the implementation correctly honored that boundary (ARCHITECTURE.md untouched). Not a finding — recorded for a future docs/prune pass that owns agents-category doc consistency. [routed → .ai-factory/specs/56-repo-docs-agents-registration.md]
 
 REVIEW_PASS

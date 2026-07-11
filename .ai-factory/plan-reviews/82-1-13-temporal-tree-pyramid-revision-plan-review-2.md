@@ -25,6 +25,6 @@ None.
 - Task 1's third lens ("check whether SKILL.md narrative duplicates the existing `docs/overview.md`") is well-placed — `overview.md` does restate the Step 1–5 walk, so this comparison is the right place to catch it within scope.
 
 ## Deferred observations
-- Affects: out-of-milestone scope (`src/skills/temporal-tree/docs/overview.md`) — `overview.md` restates the full Step 1–5 walk and embeds an example `## Features` table (lines 18–32), the same duplication/ceremony smell the audit targets in SKILL.md. This milestone is consciously scoped to SKILL.md (Task 1 marks `overview.md` read-only; Task 2 Files lists only SKILL.md), so it is correctly out of scope. If Task 1 concludes SKILL.md's narrative should trim toward `overview.md`, a later milestone should decide which of the two is the canonical home for the walk rather than leaving both restating it.
+- Affects: out-of-milestone scope (`src/skills/temporal-tree/docs/overview.md`) — `overview.md` restates the full Step 1–5 walk and embeds an example `## Features` table (lines 18–32), the same duplication/ceremony smell the audit targets in SKILL.md. This milestone is consciously scoped to SKILL.md (Task 1 marks `overview.md` read-only; Task 2 Files lists only SKILL.md), so it is correctly out of scope. If Task 1 concludes SKILL.md's narrative should trim toward `overview.md`, a later milestone should decide which of the two is the canonical home for the walk rather than leaving both restating it. [routed → .ai-factory/specs/55-temporal-tree-one-home-for-the-walk.md]
 
 PLAN_REVIEW_PASS

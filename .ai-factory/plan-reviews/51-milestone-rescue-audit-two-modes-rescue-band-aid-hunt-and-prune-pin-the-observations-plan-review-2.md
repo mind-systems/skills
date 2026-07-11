@@ -36,6 +36,6 @@ None — no security, migration, or runtime-crash defects. Single-file edit, seq
 - **Sound Edit-not-Write reasoning**, consistent with engine §6 (all four markers are append-only and written by `milestone-rescue-audit` only) and spec Edit 4.
 
 ## Deferred observations
-- Affects: `.ai-factory/specs/04-audit-reads-deferred-observations.md` — Carried forward from plan-review-1 and now lower-priority: the plan restores the cold-run affordance via a `$2` slug, so the skill's `description` "or cold on any looped/outlier task" wording is once again backed. If the spec-04 owner later decides cold rescue should always run warm-after-`milestone-rescue`, pruning that affordance from the description is the cleaner spec-tier fix; that decision sits outside this milestone's boundary and is not required for the plan to be correct as written.
+- Affects: `.ai-factory/specs/04-audit-reads-deferred-observations.md` — Carried forward from plan-review-1 and now lower-priority: the plan restores the cold-run affordance via a `$2` slug, so the skill's `description` "or cold on any looped/outlier task" wording is once again backed. If the spec-04 owner later decides cold rescue should always run warm-after-`milestone-rescue`, pruning that affordance from the description is the cleaner spec-tier fix; that decision sits outside this milestone's boundary and is not required for the plan to be correct as written. [dismissed]
 
 PLAN_REVIEW_PASS

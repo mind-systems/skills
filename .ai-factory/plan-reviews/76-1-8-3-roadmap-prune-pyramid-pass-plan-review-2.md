@@ -28,6 +28,6 @@ None. The plan is a scoped compression pass, tightly bound to spec 28, with ever
 - **Degenerate-comparison honesty:** Task 3 refuses to fabricate feature rows to force an anchor comparison and names the file-set comparison as load-bearing — correct given the repo has never been pruned.
 
 ## Deferred observations
-- Affects: 1.17 (`.ai-factory/specs/42-skill-tool-grant-alignment.md`) — `roadmap-prune/SKILL.md:25` orders "load `orchestrator-artifacts` via the Skill tool" but `allowed-tools` (:10) omits `Skill`. This plan correctly leaves frontmatter byte-identical (spec 28 pins it unchanged, and 1.17 owns the grant-alignment fix with the same-file collision already noted in the roadmap). Raising only as confirmation that the gap is already routed to its dedicated milestone, not something 1.8.3 should absorb.
+- Affects: 1.17 (`.ai-factory/specs/42-skill-tool-grant-alignment.md`) — `roadmap-prune/SKILL.md:25` orders "load `orchestrator-artifacts` via the Skill tool" but `allowed-tools` (:10) omits `Skill`. This plan correctly leaves frontmatter byte-identical (spec 28 pins it unchanged, and 1.17 owns the grant-alignment fix with the same-file collision already noted in the roadmap). Raising only as confirmation that the gap is already routed to its dedicated milestone, not something 1.8.3 should absorb. [fixed]
 
 PLAN_REVIEW_PASS

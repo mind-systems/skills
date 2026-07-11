@@ -34,4 +34,4 @@ The author's actual intent is almost certainly path-disambiguation (the shared s
 - Verification section is executable and matches the spec's own verification, including the `-tests` dry-read case.
 
 ## Deferred observations
-- Affects: unknown (out of milestone scope) — the working tree carries an uncommitted 1-line edit to `docs/multiuser-roadmaps.md` (the `-tests` slug hard-stop sentence) from a different task. It does not touch `roadmap-prune/SKILL.md` and is outside this milestone's file boundary; noting only so it is not mistaken for part of this plan's diff at implement time.
+- Affects: unknown (out of milestone scope) — the working tree carries an uncommitted 1-line edit to `docs/multiuser-roadmaps.md` (the `-tests` slug hard-stop sentence) from a different task. It does not touch `roadmap-prune/SKILL.md` and is outside this milestone's file boundary; noting only so it is not mistaken for part of this plan's diff at implement time. [dismissed]

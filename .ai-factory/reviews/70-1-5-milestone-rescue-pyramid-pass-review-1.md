@@ -36,6 +36,6 @@ No correctness bugs, no security issues, no behavior change. Every guard the pla
 
 ## Deferred observations
 
-- Affects: `.ai-factory/specs/25-milestone-rescue-pyramid-pass.md` (§ Verification) — The net reduction is modest (8 lines). Most unprotected connective prose was only lightly reflowed, and **Step 5.5 — Propagate findings to open milestones** (378–408, ~30 lines, not a protected block) was left entirely uncompressed. Spec 25's Verification targets "materially reduced" protocol vocabulary and "meaningful shrinkage of ceremony"; whether this pass clears that bar is a judgment for the user's live-baseline replay, not a correctness defect. Non-blocking — behavior-identical and protected-verbatim (the hard guards) are both fully satisfied.
+- Affects: `.ai-factory/specs/25-milestone-rescue-pyramid-pass.md` (§ Verification) — The net reduction is modest (8 lines). Most unprotected connective prose was only lightly reflowed, and **Step 5.5 — Propagate findings to open milestones** (378–408, ~30 lines, not a protected block) was left entirely uncompressed. Spec 25's Verification targets "materially reduced" protocol vocabulary and "meaningful shrinkage of ceremony"; whether this pass clears that bar is a judgment for the user's live-baseline replay, not a correctness defect. Non-blocking — behavior-identical and protected-verbatim (the hard guards) are both fully satisfied. [dismissed]
 
 REVIEW_PASS

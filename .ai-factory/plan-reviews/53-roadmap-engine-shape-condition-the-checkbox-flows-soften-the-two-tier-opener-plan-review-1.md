@@ -29,6 +29,6 @@ None.
 - Single-file blast radius with the two genuinely checkbox-tier callers (decompose/skeleton) explicitly required to stay unaffected — the plan inherits this from the spec's guard set.
 
 ## Deferred observations
-- Affects: implementation phrasing (within milestone boundary, left to the implementer) — Task 1 places the opener at `:27`, which precedes the "Hook points (caller-supplied)" definition at `:97`, so naming "hook (a)" there is a forward reference to a term not yet introduced. This mirrors the spec note's own wording (§"The change" point 3 uses "a caller's hook (a)"), so it is not a defect to block on; the implementer has latitude under "no restructuring" to phrase the opener generically (e.g. "a caller may define entries with no contract line, such as a phase header") and avoid the forward reference while staying faithful to the spec's intent.
+- Affects: implementation phrasing (within milestone boundary, left to the implementer) — Task 1 places the opener at `:27`, which precedes the "Hook points (caller-supplied)" definition at `:97`, so naming "hook (a)" there is a forward reference to a term not yet introduced. This mirrors the spec note's own wording (§"The change" point 3 uses "a caller's hook (a)"), so it is not a defect to block on; the implementer has latitude under "no restructuring" to phrase the opener generically (e.g. "a caller may define entries with no contract line, such as a phase header") and avoid the forward reference while staying faithful to the spec's intent. [dismissed]
 
 PLAN_REVIEW_PASS

@@ -36,6 +36,6 @@ None.
 
 ## Deferred observations
 
-- Affects: spec `.ai-factory/specs/29-aif-pyramid-pass.md` — The plan's Discipline note asserts the spec note "already carries the 'Move to references' mapping." The spec carries an intent-level list of move-targets, not a per-block source→reference mapping; the precise mapping is actually supplied by the plan's own Tasks 2–5. This causes no execution error (the implementer follows Tasks 2–5), so it is not a plan finding — noted only so a future spec-tightening pass can decide whether to fold the concrete mapping into the note or leave it as the plan's job.
+- Affects: spec `.ai-factory/specs/29-aif-pyramid-pass.md` — The plan's Discipline note asserts the spec note "already carries the 'Move to references' mapping." The spec carries an intent-level list of move-targets, not a per-block source→reference mapping; the precise mapping is actually supplied by the plan's own Tasks 2–5. This causes no execution error (the implementer follows Tasks 2–5), so it is not a plan finding — noted only so a future spec-tightening pass can decide whether to fold the concrete mapping into the note or leave it as the plan's job. [dismissed]
 
 PLAN_REVIEW_PASS
