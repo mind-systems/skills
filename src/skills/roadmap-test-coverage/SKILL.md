@@ -11,7 +11,7 @@ argument-hint: "[roadmap-file]"
 disable-model-invocation: true
 user-invocable: true
 allowed-tools: Read Glob Grep Bash(find *) Bash(npm *) Bash(npx *) Bash(dart *) Bash(flutter *) Bash(python *) Bash(pytest *) Bash(go *) Bash(cargo *) Bash(mkdir *) Bash(git *) AskUserQuestion Agent Write Skill
-loads: test-philosophy
+loads: test-philosophy roadmap-engine
 ---
 
 # roadmap-test-coverage — Test Coverage Orchestrator
@@ -20,13 +20,19 @@ Eight-layer pipeline. Layers 4, 5, and 7 run in isolated agents to protect
 the main context. Agents write results to disk and return only one-line
 summaries back to the orchestrator.
 
+Ensure `roadmap-engine` is loaded once this chat (via the Skill tool, only if not
+already loaded) — it defines the named-roadmap resolution referenced below.
+
 ---
 
 ## Layer 1 — Load Project Context
 
 Read in order (skip if absent):
 - `.ai-factory/ARCHITECTURE.md` — module boundaries, folder structure
-- `ROADMAP.md` (or `$ARGUMENTS` if provided) — all milestones
+- The roadmap in play per `roadmap-engine`'s named-roadmap resolution order
+  (explicit `$ARGUMENTS` wins, then "my roadmap", then the default
+  `.ai-factory/ROADMAP.md`; see the engine's "Named roadmaps" section for the
+  slug/owner mechanics) — all milestones
 
 Store: `$STACK` (e.g. "NestJS/Jest"), `$TEST_CMD` (e.g. `npm test`),
 `$ROADMAP_PATH`.

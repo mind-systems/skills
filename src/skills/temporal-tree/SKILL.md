@@ -7,7 +7,8 @@ description: >-
   after detangle when the reason behind a pattern is non-obvious or a change touches something
   previously refactored.
 argument-hint: "[element or topic]"
-allowed-tools: Read Bash(git *) Glob Grep
+allowed-tools: Read Bash(git *) Glob Grep Skill
+loads: roadmap-engine
 ---
 
 # Temporal Tree
@@ -18,6 +19,9 @@ element under discussion, locate its feature in ARCHITECTURE.md, pull the commit
 its birth, and reconstruct the decision context: the patch, the roadmap snapshot at that moment,
 the surrounding commits, and the plan files that record the reasoning. Use this skill after
 detangle has resolved the spatial context and the *why* behind a pattern still isn't clear.
+
+Ensure `roadmap-engine` is loaded once this chat (via the Skill tool, only if not
+already loaded) — it defines the named-roadmap resolution referenced below.
 
 ---
 
@@ -64,15 +68,26 @@ This is the original design surface.
 
 ## Step 3 — Read the roadmap at that moment
 
-Run `git show` with a path argument to read ROADMAP.md as it existed at the birth hash.
+Resolve the roadmap in play per `roadmap-engine`'s named-roadmap resolution order
+(explicit argument → "my roadmap" → default `.ai-factory/ROADMAP.md`; see the engine's
+"Named roadmaps" section for the slug/owner mechanics). Run `git show` with a path
+argument to read that roadmap as it existed at the birth hash.
 
 ```bash
-git show <first-hash>:.ai-factory/ROADMAP.md
+git show <first-hash>:<resolved-roadmap-path>
 ```
 
 The snapshot reveals which tasks had just been marked `[x]` (landed with this batch) and which
 were still `[ ]` (next in line). The boundary between them is where this feature sits in the
 project timeline — what was being built before it, and what came immediately after.
+
+`temporal-tree` reconstructs the integration-branch, repo-wide pruned history — its entry point
+is the `## Features` table that `roadmap-prune` builds on the integration branch. "My roadmap"
+activates only on explicit user request (the engine never infers), so the default path stays
+`.ai-factory/ROADMAP.md`, identical to today. When a named roadmap is explicitly requested,
+`git show <first-hash>:<resolved path>` reconstructs whatever roadmap path the user named at
+that historic hash — a named roadmap may not exist at an old hash, which is the user's explicit
+choice, not a silent default.
 
 ---
 

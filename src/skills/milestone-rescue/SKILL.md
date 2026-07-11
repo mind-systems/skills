@@ -11,7 +11,7 @@ description: >-
   "pipeline stopped".
 argument-hint: "[path/to/ROADMAP.md | ROADMAP_TESTS.md]"
 allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion Skill
-loads: orchestrator-artifacts
+loads: orchestrator-artifacts roadmap-engine
 ---
 
 # Milestone Rescue
@@ -34,6 +34,9 @@ Ensure `orchestrator-artifacts` is loaded once this chat (via the Skill tool, on
 not already loaded) — it defines the artifact layout, naming, signals, sidecar
 fields, and marker grammar referenced below.
 
+Ensure `roadmap-engine` is loaded once this chat (via the Skill tool, only if not
+already loaded) — it defines the named-roadmap resolution referenced below.
+
 ---
 
 ## Step 1 — Discover artifacts
@@ -54,8 +57,7 @@ filenames (see `orchestrator-artifacts` for the naming convention). If files fro
 multiple slugs are present, ask the user which milestone to rescue before proceeding.
 
 **Read the phase's governing spec.** Determine `$TARGET_FILE` (the same resolution
-Step 4 uses: argument-named file if given, else `.ai-factory/ROADMAP_TESTS.md` for test
-slugs, else `.ai-factory/ROADMAP.md`), read it, and locate the phase section the
+Step 4 determines), read it, and locate the phase section the
 milestone belongs to. Check the phase header and its intro lines for a
 `Governing spec:` reference. If present, read every named document in full before
 proceeding to Step 2 — this is unconditional, not suspicion-based. If the milestone is
@@ -174,10 +176,15 @@ the depth choice.
 
 ## Step 4 — Choose repair depth
 
-**Determine `$TARGET_FILE`:**
+**Determine `$TARGET_FILE`** per `roadmap-engine`'s named-roadmap resolution order:
+explicit argument wins, then "my roadmap", then the default `.ai-factory/ROADMAP.md`
+— see the engine's "Named roadmaps" section for the slug/owner mechanics.
 - If argument names a file → use `.ai-factory/<that file>`
-- If the milestone slug or artifacts suggest test tasks (keywords: test, tests, spec) → `$TARGET_FILE = .ai-factory/ROADMAP_TESTS.md`
-- Otherwise → `$TARGET_FILE = .ai-factory/ROADMAP.md`
+- If the milestone slug or artifacts suggest test tasks (keywords: test, tests, spec)
+  → the test sibling of the roadmap in play: a named roadmap resolves to
+  `.ai-factory/roadmaps/<slug>-tests.md`, the default to
+  `.ai-factory/ROADMAP_TESTS.md` as today
+- Otherwise → `$TARGET_FILE` = the roadmap in play (per the resolution order above)
 
 Read `$TARGET_FILE` and locate the milestone line matching the slug identified in Step 1.
 
