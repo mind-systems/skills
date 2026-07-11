@@ -6,7 +6,7 @@ description: >-
   format, and the status-marker grammar. Pure protocol reference, no procedure.
   Loaded by milestone-rescue, milestone-rescue-audit, and roadmap-prune so each
   stops re-describing the layout inline. Use when reading or writing plans,
-  plan-reviews, reviews, patches, or sidecars under `.ai-factory/`.
+  plan-reviews, reviews, or sidecars under `.ai-factory/`.
 user-invocable: false
 disable-model-invocation: false
 allowed-tools: Read
@@ -22,11 +22,15 @@ via `` grep -l "orchestrator-artifacts" src/skills/*/SKILL.md src/commands/*.md 
 
 Artifacts live under the target repo's `.ai-factory/`: `plans/` (`<seq>-<slug>.md`
 plan + `<seq>-<slug>.json` sidecar), `plan-reviews/` (`<seq>-<slug>-plan-review-N.md`),
-`reviews/` (`<seq>-<slug>-review-N.md`), `patches/` (test mode bridges reviewer output
-here; empty in implement mode). Test mode adds `test-runs/` (`<seq>-<slug>-test-N.txt`)
-and roots at `ROADMAP_TESTS.md`. `<seq>` is assigned by the orchestrator at plan time
-and is not recoverable from a roadmap line; `N` is the round number — files in round
-order are the finding→fix history.
+`reviews/` (`<seq>-<slug>-review-N.md`). Test mode adds `test-runs/` (`<seq>-<slug>-test-N.txt`)
+and roots at `ROADMAP_TESTS.md`. This flat layout is for the default pair
+(`ROADMAP.md`/`ROADMAP_TESTS.md`); a named roadmap's artifacts live under a
+subdirectory keyed by its roadmap file stem — `roadmaps/kg-wmservice.md` →
+`plans/kg-wmservice/…`, same stem segment under `plan-reviews/`, `reviews/`,
+`test-runs/`. `<seq>` is assigned by the orchestrator at plan time and is not
+recoverable from a roadmap line; `N` is the round number — files in round order are
+the finding→fix history. Numbering is per-directory — each subdirectory carries its
+own `<seq>` axis.
 
 ## 2. Signals
 
