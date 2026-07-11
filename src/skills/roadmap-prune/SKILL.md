@@ -13,6 +13,20 @@ loads: orchestrator-artifacts
 
 # Roadmap Prune
 
+**Features-table format version:** `roadmap-prune v2` — the version stamped into the
+`## Features` header; an unmarked/legacy `## Features` header is v1. Every read of the
+`## Features` header inside this skill — Step 2's classification read, the self-heal
+marker read (4.2a), and Step 4.2's find-or-create — matches the stable base
+`## Features` by prefix, tolerating an optional ` (roadmap-prune vN)` suffix, never by
+exact `^## Features$`, so both a versioned header and an unmarked legacy header resolve
+at every read site.
+
+**Out-of-scope assumption:** a force-push / shared-history rewrite invalidates every
+hash in the Features table (feature rows and ledger alike); defending against it is out
+of scope (repo policy: shared history is not rewritten) — recovery is to delete the
+version marker from the header and re-run the prune so self-heal rebuilds from the
+rewritten history.
+
 ---
 
 ## Step 0 — Deferred-observations gate
@@ -100,13 +114,13 @@ Based on the answer, assign one of three outcomes:
 |---------|--------|--------|
 | **New feature** | New e2e scenario becomes possible | Create a new feature row |
 | **Extended feature** | Existing e2e scenario gains new parameters or coverage | Append hash to existing row |
-| **Internal only** | No new e2e behaviour — refactor, cleanup, dep fix, arch change | Hash goes to drop history only — no feature row |
+| **Internal only** | No new e2e behaviour — refactor, cleanup, dep fix, arch change | No feature row and no hash recorded anywhere — captured by the nearest prune snapshot |
 
 Rules:
 - Never copy a phase or section header as a feature name. Phase headers organise work; feature names describe what the system can do.
-- A refactor that enables a future feature is still internal — record it in drop history, not as a feature.
+- A refactor that enables a future feature is still internal — it gets no feature row and no hash anywhere.
 - When uncertain between new vs. extended: prefer extending an existing row.
-- **Internal-only items never get a named row in the Features table.** Refactors, renames, cleanups, doc fixes, migration changes, and dependency updates all go to the drop history hash only. The only named row under **Internal** is `Roadmap drop history`.
+- **Internal-only items never get a named row in the Features table.** Refactors, renames, cleanups, doc fixes, migration changes, and dependency updates write no hash anywhere — they are captured by the nearest prune snapshot. The only named row under **Internal** is `Roadmap drop history`.
 
 ### 2.2 — Group and name
 
@@ -126,7 +140,7 @@ Domain names reflect the product boundaries of this specific project, not generi
 
 Internal/refactor work goes last under an **Internal** header. The only rows under **Internal** are:
 - Named rows for significant architectural subsystems established during this prune (e.g. a new layer pattern, a new protocol integration) — only if the subsystem has its own behaviour contract
-- `Roadmap drop history` — always the last row; all maintenance work (refactors, cleanups, dep fixes, renames, doc changes) goes here as hashes, never as named rows
+- `Roadmap drop history` — always the last row; it holds exactly one hash per prune — the Step-4.1 snapshot, the last known intact roadmap before that prune (the commit before which the prune deleted roadmap lines; equivalently `<prune-commit>^`). Storing the snapshot is what makes `git show <hash>:.ai-factory/ROADMAP.md` reconstruct the pre-prune roadmap directly. Maintenance work (refactors, cleanups, dep fixes, renames, doc changes) writes no hash anywhere — it is captured by the nearest prune snapshot, never a named row
 
 Example structure:
 
@@ -183,19 +197,54 @@ This hash points to the last commit where ROADMAP.md still contains all the task
 
 **4.2 — Write Features and drop history**
 
-Open ARCHITECTURE.md. Find or create a `## Features` section. For each feature:
+**4.2a — Legacy self-heal pre-pass.** Before writing anything, open ARCHITECTURE.md and
+read the `## Features (...)` header marker (matched by prefix, per the format-version
+line above `## Step 0`):
+
+- **Marker == current version** (`roadmap-prune v2`) → nothing to migrate; proceed to
+  the write below.
+- **Marker absent or older** → rebuild the drop-history row wholesale from git ground
+  truth, then stamp the current version:
+  1. Enumerate the repo's prune commits **on the current branch only** (never `--all`):
+     `git log --format='%h %s' -- .ai-factory/ROADMAP.md` filtered to the prune-message
+     set — `Roadmap prune` (the exact message pinned in the "Commit (on request only)"
+     section below — do not alter that section, this pre-pass relies on it), plus the
+     historic manual wordings `Remove complete plans` and `Rmove complete plans`.
+     **Content-verify each candidate:** its diff must actually delete `[x]` lines from
+     `.ai-factory/ROADMAP.md` — an artifact-sweep twin that touches no roadmap line is
+     skipped and reported, never ledgered.
+  2. For each verified candidate, the ledger entry is its **parent** (`<prune>^`).
+  3. **Replace** the drop-history hashes with this reconstructed, de-duplicated,
+     chronological set — the old polluting hashes are discarded; do not repair existing
+     hashes in place, the rebuild is authoritative from git.
+  4. **Zero prune commits found** → nothing to rebuild; stamp only.
+  5. Stamp the header `## Features (roadmap-prune v2)`.
+
+**Guard:** self-heal edits only the drop-history row and the header marker — never
+feature rows, never ROADMAP.md, never specs.
+
+*Legacy-removable:* once every consuming repo's `## Features` header shows the current
+version, this 4.2a block is dead code and can be deleted (the format-version line above
+`## Step 0` and the per-run stamping in the write below stay).
+
+Open ARCHITECTURE.md. Find or create the `## Features` section — matched by prefix,
+tolerating the optional ` (roadmap-prune vN)` suffix — and write/restamp its header as
+`## Features (roadmap-prune v2)` (the version from the format-version line above
+`## Step 0`); every run (re)stamps the current version. `temporal-tree` matches this
+header **by prefix** (`## Features (roadmap-prune vN)`), so the version suffix must not
+break prefix-matching. For each feature:
 
 - If the feature already exists → append the new hash to its Hashes cell (space-separated).
 - If the feature does not exist → add a new row with the hash from Step 3.
 
-For the drop history row: find or create it at the bottom of the Features table and append the snapshot hash from Step 4.1 (comma-separated).
+For the drop history row: find or create it at the bottom of the Features table and append exactly the Step-4.1 snapshot hash (one per prune run), comma-separated.
 
 Follow the table format and grouping rules from Step 2.2. Additional rules:
 
 - Section headers are bold rows with an empty Hashes cell — pure visual separators.
 - Domain names reflect the product boundaries of this specific project, not generic labels.
 - Features are named from the operator's perspective (what the system can do), not from the implementation.
-- `Roadmap drop history` is always the last row of the **Internal** section. All maintenance work (refactors, arch cleanup, dep fixes, renames, doc changes) is absorbed into that row's hashes only — never as a named row.
+- `Roadmap drop history` is always the last row of the **Internal** section. It holds exactly one hash per prune — the Step-4.1 snapshot (the last known intact roadmap before that prune) — never a named row; maintenance work (refactors, arch cleanup, dep fixes, renames, doc changes) writes no hash anywhere.
 - Use short (7-char) hashes throughout.
 
 ---
@@ -287,6 +336,8 @@ commits, never ask about the message.
 
 ## What NOT to do
 
+- Do not write internal-only task hashes anywhere — they belong to no feature row and to no ledger entry.
+- Do not store the prune/deletion commit in drop-history — store its parent (the snapshot), so `git show <hash>:ROADMAP.md` yields the pre-prune roadmap.
 - Do not prune `[ ]` tasks — only `[x]` tasks are candidates
 - Do not invent commit hashes — find real ones from `git log`
 - Do not merge unrelated features into one row to save space

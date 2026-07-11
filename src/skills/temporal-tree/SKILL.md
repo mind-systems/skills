@@ -25,7 +25,8 @@ detangle has resolved the spatial context and the *why* behind a pattern still i
 
 Read `.ai-factory/ARCHITECTURE.md` and locate the `## Features` table. That table is the entry
 point for every temporal walk — it maps feature names to space-separated commit hashes anchored
-by `roadmap-prune`.
+by `roadmap-prune`. The header may carry a version suffix (`## Features (roadmap-prune vN)`)
+written by `roadmap-prune` — match it **by prefix**, not by exact string.
 
 If no `## Features` table exists in ARCHITECTURE.md (or if ARCHITECTURE.md itself does not exist),
 stop and tell the user: run `roadmap-prune` first to build the Features table before using
