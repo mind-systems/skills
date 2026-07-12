@@ -7,7 +7,7 @@ description: >-
   the roadmap. Use when ROADMAP.md has accumulated many [x] tasks and needs to
   be trimmed without losing navigational history.
 argument-hint: "[path/to/ROADMAP.md]"
-allowed-tools: Read Write Edit Bash(git *) Bash(rm *) Glob Grep Skill
+allowed-tools: Read Write Edit Bash(git *) Bash(rm *) Bash(find *) Glob Grep Skill
 loads: orchestrator-artifacts
 ---
 
@@ -275,10 +275,21 @@ Derive the **target repo root**: the parent of the `.ai-factory/` directory the 
    untouched. A `[x]` line with no `Spec:` tag contributes nothing — skip it, never
    synthesize a path.
 2. Determine the sweep scope from the same skill argument used to anchor this step,
-   then `rm -rf`:
+   then delete:
    - **Default pair** — the target is `.ai-factory/ROADMAP.md` or
-     `.ai-factory/ROADMAP_TESTS.md` — `rm -rf` the three flat dirs directly under
-     `<target repo root>/.ai-factory/`: `plans/`, `plan-reviews/`, `reviews/`.
+     `.ai-factory/ROADMAP_TESTS.md`. Check whether
+     `<target repo root>/.ai-factory/roadmaps/` exists:
+     - **`roadmaps/` absent (solo repo)** — `rm -rf` the three flat dirs directly
+       under `<target repo root>/.ai-factory/`: `plans/`, `plan-reviews/`,
+       `reviews/`.
+     - **`roadmaps/` present** — delete only the regular files directly under each
+       of those three flat dirs (`[ -d <dir> ] && find <dir> -maxdepth 1 -type f
+       -delete`, guarding the way `rm -rf` tolerates a dir that was never
+       created), preserving every developer's per-roadmap stem subdirectories
+       (`plans/<stem>/`, `plan-reviews/<stem>/`, `reviews/<stem>/`) — the same
+       per-stem protection the Named-roadmap branch below already gives, now
+       protected from both sides: never a sibling stem's subdirectory, whichever
+       side the prune runs from.
    - **Named roadmap** — the target is under `.ai-factory/roadmaps/…` — derive
      `<stem>`: a named main roadmap `roadmaps/<name>.md` gives `<stem> = <name>`; its
      test sibling `roadmaps/<name>-tests.md` also gives `<stem> = <name>` (the
@@ -297,7 +308,13 @@ tasks' specs are never touched.
 `ROADMAP_TESTS.md` for the default pair, `roadmaps/<name>-tests.md` for a named
 pair — never on a main-roadmap prune. In that case the swept dir is flat
 `test-runs/` for the default pair and `test-runs/<stem>/` for a named test roadmap,
-using the same `-tests`-stripped `<stem>` derived above.
+using the same `-tests`-stripped `<stem>` derived above. For the default pair, the
+same `roadmaps/`-presence split from item 2 applies to flat `test-runs/`:
+`roadmaps/` absent → today's whole-dir `rm -rf` of flat `test-runs/`, byte-stable;
+`roadmaps/` present → delete only the regular files directly under flat
+`test-runs/` (`[ -d test-runs ] && find test-runs -maxdepth 1 -type f -delete`),
+preserving every `test-runs/<stem>/` subdirectory. The named-test-roadmap case is
+unchanged.
 
 ---
 
@@ -381,7 +398,7 @@ commits, never ask about the message.
   `[x]` lines' `Spec:` tags; never touch a path an open `[ ]` line's tag names or a
   user-kept `[x]` line's tag names
 - Do not touch `handoffs/` — it is never swept
-- Do not use `git rm` — deletion is plain `rm`; staging happens once, at commit time, via `git add -A`
+- Do not use `git rm` — deletion is unstaged (`rm`/`find -delete`), never `git rm`; staging happens once, at commit time, via `git add -A`
 - Do not resolve artifacts per task — no slug derivation, no discovery, no orphan report, no extended verify
 - Do not add rationale or explanation prose to the skill body — instructions only
 - Do not commit automatically — on request only; exactly one commit, exactly `Roadmap prune`
