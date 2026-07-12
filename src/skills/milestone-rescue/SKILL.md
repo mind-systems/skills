@@ -1,7 +1,7 @@
 ---
 name: milestone-rescue
 description: >-
-  Reads failed orchestrator artifacts (plans, plan-reviews, code reviews, patches),
+  Reads failed orchestrator artifacts (plans, plan-reviews, code reviews),
   diagnoses how deep the root cause reaches, repairs to that depth (spec / spec+plan /
   spec+plan+code / plan-ratified-implementation-absent), and rolls the sidecar +
   artifacts back to exactly the repaired state so the orchestrator re-validates from
@@ -43,8 +43,8 @@ already loaded) — it defines the named-roadmap resolution referenced below.
 
 Run `git status --short -- .ai-factory/` to find all uncommitted files under `.ai-factory/`.
 
-Filter results to the artifact directories (`plans/`, `plan-reviews/`, `reviews/`,
-`patches/`) — layout and naming conventions are described in `orchestrator-artifacts`.
+Filter results to the artifact directories (`plans/`, `plan-reviews/`, `reviews/`) —
+layout and naming conventions are described in `orchestrator-artifacts`.
 
 Ignore any uncommitted files outside these directories — the spec note itself
 lives wherever the milestone's `Spec:` tag points, not in a fixed directory.
@@ -67,7 +67,7 @@ not replace it.
 
 **Read every artifact file found** — all rounds, not just the latest. The pattern of
 failures across rounds matters as much as the final round. A plan-review from round 1
-reveals what the planner missed first; a patch from round 2 shows whether the
+reveals what the planner missed first; a review from round 2 shows whether the
 implementer addressed it. Read them all before drawing any conclusions.
 
 ---
@@ -97,8 +97,8 @@ plan-ratified rollback (Step 5), not spec/spec+plan/spec+plan+code.
 
 **Non-convergence (terminal, commit-as-is)** — the implement-phase condition holds AND
 every review contains only Low or Informational findings AND the plan's deliverables
-are present/produced on disk (for `modify`-type deliverables, confirm via patches or
-reviews that the change landed — file existence alone is not sufficient). When all
+are present/produced on disk (for `modify`-type deliverables, confirm via reviews
+that the change landed — file existence alone is not sufficient). When all
 three hold, the work is likely done; recommend committing instead of re-running. No
 rollback, no artifact cleanup.
 
@@ -116,7 +116,7 @@ inconsistent — `### Issues`, `## Critical Issues`, `## Suggestions`, `### Task
 inline numbered lists — so don't hardcode heading names.
 
 Read all rounds (Step 1's mandate). **Recurring issues** (present in 2+ rounds) are
-the primary signal — the implementer could not fix them even with a patch, so the
+the primary signal — the implementer could not fix them across rounds, so the
 description is the only reliable enforcement, and they determine the repair depth.
 
 Root-cause categories (context for depth + scope-overload flag):
@@ -236,17 +236,17 @@ Dominant recurring issue: <one line>
 Choose repair depth:
 
 1. spec — repair spec note + contract line in $TARGET_FILE
-   Rollback: plan, plan-reviews, reviews, patches, and sidecar deleted; orchestrator re-plans
+   Rollback: plan, plan-reviews, reviews, and sidecar deleted; orchestrator re-plans
 
 2. spec + plan — repair spec + plan .md (keeping passing plan-reviews intact if wanted)
-   Rollback: plan-reviews, reviews, patches deleted; sidecar step → "planned"
+   Rollback: plan-reviews, reviews deleted; sidecar step → "planned"
 
 3. spec + plan + code — repair spec + plan + code by hand in the working tree
-   Rollback: reviews, patches deleted; sidecar step → "implemented"
+   Rollback: reviews deleted; sidecar step → "implemented"
 
 4. plan ratified, implementation absent — keep the plan and its passing plan-review(s);
    the implementer session never produced a diff
-   Rollback: reviews, patches deleted; sidecar step → "plan_reviewed"; `implementer`
+   Rollback: reviews deleted; sidecar step → "plan_reviewed"; `implementer`
    session dropped; orchestrator resumes at implement, iteration 1, with a fresh session
 ```
 
@@ -273,7 +273,7 @@ other milestone slugs.
 
 **Non-convergence (terminal — no rollback):** the user chose to commit or re-run in Step 4
 (options 1, 2, or 3). Leave all artifacts in place — plans, plan-reviews, reviews,
-patches, and sidecar all describe completed, correct work. Do NOT delete any artifact.
+and sidecar all describe completed, correct work. Do NOT delete any artifact.
 Do NOT touch the sidecar. Proceed directly to Step 5.5.
 
 ---
@@ -285,7 +285,7 @@ Do NOT touch the sidecar. Proceed directly to Step 5.5.
    wholesale — quote/restate only the clauses implicated by the findings.
 2. Edit the contract line in `$TARGET_FILE` to match (keep it concise;
    each constraint is one semicolon-separated clause matching surrounding style).
-3. Delete: plan `.md`, all plan-review files, all review files, all patch files for
+3. Delete: plan `.md`, all plan-review files, all review files for
    this slug — nothing of the discarded attempt should remain.
 4. Delete the `.json` sidecar (tracked/staged → `git rm -f`; untracked → `git clean -f`).
    The loss of `planner`, `implementer`, and `elapsed` is intentional.
@@ -300,7 +300,7 @@ Emit: `Sidecar deleted (full reset).`
    `$TARGET_FILE` (same as spec depth above). If the spec is already correct, this
    step is a no-op — repair only the plan below.
 2. Edit the plan `.md` to fold in the root-cause fix.
-3. Delete: all plan-review files, all review files, all patch files for this slug.
+3. Delete: all plan-review files, all review files for this slug.
    Keep the plan `.md` and sidecar.
 4. Locate the sidecar at `.ai-factory/plans/{seq}-{slug}.json`. Read it if present;
    start from `{}` if absent. Set the `step` key to `"planned"` and **delete** the
@@ -320,7 +320,7 @@ Emit: `Sidecar updated: step set to "planned"; implementer session dropped.`
    the plan/code below.
 2. Edit the plan `.md` if needed (keep passing plan-reviews intact).
 3. Apply the hand-fix directly in the working tree (the diff IS the repair).
-4. Delete: all review files, all patch files for this slug. Keep the plan `.md`,
+4. Delete: all review files for this slug. Keep the plan `.md`,
    passing plan-review files, hand-fixed diff, and sidecar.
 5. Update the sidecar `step` to `"implemented"` — same read/update/write procedure
    as the spec+plan depth above.
@@ -335,7 +335,7 @@ plan-review(s) stand; only the (missing) implementation is discarded; roll back 
 
 1. Keep the plan `.md` and every plan-review file for this slug untouched — the plan
    was ratified and needs no repair.
-2. Delete: all review files and all patch files for this slug — there is no
+2. Delete: all review files for this slug — there is no
    implementation for them to describe.
 3. Locate the sidecar at `.ai-factory/plans/{seq}-{slug}.json`. Read it if present;
    start from `{}` if absent. Set the `step` key to `"plan_reviewed"` and **delete** the
