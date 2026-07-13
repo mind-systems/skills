@@ -111,7 +111,7 @@ describes — this skill neither reads nor modifies it.
 ### Step 4: Render
 
 All outputs — skeleton, TDD, and contract tasks alike — render into the **same
-`ROADMAP.md`** the source tasks live in, **never** `ROADMAP_TESTS.md` — even the TDD
+source roadmap** the source tasks live in, **never** `ROADMAP_TESTS.md` — even the TDD
 tasks, since they belong to the impl chain (skeleton → TDD → impl), not the test
 roadmap. Ensure `roadmap-engine` is loaded once this chat, then produce the two-tier
 artifact (contract line + spec note) for each resulting task per its format. Target-file
@@ -123,7 +123,7 @@ contract line and a `Spec:` note — it becomes the **impl** milestone. Keep its
 line and note **in place** (update the note's content to reflect that skeleton/tests
 are now separate milestones); do not render a second contract line or a new note for
 it. **Insert** the new skeleton/TDD/contract milestones immediately **before** it in
-`ROADMAP.md`. This mirrors `roadmap-decompose`'s in-place note-update discipline and
+the source roadmap. This mirrors `roadmap-decompose`'s in-place note-update discipline and
 avoids duplicating the impl entry or orphaning its spec note.
 
 **Numbering:** apply `roadmap-engine`'s split sub-numbering rule (and its flat

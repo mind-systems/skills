@@ -134,7 +134,8 @@ it stays in context once loaded; never re-invoke it per entry or per mode.
   entry before its contract line is written. The engine does not define or require
   one.
 - **(c) Target-file routing** — which file the flow reads and writes (`$TARGET_FILE`).
-  The engine never infers this; the caller resolves it before Step 0 runs.
+  The engine never infers this; the caller resolves it before Step 0 runs (per the
+  `## Named roadmaps` resolution order).
 - **(d) Extra update-mode actions** — the caller may register actions beyond the
   built-in menu (review progress / add / reprioritize).
 

@@ -41,7 +41,7 @@ the stage did not pass.
 ## 3. Sidecar fields
 
 `planner`, `implementer` (resumable session ids), `step` (resume point — the closed
-set and its artifact requirements live in `milestone-rescue`, its only writer),
+set and its artifact requirements live in `milestone-rescue`, its only skill-side writer),
 `elapsed` (seconds, cumulative).
 
 ## 4. Committed ⇔ completed
