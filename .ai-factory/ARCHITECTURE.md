@@ -46,8 +46,11 @@ A philosophy skill invokes an engine for mechanism; the engine holds no policy a
 
 ## Features (roadmap-prune v2)
 
-No feature rows accumulate here: this repo's features are the skills themselves, enumerated under `src/` with per-file git history. The table holds only the prune ledger — one snapshot hash per prune, the last intact roadmap before it.
+This repo's features are mostly the skills themselves, enumerated under `src/` with per-file git history — those accumulate no rows here. The table records the cross-cutting foundations that are not any single skill, plus the prune ledger.
 
 | Feature | Hashes |
 |---------|--------|
-| Roadmap drop history | 2d2f3f6 |
+| **Foundation** | |
+| Reserved-words language — the semantic contract every skill body, `description:`, roadmap, and spec is written in; specified in `docs/reserved-words.md` (+ `docs/skill-description-field.md`, how it loads) and mandated from the root CLAUDE.md. Codebase conformance in flight (roadmap phases 9–14 extend this row as they land). | a379ac9 |
+| **Internal** | |
+| Roadmap drop history | 2d2f3f6, 902f7d9 |
