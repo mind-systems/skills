@@ -13,6 +13,7 @@ When the project has `.ai-factory/ROADMAP.md`, it is the entry map of **time**: 
 ## Documentation style
 
 - **Describe behavior, not code.** Docs explain what a feature does and how it works — not list methods, fields, event types, or endpoint tables. That's just copying the code.
+- **Comments never cite the plan layer.** No code or test comment carries a phase/note number, a `ROADMAP`/`Plan` reference, or an `.ai-factory/` path.
 - **No file/directory trees.** The only place a directory tree belongs is in ARCHITECTURE.md as a module template. Everywhere else — never.
 - **Match the language of existing docs.** Before writing or editing a doc file, check what language neighboring docs use and match it — even if project instructions say otherwise.
 - **No README documentation table.** The documentation index belongs in the project's CLAUDE.md, not in README.md.
