@@ -7,7 +7,7 @@ description: >-
   Caller-agnostic: holds no decomposition philosophy of its own. Load-once.
 user-invocable: false
 disable-model-invocation: false
-allowed-tools: Read Skill
+allowed-tools: Read Write Edit Glob Grep Bash(git *) Skill
 loads: note
 ---
 
