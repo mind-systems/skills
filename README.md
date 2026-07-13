@@ -27,7 +27,7 @@ If a project needs custom skills alongside the generic ones, place them in `.cla
 
 ## Structure
 
-Our skills live under `src/skills/`; a pristine mirror of upstream `lee-to/ai-factory` lives under `upstream/ai-factory/` (refresh with `scripts/sync-upstream.sh`); `active/` symlinks the curated working set. Each skill is a directory containing a `SKILL.md` (frontmatter + instructions) and optional `references/`, `scripts/`, and `templates/` subdirectories.
+Our skills live under `src/skills/` (commands under `src/commands/`, agent definitions under `src/agents/`); a pristine mirror of upstream `lee-to/ai-factory` lives under `upstream/ai-factory/` (refresh with `scripts/sync-upstream.sh`); `active/` symlinks the curated working set. Each skill is a directory containing a `SKILL.md` (frontmatter + instructions) and optional `references/`, `scripts/`, and `templates/` subdirectories.
 
 ## Adding Skills
 

@@ -21,7 +21,7 @@ This repo produces skills. A skill is a directory with a `SKILL.md` at its root.
 
 The repo also hosts slash commands under `src/commands/` (e.g. `command-handoff`), and an agent-definitions category under `src/agents/` (the `editor` paired-loop subagent; its architect counterpart is the `agent-architect` skill living in `src/skills/`) — parallel to `src/skills/` and `src/commands/`.
 
-Three zones keep provenance clean: `src/` holds skills, commands, and agent skills we authored or reworked; `upstream/ai-factory/` is a pristine mirror of `lee-to/ai-factory` (refreshed by `scripts/sync-upstream.sh`, never hand-edited); `active/` is the curated working set — per-item symlinks into `src/` or `upstream/` — and is the only layer `~/.claude/skills` and `~/.claude/commands` point at.
+Three zones keep provenance clean: `src/` holds skills, commands, and agent skills we authored or reworked; `upstream/ai-factory/` is a pristine mirror of `lee-to/ai-factory` (refreshed by `scripts/sync-upstream.sh`, never hand-edited); `active/` is the curated working set — per-item symlinks into `src/` or `upstream/` — and is the only layer `~/.claude/skills`, `~/.claude/commands`, and `~/.claude/agents` point at.
 
 ## Dependency model
 
