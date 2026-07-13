@@ -95,9 +95,11 @@ Read the target ROADMAP.md in full — do not start grouping until you have read
 Count all `[x]` tasks. The pruning slice is **all `[x]` tasks** — every completed
 task is pruned by default.
 
-The only exception is a `[x]` line the user explicitly names for retention — at
-invocation or at the confirmation step. Absent such an explicit instruction, prune
-every `[x]` task; the history is preserved in git and ARCHITECTURE.md.
+The only exception is a `[x]` line the user explicitly names for retention at
+invocation. Absent such an explicit instruction, prune every `[x]` task; the history
+is preserved in git and ARCHITECTURE.md. The run's end — all changes left in the
+working tree before the on-request commit (see Commit, below) — is an informal
+second chance to catch a task that should have been kept, not a formal gate.
 
 ---
 
@@ -357,7 +359,7 @@ Before finishing, verify:
   ```
 - ROADMAP.md has no orphaned `[x]` tasks (all checked items are either deleted
   or explicitly kept by the user)
-- The Milestones section still reads coherently without the pruned tasks
+- The task-holding sections still read coherently without the pruned tasks
 
 ---
 
