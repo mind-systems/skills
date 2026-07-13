@@ -2,9 +2,9 @@
 
 Phase 13 of the Language-integration direction. Two moves on `src/global/CLAUDE.md`, one file, one context (make the most-loaded discipline file both *correct* and *current*): **Part 1** the docs-lead-code doctrine from [handoff 17](../handoffs/17-docs-are-tz-must-lead-code.md), **Part 2** the reserved-words vocabulary conformance the global file itself still lacks. The global file is the most authoritative always-loaded surface in the environment — it must speak the language it defines.
 
-## Part 1 — the doctrine (proposed wording; ratify before it lands)
+## Part 1 — the doctrine (wording ratified — land verbatim)
 
-Two rules make agents treat every doc as a *lagging description of existing code*, so an agent refuses to write a **planned** capability into a live doc (the live incident). The fix recognizes **two doc modes** — a `governing-spec` that *leads* code, and a description that *lags* it — and scopes the "current state only" / "code overrides docs" rules to the description mode. This is not a retreat from grounding; it is the same two-axis scoping already in `reserved-words.md` (`governing-spec` = what must be, `ground-truth` = what is), raised into the global file. **These are the most load-bearing sentences in the environment — the wording below is a proposal.**
+Two rules make agents treat every doc as a *lagging description of existing code*, so an agent refuses to write a **planned** capability into a live doc (the live incident). The fix recognizes **two doc modes** — a `governing-spec` that *leads* code, and a description that *lags* it — and scopes the "current state only" / "code overrides docs" rules to the description mode. This is not a retreat from grounding; it is the same two-axis scoping already in `reserved-words.md` (`governing-spec` = what must be, `ground-truth` = what is), raised into the global file. **These are the most load-bearing sentences in the environment — the wording below is ratified; land Edits A/B/C verbatim.**
 
 **Current offending text:**
 - § Documentation style: "**Describe current state only.** Never reference what was changed, removed, or added. No "X was replaced", "Y was added". History belongs in commit messages."
@@ -40,7 +40,7 @@ The global CLAUDE.md still spells the old vocabulary; conform it (kebab reserved
 
 - **Preserve intact:** the read-down-the-reference-chain discipline (para 1), held-context-decays (para 3), the roadmap time-map / `[x]`-is-history paragraph (para 4), and the § Documentation style bullets "Describe behavior, not code", "Comments never cite the plan layer", "Docs form a walkable tree". The doctrine touches *doc-vs-code primacy* only; the walk mechanics are orthogonal and stay.
 - **Not a retreat from grounding.** Code still wins over a *stale description*, and to know what the system *does now* you still reach the code leaf. The only thing added: a governing-spec of not-yet-built behavior is authoritative and legitimately terminates at the doc.
-- **Vocabulary is mechanical, doctrine is a proposal.** Part 2 renames tokens with zero meaning change; Part 1's wording is the delicate part to ratify. Casing lowercase kebab even at a sentence start (`ground-truth (code…) overrides…`).
+- **Vocabulary is mechanical, doctrine is ratified.** Part 2 renames tokens with zero meaning change; Part 1's wording is ratified — land Edits A/B/C verbatim, no re-litigation. Casing lowercase kebab even at a sentence start (`ground-truth (code…) overrides…`).
 - **Named-roadmap doctrine sentence** (para 4, "Named roadmaps under `.ai-factory/roadmaps/`…") — the token `named-roadmap` conforms; the sentence's meaning is untouched.
 - No skill behavior changes; verified by re-reading, not by a run.
 
