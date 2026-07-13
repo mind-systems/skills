@@ -10,16 +10,16 @@
 
 ## Read first — the philosophy source (mandatory, before touching anything)
 
-1. `~/projects/skills/docs/context-tree.md`
-2. `~/projects/skills/docs/skill-pyramid.md`
-3. `~/projects/skills/docs/skill-composition-model.md`
+1. `~/projects/skills/docs/philosophy/context-tree.md`
+2. `~/projects/skills/docs/philosophy/skill-pyramid.md`
+3. `~/projects/skills/docs/philosophy/skill-composition-model.md`
 4. `~/projects/skills/src/global/CLAUDE.md` — §§ "Grounding claims", "Documentation style", "Project CLAUDE.md authoring"
 
 Then raise the target's tree per that philosophy: the tradeoxy root `CLAUDE.md`, every subrepo `CLAUDE.md`, and — down the named edges — the first layer of docs/code each names, deeper wherever a claim must be verified.
 
 ## Grove entry checks (run before the pass)
 
-A project family is a **grove**, not a tree: separate git repos, each leaf CLAUDE.md committed and published with its own repo, under a coordination root (`~/projects/skills/docs/context-grove.md` is the model's home). The four operations below are defined on a tree; the grove adds entry checks:
+A project family is a **grove**, not a tree: separate git repos, each leaf CLAUDE.md committed and published with its own repo, under a coordination root (`~/projects/skills/docs/philosophy/context-grove.md` is the model's home). The four operations below are defined on a tree; the grove adds entry checks:
 
 - **Topology:** confirm the family shape — separate git repos under the root directory (true for tradeoxy).
 - **Hoist premise — the layout guarantee.** Hoist, and deleting leaf-side duplicates of root facts, is licensed only because the root trunk reaches every leaf session *mechanically*: (a) the harness parent-loads CLAUDE.mds up the directory tree across git-repo boundaries — verify live once (open a session under a leaf; the root CLAUDE.md must be in context); (b) the family layout is **guaranteed** — the root `README` § Setup carries the agent-facing instruction: check out the exact directory structure and switch every repo to its freshest branch automatically (tradeoxy's README already mandates the tree; relative proto/build paths depend on it). This guarantee is a universal invariant of our multi-repo families; **if the README instruction is missing or incomplete, establish it during the pass** — the root README is an edit target for exactly this one section, mirroring the structure the other families use.
