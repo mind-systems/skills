@@ -363,6 +363,32 @@ Before finishing, verify:
 
 ---
 
+## Step 7.5 — Plan-layer citation scan (report-only)
+
+Report-only — never gates, never edits, never blocks; distinct from the Step 0 gate, which
+does. This scan never touches the roadmap, specs, or `## Features`, and its outcome never
+affects whether the prune proceeds.
+
+1. Anchor at the target repo root — the same anchor Step 5 derives (the parent of the
+   `.ai-factory/` directory the target ROADMAP.md lives in).
+2. Scope: the repo tree under that root, excluding `.ai-factory/` and `.git/`.
+3. Grep (read-only) for citation shapes: `Phase [0-9]`, `note [0-9]{2}`,
+   `\.ai-factory/(specs|notes)`, `ROADMAP`, `Plan [0-9]`. The invocation below is
+   guidance, not contract — the pattern set is the contract; flags may be adjusted per
+   platform as long as the scan stays read-only, repo-root-anchored, with the two excludes:
+   ```bash
+   grep -rInE "Phase [0-9]|note [0-9]{2}|\.ai-factory/(specs|notes)|ROADMAP|Plan [0-9]" \
+     <target repo root> --exclude-dir=.ai-factory --exclude-dir=.git
+   ```
+4. Capture each hit as `<file>:<line> — <matched text>` for the Step 8 echo below. False
+   positives are acceptable — this is a heads-up at the number-reuse moment, not a proof.
+
+*Legacy-removable:* once every consuming repo reads clean of plan-layer citations, this scan
+can be deleted — or kept as a cheap standing regression net; the decision is deliberately
+deferred.
+
+---
+
 ## Step 8 — Summary report
 
 List the dirs swept in Step 5 — the flat three dirs (plus flat `test-runs/` in tests
@@ -376,6 +402,10 @@ unharvested margins" heading, one entry per source file. Do not re-scan
 only reports what Step 0 captured before the sweep. Free-form prose has no entry line
 to pin; this never affects the Step 0 gate. If Step 0 captured nothing, omit the
 heading.
+
+Report-only, never gates: echo the hits captured by Step 7.5 under a "possible plan-layer
+citations" heading, one `<file>:<line> — <matched text>` line per hit. This echo never
+gates and never affects the Step 0 gate. If Step 7.5 captured nothing, omit the heading.
 
 ---
 
