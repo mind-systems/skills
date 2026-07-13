@@ -254,7 +254,7 @@ break prefix-matching. For each feature:
 - If the feature already exists → append the new hash to its Hashes cell (space-separated).
 - If the feature does not exist → add a new row with the hash from Step 3.
 
-For the drop history row: find or create it at the bottom of the Features table and append exactly the Step-4.1 snapshot hash (one per prune run), comma-separated.
+For the drop history row: find or create it at the bottom of the Features table. Guard before appending: if the row already exists and its **last** hash already equals the current Step-4.1 snapshot hash, skip the append and report it (e.g. "snapshot already ledgered — uncommitted re-run") — compare against the **last** hash only, never a whole-row scan, because two distinct prunes always have a commit between them so their snapshots differ. Otherwise append exactly the Step-4.1 snapshot hash (one per prune run), comma-separated.
 
 Follow the table format and grouping rules from Step 2.2. Additional rules:
 
