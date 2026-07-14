@@ -2,15 +2,33 @@
 
 Generic AI Factory skills available globally to all projects via Claude Code's personal skill scope.
 
-## Setup (one-time, per machine)
+## Setup — activating the package (one-time, per machine)
 
-```bash
-ln -s ~/projects/skills/active/skills ~/.claude/skills
-ln -s ~/projects/skills/active/commands ~/.claude/commands
-ln -s ~/projects/skills/active/agents ~/.claude/agents
-```
+*This section is addressed to the agent reading it on a fresh checkout.* Activating the package means pointing `~/.claude` at this repo's `active/` layer. The user may already keep their own global config there, so **do not run this silently** — walk them through it one surface at a time and let them choose per surface.
 
-`~/.claude` points at `active/` — the curated working set. `active/skills/`, `active/commands/`, and `active/agents/` hold per-item symlinks into `src/` (ours) or `upstream/ai-factory/` (upstream originals we use), so only skills actually in use are loaded, not every skill that exists.
+Four surfaces under `~/.claude`, each with a target in `active/`:
+
+| `~/.claude` surface | target in this repo |
+|---|---|
+| `CLAUDE.md` | `active/CLAUDE.md` (→ `src/global/CLAUDE.md`) |
+| `skills/` | `active/skills/` |
+| `commands/` | `active/commands/` |
+| `agents/` | `active/agents/` |
+
+For each surface, detect its current state (`readlink`/`test`) and act:
+
+- **absent** — create the symlink to our target. Clean, no question.
+- **already ours** (resolves back into this repo) — skip; the flow is idempotent.
+- **the user's own file or directory** — stop and ask which of three they want:
+  - **replace** — back theirs up (`mv <path> <path>.pre-sakshi.bak`), then symlink ours;
+  - **keep theirs** — skip this surface entirely, leave ours unlinked;
+  - **merge** — coexist, and *how* depends on the surface's kind:
+    - `CLAUDE.md` is a single file → leave theirs a real file and append an import line `@<abs>/active/CLAUDE.md` to its tail (both sets of instructions load);
+    - `skills/` `commands/` `agents/` are directories of independent items → leave theirs a real directory and link our items into it one by one (`ln -sfn <abs>/active/<kind>/<item> ~/.claude/<kind>/<item>`), asking on any name collision.
+
+The whole flow is idempotent (a second run is all-skips) and reversible (our links resolve back into this repo; a replaced original sits beside its symlink as `*.pre-sakshi.bak`).
+
+`~/.claude` points at `active/` — the curated working set: `active/skills/`, `active/commands/`, and `active/agents/` hold per-item symlinks into `src/` (ours) or `upstream/ai-factory/` (upstream originals we use), so only skills actually in use are loaded, not every skill that exists.
 
 ## Project-specific skills
 

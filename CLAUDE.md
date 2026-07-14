@@ -23,7 +23,7 @@ This is a meta-repo: its product is skills, not application code.
 
 ### The language — read first
 
-The whole package is written in one semantic vocabulary; read its specification before anything else. This pair is the tech stack — everything below is written in it.
+The whole package is written in one semantic vocabulary — the tech stack everything below is written in. These two docs are its home:
 
 - **[Reserved words](docs/reserved-words.md)** — the semantics of the sakshi language: the fixed set of reserved words (phase, task, contract-line, task-spec, seam, engine, lens, skill-description, skill-description-field, prune, …), their single canonical forms (multi-word terms kebab-cased like Claude's own `allowed-tools`), and the one-word-one-meaning contract binding everything the system *produces* (not the user's input, which the agent maps by context). English reference lexicon; each entry points to the term's one home, indexing forms, never re-homing facts.
 - **[skill-description-field](docs/skill-description-field.md)** — how that vocabulary loads: the always-loaded `description:` skill-descriptions as one continuous skill-description-field (part of the system prompt), read as knowledge not a router index; coherent vocabulary at an even abstraction-level focuses behavior (flows self-run, a skill's actions performed without invoking it); weight through vocabulary-repetition vs the one-home fact; the skill-description-field is always-loaded description that never replaces the walk to the leaf.
