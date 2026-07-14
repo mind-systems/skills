@@ -22,8 +22,8 @@ Phase 9 of the Language-integration direction. Governing spec: [reserved-words](
 
 **`orchestrator-artifacts` (84 lines)**:
 - `spec note` → **`task-spec`**: line 68.
-- `PASS signal` → **`PASS-signal`**: line 5.
-- `Deferred observations` → **`deferred-observations`**: lines 5, 53.
+- `PASS signal` → **`PASS-signal`**: line 5 (prose; the `PLAN_REVIEW_PASS` / `REVIEW_PASS` literals stay).
+- `Deferred observations`: lines 5, 53 are the literal `## Deferred observations` protocol heading (backticked) — **leave** (shared cross-repo token; see Guards). No prose occurrence to conform.
 - `named roadmap` → **`named-roadmap`**: line 27.
 - `milestone` (the processed unit) → **`task`**: lines 49 ("a milestone's artifacts together with the milestone" → a task's… the task), 73 ("that milestone's" → that task's).
 - **email**: lines 28, 29 `kg-wmservice` → `john-doe`.
@@ -42,6 +42,7 @@ Rename each token above to its canonical reserved-word form per `reserved-words.
 - **Skill names are not renamed in this phase.** `roadmap-prune`, `roadmap-engine`, etc. stay exactly; only the bare word `milestone` denoting the roadmap unit → `task`. In `orchestrator-artifacts` lines 7 and 44 the string "milestone" is inside the skill names `milestone-rescue` / `milestone-rescue-audit` — **leave them here**: Phase 11 renames those two skills to `task-rescue` / `task-rescue-audit` and updates this reference in the same pass.
 - **`loads:` edges + reverse-graph markers byte-identical.** This task is vocabulary-only; the dependency graph (`loads: note`, `loads: orchestrator-artifacts roadmap-engine`, etc.) and the "load-once engine, callers found by grep" marker in each body are not touched.
 - **Tags stay legacy.** The on-disk `` Spec: `` tag, a `Governing spec:` header tag, and the `.ai-factory/specs/` directory are structural — never renamed (tag ≠ reserved word).
+- **Protocol literals stay legacy (cross-repo shared surface).** The literal heading `## Deferred observations` and the entry line `- Affects: …` are a joint protocol the orchestrator's `reviewer.md` **emits** and this skill **scans** — same class as the `PLAN_REVIEW_PASS` / `REVIEW_PASS` PASS-signal literals. Leave them byte-identical; conform only prose that names the `deferred-observations` reserved word. A one-sided rewrite silently breaks the scan (see [handoff 21](../handoffs/21-review-file-protocol-is-shared-conform-in-lockstep.md)).
 - **Generic `field`/`fields` left.** Every `field`/`fields` occurrence above is a data-field, not the `skill-description-field` reserved word.
 - **Casing:** reserved words are lowercase kebab even in a heading or at sentence start (`two-tier`, `silent-failure`, `named-roadmap`, `owner-line`) — consistent with the docs sweep already committed.
 - **Behavior-baseline:** each engine's behavior byte-identical. A live run of a caller that renders through `roadmap-engine` (e.g. a `roadmap-decompose` pass) must produce the same two-tier artifact shape pre/post — a rename that changes output is a bug, not a conformance.
@@ -49,7 +50,8 @@ Rename each token above to its canonical reserved-word form per `reserved-words.
 
 ## Verification
 
-- `grep -inE 'spec note|contract line|PASS signal|deferred observ|owner line|named roadmap' src/skills/{note,roadmap-engine,test-philosophy,orchestrator-artifacts}/SKILL.md` → zero.
+- `grep -inE 'spec note|contract line|PASS signal|owner line|named roadmap' src/skills/{note,roadmap-engine,test-philosophy,orchestrator-artifacts}/SKILL.md` → zero (`deferred observ` excluded — the literal `## Deferred observations` heading is a preserved protocol token).
+- `grep -c '## Deferred observations' src/skills/orchestrator-artifacts/SKILL.md` → unchanged pre/post (protocol literal preserved).
 - `grep -in 'kg.wmservice\|kg-wmservice' src/skills/{roadmap-engine,orchestrator-artifacts}/SKILL.md` → zero.
 - `grep -inE '[^-]milestone' src/skills/orchestrator-artifacts/SKILL.md` → only the skill names `milestone-rescue` / `milestone-rescue-audit`.
 - `grep -inE 'Silent-Failure|Loud-failure|Two-Tier' src/skills/{test-philosophy,roadmap-engine}/SKILL.md` → zero (all lowercased).
