@@ -52,7 +52,7 @@ work.
 
 ## 5. `## Deferred observations` section
 
-Present in both review genres. Entry: `- Affects: <phase / spec-note path /
+Present in both review genres. Entry: `- Affects: <phase / task-spec path /
 "unknown"> — <observation>`. The section may be absent. Entries are non-findings —
 a review with only them still passes. The reviewer never writes or imitates status
 markers — the field after the observation text is reserved for downstream tools.
