@@ -1,25 +1,25 @@
 # Using the language — where it binds, where it is only vocabulary
 
-Two companion docs precede this one: [reserved-words](reserved-words.md) is the lexicon — the words and their meanings; [skill-description-field](skill-description-field.md) is how the language loads as always-present context. This one is **where the language applies** — the discipline that keeps a real contract from curdling into style-policing.
+Two companion docs precede this one: [reserved-words](reserved-words.md) is the lexicon — the words and their meanings; [skill-description-field](skill-description-field.md) is how the vocabulary loads as always-present context. This one is **where the vocabulary applies** — the discipline that keeps a real contract from curdling into style-policing.
 
-The reserved-words language is a **contract on the product we author**, not a purity rule over every text the system touches. It answers three questions: what conforms, what does not, and the one rule that keeps the two apart.
+The reserved-words vocabulary is a **contract on the product we author**, not a purity rule over every text the system touches. And it is a contract on **word choice, never on spelling**: what it fixes is which name a concept goes by — a term's typography is ordinary English, and no text is swept for it. It answers three questions: what conforms, what does not, and the one rule that keeps the two apart.
 
 ## What conforms
 
-The language binds what we ship and what is always loaded as the system's own contract:
+The vocabulary binds what we ship and what is always loaded as the system's own contract:
 
 - **skill bodies** — every `SKILL.md`, the executable instructions themselves.
-- **skill-descriptions** — the `description:` fields, read as one always-loaded [skill-description-field](skill-description-field.md).
+- **skill descriptions** — the `description:` fields, read as one always-loaded [skill-description-field](skill-description-field.md).
 - **the docs that specify the system** — [reserved-words](reserved-words.md), [skill-description-field](skill-description-field.md), this file, the philosophy docs, and the discipline in the global CLAUDE.md.
 
-Here conformance is real: sweep the vocabulary, hold one word to one meaning, verify. Drift here is drift in the product — read on every run.
+Here conformance is real, and it is conformance of naming: each concept goes by its registry name — no synonyms, no repurposing. It is not conformance of form: "contract line" and "contract-line" are the same word, and a hyphen or a capital is never a defect. Drift here — a second name creeping in for one concept, or one name quietly meaning two things — is drift in the product, read on every run.
 
 ## What does not conform
 
 Ordinary language — written once, read in context, never part of the shipped contract:
 
 - **runtime artifacts the pipeline produces** — plans, plan-reviews, reviews. The orchestrator writes these while working; they are working communication, not a surface of the language.
-- **the free prose inside an individual roadmap or task-spec** — a contract-line or a spec is authored per task and read by whoever picks it up; draw on the vocabulary where it sharpens, never scrub the sentence around it.
+- **the free prose inside an individual roadmap or task spec** — a contract line or a spec is authored per task and read by whoever picks it up; draw on the vocabulary where it sharpens, never scrub the sentence around it.
 - **what the system reads** — user input is mapped by context, never conformed. A user types "milestone"; the agent understands.
 
 The vocabulary is *available* in all of these to make them precise. It is never a constraint imposed on them.
@@ -32,4 +32,4 @@ The vocabulary is *available* in all of these to make them precise. It is never 
 
 ## Protocol tokens are a different axis
 
-A string a program **scans or emits** — the review heading `## Deferred observations`, the entry line `- Affects: …`, the PASS-signal literals `PLAN_REVIEW_PASS` / `REVIEW_PASS`, the on-disk `Spec:` tag — is **mechanism, not vocabulary**. It stays byte-identical wherever it is produced and consumed, because code depends on the exact characters. The reserved word (`deferred-observations`, `PASS-signal`) lives in the prose *about* the token; the literal token itself is left alone. Across repos this is a joint contract: a token the orchestrator emits and a skill scans changes only in lockstep, or not at all.
+A string a program **scans or emits** — the review heading `## Deferred observations`, the entry line `- Affects: …`, the PASS signal literals `PLAN_REVIEW_PASS` / `REVIEW_PASS`, the on-disk `Spec:` tag — is **mechanism, not vocabulary**. It stays byte-identical wherever it is produced and consumed, because code depends on the exact characters. Skill and directory names (`milestone-rescue`), file paths, and frontmatter fields (`loads:`, `description:`) sit on the same axis — names a machine resolves. The reserved word (deferred observations, PASS signal) lives in the prose *about* the token; the literal token itself is left alone. Across repos this is a joint contract: a token the orchestrator emits and a skill scans changes only in lockstep, or not at all.
