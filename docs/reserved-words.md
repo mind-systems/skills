@@ -8,7 +8,7 @@ The rule is bidirectional: **one meaning, one word** — a concept is never name
 
 A term takes a qualifier only when the qualifier does work — resolving a collision ("spec" → "task spec" / "governing spec") or telling apart members of a family sharing a stem ("skill description" / "skill description field"). A word already unambiguous within the set stays single (leaf, map, walk, seam); length is spent only where it buys disambiguation.
 
-**Fixed-form strings are a different axis.** Names a machine resolves — skill and directory names (`milestone-rescue`), file paths, frontmatter fields (`loads:`, `description:`), and the protocol tokens a program scans (`PLAN_REVIEW_PASS`, `## Deferred observations`) — are identifiers, not vocabulary: they stay byte-exact because code depends on the characters, whatever the surrounding prose does. The discipline is in [using-the-language](using-the-language.md) § "Protocol tokens are a different axis".
+**Fixed-form strings are a different axis.** Names a machine resolves — skill and directory names (`task-rescue`), file paths, frontmatter fields (`loads:`, `description:`), and the protocol tokens a program scans (`PLAN_REVIEW_PASS`, `## Deferred observations`) — are identifiers, not vocabulary: they stay byte-exact because code depends on the characters, whatever the surrounding prose does. The discipline is in [using-the-language](using-the-language.md) § "Protocol tokens are a different axis".
 
 The registry is not a second home for meanings. It fixes the **name** of a concept — which must recur — and points to the name's one home, where the fact is defined; it indexes names, it never re-homes facts. This is the vocabulary rule applied to the vocabulary itself: reinforce the word, never copy the fact.
 

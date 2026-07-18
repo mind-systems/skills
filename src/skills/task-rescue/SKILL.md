@@ -1,5 +1,5 @@
 ---
-name: milestone-rescue
+name: task-rescue
 description: >-
   Reads failed orchestrator artifacts (plans, plan-reviews, code reviews),
   diagnoses how deep the root cause reaches, repairs to that depth (spec / spec+plan /
@@ -148,7 +148,7 @@ in complete sentences. One short paragraph per review round is the natural shape
 single-round failure may be a single paragraph. Length scales with the number of
 rounds — never compress a multi-round chain to fit a sentence budget. Weave reviewer
 findings from the recurring rounds (2+) into the narrative as quotes or paraphrases, as
-evidence. This narrative register is shared with `milestone-rescue-audit`'s output —
+evidence. This narrative register is shared with `task-rescue-audit`'s output —
 change it in both files or neither.
 
 No tables, no fragment-style bullet lists inside the Diagnosis Report — the causal
@@ -436,8 +436,8 @@ flag. Pin at the moment of the judgment — routing or dismissal — not at sess
 
 Rescue still does not corroborate a finding against a root-cause chain
 (`[audit-corroborated]`) or sweep unrouted entries (`[unrouted-reported]`) — those
-stay `milestone-rescue-audit`'s. Entries rescue never evaluated this session stay
-unmarked, left for `milestone-rescue-audit` prune mode.
+stay `task-rescue-audit`'s. Entries rescue never evaluated this session stay
+unmarked, left for `task-rescue-audit` prune mode.
 
 ---
 
@@ -473,4 +473,4 @@ unmarked, left for `milestone-rescue-audit` prune mode.
   observation rescue did not actually evaluate this session. Rescue pins only what it
   disposed of — `[promoted → <path>]` for what it routes, `[audit-dismissed]` for what
   it evaluates and finds moot; corroborating against a root-cause chain and sweeping
-  unrouted entries stay `milestone-rescue-audit`'s
+  unrouted entries stay `task-rescue-audit`'s

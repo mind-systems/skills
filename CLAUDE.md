@@ -33,7 +33,7 @@ The whole package is written in one semantic vocabulary — the tech stack every
 
 | Doc | What it covers |
 |-----|----------------|
-| [Skill cycle](docs/philosophy/skill-cycle.md) | How the package is used over one project cycle — idea → `roadmap-outline` (phases) → `aif-docs` (ТЗ as the phase's `Governing spec:`) → `roadmap-decompose` (∥ ТЗ amended) → `agent-architect` pass → `roadmap-decompose-skeleton` (feedback edge: skeleton surfaces spec holes → ТЗ edits) → `command-pin-gaps` → orchestrator → `milestone-rescue`/`-audit` → `roadmap-test-coverage` → `roadmap-prune` → final `aif-docs` verification pass. Descriptive sequence (Russian), the authoritative home of the order; the composition model covers the mechanism. |
+| [Skill cycle](docs/philosophy/skill-cycle.md) | How the package is used over one project cycle — idea → `roadmap-outline` (phases) → `aif-docs` (ТЗ as the phase's `Governing spec:`) → `roadmap-decompose` (∥ ТЗ amended) → `agent-architect` pass → `roadmap-decompose-skeleton` (feedback edge: skeleton surfaces spec holes → ТЗ edits) → `command-pin-gaps` → orchestrator → `task-rescue`/`-audit` → `roadmap-test-coverage` → `roadmap-prune` → final `aif-docs` verification pass. Descriptive sequence (Russian), the authoritative home of the order; the composition model covers the mechanism. |
 | [Skill composition model](docs/philosophy/skill-composition-model.md) | The mechanism/policy model for authoring skills — engine vs philosophy, the context-cost of abstraction, when to extract a skill. Narrative explainer (Russian); the normative rule lives in `.ai-factory/ARCHITECTURE.md` → "Composition: mechanism vs policy". |
 | [Skill pyramid](docs/philosophy/skill-pyramid.md) | The macro-shape of the skill graph — tiny authoritative top-level lenses over expanding engines, the CLAUDE.md analogy, hook-encoded authority (caller overrides engine defaults), the funnel of the whole family into `note`, domains as engine-trunks derived from `loads:`, and folder-carried style. Narrative explainer (Russian); the composition model covers one edge, this covers the shape the repeated rule produces. |
 | [Context tree](docs/philosophy/context-tree.md) | The project's knowledge as one tree — CLAUDE.md the trunk, docs the crown, code the root system, links the edges, the roadmap the time axis (the `[x]`/`[ ]` seam as the entry aim, `[x]` lines as strata with supersession); how a session raises the map at entry and walks a branch to the leaf at the moment of action, why held context decays, and why one-home-per-fact links are the walked edges. Narrative explainer (Russian); the normative rule lives in the global CLAUDE.md § "Grounding claims". |
@@ -54,7 +54,7 @@ skills/
 │   │   ├── roadmap-test-coverage/
 │   │   ├── note/                 #     research-summary note writer
 │   │   ├── test-philosophy/      #     shared silent-failure testing rule
-│   │   ├── milestone-rescue/     #     … and milestone-rescue-audit, detangle,
+│   │   ├── task-rescue/          #     … and task-rescue-audit, detangle,
 │   │   └── …                     #     temporal-tree, observe-logs, aif-docs, aif-plan, ui-ux-pro-max
 │   ├── commands/                 #   slash commands (all ours)
 │   ├── agents/                   #   agent definitions (editor — the paired-loop subagent)
@@ -75,7 +75,7 @@ skills/
 └── README.md
 ```
 
-**The active set** (what `~/.claude` actually loads): our skills — `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `aif`, `aif-architecture`, `aif-docs`, `test-philosophy`, `roadmap-outline`, `observe-logs`, `orchestrator-artifacts`, `agent-architect` — plus one upstream original we use as-is: `aif-skill-generator`. Everything else (our `aif-plan`, `ui-ux-pro-max`; all other upstream skills) is stored but **not** symlinked into `active/`. Adding a skill to the working set = create a symlink under `active/skills/`.
+**The active set** (what `~/.claude` actually loads): our skills — `detangle`, `task-rescue`, `task-rescue-audit`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `aif`, `aif-architecture`, `aif-docs`, `test-philosophy`, `roadmap-outline`, `observe-logs`, `orchestrator-artifacts`, `agent-architect` — plus one upstream original we use as-is: `aif-skill-generator`. Everything else (our `aif-plan`, `ui-ux-pro-max`; all other upstream skills) is stored but **not** symlinked into `active/`. Adding a skill to the working set = create a symlink under `active/skills/`.
 
 Each skill directory contains:
 - `SKILL.md` — required, main instructions (frontmatter + body ≤ 500 lines)
@@ -190,7 +190,7 @@ diff -rq src/skills/aif-architecture upstream/ai-factory/aif-architecture
 diff -rq src/skills/aif-docs upstream/ai-factory/aif-docs
 ```
 
-**Everything else in `src/skills/` is ours** — no upstream counterpart to reconcile, sync never touches it: `detangle`, `milestone-rescue`, `milestone-rescue-audit`, `roadmap-outline`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `test-philosophy`, `observe-logs`, `ui-ux-pro-max`, `agent-architect`. The same holds for `src/agents/` — the `editor` agent definition has no upstream counterpart; a re-sync must never overwrite it.
+**Everything else in `src/skills/` is ours** — no upstream counterpart to reconcile, sync never touches it: `detangle`, `task-rescue`, `task-rescue-audit`, `roadmap-outline`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `test-philosophy`, `observe-logs`, `ui-ux-pro-max`, `agent-architect`. The same holds for `src/agents/` — the `editor` agent definition has no upstream counterpart; a re-sync must never overwrite it.
 
 **`src/commands/`** — all ours, no upstream source, never synced.
 

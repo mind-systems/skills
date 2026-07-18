@@ -1,12 +1,12 @@
 ---
-name: milestone-rescue-audit
+name: task-rescue-audit
 description: >-
   Outside-view audit of a milestone that looped (2–3 rounds at plan-review or
   implement-review) or is a wall-clock outlier — even if it ultimately passed.
   Diagnoses whether convergence came from genuine understanding or from band-aid
   accretion around one structural/spec gap the implementation routed around. Emits
   a diagnosis plus one upstream recommendation to chat only — no files written, no
-  ROADMAP edits. Run right after `milestone-rescue` while artifacts are warm, or
+  ROADMAP edits. Run right after `task-rescue` while artifacts are warm, or
   cold on any looped/outlier task — or in any session, on smell, when you suspect
   the orchestrator stuck crutches around crooked architecture or spaghetti code.
   Trigger phrases: "audit", "convergence audit", "did it converge or band-aid",
@@ -29,7 +29,7 @@ was never named. This audit tells the difference.
 
 The orchestrator artifacts for **one task** — the plan, all plan-reviews (every
 round), implementation diffs or patches, code-reviews (every round), and any final
-state files. When run right after `milestone-rescue` these are already in context.
+state files. When run right after `task-rescue` these are already in context.
 If run cold, locate and read them before Step 1: cold rescue takes an optional slug
 naming the task as `$1`; when no slug arrives, identify the target from the user's
 prose plus a `Glob` over `plan-reviews/`/`reviews/` for the matching
@@ -164,7 +164,7 @@ absence of strong common-root-cause evidence.
 Emit the diagnosis to chat. No files are written and the ROADMAP is never edited.
 
 **Form: a chronological narrative in plain prose** — the same register as
-`milestone-rescue`'s Diagnosis Report. Tell the milestone's story round by round, in
+`task-rescue`'s Diagnosis Report. Tell the milestone's story round by round, in
 complete sentences: what the implementation did, what the review found, what the fix
 changed, and what that fix introduced or revealed next. One short paragraph per round
 is the natural shape; a single-round audit may be a single paragraph. Weave reviewer
