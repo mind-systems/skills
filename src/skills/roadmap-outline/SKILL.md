@@ -1,6 +1,6 @@
 ---
 name: roadmap-outline
-description: Create or update a project roadmap with major milestones. Generates .ai-factory/ROADMAP.md — a strategic checklist of high-level goals. Use when user says "roadmap", "project plan", "milestones", or "what to build next".
+description: Create or update a project roadmap with major phases. Generates .ai-factory/ROADMAP.md — a strategic checklist of high-level goals. Use when user says "roadmap", "project plan", "milestones", or "what to build next".
 argument-hint: "[project vision or requirements]"
 allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion Skill
 loads: roadmap-engine
@@ -37,8 +37,8 @@ One parity carry-over the engine's create flow does not itself hold:
   `AskUserQuestion: <caller phrases this…>` placeholder): *"What are the major goals
   for this project?"*
 
-Links to handoff/spec notes are allowed as plain markdown links inside the intro/
-preamble prose — no formal `Spec:` tag, no invented notes.
+Links to handoffs and task specs are allowed as plain markdown links inside the
+intro/preamble prose — no formal `Spec:` tag, no invented task specs.
 
 ### (b) Per-entry gate
 

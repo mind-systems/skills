@@ -32,7 +32,7 @@ skeleton, TDD, concurrency, ordering/fusion, restraint). Everything reusable is
 delegated to two shared skills, each loaded **once per chat** via the `Skill` tool and
 never re-invoked per task:
 
-- `roadmap-engine` — the shared two-tier artifact format (contract line + spec note)
+- `roadmap-engine` — the shared two-tier artifact format (contract line + task spec)
   that every lens renders its output through.
 - `test-philosophy` — the silent-failure discriminator the TDD lens applies to decide
   what gets a test.
@@ -93,13 +93,13 @@ impl task.
 ### Step 2: Order and fuse
 
 - Default order: **skeleton → TDD → impl**.
-- **Fuse** skeleton + red specs into one "contract" milestone when skeleton:impl is
+- **Fuse** skeleton + red specs into one "contract" task when skeleton:impl is
   **1:1** — interfaces/abstract classes plus red tests over the silent-failure points,
-  in one commit (compiles, has red tests); the impl milestone turns them green. This
+  in one commit (compiles, has red tests); the impl task turns them green. This
   dissolves both the skeleton↔TDD ordering question and the concurrency-contract↔TDD
   overlap (same artifact).
 - **Exception:** when the skeleton is shared across **2+** impl tasks, it becomes its
-  own standalone shared-scaffold milestone, and each impl task gets its own TDD task.
+  own standalone shared-scaffold task, and each impl task gets its own TDD task.
 
 ### Step 3: Deliverability
 
@@ -114,22 +114,22 @@ All outputs — skeleton, TDD, and contract tasks alike — render into the **sa
 source roadmap** the source tasks live in, **never** `ROADMAP_TESTS.md` — even the TDD
 tasks, since they belong to the impl chain (skeleton → TDD → impl), not the test
 roadmap. Ensure `roadmap-engine` is loaded once this chat, then produce the two-tier
-artifact (contract line + spec note) for each resulting task per its format. Target-file
+artifact (contract line + task spec) for each resulting task per its format. Target-file
 selection is this skill's to make (the source roadmap); `roadmap-engine` never infers
 it.
 
 **Disposition of the original task:** the original open task already carries a
-contract line and a `Spec:` note — it becomes the **impl** milestone. Keep its existing
-line and note **in place** (update the note's content to reflect that skeleton/tests
-are now separate milestones); do not render a second contract line or a new note for
-it. **Insert** the new skeleton/TDD/contract milestones immediately **before** it in
-the source roadmap. This mirrors `roadmap-decompose`'s in-place note-update discipline and
-avoids duplicating the impl entry or orphaning its spec note.
+contract line and a `Spec:`-tagged task spec — it becomes the **impl** task. Keep its existing
+line and task spec **in place** (update the task spec's content to reflect that skeleton/tests
+are now separate tasks); do not render a second contract line or a new task spec for
+it. **Insert** the new skeleton/TDD/contract tasks immediately **before** it in
+the source roadmap. This mirrors `roadmap-decompose`'s in-place task-spec-update discipline and
+avoids duplicating the impl entry or orphaning its task spec.
 
 **Numbering:** apply `roadmap-engine`'s split sub-numbering rule (and its flat
-fallback) to number the inserted milestones, in this skill's chain order —
+fallback) to number the inserted tasks, in this skill's chain order —
 skeleton → TDD/contract → … — with the in-place original impl line as the last
-child `N.M.k`; its contract-line text and `Spec:` note tag stay unchanged.
+child `N.M.k`; its contract-line text and `Spec:` tag stay unchanged.
 
 ## Critical Rules / What NOT to do
 

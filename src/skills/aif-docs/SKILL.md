@@ -67,7 +67,7 @@ Record each file, its size, and a brief summary of its content. This list is use
 
 ### Step 1: Determine Current State
 
-Determine the subject to document — behavior, invariants, protocols, data flows, and connections. Where the code exists, read it and treat it as the referent. Where it does not yet exist, treat the doc itself as the contract: gather the target behavior from the stated user intent, spec note, or ROADMAP milestone if one is discoverable, and write it in present tense as if it already ships. Then check what documentation already exists:
+Determine the subject to document — behavior, invariants, protocols, data flows, and connections. Where the code exists, read it and treat it as the referent. Where it does not yet exist, treat the doc itself as the contract: gather the target behavior from the stated user intent, task spec, or ROADMAP phase if one is discoverable, and write it in present tense as if it already ships. Then check what documentation already exists:
 
 ```
 State A: No README.md                        → Full generation (README + docs dir)
