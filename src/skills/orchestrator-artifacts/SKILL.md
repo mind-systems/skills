@@ -25,10 +25,10 @@ plan + `<seq>-<slug>.json` sidecar), `plan-reviews/` (`<seq>-<slug>-plan-review-
 `reviews/` (`<seq>-<slug>-review-N.md`). Test mode adds `test-runs/` (`<seq>-<slug>-test-N.txt`)
 and roots at `ROADMAP_TESTS.md`. This flat layout is for the default pair
 (`ROADMAP.md`/`ROADMAP_TESTS.md`); a named roadmap's artifacts live under a
-subdirectory keyed by its roadmap file stem — `roadmaps/kg-wmservice.md` →
-`plans/kg-wmservice/…`, same stem segment under `plan-reviews/`, `reviews/`,
+subdirectory keyed by its roadmap file stem — `roadmaps/john-doe.md` →
+`plans/john-doe/…`, same stem segment under `plan-reviews/`, `reviews/`,
 `test-runs/`. `<seq>` is assigned by the orchestrator at plan time and is not
-recoverable from a roadmap line; `N` is the round number — files in round order are
+recoverable from a contract line; `N` is the round number — files in round order are
 the finding→fix history. Numbering is per-directory — each subdirectory carries its
 own `<seq>` axis.
 
@@ -46,7 +46,7 @@ set and its artifact requirements live in `task-rescue`, its only skill-side wri
 
 ## 4. Committed ⇔ completed
 
-The orchestrator commits a milestone's artifacts together with the milestone;
+The orchestrator commits a task's artifacts together with the task;
 tracked artifacts belong to completed tasks, uncommitted ones to failed/in-flight
 work.
 
@@ -65,12 +65,12 @@ prune's handoff — at the moment it disposes of an observation:
 
 - `[fixed]` — the gap is fixed directly in this session
 - `[routed → <path>]` — routed into an **open** task's spec; `<path>` must resolve to
-  an editable surface (an open task's spec note), never a completed or frozen one
+  an editable surface (the task spec of an open task), never a completed or frozen one
 - `[dismissed]` — evaluated and found moot, stale, or already handled
 
 The reviewer never writes or imitates markers. Entry text and `Affects:` are never
 rewritten — markers only accumulate. **Pinned** = the entry line carries ≥1 marker.
-Dedup rule: whoever pins an entry pins every occurrence across that milestone's
+Dedup rule: whoever pins an entry pins every occurrence across that task's
 review files (dedup by `Affects:` target + gist).
 
 **Legacy markers** `[promoted → <path>]`, `[audit-corroborated]`, `[audit-dismissed]`,

@@ -38,6 +38,6 @@ Expected single edit: `roadmap milestone` → `task` in `detangle`. Behavior byt
 
 ## Verification
 
-- `grep -inE '[^-]milestones?' src/skills/detangle/SKILL.md` → zero.
-- `grep -inE 'spec note|[^-]milestones?' src/skills/{temporal-tree,aif,aif-architecture,observe-logs}/SKILL.md src/commands/{command-handoff,command-commit-roadmap-update}.md` → zero (audit-clean, no edit made).
+- `rg -U -in '[^-]milestones?' src/skills/detangle/SKILL.md` → zero.
+- `rg -U -in 'spec\s+notes?|[^-]milestones?' src/skills/{temporal-tree,aif,aif-architecture,observe-logs}/SKILL.md src/commands/{command-handoff,command-commit-roadmap-update}.md` → zero (audit-clean, no edit made; multiline-tolerant so a wrapped synonym cannot hide from the certification).
 - `git status` shows no change under `upstream/` — `aif-skill-generator` untouched.

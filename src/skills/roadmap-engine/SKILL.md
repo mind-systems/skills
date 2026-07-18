@@ -2,7 +2,7 @@
 name: roadmap-engine
 description: >-
   Shared explanation of the canonical two-tier roadmap artifact format — a ~600-char
-  contract line plus a full spec note written via note — plus the shared
+  contract line plus a full task spec written via note — plus the shared
   create/update/check roadmap-maintenance flow, applied by the calling agent.
   Caller-agnostic: holds no decomposition philosophy of its own. Load-once.
 user-invocable: false
@@ -13,8 +13,8 @@ loads: note
 
 # Roadmap Engine — Shared Two-Tier Artifact Format
 
-This is the shared explanation of the roadmap artifacts — the contract line, the spec
-note, and the roadmap file format — not any decomposition philosophy. The calling
+This is the shared explanation of the roadmap artifacts — the contract line, the task
+spec, and the roadmap file format — not any decomposition philosophy. The calling
 philosophy skill stays in control of what to build and when; this engine describes the
 artifact format the caller applies once a task is decided. **Load this skill once per
 chat** — once loaded, the format stays in context; never re-invoke it per task or per
@@ -25,26 +25,26 @@ must honor their expectations as part of its contract; the reverse graph resolve
 ## The two-tier artifact
 
 A task-tier entry with a contract line is a two-tier entry: the contract line in the
-roadmap plus a full spec note at `.ai-factory/specs/<NN>-<slug>.md` (`<NN>` scanned
+roadmap plus a full task spec at `.ai-factory/specs/<NN>-<slug>.md` (`<NN>` scanned
 against the destination in play — `.ai-factory/specs/` default,
 `.ai-factory/specs/<slug>/` named — so it never collides; `<slug>`
 lowercase-hyphenated). A
 caller's hook (a) may define entries with no contract line (e.g. a phase header) — the
-note and tag machinery here applies only where a contract line exists. The contract
+task-spec and tag machinery here applies only where a contract line exists. The contract
 line ends with the exact tag `` Spec: `.ai-factory/specs/<NN>-<slug>.md`. ``
 
-The note follows `note`'s format — **load `note` once per chat** (via the Skill
+The task spec follows `note`'s format — **load `note` once per chat** (via the Skill
 tool, only if not already loaded), never per task. When invoking `note`, pass
 destination `.ai-factory/specs/` for the default roadmap or
 `.ai-factory/specs/<slug>/` for a named one, via `note`'s destination hook;
 per-directory numbering happens there.
 
 **Why two tiers:** the contract line lets the user verify intent while fitting 3–4
-tasks on screen; the note holds the full implementation detail. The char budget below
+tasks on screen; the task spec holds the full implementation detail. The char budget below
 is guidance, not a hard clamp.
 
 **Never write a full spec inline in the roadmap** — the contract line is the header;
-the note is the implementation.
+the task spec is the implementation.
 
 ## Named roadmaps
 
@@ -54,8 +54,8 @@ engine never infers multiuser mode — resolves to `.ai-factory/roadmaps/<slug>.
 otherwise the default `.ai-factory/ROADMAP.md`.
 
 **Slug derivation:** the local-part of `git config user.email`, lowercased, every
-non-alphanumeric run collapsed to a single hyphen (`kg.wmservice@gmail.com` →
-`kg-wmservice`); fallback — slugified `user.name` when email is unset.
+non-alphanumeric run collapsed to a single hyphen (`john.doe@example.com` →
+`john-doe`); fallback — slugified `user.name` when email is unset.
 
 **Owner line:** the first line of every named roadmap is `> Owner: <full email>`,
 written at creation. Every resolution of "my roadmap" verifies it against the
@@ -66,13 +66,13 @@ exits (fix git identity / pass the roadmap name explicitly). No silent fallback.
 `.ai-factory/roadmaps/<slug>-tests.md` — always derived from the roadmap in play,
 never independently from identity; same owner line, same single-writer.
 
-**Spec destination:** a named roadmap's spec notes land in
+**Spec destination:** a named roadmap's task specs land in
 `.ai-factory/specs/<slug>/`, passed through `note`'s existing destination hook;
 numbering is per-directory as already built. The default roadmap keeps flat
 `.ai-factory/specs/`. For a named roadmap the contract line's `Spec:` tag carries
 the same `<slug>/` subdirectory — it reflects the exact path `note` returns
 (`.ai-factory/specs/<slug>/<NN>-<slug>.md`), so readers resolving through the tag
-reach the note.
+reach the task spec.
 
 ## Roadmap File Format
 
@@ -100,9 +100,9 @@ key contracts / pinned decisions the phase rests on>
 - State the problem today before stating what needs to change
 - Name guard conditions ("do not touch X", "skip Y") only for real pitfalls, not obvious things
 - Target ~600 characters (range 400–1000) — enough to verify intent, short enough to fit 3–4 tasks on screen
-- Always end with the `Spec:` tag pointing at the spec note
-- One reason to revert — if two concerns are independently shippable, make two milestones
-- Full current-state / target / guards / verify detail lives in the spec note, not the roadmap line
+- Always end with the `Spec:` tag pointing at the task spec
+- One reason to revert — if two concerns are independently shippable, make two tasks
+- Full current-state / target / guards / verify detail lives in the task spec, not the contract line
 
 **Numbering rules:**
 - **Phase numbers are globally sequential** across the whole file — a new section
@@ -206,12 +206,12 @@ Options:
 ```
 
 Apply changes if requested, then finalize: **only after "Looks good — save it"** —
-for each confirmed entry whose shape is **two-tier** (hook a), write its spec note,
+for each confirmed entry whose shape is **two-tier** (hook a), write its task spec,
 then replace its `` Spec: `<note pending>`. `` placeholder with the real
 `` Spec: `.ai-factory/specs/<NN>-<slug>.md`. `` tag. Entries whose shape carries no
-placeholder (e.g. a phase header) need neither a note nor a tag swap. Then write
-`$TARGET_FILE`. Entries removed or rewritten during confirmation receive no note —
-only the confirmed set gets notes.
+placeholder (e.g. a phase header) need neither a task spec nor a tag swap. Then write
+`$TARGET_FILE`. Entries removed or rewritten during confirmation receive no task spec —
+only the confirmed set gets task specs.
 
 ### Update mode (subsequent run)
 

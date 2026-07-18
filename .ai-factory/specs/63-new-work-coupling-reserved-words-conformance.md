@@ -16,7 +16,7 @@ Task 17.2 of the One-dictionary direction. Governing spec: [reserved-words](../.
 
 **`roadmap-decompose` (97 lines)** — flagship:
 - `milestone`/`milestones`/`Milestones` → **`task`(s)** (decompose's product is the `N.M` task): `description` "atomic, granular milestones" (4) and "adding milestones that need to be implementation-ready" (8); body 17, 41, 75, 83; Critical-Rule heading line 92 "**Milestones** are atomic and specific" → "Tasks are atomic and specific". No milestone trigger — the `Use when` list already says "break down tasks / spec tasks / create tasks".
-- `spec note` (18, 93) → **`task spec`**.
+- `spec note` (18, 29–30 — wrapped across the line break ("…plus a full spec / note per `roadmap-engine`'s format"), 93) → **`task spec`**. The wrapped site is invisible to a single-line grep — the check in Verification is multiline-tolerant for exactly this reason.
 - **Already conformant, leave**: `contract line` (6 places), `two-tier` spellings, `named roadmap` (64, 70 — casing per grammatical position).
 
 **`roadmap-decompose-skeleton` (148 lines)**:
@@ -46,11 +46,12 @@ Retire the synonyms above (`milestone`→phase/task by producer, `spec note`→`
 - **Detection-list mentions left.** aif-docs' no-history forbidden-phrase list ("this milestone") is a phrase to scrub, a mention — not a roadmap-unit naming.
 - **Generic `field` left.** "in the field" (skeleton) and "field types" (pin-gaps) are idiom / data-fields, not the skill description field.
 - **`agent-architect`, `editor`, `command-pin-gaps` land no change** — verify zero synonym tokens; their inclusion is a certification.
+- **Bare artifact-`note` sweep (17.1's doctrine).** After the `spec note` substitutions, sweep each edited file with `rg -U -in '\bnotes?\b'` for a bare `note`/`notes` still naming the task-spec artifact — one concept, one name per file; rewrite those to `task spec`. Backticked `` `note` `` (the skill name), `loads:` values, and quoted section titles stay byte-identical. "No residue" is the expected outcome — the sweep certifies it rather than assumes it.
 - Spelling is ordinary English — attributive hyphens and sentence-start/heading capitals stay. `loads:` edges + reverse-graph markers byte-identical; `` Spec: `` / `Governing spec:` tags + `.ai-factory/specs/` stay legacy; behavior byte-identical (a rename that changes an artifact's shape is a bug).
 
 ## Verification
 
-- `grep -in 'spec note' src/skills/{roadmap-outline,aif-docs,roadmap-decompose,roadmap-decompose-skeleton}/SKILL.md src/commands/command-pin-gaps.md` → zero.
-- `grep -inE '[^-]milestones?' src/skills/{roadmap-outline,roadmap-decompose,roadmap-decompose-skeleton,aif-docs}/SKILL.md` → only `roadmap-outline`'s user-trigger word and aif-docs' detection-list "this milestone".
-- `grep -inE 'spec note|milestone' src/skills/agent-architect/SKILL.md src/agents/editor.md` → zero (audit-clean).
+- `rg -U -in 'spec\s+notes?' src/skills/{roadmap-outline,aif-docs,roadmap-decompose,roadmap-decompose-skeleton}/SKILL.md src/commands/command-pin-gaps.md` → zero. (Multiline-tolerant and case-insensitive — a guard over a line-wrapped file must express the newline; the single-line form returns zero over the live wrap at `roadmap-decompose:29–30`.)
+- `rg -U -in '[^-]milestones?' src/skills/{roadmap-outline,roadmap-decompose,roadmap-decompose-skeleton,aif-docs}/SKILL.md` → only `roadmap-outline`'s user-trigger word and aif-docs' detection-list "this milestone".
+- `rg -U -in 'spec\s+notes?|milestones?' src/skills/agent-architect/SKILL.md src/agents/editor.md` → zero (audit-clean).
 - Live: a `roadmap-outline` run emits `### Phase N` (never "milestone"); a `roadmap-decompose` run emits `N.M — task`; an `aif-docs` run still writes the governing-spec genre unchanged.
