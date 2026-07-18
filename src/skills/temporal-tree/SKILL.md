@@ -2,7 +2,7 @@
 name: temporal-tree
 description: >-
   Reconstructs the decision context behind a feature by walking its commit hashes through git
-  history — reads the ## Features table from ARCHITECTURE.md (produced by roadmap-prune) and
+  history — reads the ## Features table from ARCHITECTURE.md and
   surfaces the patch, roadmap snapshot, surrounding commits, and plan files at each hash. Invoke
   after detangle when the reason behind a pattern is non-obvious or a change touches something
   previously refactored.

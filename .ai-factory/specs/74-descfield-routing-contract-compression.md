@@ -18,7 +18,21 @@ A `description:` carries the routing contract: **what the skill does + when to i
 
 **Candidates — judge by the rule, likely light or no change:** `agent-architect`, `command-pin-gaps`, `orchestrator-artifacts` (its three-caller list is a reverse edge; the body's reverse-graph marker is the home).
 
-**Untouched — already at grain, never padded:** `aif`, `aif-architecture`, `note`, `roadmap-engine`, `test-philosophy`, `detangle`, `temporal-tree`, `observe-logs`, `roadmap-outline`, `aif-docs`, `roadmap-decompose`, `roadmap-prune` (near-grain; likely no change). `aif-skill-generator` excluded (upstream-pristine symlink, never edited).
+**Wiring clauses across the loaded field — the closed disposition list.** The grain inventory above does not cover topology, but the field sweep does — so every wiring clause in the loaded field (`active/skills/`, `active/commands/`, `active/agents/`) is disposed here, and the sweep checks against this list instead of discovering the gap one clause per round. The discriminator: a clause naming **which skill loads, is loaded by, or produces for which** is topology → cut (its home is the `loads:` line or the body's reverse-graph marker); a clause naming **what this skill itself does**, or **the user's moment of use**, is concept or when-signal → stays.
+
+- **Cut** (each entry opened for its wiring clause only; grain untouched, nothing padded):
+  - `test-philosophy` — `Loaded by roadmap-test-coverage and roadmap-decompose-skeleton for the discriminator;` (the rule clause is this entry's when — no `Use when` added to compensate);
+  - `orchestrator-artifacts` — the three-caller list (the candidates line above);
+  - `roadmap-decompose` — `rendered per roadmap-engine's format` (the contract-line + task-spec concept stays; the engine name goes);
+  - `roadmap-engine` — `written via note` (the two-tier concept stays; the edge goes);
+  - `temporal-tree` — `(produced by roadmap-prune)` (reading the `## Features` table from ARCHITECTURE.md routes on its own).
+- **Keep** — the sweep's closed exception list:
+  - `editor`'s sole-caller clause — a routing negative the main loop reads before spawning;
+  - `agent-architect`'s drives-a-persistent-editor-subagent clause — a behavior of the skill itself, not a load edge;
+  - the **when-anchor class** — a clause naming a sibling skill as the user's moment of use, not a load relation (the named skill is not on the carrier's `loads:` line): `task-rescue-audit`'s "Run right after `task-rescue` while artifacts are warm", `temporal-tree`'s "Invoke after detangle …", and `aif-architecture`'s "or after /aif setup" (the file carries no `loads:` field at all, so `aif` cannot be a load edge — the clearest case of the class; the entry stays unopened).
+- **Non-matches** (wording that names no edge). Own parameterization: `note`'s "caller-supplied…", `roadmap-engine`'s "Caller-agnostic: holds no decomposition philosophy of its own." Artifact-genre word collisions: `command-handoff`'s "durable note under `.ai-factory/handoffs/`" and `command-pin-gaps`' "Scan a plan/note/task…" — "note" names the output's genre, not a mechanism edge (contrast `roadmap-engine`'s `written via note`, cut above, which names how the artifact is produced). Never raise findings on these four.
+
+**Untouched — already at grain, never padded:** `aif`, `aif-architecture`, `note`, `detangle`, `observe-logs`, `roadmap-outline`, `aif-docs`, `roadmap-prune` (near-grain; likely no change). `roadmap-decompose`, `roadmap-engine`, `temporal-tree`, `test-philosophy` are at grain too — each is opened solely for its wiring clause from the disposition list, nothing else in its entry touched. `aif-skill-generator` excluded (upstream-pristine symlink, never edited).
 
 ## Guards
 
@@ -30,7 +44,7 @@ A `description:` carries the routing contract: **what the skill does + when to i
 
 ## Verification
 
-- Read the full manifest end to end post-edit: no mini-manual outlier left; no description restates a body procedure; no wiring clause remains except one kept deliberately and recorded in the plan.
+- Read the full manifest end to end post-edit: no mini-manual outlier left; no description restates a body procedure; no wiring clause remains except the keeps on the disposition list. The sweep is decidable against that closed list — a wiring clause found outside it is a defect in this spec's inventory to reconcile, never a finding to loop the stage on.
 - `git diff` shows only `description:` blocks changed; every trigger phrase byte-identical pre/post.
 - Each edited skill still routes: its description states what + when unambiguously.
 - Total loaded size of the edited descriptions drops — record pre/post character counts in the plan.

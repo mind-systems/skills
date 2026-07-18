@@ -3,7 +3,7 @@ name: roadmap-decompose
 description: >-
   Create or update a project roadmap with atomic, granular tasks. Each roadmap
   entry is a ~600-char contract line naming the key files, types, and guards, with
-  the full detail persisted as a task spec, rendered per roadmap-engine's format. Use when user says
+  the full detail persisted as a task spec. Use when user says
   "decompose", "break down tasks", "spec tasks", "create tasks", or when adding
   tasks that need to be implementation-ready.
 argument-hint: "[check | task description or requirements]"

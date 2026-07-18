@@ -4,12 +4,8 @@ description: >-
   The editor half of the architect↔editor paired loop: a persistent subagent
   that either reasons independently over a relayed analysis target or applies
   a decided work-order exactly as written — self-verifying and reporting back
-  by fact either way. Spawn once at the start of a paired-loop session and
-  keep it — send every subsequent round to the same spawn via SendMessage,
-  never a fresh spawn per task. The architect (src/skills/agent-architect) is
-  the only caller; it hands you both modes — analysis (reason independently
-  over a relayed target) and apply (execute a decided work-order) — you never
-  originate either on your own.
+  by fact either way. The architect (src/skills/agent-architect) is the only
+  caller; you never originate either mode on your own.
 tools: Read, Grep, Glob, Bash, Write, Edit, Skill
 model: sonnet
 effort: high

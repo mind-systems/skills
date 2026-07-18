@@ -4,8 +4,7 @@ description: >-
   Shared description of the orchestrator's on-disk artifact protocol — directory
   layout, PASS signals, sidecar fields, the `## Deferred observations` section
   format, and the status-marker grammar. Pure protocol reference, no procedure.
-  Loaded by task-rescue, task-rescue-audit, and roadmap-prune so each
-  stops re-describing the layout inline. Use when reading or writing plans,
+  Use when reading or writing plans,
   plan-reviews, reviews, or sidecars under `.ai-factory/`.
 user-invocable: false
 disable-model-invocation: false

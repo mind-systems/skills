@@ -4,11 +4,10 @@ description: >-
   Outside-view audit of a task that looped (2–3 rounds at plan-review or
   implement-review) or is a wall-clock outlier — even if it ultimately passed.
   Diagnoses whether convergence came from genuine understanding or from band-aid
-  accretion around one structural/spec gap the implementation routed around. Emits
+  accretion around a gap the implementation routed around. Emits
   a diagnosis plus one upstream recommendation to chat only — no files written, no
-  ROADMAP edits. Run right after `task-rescue` while artifacts are warm, or
-  cold on any looped/outlier task — or in any session, on smell, when you suspect
-  the orchestrator stuck crutches around crooked architecture or spaghetti code.
+  ROADMAP edits. Run right after `task-rescue` while artifacts are warm, cold on
+  any looped/outlier task, or in any session on smell.
   Trigger phrases: "audit", "convergence audit", "did it converge or band-aid",
   "band-aid check", "outside-view audit".
 argument-hint: "[task-slug]"

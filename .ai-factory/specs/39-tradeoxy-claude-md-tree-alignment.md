@@ -10,16 +10,16 @@
 
 ## Read first — the philosophy source (mandatory, before touching anything)
 
-1. `~/projects/skills/docs/philosophy/context-tree.md`
-2. `~/projects/skills/docs/philosophy/skill-pyramid.md`
-3. `~/projects/skills/docs/philosophy/skill-composition-model.md`
-4. `~/projects/skills/src/global/CLAUDE.md` — §§ "Grounding claims", "Documentation style", "Project CLAUDE.md authoring"
+1. `~/projects/sakshi/skills/docs/philosophy/context-tree.md`
+2. `~/projects/sakshi/skills/docs/philosophy/skill-pyramid.md`
+3. `~/projects/sakshi/skills/docs/philosophy/skill-composition-model.md`
+4. `~/projects/sakshi/skills/src/global/CLAUDE.md` — §§ "Grounding claims", "Documentation style", "Project CLAUDE.md authoring"
 
 Then raise the target's tree per that philosophy: the tradeoxy root `CLAUDE.md`, every subrepo `CLAUDE.md`, and — down the named edges — the first layer of docs/code each names, deeper wherever a claim must be verified.
 
 ## Grove entry checks (run before the pass)
 
-A project family is a **grove**, not a tree: separate git repos, each leaf CLAUDE.md committed and published with its own repo, under a coordination root (`~/projects/skills/docs/philosophy/context-grove.md` is the model's home). The four operations below are defined on a tree; the grove adds entry checks:
+A project family is a **grove**, not a tree: separate git repos, each leaf CLAUDE.md committed and published with its own repo, under a coordination root (`~/projects/sakshi/skills/docs/philosophy/context-grove.md` is the model's home). The four operations below are defined on a tree; the grove adds entry checks:
 
 - **Topology:** confirm the family shape — separate git repos under the root directory (true for tradeoxy).
 - **Hoist premise — the layout guarantee.** Hoist, and deleting leaf-side duplicates of root facts, is licensed only because the root trunk reaches every leaf session *mechanically*: (a) the harness parent-loads CLAUDE.mds up the directory tree across git-repo boundaries — verify live once (open a session under a leaf; the root CLAUDE.md must be in context); (b) the family layout is **guaranteed** — the root `README` § Setup carries the agent-facing instruction: check out the exact directory structure and switch every repo to its freshest branch automatically (tradeoxy's README already mandates the tree; relative proto/build paths depend on it). This guarantee is a universal invariant of our multi-repo families; **if the README instruction is missing or incomplete, establish it during the pass** — the root README is an edit target for exactly this one section, mirroring the structure the other families use.
@@ -36,7 +36,7 @@ One pass over the five `CLAUDE.md` files (root + four leaves), three operations 
 
 **Known dedupe inputs from the 2026-07-11 session:** the root CLAUDE.md "Documentation routing" section is itself a hoist-artifact the pass may compress; the root CLAUDE.md "Cross-project invariants" section partially duplicates root `docs/architecture.md` (§ Auth model / § Service identity) — CLAUDE.md keeps the one-line invariant + pointer, the doc keeps the mass. **Caution — two same-named layers:** root `docs/architecture.md` (cross-project map, English) and `tradeoxy_core/docs/architecture.md` (core's own, Russian) are different documents, both cited as "architecture.md § …" from different places; never merge or confuse them.
 
-Also enforce while passing: **no skill or command names as routing** in any of the files — names rot when skills are renamed or retired, leaving dead routing paid on every run; routing is described in task terms (this rule is the task's own, not a loaded global — apply it from here); current-state-only; root `AGENTS.md` stays a one-line pointer.
+Also enforce while passing: **no skill or command names as routing** in any of the files — names rot when skills are renamed or retired, leaving dead routing paid on every run; routing is described in task terms (this rule is the task's own, not a loaded global — apply it from here); present tense, no change-history narration (a CLAUDE.md is a description of existing behavior); root `AGENTS.md` stays a one-line pointer.
 
 **Fourth operation — rules hygiene.** The family's rules files (`tradeoxy_core/.ai-factory/RULES.md`, `tradeoxy_gui/.ai-factory/RULES.md`, `tradeoxy_broker/.ai-factory/RULES.md`, `tradeoxy_analyst/.ai-factory/rules/base.md`) pass the counter-default filter: a rule survives iff the executor would do otherwise by default AND code alone cannot teach it, and it carries its why; generic style conventions are deleted as noise — live target: analyst's `snake_case`/`PascalCase`/`UPPER_SNAKE_CASE` block. The hand-grown core rules (proto-strings, branded UUIDs, no hand migrations, protocol naming) are the passing genre — expected to survive intact. Files stay in place (the orchestrator's mandatory-read channel); every dropped rule is listed in the report.
 

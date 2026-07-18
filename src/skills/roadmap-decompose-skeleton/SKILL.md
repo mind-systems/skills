@@ -3,10 +3,9 @@ name: roadmap-decompose-skeleton
 description: >-
   Second decomposition pass over open roadmap tasks along the spec-before-code
   axis (skeleton-first, TDD, concurrency contract) rather than atomic
-  deliverability. Extracts interface/abstract skeleton tasks, tests-first tasks
-  filtered by test-philosophy's silent-failure rule, and no-prod-code contract-tasks
-  for heavy tasks mixing async I/O + stateful buffer + lifecycle. Renders via
-  roadmap-engine, sources the test rule from test-philosophy — copies neither. Use
+  deliverability. Extracts skeleton, tests-first (filtered by the
+  silent-failure rule), and no-prod-code contract tasks for surfaces mixing
+  async I/O + stateful buffer + lifecycle. Use
   when a task is heavy/hazardous or shares a type surface and needs splitting
   before implementation. Trigger: "skeleton", "tdd tasks", "concurrency contract".
 argument-hint: "[phase/slug or task description]"

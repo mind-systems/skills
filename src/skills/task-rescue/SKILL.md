@@ -2,11 +2,9 @@
 name: task-rescue
 description: >-
   Reads failed orchestrator artifacts (plans, plan-reviews, code reviews),
-  diagnoses how deep the root cause reaches, repairs to that depth (spec / spec+plan /
-  spec+plan+code / plan-ratified-implementation-absent), and rolls the sidecar +
-  artifacts back to exactly the repaired state so the orchestrator re-validates from
-  there. Also checks downstream tasks for
-  the same gaps. Use when the pipeline stops with "PLAN_REVIEW_PASS never achieved" or
+  diagnoses how deep the root cause reaches and repairs to that depth, then rolls
+  the task's state back so the orchestrator re-validates from there. Also checks
+  downstream tasks for the same gaps. Use when the pipeline stops with "PLAN_REVIEW_PASS never achieved" or
   "REVIEW_PASS never achieved" — trigger phrases: "rescue", "milestone failed",
   "pipeline stopped".
 argument-hint: "[path/to/ROADMAP.md | ROADMAP_TESTS.md]"

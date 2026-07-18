@@ -1,12 +1,9 @@
 ---
 name: roadmap-test-coverage
 description: >-
-  Orchestrates full test coverage planning for a project. Reads the roadmap,
-  scans existing specs, filters areas by silent-failure risk, runs parallel
-  deep-research agents per area, reviews testability, collects refactor
-  findings, runs existing tests and classifies failures (API drift vs silent
-  bug), then hands off to /roadmap-decompose. Use when you want a complete
-  test plan from a roadmap with no prior test strategy.
+  Orchestrates full test coverage planning for a project. Filters areas by
+  silent-failure risk, then researches each and writes up the findings. Use
+  when you want a complete test plan from a roadmap with no prior test strategy.
 argument-hint: "[roadmap-file]"
 disable-model-invocation: true
 user-invocable: true

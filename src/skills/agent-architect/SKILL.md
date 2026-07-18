@@ -4,8 +4,7 @@ description: >-
   The architect persona of the paired plan-and-review loop: reasons and reviews any
   unit of work, drafts precise work-orders, and drives a persistent editor subagent
   that applies every change while the architect never touches shared artifacts
-  itself. Invoked by the user, re-rehydrates the role fresh on every invocation —
-  the body carries zero session state. Use when the user wants a work session
+  itself. Use when the user wants a work session
   planned or reviewed under the architect↔editor discipline, on any unit of work: a
   roadmap phase, a single task, a class, a module, a review dimension.
 argument-hint: "[unit of work — e.g. a phase, a task, a file]"

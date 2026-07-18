@@ -2,7 +2,7 @@
 name: roadmap-engine
 description: >-
   Shared explanation of the canonical two-tier roadmap artifact format — a ~600-char
-  contract line plus a full task spec written via note — plus the shared
+  contract line and a full task spec — plus the shared
   create/update/check roadmap-maintenance flow, applied by the calling agent.
   Caller-agnostic: holds no decomposition philosophy of its own. Load-once.
 user-invocable: false
