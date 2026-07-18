@@ -228,7 +228,7 @@ line above `## Step 0`):
      section below — do not alter that section, this pre-pass relies on it), plus the
      historic manual wordings `Remove complete plans` and `Rmove complete plans`.
      **Content-verify each candidate:** its diff must actually delete `[x]` lines from
-     `.ai-factory/ROADMAP.md` — an artifact-sweep twin that touches no roadmap line is
+     `.ai-factory/ROADMAP.md` — an artifact-sweep twin that touches no contract line is
      skipped and reported, never ledgered.
   2. For each verified candidate, the ledger entry is its **parent** (`<prune>^`).
   3. **Replace** the drop-history hashes with this reconstructed, de-duplicated,
@@ -273,7 +273,7 @@ Run this after Step 4 and before Step 6. Tags are captured before any ROADMAP.md
 Derive the **target repo root**: the parent of the `.ai-factory/` directory the target ROADMAP.md lives in (from the skill argument). Anchor every deletion in this step at that root. For a sub-repo roadmap at `<subrepo>/.ai-factory/ROADMAP.md`, the target repo root is `<subrepo>`, and the sweep touches only `<subrepo>/.ai-factory/*`.
 
 1. **Capture** the `Spec:` tag path of every `[x]` line being pruned. A user-kept `[x]`
-   line's `Spec:` tag is not captured — its roadmap line and its spec file both stay
+   line's `Spec:` tag is not captured — its contract line and its spec file both stay
    untouched. A `[x]` line with no `Spec:` tag contributes nothing — skip it, never
    synthesize a path.
 2. Determine the sweep scope from the same skill argument used to anchor this step,
@@ -322,8 +322,8 @@ unchanged.
 
 ## Step 6 — Update ROADMAP.md
 
-Delete the pruned `[x]` tasks from the task-holding sections — a flat `## Milestones`
-list, or direction sections (`## <Direction name>` → `### Phase N` → `N.M` tasks) —
+Delete the pruned `[x]` tasks from the task-holding sections — a flat `## Tasks` (or
+legacy `## Milestones`) list, or direction sections (`## <Direction name>` → `### Phase N` → `N.M` tasks) —
 only after Step 5's tag capture has run. Do not replace them with a table — the tasks
 are gone from the roadmap.
 

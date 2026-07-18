@@ -1,7 +1,7 @@
 ---
 name: task-rescue-audit
 description: >-
-  Outside-view audit of a milestone that looped (2–3 rounds at plan-review or
+  Outside-view audit of a task that looped (2–3 rounds at plan-review or
   implement-review) or is a wall-clock outlier — even if it ultimately passed.
   Diagnoses whether convergence came from genuine understanding or from band-aid
   accretion around one structural/spec gap the implementation routed around. Emits
@@ -16,10 +16,10 @@ allowed-tools: Read Glob Grep Bash(git *) Skill
 loads: orchestrator-artifacts
 ---
 
-# Milestone Rescue Audit
+# Task Rescue Audit
 
 Asks the question the green check doesn't: **Convergence by Understanding, or by
-Attrition?** A milestone can pass after 2–3 rounds by genuinely solving each
+Attrition?** A task can pass after 2–3 rounds by genuinely solving each
 independent finding, or by layering local workarounds over one structural gap that
 was never named. This audit tells the difference.
 
@@ -164,7 +164,7 @@ absence of strong common-root-cause evidence.
 Emit the diagnosis to chat. No files are written and the ROADMAP is never edited.
 
 **Form: a chronological narrative in plain prose** — the same register as
-`task-rescue`'s Diagnosis Report. Tell the milestone's story round by round, in
+`task-rescue`'s Diagnosis Report. Tell the task's story round by round, in
 complete sentences: what the implementation did, what the review found, what the fix
 changed, and what that fix introduced or revealed next. One short paragraph per round
 is the natural shape; a single-round audit may be a single paragraph. Weave reviewer
@@ -189,8 +189,8 @@ support the narrative has already told through the rounds above it.
   two sentences on what the structural change replaces it with — not a mapping table
   or arrow list.
 - One upstream recommendation, stated plainly as the closing sentence:
-  - *Amend the spec note* — if the gap fits cleanly in one sentence
-  - *Decompose the milestone* — if the structural reframe spans multiple concerns
+  - *Amend the task spec* — if the gap fits cleanly in one sentence
+  - *Decompose the task* — if the structural reframe spans multiple concerns
   - *Re-architect before retrying* — if the gap is foundational
   - *Accept as-is* — if the cost of the structural change outweighs the benefit
     (mixed verdict, low round count, low severity)
@@ -203,11 +203,11 @@ support the narrative has already told through the rounds above it.
 ## What NOT to do
 
 - Do not rewrite the plan or implement anything — produce only a chat diagnosis
-- Write no file, ever — no patches, no spec-note edits, no ROADMAP changes, no
+- Write no file, ever — no patches, no task-spec edits, no ROADMAP changes, no
   rewriting plan or review file content
 - Do not declare band-aid accretion without the single-sentence test in Step 3
 - Do not judge any individual fix in isolation — judge the **sequence**
-- Do not treat a passing milestone as automatically healthy; loops on cosmetic
+- Do not treat a passing task as automatically healthy; loops on cosmetic
   findings are a weak signal, but one structural-root signal outweighs them
 - Do not present the finding→fix chain as a table or as compressed fragments in the
   output — tables are permitted only as internal scratch during Step 1; the

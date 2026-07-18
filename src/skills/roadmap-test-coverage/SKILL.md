@@ -32,7 +32,7 @@ Read in order (skip if absent):
 - The roadmap in play per `roadmap-engine`'s named-roadmap resolution order
   (explicit `$ARGUMENTS` wins, then "my roadmap", then the default
   `.ai-factory/ROADMAP.md`; see the engine's "Named roadmaps" section for the
-  slug/owner mechanics) — all milestones
+  slug/owner mechanics) — all tasks
 
 Store: `$STACK` (e.g. "NestJS/Jest"), `$TEST_CMD` (e.g. `npm test`),
 `$ROADMAP_PATH`.
@@ -47,8 +47,8 @@ Infer stack from `package.json` / `pubspec.yaml` / `go.mod` / `Cargo.toml`.
 find . -name "*.spec.*" -o -name "*.test.*" | grep -v node_modules | grep -v dist | grep -v build
 ```
 
-Read each completed and pending milestone in the roadmap. Group related
-milestones into **candidate areas** — one area per logical component or
+Read each completed and pending task in the roadmap. Group related
+tasks into **candidate areas** — one area per logical component or
 service. Each area maps to one or a few source files with a clear
 responsibility boundary.
 

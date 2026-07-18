@@ -5,7 +5,7 @@ description: >-
   diagnoses how deep the root cause reaches, repairs to that depth (spec / spec+plan /
   spec+plan+code / plan-ratified-implementation-absent), and rolls the sidecar +
   artifacts back to exactly the repaired state so the orchestrator re-validates from
-  there. Also checks downstream milestones for
+  there. Also checks downstream tasks for
   the same gaps. Use when the pipeline stops with "PLAN_REVIEW_PASS never achieved" or
   "REVIEW_PASS never achieved" — trigger phrases: "rescue", "milestone failed",
   "pipeline stopped".
@@ -14,19 +14,19 @@ allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion Skill
 loads: orchestrator-artifacts roadmap-engine
 ---
 
-# Milestone Rescue
+# Task Rescue
 
 The orchestrator exhausting its iteration limit and stopping is the tripwire — how the
 failure was noticed, not what failed. The subject of this skill is the defect in the
-task's specification (spec note + contract line) and its implementation: it reads the
+task's specification (task spec + contract line) and its implementation: it reads the
 artifacts left uncommitted on disk, diagnoses how deep that defect reaches
 (specification gap? bad plan? broken implementation?), and repairs to exactly that
 depth — then rolls the sidecar and the artifact set back to the matching repaired state
 so the orchestrator re-validates from there rather than starting blind.
 
 The roadmap contract line (in `$TARGET_FILE`) is the roadmap half of the two-tier spec
-pair (alongside the spec note the milestone's `Spec:` tag names) and is edited when the
-spec tier is repaired. The repair is depth-keyed, not a single ROADMAP edit: spec note +
+pair (alongside the task spec the task's `Spec:` tag names) and is edited when the
+spec tier is repaired. The repair is depth-keyed, not a single ROADMAP edit: task spec +
 contract line, plan `.md`, or working-tree code, depending on how deep the root cause
 runs. The user picks the depth; an explicit "fix Y / delete X" overrides.
 
@@ -46,23 +46,23 @@ Run `git status --short -- .ai-factory/` to find all uncommitted files under `.a
 Filter results to the artifact directories (`plans/`, `plan-reviews/`, `reviews/`) —
 layout and naming conventions are described in `orchestrator-artifacts`.
 
-Ignore any uncommitted files outside these directories — the spec note itself
-lives wherever the milestone's `Spec:` tag points, not in a fixed directory.
+Ignore any uncommitted files outside these directories — the task spec itself
+lives wherever the task's `Spec:` tag points, not in a fixed directory.
 
 If no uncommitted files are found in any of the artifact directories, stop and tell
 the user: there is nothing to rescue.
 
-**Identify the milestone slug.** Extract the `<seq>-<slug>` shared by the artifact
+**Identify the task slug.** Extract the `<seq>-<slug>` shared by the artifact
 filenames (see `orchestrator-artifacts` for the naming convention). If files from
-multiple slugs are present, ask the user which milestone to rescue before proceeding.
+multiple slugs are present, ask the user which task to rescue before proceeding.
 
 **Read the phase's governing spec.** Determine `$TARGET_FILE` (the same resolution
 Step 4 determines), read it, and locate the phase section the
-milestone belongs to. Check the phase header and its intro lines for a
+task belongs to. Check the phase header and its intro lines for a
 `Governing spec:` reference. If present, read every named document in full before
-proceeding to Step 2 — this is unconditional, not suspicion-based. If the milestone is
+proceeding to Step 2 — this is unconditional, not suspicion-based. If the task is
 under no phase, or no `Governing spec:` is named, proceed as today. This read is
-additive to Step 4's own `$TARGET_FILE` resolution and milestone-line locate — it does
+additive to Step 4's own `$TARGET_FILE` resolution and contract-line locate — it does
 not replace it.
 
 **Read every artifact file found** — all rounds, not just the latest. The pattern of
@@ -130,8 +130,8 @@ Root-cause categories (context for depth + scope-overload flag):
 
 When a governing spec was read in Step 1, judge the recurring findings against it: a
 candidate "specification gap" may actually be a violation of an already-ratified
-contract that the spec note failed to restate — the root cause and the repair target
-differ (amend the spec note to carry the governing constraint vs. invent a new
+contract that the task spec failed to restate — the root cause and the repair target
+differ (amend the task spec to carry the governing constraint vs. invent a new
 decision). The Diagnosis Report must state whether the failure violates the governing
 spec and quote the relevant clause.
 
@@ -159,7 +159,7 @@ tell: state plainly that the plan was ratified, that every round left the produc
 file(s) unchanged from HEAD, and that the gap is in the pipeline's record of the
 attempt rather than in the spec, plan, or code.
 
-Domain language only: describe what the spec note / contract line stated wrongly or
+Domain language only: describe what the task spec / contract line stated wrongly or
 left ambiguous, and how the plan or code went wrong as a consequence. Zero orchestrator
 vocabulary — no iteration counts, no PASS markers, no phase names, no sidecar.
 
@@ -180,13 +180,13 @@ the depth choice.
 explicit argument wins, then "my roadmap", then the default `.ai-factory/ROADMAP.md`
 — see the engine's "Named roadmaps" section for the slug/owner mechanics.
 - If argument names a file → use `.ai-factory/<that file>`
-- If the milestone slug or artifacts suggest test tasks (keywords: test, tests, spec)
+- If the task slug or artifacts suggest test tasks (keywords: test, tests, spec)
   → the test sibling of the roadmap in play: a named roadmap resolves to
   `.ai-factory/roadmaps/<slug>-tests.md`, the default to
   `.ai-factory/ROADMAP_TESTS.md` as today
 - Otherwise → `$TARGET_FILE` = the roadmap in play (per the resolution order above)
 
-Read `$TARGET_FILE` and locate the milestone line matching the slug identified in Step 1.
+Read `$TARGET_FILE` and locate the contract line matching the slug identified in Step 1.
 
 **When classification is non-convergence** — present via `AskUserQuestion`:
 
@@ -203,10 +203,10 @@ Recommended: commit the deliverable — another run would likely loop again.
 Options:
 1. Commit the deliverable (after any remaining trivial nits)
 2. Re-run the pipeline anyway
-3. Fold recurring spec-traceable nits into the spec note before committing
+3. Fold recurring spec-traceable nits into the task spec before committing
 ```
 
-Option 3: scan findings for nits that reference a gap in the spec note the `Spec:` tag
+Option 3: scan findings for nits that reference a gap in the task spec the `Spec:` tag
 points at, propose the minimal clause addition, apply it, then
 proceed as option 1. Proceed to Step 5 with the user's choice for all three options.
 
@@ -235,7 +235,7 @@ Dominant recurring issue: <one line>
 
 Choose repair depth:
 
-1. spec — repair spec note + contract line in $TARGET_FILE
+1. spec — repair task spec + contract line in $TARGET_FILE
    Rollback: plan, plan-reviews, reviews, and sidecar deleted; orchestrator re-plans
 
 2. spec + plan — repair spec + plan .md (keeping passing plan-reviews intact if wanted)
@@ -266,8 +266,8 @@ using git-native commands only:
 - Files marked `A ` (staged/added) → `git rm -f -- <path>`
 
 Never delete committed files. Never touch the spec file (wherever its `Spec:` tag
-points) except the deliberate spec-note repair below. Never delete files belonging to
-other milestone slugs.
+points) except the deliberate task-spec repair below. Never delete files belonging to
+other task slugs.
 
 ---
 
@@ -278,10 +278,10 @@ Do NOT touch the sidecar. Proceed directly to Step 5.5.
 
 ---
 
-**Depth: spec** — repair spec note + contract line; full reset.
+**Depth: spec** — repair task spec + contract line; full reset.
 
-1. Edit the spec note (the file the contract line's `Spec:` tag points at) to address
-   the root cause. If a governing spec was read in Step 1, do not copy its content into the spec note
+1. Edit the task spec (the file the contract line's `Spec:` tag points at) to address
+   the root cause. If a governing spec was read in Step 1, do not copy its content into the task spec
    wholesale — quote/restate only the clauses implicated by the findings.
 2. Edit the contract line in `$TARGET_FILE` to match (keep it concise;
    each constraint is one semicolon-separated clause matching surrounding style).
@@ -296,7 +296,7 @@ Emit: `Sidecar deleted (full reset).`
 
 **Depth: spec + plan** — repair spec + plan; roll back to `"planned"`.
 
-1. If the requirement itself was implicated, edit the spec note + contract line in
+1. If the requirement itself was implicated, edit the task spec + contract line in
    `$TARGET_FILE` (same as spec depth above). If the spec is already correct, this
    step is a no-op — repair only the plan below.
 2. Edit the plan `.md` to fold in the root-cause fix.
@@ -315,7 +315,7 @@ Emit: `Sidecar updated: step set to "planned"; implementer session dropped.`
 
 **Depth: spec + plan + code** — repair spec + plan + code; roll back to `"implemented"`.
 
-1. If the requirement itself was implicated, edit the spec note + contract line in
+1. If the requirement itself was implicated, edit the task spec + contract line in
    `$TARGET_FILE`. If the spec is already correct, this step is a no-op — repair only
    the plan/code below.
 2. Edit the plan `.md` if needed (keep passing plan-reviews intact).
@@ -353,8 +353,8 @@ Emit: `Sidecar updated: step set to "plan_reviewed"; implementer session dropped
 ### Valid sidecar `step` states
 
 This is a **closed set** — Step 5 picks one of the five values below, never invents
-one. This table mirrors `_validate_sidecar_step()` / `_detect_milestone_step()` in
-`orchestrator/main.py` — if the orchestrator's accepted set changes, update this table;
+one. This table mirrors `_validate_sidecar_step()` / `_detect_task_step()` in
+`orchestrator/resume.py` — if the orchestrator's accepted set changes, update this table;
 do not let them diverge.
 
 | `step` value | Resumes at | Required on disk to validate |
@@ -382,17 +382,17 @@ the rescue is complete.
 
 ---
 
-## Step 5.5 — Propagate findings to open milestones
+## Step 5.5 — Propagate findings to open tasks
 
 For a non-convergence classification, propagation is a no-op — every round was
 non-blocking, so there are no real defects to propagate. Do not surface cosmetic nits
-to unrelated milestones.
+to unrelated tasks.
 
-After completing the repair (if any), scan the remaining `- [ ]` milestones in
+After completing the repair (if any), scan the remaining `- [ ]` tasks in
 `$TARGET_FILE` for the same gaps.
 
 **Which issues to propagate** (priority order): recurring issues first (appeared in 2+
-rounds — propagate to any open milestone touching the same files, APIs, or patterns);
+rounds — propagate to any open task touching the same files, APIs, or patterns);
 then mechanical errors (same pattern type); then specification gaps (same domain only).
 
 **How to identify matches:** same file paths or module names; same API, class, method,
@@ -401,10 +401,10 @@ or operator family; same structural pattern (e.g. "bridge", "repository", "hook"
 **If matches found**, present a single question:
 
 ```
-These open milestones may have the same gaps. Apply the same fix?
+These open tasks may have the same gaps. Apply the same fix?
 
-→ MilestoneA: + <proposed clause>
-→ MilestoneB: + <proposed clause>
+→ TaskA: + <proposed clause>
+→ TaskB: + <proposed clause>
 
 Options:
 1. Apply all
@@ -412,14 +412,14 @@ Options:
 3. Skip
 ```
 
-If no matches found, or all issues are domain-specific to the failed milestone, skip silently.
+If no matches found, or all issues are domain-specific to the failed task, skip silently.
 
 ---
 
 ## Step 5.6 — Pin disposed observations
 
 When a deferred-observation entry read this session is disposed of, pin it and every
-sibling occurrence across that milestone's review files, per the engine's dedup rule
+sibling occurrence across that task's review files, per the engine's dedup rule
 (`orchestrator-artifacts` §6 — do not redefine the grammar, the pinned definition, or
 the dedup rule). Two disposal branches:
 
@@ -445,9 +445,9 @@ unmarked, left for `task-rescue-audit` prune mode.
 
 - Do not keep stale artifacts at the chosen rollback depth — they describe a failed
   attempt and will confuse the next planner or implementer
-- Do not add implementation details to the milestone or spec note — keep constraints
+- Do not add implementation details to the task or task spec — keep constraints
   at the *what* level, not the *how* level
-- Do not delete committed files or files belonging to other milestone slugs
+- Do not delete committed files or files belonging to other task slugs
 - Do not skip reading earlier rounds — the pattern of failures across rounds is the
   primary signal, not just the final round
 - Do not issue a semantic diagnosis, blocker, or spec repair without having read the
