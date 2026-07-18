@@ -157,26 +157,78 @@ Collect all one-line confirmations.
 
 ## Layer 5 — Testability Review (parallel agents)
 
-Launch one `general-purpose` agent per area in a **single message** (parallel).
-Each agent reads the source file and returns a one-line verdict only.
+Launch one `general-purpose` agent per area in a **single message** (parallel),
+passing `$STACK` from Layer 1 as `<stack>`. Each agent reads the source file
+and returns a one-line verdict only.
 
 **Agent prompt template:**
 
 ```
 Testability review for: <area name>
+Stack: <stack>
 Source file: <file path>
 
-Read the source file. Assess four things:
-1. Are all dependencies injected (constructor params, not module-level
-   singletons or static imports)?
-2. Any hard-coded globals: process.env reads without injection, Date.now()
-   calls that cannot be overridden, fs calls without abstraction?
-3. Any fire-and-forget async patterns (unawaited promises inside observable
-   pipes, setTimeout without returned handle) that complicate teardown
-   assertions?
-4. Any metadata extraction via unsafe casts ((req as any).user,
-   (metadata as any)[KEY]) that makes test setup awkward vs. a typed
-   decorator param?
+Read the source file. Judge how much friction it costs to substitute each
+dependency in a test, in this stack's own test idiom (pytest `monkeypatch` /
+`unittest.mock.patch`, jest module mocks, etc.) — not whether the stack's DI
+mechanism was used.
+
+One criterion decides every case: does the API offer a parameter for the
+thing a test must vary?
+
+- **received** — the varying input arrives as a constructor param, function
+  argument, or injected collaborator, so a test drives it by passing a
+  value; module-level names touched only as static reference data are not
+  substitution points either → no friction → `clean`.
+- **no parameter for what varies** — varying data or a collaborator is
+  acquired at construction or reached inside the call, and the API offers
+  no parameter to supply it instead; the only way to vary it in a test is
+  to patch the acquisition site, however cheap that patch → friction →
+  `needs-refactor`, framed as friction.
+- **unoverridable in this stack** — no patch point exists at all → blocking
+  → `needs-refactor`, strong.
+
+A reached function is not automatically a collaborator: when its behavior is
+fully determined by the parameters the caller passes it, the test already
+controls it by controlling those parameters, so calling it directly costs
+nothing. It counts as a collaborator only when it supplies varying data or
+an effect the test must control and the API offers no parameter for it.
+
+The same construct sits in different bands in different stacks and call
+sites — the names below are illustrations of the criterion, never a
+universal checklist. Reading a module singleton, `os.environ`,
+`get_config()`, or `datetime.now()` is not by itself the middle band; it
+lands there only when it is data the behavior varies on and the API offers
+no parameter to supply it instead. Whether the acquisition can fail is
+irrelevant — a defensive `.exists()` guard returning a default adds no
+parameter and does not clear the flag. The stack's patchability sets the
+one-sentence verdict field's register (friction to drop, never
+"untestable"), never the verdict.
+
+Stack-conditional illustrations, TS/Node only:
+- Fire-and-forget async (unawaited promises inside observable pipes,
+  setTimeout without a returned handle) that complicates teardown
+  assertions.
+- Metadata extraction via unsafe casts ((req as any).user,
+  (metadata as any)[KEY]) vs. a typed decorator param.
+- process.env reads and Date.now() calls with no override point.
+
+For the middle band, name the friction and the fix in the one-sentence
+verdict field (e.g. "self-acquires its config at construction; inject it to
+drop test-setup friction"). Never write "not injected" / "not DI", and
+never write "untestable" for anything overridable in the stack.
+
+Flag coupling only to the degree it taxes test setup. What the fence
+clears is code with nothing to substitute — varying inputs arrive as
+parameters and module-level names are read only as static reference data;
+that is `clean`. Coupling that is merely ugly and costs test setup nothing
+is out of scope — it belongs to a code-review lens, not a test-coverage
+planner. The fence never clears a patchable acquisition of varying data:
+cheapness of the patch is not the fence.
+
+Do not weigh failure-loudness, silent failure, or whether the area deserves
+a test at all — that discriminator is applied earlier in this pipeline.
+Judge only the cost of authoring the test.
 
 Return exactly one line in this format:
   clean | <area name>
