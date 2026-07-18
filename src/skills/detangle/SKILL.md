@@ -30,7 +30,7 @@ The same three roles repeat recursively at every zoom level.
 Whichever of `.ai-factory/ARCHITECTURE.md` / `.ai-factory/ROADMAP.md` exists is already
 raised as one of the project's entry maps per global § "Grounding claims" — re-read it
 fresh here for detangle's own angle: is the element you're looking at part of an
-in-progress or planned roadmap milestone? That changes the impact analysis in Step 4.
+in-progress or planned task? That changes the impact analysis in Step 4.
 
 ---
 
