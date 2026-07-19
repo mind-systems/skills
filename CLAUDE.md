@@ -1,7 +1,3 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 ## Purpose
 
 This repo (`~/projects/skills`) is the **source of truth for generic AI Factory skills** shared across all of Max's projects.
