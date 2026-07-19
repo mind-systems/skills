@@ -2,7 +2,7 @@
 name: aif
 description: Set up agent context for a project. Analyzes tech stack, generates the project CLAUDE.md and .ai-factory/RULES.md, and configures MCP servers. Use when starting new project, setting up AI context, or asking "set up project", "configure AI".
 argument-hint: "[project description]"
-allowed-tools: Read Glob Grep Write Bash(mkdir *) Skill AskUserQuestion
+allowed-tools: Read Glob Grep Write Bash(mkdir *) Bash(ln *) Skill AskUserQuestion
 ---
 
 # AI Factory - Project Setup
