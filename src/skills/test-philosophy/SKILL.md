@@ -3,7 +3,7 @@ name: test-philosophy
 description: >-
   Shared testing philosophy for the roadmap family. Holds one rule — write tests
   only for surfaces that fail silently (wrong output, no crash), skip surfaces that
-  fail loudly (compile error, exception, DI failure, 4xx/5xx). Holds no
+  fail loudly (compile error, exception, DI failure, 4xx/5xx). Carries no
   test-generation or coverage-pipeline logic.
 user-invocable: true
 disable-model-invocation: false

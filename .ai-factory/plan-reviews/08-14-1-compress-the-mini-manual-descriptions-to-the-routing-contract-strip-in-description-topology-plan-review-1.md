@@ -60,6 +60,6 @@ Task 6b's cut leaves `test-philosophy`'s description with two sentences opening 
 
 ## Deferred observations
 
-- Affects: Phase 17 (word choice) — `test-philosophy`'s description will carry two consecutive `Holds …` sentence openers after Task 6b's mechanical cut and capitalization. The repetition is an artifact of removing the clause that separated them, and repairing it means choosing different wording, which is Phase 17's axis, not this task's. Worth picking up when that phase opens the entry, alongside any other lexical smoothing the compression pass leaves behind.
+- Affects: Phase 17 (word choice) — `test-philosophy`'s description will carry two consecutive `Holds …` sentence openers after Task 6b's mechanical cut and capitalization. The repetition is an artifact of removing the clause that separated them, and repairing it means choosing different wording, which is Phase 17's axis, not this task's. Worth picking up when that phase opens the entry, alongside any other lexical smoothing the compression pass leaves behind. [fixed — test-philosophy's description now reads "Carries no test-generation or coverage-pipeline logic", removing the repeated "Holds" opener]
 
 PLAN_REVIEW_PASS

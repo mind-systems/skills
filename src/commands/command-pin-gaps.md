@@ -14,7 +14,7 @@ loads: roadmap-engine
 Ensure `roadmap-engine` is loaded once this chat (via the Skill tool, only if not
 already loaded) — it defines the named-roadmap resolution referenced below.
 
-Target, in priority order: the file(s) in `$ARGUMENTS`, if given — else the scope under discussion in chat (a named task, phase, or note) — else all open `- [ ]` tasks of the roadmap in play per `roadmap-engine`'s named-roadmap resolution order (explicit argument → "my roadmap" → default `.ai-factory/ROADMAP.md`; see the engine's "Named roadmaps" section for the slug/owner mechanics) above `---STOP---`, scanning each contract line and its `Spec:` note file.
+Target, in priority order: the file(s) in `$ARGUMENTS`, if given — else the scope under discussion in chat (a named task, phase, or task spec) — else all open `- [ ]` tasks of the roadmap in play per `roadmap-engine`'s named-roadmap resolution order (explicit argument → "my roadmap" → default `.ai-factory/ROADMAP.md`; see the engine's "Named roadmaps" section for the slug/owner mechanics) above `---STOP---`, scanning each contract line and its `Spec:`-tagged task spec.
 
 Any question that would need an answer *during implementation* is space for the agent to fantasize. Close all of it now.
 

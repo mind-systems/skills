@@ -77,4 +77,4 @@ Fix: demote `:68` from a `DEVIATION` to a plain statement of fact — the origin
 
 ## Deferred observations
 
-- Affects: roadmap task 17.3 — `SKILL.md` carries 3 pre-existing `milestone` occurrences outside the Layer 5 fence. This plan correctly constrains only *new* prose to registry vocabulary and leaves the sweep to 17.3, which the contract line schedules strictly after Phase 8 to avoid the same-file collision. Nothing to do here; noted only so a reviewer seeing `milestone` in the post-change file does not read it as introduced by this task.
+- Affects: roadmap task 17.3 — `SKILL.md` carries 3 pre-existing `milestone` occurrences outside the Layer 5 fence. This plan correctly constrains only *new* prose to registry vocabulary and leaves the sweep to 17.3, which the contract line schedules strictly after Phase 8 to avoid the same-file collision. Nothing to do here; noted only so a reviewer seeing `milestone` in the post-change file does not read it as introduced by this task. [dismissed — already handled: 17.3 landed and swept milestone→task across roadmap-test-coverage; verified zero "milestone" occurrences remain in SKILL.md]

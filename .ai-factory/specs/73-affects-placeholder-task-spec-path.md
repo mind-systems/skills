@@ -33,4 +33,5 @@ The field string `<phase / task-spec path / "unknown">` is pinned identically in
 
 - `grep -n 'task-spec path' src/skills/orchestrator-artifacts/SKILL.md` → line 55 only.
 - `rg -in 'spec-note' src/skills/orchestrator-artifacts/SKILL.md` → zero.
-- `grep -c '## Deferred observations' src/skills/orchestrator-artifacts/SKILL.md` → 2, unchanged; the `- Affects: ` prefix byte-identical pre/post.
+- `grep -c '## Deferred observations' src/skills/orchestrator-artifacts/SKILL.md` → 2, unchanged.
+- `git diff src/skills/orchestrator-artifacts/SKILL.md | grep -c '^[-+]- Affects: '` → 0 — no diff hunk touches a line beginning with the `- Affects: ` prefix, the mechanical check for "byte-identical pre/post" rather than an assumption from the surrounding counts.

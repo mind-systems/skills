@@ -58,6 +58,6 @@ None.
 
 ## Deferred observations
 
-- Affects: `.ai-factory/ROADMAP.md` — contract line 17.5 is still `[ ]` while the sidecar reads `step: implemented`. Prior task commits in this repo (e.g. `abbc811` for 17.4) carry the `ROADMAP.md | 2 +-` flip in the same commit as the product change, so the flip is expected at the commit stage, after review passes — not a defect at this point in the pipeline. Recorded so the commit stage is checked to include it rather than assumed.
+- Affects: `.ai-factory/ROADMAP.md` — contract line 17.5 is still `[ ]` while the sidecar reads `step: implemented`. Prior task commits in this repo (e.g. `abbc811` for 17.4) carry the `ROADMAP.md | 2 +-` flip in the same commit as the product change, so the flip is expected at the commit stage, after review passes — not a defect at this point in the pipeline. Recorded so the commit stage is checked to include it rather than assumed. [dismissed — verified live: ROADMAP.md's 17.5 contract line is now [x], the commit-stage flip happened as expected]
 
 REVIEW_PASS
