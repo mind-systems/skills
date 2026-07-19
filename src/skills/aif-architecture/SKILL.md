@@ -12,19 +12,13 @@ Generate `.ai-factory/ARCHITECTURE.md` with architecture decisions tailored to t
 
 ## Workflow
 
-### Step 0: Load Config & Project Context
+### Step 0: Load Project Context
 
-**FIRST:** Read `.ai-factory/config.yaml` if it exists to resolve:
-- **Paths:** `paths.architecture`
-- **Language:** `language.ui` for prompts and `language.artifacts` for generated architecture content
+The architecture artifact is written to `.ai-factory/ARCHITECTURE.md`.
 
-When invoked by `/aif`, assume `.ai-factory/config.yaml` has already been written for the current setup run and already contains the resolved `language.ui` / `language.artifacts` values.
+**Language:** the generated `.ai-factory/ARCHITECTURE.md` keeps fixed **English** headings and text. User-facing prompts and the Step 4 confirmation follow the ambient chat/repository language.
 
-If config.yaml doesn't exist, use defaults:
-- ARCHITECTURE.md: `.ai-factory/ARCHITECTURE.md`
-- Language: `en` (English)
-
-**THEN:** Read the project's `CLAUDE.md` if it exists to understand:
+Read the project's `CLAUDE.md` if it exists to understand:
 - Purpose (what the project is)
 - Tech stack (language, framework, database, ORM)
 - Conventions already documented
@@ -121,9 +115,9 @@ Wait for their decision before proceeding to Step 2.
 
 ### Step 2: Generate the Architecture Artifact
 
-Create the parent directory for the resolved architecture path if needed.
+Create the parent directory for `.ai-factory/ARCHITECTURE.md` if needed.
 
-Generate the resolved architecture artifact (default: `.ai-factory/ARCHITECTURE.md`) with the following structure, **adapted to the project's tech stack and language**:
+Generate the architecture artifact `.ai-factory/ARCHITECTURE.md` with the following structure, **adapted to the project's tech stack and language**:
 
 → read `references/architecture-template.md` and generate the artifact from it, adapted to the project's tech stack and language.
 
@@ -131,38 +125,37 @@ Generate the resolved architecture artifact (default: `.ai-factory/ARCHITECTURE.
 
 ### Step 3: Update project CLAUDE.md
 
-Ensure the project's `CLAUDE.md` carries one `## Architecture` pointer line at the resolved architecture path. Use the resolved architecture path from config, not the default path literal.
+Ensure the project's `CLAUDE.md` carries one `## Architecture` pointer line at `.ai-factory/ARCHITECTURE.md`.
 
-- **Add only if absent** — if `CLAUDE.md` already has an `## Architecture` section or an equivalent pointer to the resolved architecture path, do not duplicate it.
+- **Add only if absent** — if `CLAUDE.md` already has an `## Architecture` section or an equivalent pointer to `.ai-factory/ARCHITECTURE.md`, do not duplicate it.
 - If `CLAUDE.md` doesn't exist, skip this step (standalone usage without `/aif` setup).
 
 ```markdown
 ## Architecture
-See `[resolved-architecture-path]` for module boundaries, folder structure, and dependency rules.
+See `.ai-factory/ARCHITECTURE.md` for module boundaries, folder structure, and dependency rules.
 ```
 
 ### Step 4: Confirm
 
-Present the confirmation in resolved `language.ui` and report the resolved architecture path:
+Present the confirmation in the ambient language and report the architecture path: `.ai-factory/ARCHITECTURE.md`.
 
 ```
-[Localized success heading in `language.ui`]
+[success heading]
 
-[Localized pattern label in `language.ui`]: [chosen pattern]
-[Localized file label in `language.ui`]: [resolved architecture path]
+Pattern: [chosen pattern]
+File: `.ai-factory/ARCHITECTURE.md`
 
-[Localized key-rules heading in `language.ui`]:
+[key rules heading]:
 - [rule 1]
 - [rule 2]
 - [rule 3]
 
-[Localized closing sentence in `language.ui` about workflow skills following these architecture guidelines.]
+[closing sentence about workflow skills following these architecture guidelines]
 ```
 
 ## Artifact Ownership
 
-- Primary ownership: the resolved architecture artifact path (default: `.ai-factory/ARCHITECTURE.md`).
-- Respect config overrides: write to the resolved architecture path from `config.yaml` when provided.
+- Primary ownership: `.ai-factory/ARCHITECTURE.md`.
 - Allowed companion update: the `## Architecture` pointer line in the project `CLAUDE.md`.
 - Read-only context: roadmap, rules, research, and plan artifacts unless user explicitly requests otherwise.
 

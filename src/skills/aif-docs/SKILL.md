@@ -1,6 +1,6 @@
 ---
 name: aif-docs
-description: Generate and maintain project documentation as a present-tense governing spec of behavior, protocols, data flows, and connections — split by topic in the configured docs directory, with a lean README (plus its onboarding relatives) as the exception. Use when user says "create docs", "write documentation", "update docs", "generate readme", "document project", "напиши ТЗ", or "техническое задание".
+description: Generate and maintain project documentation as a present-tense governing spec of behavior, protocols, data flows, and connections — split by topic in the project's docs directory, with a lean README (plus its onboarding relatives) as the exception. Use when user says "create docs", "write documentation", "update docs", "generate readme", "document project", "напиши ТЗ", or "техническое задание".
 argument-hint: "[--web]"
 allowed-tools: Read Write Edit Glob Grep Bash(mkdir *) Bash(npx *) Bash(python *) AskUserQuestion WebFetch WebSearch
 disable-model-invocation: false
@@ -16,10 +16,10 @@ Generate, maintain, and improve project documentation as the project's **governi
 
 ## Core Principles
 
-Everything written under the resolved docs directory (`paths.docs`, default: `docs/`) is governing-spec genre — behavior, protocols, data flows, connections, stated in present tense — whether the code behind it exists yet or not. Only the onboarding surface (README + its relatives) is exempt from that genre.
+Everything written under the resolved docs directory is governing-spec genre — behavior, protocols, data flows, connections, stated in present tense — whether the code behind it exists yet or not. Only the onboarding surface (README + its relatives) is exempt from that genre.
 
 1. **README is a landing page, not a manual.** ~80-120 lines. First impression, install, quick example, links to details.
-2. **Details go to the resolved docs directory** (`paths.docs`, default: `docs/`). Each file is self-contained — one topic, one page. A user should be able to read a single doc file and get the full picture on that topic.
+2. **Details go to the resolved docs directory.** Each file is self-contained — one topic, one page. A user should be able to read a single doc file and get the full picture on that topic.
 3. **No duplication — one home per fact.** Structure and boundaries live in ARCHITECTURE.md; behavior lives in the topic docs; the documentation index lives in the project's CLAUDE.md (a `## Documentation` table, `| Doc | What it covers |`); onboarding lives in README + its relatives (CHANGELOG.md, CONTRIBUTING.md, LICENSE). A fact stated in two homes becomes a link from the second to the first — README carries at most one pointer line to the docs directory, never an index table. Exception: the installation command can appear in both README and getting-started.md (users expect it in README).
 4. **Cross-links use relative paths.** From README: link to the resolved docs directory path (for example `docs/workflow.md` by default). Between doc pages in the same directory: `workflow.md`.
 5. **Scannable.** Use tables, bullet lists, and code blocks. Avoid long paragraphs. Users scan, they don't read.
@@ -27,20 +27,15 @@ Everything written under the resolved docs directory (`paths.docs`, default: `do
 
 ## Workflow
 
-### Step 0: Load Config & Project Context
+### Step 0: Load Project Context
 
-**FIRST:** Read `.ai-factory/config.yaml` if it exists to resolve:
-- **Paths:** `paths.architecture` and `paths.docs`
-- **Language:** `language.ui` for prompts and `language.artifacts` for generated docs
+**Docs directory:** resolves to `docs/` by default, or the project's existing docs directory when one is already in use — detailed docs are written there. Every "resolved docs directory" reference in this file resolves against this definition. ARCHITECTURE.md is read from `.ai-factory/ARCHITECTURE.md`.
 
-If config.yaml doesn't exist, use defaults:
-- ARCHITECTURE.md: `.ai-factory/ARCHITECTURE.md`
-- Docs directory: `docs/`
-- Language: `en` (English)
+**Language:** generated documentation content follows the ambient project language (see `## Important Rules` item 4). The `## Documentation` index sections this skill writes into `CLAUDE.md` and `AGENTS.md` keep fixed **English** headings and table text regardless of the ambient language.
 
-**Note:** `README.md` remains the landing page in the project root. Detailed docs are written to the resolved `paths.docs` directory (default: `docs/`).
+**Note:** `README.md` remains the landing page in the project root.
 
-**Also read `.ai-factory/ARCHITECTURE.md`** (use path from config) if it exists to align documentation with the project's structure and boundaries.
+**Also read `.ai-factory/ARCHITECTURE.md`** if it exists to align documentation with the project's structure and boundaries.
 
 **Explore the codebase:**
 - Read `package.json`, `composer.json`, `requirements.txt`, `go.mod`, `Cargo.toml`, etc.
@@ -257,7 +252,6 @@ Suggest the user to free up context space if needed: `/clear` (full reset) or `/
 ## Artifact Ownership
 
 - Primary ownership: `README.md`, `<resolved docs dir>/*`, the Documentation section in `AGENTS.md`, and the `## Documentation` section in `CLAUDE.md`.
-- Config use: `config.yaml` resolves `paths.architecture`, `paths.docs`, `language.ui`, and `language.artifacts`.
 - Read-only context: `.ai-factory/ARCHITECTURE.md`, roadmap/rules/research artifacts unless the user explicitly asks for broader edits.
 
 ## Important Rules
@@ -268,4 +262,4 @@ Suggest the user to free up context space if needed: `/clear` (full reset) or `/
 4. **Use the project's language** — if project README is in Russian, write docs in Russian
 5. **Preserve existing badges/logos** — don't remove them during restructuring
 6. **Add to .gitignore** if generating HTML: add `docs-html/` to .gitignore
-7. **Ownership boundary** — this command owns documentation artifacts (`README.md`, `<resolved docs dir>/*`, the Documentation section in `AGENTS.md`, and the `## Documentation` section in `CLAUDE.md`), not the roadmap, RULES.md, or research artifacts resolved from config. The CLAUDE.md ownership is scoped to that section only, not the whole file
+7. **Ownership boundary** — this command owns documentation artifacts (`README.md`, `<resolved docs dir>/*`, the Documentation section in `AGENTS.md`, and the `## Documentation` section in `CLAUDE.md`), not the roadmap, RULES.md, or research artifacts. The CLAUDE.md ownership is scoped to that section only, not the whole file

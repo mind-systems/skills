@@ -1,10 +1,10 @@
 # Rules Generation
 
-**Create `.ai-factory/rules/base.md` from codebase evidence:**
+**Create `.ai-factory/RULES.md` from codebase evidence:**
 
-After language resolution and config write, analyze the codebase as a search for **counter-defaults** — branded/opaque types, serialization quirks, forbidden operations, non-obvious invariants — not as a style-inventory pass. Ground truth in the code shows what *is*; it never shows what must *never* change, so that second thing is what this file exists to carry.
+Analyze the codebase as a search for **counter-defaults** — branded/opaque types, serialization quirks, forbidden operations, non-obvious invariants — not as a style-inventory pass. Ground truth in the code shows what *is*; it never shows what must *never* change, so that second thing is what this file exists to carry.
 
-A rule earns its line in `rules/base.md` iff **both**:
+A rule earns its line in `RULES.md` iff **both**:
 - **(a)** the executor would do otherwise by its own defaults, and
 - **(b)** code alone cannot teach it.
 
@@ -14,7 +14,7 @@ Every emitted rule **carries its why** — the incident or invariant behind it. 
 
 When the codebase surfaces no counter-default, the correct result is a **near-empty file** — header note plus nothing. The criterion admits nothing rather than manufacturing rules to fill sections.
 
-Create `.ai-factory/rules/base.md` with only the rules that pass the filter above. Use fixed **English** headings and service text in this file:
+Create `.ai-factory/RULES.md` with only the rules that pass the filter above. Use fixed **English** headings and service text in this file:
 
 ```markdown
 # Project Base Rules
