@@ -36,13 +36,13 @@ One pass over the five `CLAUDE.md` files (root + four leaves), three operations 
 
 **Known dedupe inputs from the 2026-07-11 session:** the root CLAUDE.md "Documentation routing" section is itself a hoist-artifact the pass may compress; the root CLAUDE.md "Cross-project invariants" section partially duplicates root `docs/architecture.md` (§ Auth model / § Service identity) — CLAUDE.md keeps the one-line invariant + pointer, the doc keeps the mass. **Caution — two same-named layers:** root `docs/architecture.md` (cross-project map, English) and `tradeoxy_core/docs/architecture.md` (core's own, Russian) are different documents, both cited as "architecture.md § …" from different places; never merge or confuse them.
 
-Also enforce while passing: **no skill or command names as routing** in any of the files — names rot when skills are renamed or retired, leaving dead routing paid on every run; routing is described in task terms (this rule is the task's own, not a loaded global — apply it from here); present tense, no change-history narration (a CLAUDE.md is a description of existing behavior); root `AGENTS.md` stays a one-line pointer.
+Also enforce while passing: **no skill or command names as routing** in any of the files — names rot when skills are renamed or retired, leaving dead routing paid on every run; routing is described in task terms (this rule is the task's own, not a loaded global — apply it from here); present tense, no change-history narration (a CLAUDE.md is a description of existing behavior); root `AGENTS.md` is a symlink to `CLAUDE.md`.
 
 **Fourth operation — rules hygiene.** The family's rules files (`tradeoxy_core/.ai-factory/RULES.md`, `tradeoxy_gui/.ai-factory/RULES.md`, `tradeoxy_broker/.ai-factory/RULES.md`, `tradeoxy_analyst/.ai-factory/rules/base.md`) pass the counter-default filter: a rule survives iff the executor would do otherwise by default AND code alone cannot teach it, and it carries its why; generic style conventions are deleted as noise — live target: analyst's `snake_case`/`PascalCase`/`UPPER_SNAKE_CASE` block. The hand-grown core rules (proto-strings, branded UUIDs, no hand migrations, protocol naming) are the passing genre — expected to survive intact. Files stay in place (the orchestrator's mandatory-read channel); every dropped rule is listed in the report.
 
 ## Files & types
 
-- edit (as needed): `~/projects/tradeoxy/CLAUDE.md` + the four subrepo `CLAUDE.md`s; `~/projects/tradeoxy/AGENTS.md` only if it violates the one-line-pointer rule
+- edit (as needed): `~/projects/tradeoxy/CLAUDE.md` + the four subrepo `CLAUDE.md`s; `~/projects/tradeoxy/AGENTS.md` only if it is not already a symlink to `CLAUDE.md`
 - edit (grove-guarantee carve-out only): `~/projects/tradeoxy/README.md` — solely the § Setup layout-guarantee instruction (checkout structure + freshest-branch switch), only if absent or incomplete; nothing else in README
 - read-only: everything else in `~/projects/tradeoxy` — docs, code, `RULES.md` files, `.ai-factory/` trees are ground truth for verification, never edit targets here
 
@@ -59,7 +59,7 @@ Also enforce while passing: **no skill or command names as routing** in any of t
 - No meaning stated verbatim in two of the five files; shared meanings in the root; leaves carry leaf-specific content plus pointers.
 - The implementation report lists every root↔leaf conflict with its ground-truth resolution or escalation.
 - `grep` the five files for skill/command-name routing → zero; for history phrasing → zero.
-- The root still routes by ownership; `AGENTS.md` is one line.
+- The root still routes by ownership; `AGENTS.md` is a symlink to `CLAUDE.md`.
 - The instruction-layer total does not grow **vs the entry measurement** (the counts in Current state are stratigraphy, not the baseline).
 - The grove entry checks are recorded in the report: parent-load verified live, README § Setup guarantee present (or established under the carve-out), sizes re-measured.
 - After editing any file's body, its header/intro/summary lines are re-scanned for now-superseded claims — same-file self-contradiction is the cheapest drift to create and the hardest for its author to see.
