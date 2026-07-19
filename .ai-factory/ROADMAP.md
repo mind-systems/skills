@@ -52,6 +52,14 @@ Exactly two channels to the editor, no third: the **`::` relay** — a message e
 
 - [x] **15.1 — agent-architect: relay by `::` marker, not by classification** — the architect drifts ([handoff 22](handoffs/22-architect-violated-relay-discipline-contaminated-editor.md)) because it must *decide* which user messages are editor-bound relays before relaying them — that classification is the drift surface. Replace it with a marker: a user message ending with `::` is a relay — the whole message before the trailing marker is the payload (strip the marker, translate, expand a slash-command by-reference, add nothing); no trailing `::` → conversation to the architect, never forwarded. The marker trails, never leads: a payload often opens with a slash-command the harness invokes only at message head — a leading `::` would strand the architect without the invoked skill. Exactly two editor channels remain — the `::` relay and the authored apply work-order. In `agent-architect/SKILL.md`: rewrite §"Relay by default", delete the standing-judgment paragraph (65–74), drop §"Spawn once"'s digest re-brief (a third channel); `editor.md` and `description:` unchanged. Guard: trailing `::` unconditional. Spec: `.ai-factory/specs/70-architect-relay-marker.md`. [28m 49s]
 
+## AGENTS.md is a symlink to CLAUDE.md
+
+AGENTS.md redirects to CLAUDE.md as a filesystem symlink — a reader gets CLAUDE.md verbatim, no second file to drift. The one-line-pointer-file form and its restated doctrine line are dropped; the convention now lives only in the `aif` generator that emits the symlink.
+
+### Phase 18 — AGENTS.md is a symlink, not a pointer file
+
+- [x] **18.1 — Retire the one-line-pointer form: AGENTS.md is a symlink to CLAUDE.md** — dropped the `AGENTS.md is a one-line pointer to CLAUDE.md` clause from `src/global/CLAUDE.md` § "Project CLAUDE.md authoring"; `aif/SKILL.md` § "AGENTS.md Generation" now creates the symlink (`ln -sfn CLAUDE.md AGENTS.md`) instead of writing a one-line file, folding any pre-existing unique content into CLAUDE.md first; `aif-docs/SKILL.md` recognizes a symlinked AGENTS.md and leaves it untouched; spec 24's three AGENTS.md references switched to the symlink form. Our three repo AGENTS.md (`sakshi` root, `skills`, `orchestrator`) were already symlinks — verified, untouched. Landed by hand in the planning session, 2026-07-19.
+
 ## Experiments
 
 Live tests of the written philosophy: each task must succeed with documentation alone as its source — no chat context, no author present. The read-first mandates in the specs are hard preconditions.

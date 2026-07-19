@@ -36,13 +36,13 @@ One pass over the eight `CLAUDE.md` files (root + seven leaves), three operation
 - **Hoist** — a meaning repeated across 2+ leaves belongs to the root: move it up, leave pointers (or nothing, where the root is auto-loaded context anyway). The root holds shared meaning and ownership routing; leaf-specific facts stay in leaves.
 - **Resolve root↔leaf conflicts** — where the root claims X and a leaf claims Y: never pick silently. Read down to ground truth (the code/config the claim describes); the file that matches ground truth wins; rewrite the loser. A conflict that ground truth cannot settle (a genuine product decision) is escalated in the report, not invented. Every conflict found — resolved or escalated — is listed explicitly in the implementation report. **Calibration: conflicts are the expected case, not the edge case** — budget this operation as primary (the tradeoxy family's equivalent sweep surfaced three instruction-layer lies in one session); the report contract will have real material.
 
-Also enforce while passing: **no skill or command names as routing** in any of the files — names rot when skills are renamed or retired, leaving dead routing paid on every run; routing is described in task terms (this rule is the task's own, not a loaded global — apply it from here); present tense, no change-history narration (no "was changed/replaced" — a CLAUDE.md is a description of existing behavior); root `AGENTS.md` stays a one-line pointer.
+Also enforce while passing: **no skill or command names as routing** in any of the files — names rot when skills are renamed or retired, leaving dead routing paid on every run; routing is described in task terms (this rule is the task's own, not a loaded global — apply it from here); present tense, no change-history narration (no "was changed/replaced" — a CLAUDE.md is a description of existing behavior); root `AGENTS.md` is a symlink to `CLAUDE.md`.
 
 **Fourth operation — rules hygiene.** The family's rules files (`mind_api/.ai-factory/RULES.md` — 57 lines, `mind_mobile/.ai-factory/RULES.md` — 9, plus any `rules/` dirs in `camera_ppg_kit`/`mind_web`) pass the counter-default filter: a rule survives iff the executor would do otherwise by default AND code alone cannot teach it, and it carries its why; generic style conventions the agent follows unprompted are deleted as noise. The files stay in place — they are the orchestrator's dedicated mandatory-read channel — only their content is filtered; every dropped rule is listed in the report.
 
 ## Files & types
 
-- edit (as needed): `~/projects/mind/CLAUDE.md` + the seven subproject `CLAUDE.md`s; `~/projects/mind/AGENTS.md` only if it violates the one-line-pointer rule
+- edit (as needed): `~/projects/mind/CLAUDE.md` + the seven subproject `CLAUDE.md`s; `~/projects/mind/AGENTS.md` only if it is not already a symlink to `CLAUDE.md`
 - edit (grove-guarantee carve-out only): `~/projects/mind/README.md` — solely the § Setup layout-guarantee instruction (checkout structure + freshest-branch switch), only if absent or incomplete; nothing else in README
 - read-only: everything else in `~/projects/mind` (docs and code are ground truth for verification, never edit targets here)
 
@@ -59,7 +59,7 @@ Also enforce while passing: **no skill or command names as routing** in any of t
 - Spot-check: no meaning stated verbatim in two of the eight files; shared meanings live in the root; leaf files carry only leaf-specific content plus pointers.
 - The implementation report lists every root↔leaf conflict found, each with its ground-truth resolution or its escalation.
 - `grep` the eight files for skill/command-name routing → zero; for history phrasing ("was replaced", "now uses instead") → zero.
-- The root still routes by ownership (prefix/keyword tables intact); `AGENTS.md` is one line.
+- The root still routes by ownership (prefix/keyword tables intact); `AGENTS.md` is a symlink to `CLAUDE.md`.
 - Total instruction-layer size does not grow **vs the entry measurement**: dedupe+hoist should shrink or hold it, not inflate it (the 730 in Current state is stratigraphy, not the baseline).
 - The grove entry checks are recorded in the report: topology determined, parent-load verified live, README § Setup guarantee present (or established under the carve-out), sizes re-measured.
 - After editing any file's body, its header/intro/summary lines are re-scanned for now-superseded claims — same-file self-contradiction is the cheapest drift to create and the hardest for its author to see.

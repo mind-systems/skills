@@ -248,7 +248,7 @@ Read `AGENTS.md` and find the `## Documentation` section. Update it to reflect t
 - If doc pages were removed, remove them
 - Keep descriptions concise (under 10 words)
 - If `AGENTS.md` doesn't exist, skip this step silently
-- If `AGENTS.md` is a one-line redirect to CLAUDE.md, the CLAUDE.md `## Documentation` section (see "Update the CLAUDE.md Documentation Index") is the single source and AGENTS.md is left untouched
+- If `AGENTS.md` is a symlink to CLAUDE.md, the CLAUDE.md `## Documentation` section (see "Update the CLAUDE.md Documentation Index") is the single source and AGENTS.md is left untouched
 
 ### Context Cleanup
 

@@ -198,13 +198,13 @@ MCP runtime format matrix, canonical server templates, and wrapper examples → 
 
 ## AGENTS.md Generation
 
-**Generate `AGENTS.md` in the project root** (filename unchanged) as a one-line pointer to `CLAUDE.md`, the single source of truth for this project:
+**Create `AGENTS.md` in the project root as a symlink to `CLAUDE.md`** (filename unchanged), so any tool that reads `AGENTS.md` gets `CLAUDE.md` — the single source of truth for this project — verbatim:
 
-```markdown
-See [CLAUDE.md](CLAUDE.md) as the single source of truth for this project.
+```bash
+ln -sfn CLAUDE.md AGENTS.md
 ```
 
-If `AGENTS.md` already exists and is richer than the pointer, reduce it to the pointer per the standing convention; if it doesn't exist, create it with the pointer.
+If `AGENTS.md` already exists as a regular file, replace it with the symlink; where it holds anything not already in `CLAUDE.md`, fold that into `CLAUDE.md` first, then symlink.
 
 ---
 
