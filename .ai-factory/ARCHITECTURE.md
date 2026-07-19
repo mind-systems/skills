@@ -46,11 +46,15 @@ A philosophy skill invokes an engine for mechanism; the engine holds no policy a
 
 ## Features (roadmap-prune v2)
 
-This repo's features are mostly the skills themselves, enumerated under `src/` with per-file git history — those accumulate no rows here. The table records the cross-cutting foundations that are not any single skill, plus the prune ledger.
+A single skill's own capability accumulates no row here — each skill is enumerated under `src/` with its per-file git history. The table records the cross-cutting capabilities and foundations that no single skill holds alone — what the system does across many skills or the whole fleet — plus the prune ledger.
 
 | Feature | Hashes |
 |---------|--------|
 | **Foundation** | |
-| Reserved-words language — the semantic contract every skill body, `description:`, roadmap, and spec is written in; specified in `docs/reserved-words.md` (+ `docs/skill-description-field.md`, how it loads) and mandated from the root CLAUDE.md. Codebase conformance in flight (roadmap phases 9–14 extend this row as they land). | a379ac9 |
+| Reserved-words language — the semantic contract every skill body, `description:`, roadmap, and spec is written in; specified in `docs/reserved-words.md` (+ `docs/skill-description-field.md`, how it loads) and mandated from the root CLAUDE.md. | a379ac9 039bf45 |
+| Manage a project's coordination-layer tree — from one authoring system, hold every project's CLAUDE.md tree and `.ai-factory/` to the harness wiring contract: drive a convention across the whole fleet, detect and repair drift, cold-rehydrate any leaf from its own tree. Model: `docs/sakshi-harness/sakshi-harness.md`. | 0aa7a99 |
+| Multiuser roadmaps — per-developer named roadmaps (`.ai-factory/roadmaps/<slug>.md`, slug from git `user.email`), the `> Owner:` single-writer line, the family's target-file resolution order, and per-roadmap spec/artifact subdirectories; the default single `ROADMAP.md` layout stays valid unchanged. Model: `docs/philosophy/multiuser-roadmaps.md`. | b2272fe |
+| Governing-spec-leads-code doctrine — the global CLAUDE.md recognizes two doc modes: a governing spec states intended behavior and leads its code; a description lags, and code wins. | 94ad78d |
+| AGENTS.md is a symlink to CLAUDE.md — the one-line-pointer form is retired; the convention lives in the global CLAUDE.md and the `aif` generator that emits `ln -sfn CLAUDE.md AGENTS.md`. | c02c3c0 |
 | **Internal** | |
-| Roadmap drop history | 2d2f3f6, 902f7d9 |
+| Roadmap drop history | 2d2f3f6, 902f7d9, 5348761 |
