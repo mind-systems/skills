@@ -22,7 +22,7 @@ Home — `roadmap-engine` format.
 - **contract line** — the ~600-char task line in the roadmap.
 - **task spec** — one task's full specification file under `.ai-factory/specs/`, written through `note`, referenced by the contract line's tag; the implementation-tier work-order.
 - **two-tier** — a contract line plus its task spec: two levels of one task.
-- **governing spec** — a phase's spec, named on the phase header; the authority every reader of the phase conforms to — the meaning of what the system *must* do, written before code, code implements it. Lives in `docs/`. Home — [skill-cycle](philosophy/skill-cycle.md), `aif-docs`.
+- **governing spec** — a phase's spec, named on the phase header; the authority every reader of the phase conforms to — the meaning of what the system *must* do, written before code, code implements it. Lives in `docs/`. Home — [skill-cycle](sakshi-harness/skill-cycle.md), `aif-docs`.
 
 ## Entry maps
 
@@ -47,7 +47,7 @@ Home — global CLAUDE.md § "Grounding claims", [context-tree](philosophy/conte
 
 ## Skill graph
 
-Home — [skill-composition-model](philosophy/skill-composition-model.md), [skill-pyramid](philosophy/skill-pyramid.md), ARCHITECTURE.md § "Composition: mechanism vs policy".
+Home — [skill-graph](sakshi-harness/skill-graph.md), ARCHITECTURE.md § "Composition: mechanism vs policy".
 
 - **engine** — a mechanism skill: the shared *how*, two or more callers.
 - **lens** — a top-level skill: route plus policy, a thin top over engines (a "philosophy" skill).
@@ -66,7 +66,7 @@ Home — `test-philosophy`.
 
 ## Orchestrator
 
-Home — `orchestrator-artifacts`, [skill-cycle](philosophy/skill-cycle.md).
+Home — `orchestrator-artifacts`, [skill-cycle](sakshi-harness/skill-cycle.md).
 
 - **orchestrator** — the CLI that executes a finished roadmap task by task; it plans nothing.
 - **sidecar** — a task run's status file.

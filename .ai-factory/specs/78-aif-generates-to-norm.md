@@ -1,0 +1,41 @@
+# aif family: stop generating retired artifacts, align to the canonical harness contract
+
+Phase 19. Governing spec: `docs/sakshi-harness/sakshi-harness.md` — its wiring contract states the correct, present-tense shape of a project's coordination layer (CLAUDE.md opens on content, AGENTS.md a symlink, `.ai-factory/RULES.md` the orchestrator's canonical channel, no mention of config.yaml/rules/base.md/DESCRIPTION.md because they are absent from the correct state). Today's five Phase-2 passes (mind/tradeoxy/repo-stats-herald/observability/digital_ocean) found the same three defects landing in every project family, always from one source: `aif` and its `references/` templates still generate a contentless CLAUDE.md title+boilerplate intro, the rules file at the orchestrator-invisible `.ai-factory/rules/base.md`, and a `.ai-factory/config.yaml` the orchestrator never reads. Every future `/aif` run regenerates exactly what Phase 2 spent a day removing. This task conforms the generators to the harness contract at the source, so no future project needs this cleanup.
+
+## Current state (grounded, verified live)
+
+- `src/skills/aif/SKILL.md` — frontmatter `description:` (L2) and the numbered overview (L12) both advertise generating "CLAUDE.md, config.yaml, and rules/base.md". The "CLAUDE.md Generation" section (L31–39) lists fixed sections starting at `## Purpose` — it never instructs writing a `# CLAUDE.md` title or a "This file provides guidance…" line; the boilerplate every project carried was never a written instruction here, only an unwritten default the model reached for anyway. "Language Resolution" (L43–67) persists `language.ui`/`language.artifacts` to `.ai-factory/config.yaml` and resolves them back from it every run. Each of the three modes' step lists (Mode 1 L71–120, Mode 2 L124–150, Mode 3 L154–189) carries an explicit "Persist config.yaml" step and a "Resolve Language Settings" step; Mode 1 Step 7 additionally writes `.ai-factory/config.update.json`, invokes `update-config.mjs`, and deletes the temp payload (items 3–5), then "Create rules/base.md" (item 6). Numerous "[Localized … in `language.ui`]" placeholders throughout assume a resolved, persisted language value.
+- `src/skills/aif/references/rules-generation.md` — names `.ai-factory/rules/base.md` as the emission target (L3, L7, L17); the counter-default filter itself (the (a)/(b) gate, the excluded-anti-pattern list, the near-empty-file default) is unaffected and stays as-is.
+- `src/skills/aif/references/config-template.yaml`, `references/config-persistence.md`, `references/update-config.mjs` — the entire config.yaml machinery. Verified live: no other skill in this repo references any of these three files (`grep -rln` across `src/` returns only `aif/SKILL.md` itself) — retiring them strands nothing.
+- `src/skills/aif-architecture/SKILL.md` (Step 0, L15–25) and `src/skills/aif-docs/SKILL.md` (Step 0, L30–41) both read `.ai-factory/config.yaml` **FIRST** for `language.ui`/`language.artifacts`/`paths.*`, with an existing "if config.yaml doesn't exist, use defaults" fallback already written for both — this fallback becomes the only path.
+
+## Change
+
+- **CLAUDE.md Generation** (`aif/SKILL.md`) gains an explicit prohibition: never emit a `# CLAUDE.md` title or the `This file provides guidance to Claude Code…` boilerplate line — the generated file opens directly on its first `## section` (its first content section, e.g. `## Purpose`).
+- **Rename the rules-artifact target** everywhere in `aif/SKILL.md` and `aif/references/rules-generation.md`: `.ai-factory/rules/base.md` → canonical `.ai-factory/RULES.md` (the `description:` field, the numbered overview, the "Create rules/base.md" step — renamed step, `.ai-factory/` created directly, no `rules/` subdirectory — the template scaffold's own header `# Project Base Rules` is unaffected, only the file's path/name changes).
+- **Remove config.yaml generation entirely**: delete every "Persist config.yaml" step across all three modes, Mode 1 Step 7's config.update.json/update-config.mjs/cleanup sub-items, and the `references/config-template.yaml`, `references/config-persistence.md`, `references/update-config.mjs` files themselves (retire outright — nothing else references them).
+- **Remove the language-pin apparatus**: delete the "Language Resolution" section's persisted-config machinery (`language.ui`/`language.artifacts` write-and-resolve-from-`config.yaml`, the "Resolve Language Settings" step in each mode, the AskUserQuestion language-selection prompt). `aif` communicates in the ambient chat/repository language going forward — no persisted state, no resolution step. The **fixed-English-headings rule for generated artifacts is unchanged** — restate it plainly (CLAUDE.md/RULES.md/AGENTS.md/ARCHITECTURE.md keep fixed English headings and text) since its current home (the Language Resolution section) is being removed. Every "[Localized … in `language.ui`]" placeholder in user-facing confirmation text becomes plain ambient-language prose (no bracketed placeholder, no `language.ui` reference).
+- **`aif-architecture/SKILL.md` Step 0** and **`aif-docs/SKILL.md` Step 0**: delete the "read `.ai-factory/config.yaml` FIRST" step and its resolved-values framing; the existing "if config.yaml doesn't exist, use defaults" path (already written in both) becomes the only path, unconditionally — language ambient, paths at their stated defaults.
+
+## Files & types
+
+- edit: `src/skills/aif/SKILL.md`, `src/skills/aif/references/rules-generation.md`, `src/skills/aif-architecture/SKILL.md`, `src/skills/aif-docs/SKILL.md`
+- delete: `src/skills/aif/references/config-template.yaml`, `src/skills/aif/references/config-persistence.md`, `src/skills/aif/references/update-config.mjs`
+- read-only: `docs/sakshi-harness/sakshi-harness.md` (the governing spec this task conforms to); everything outside the `aif` skill family
+
+## Guards
+
+- **Scope is the aif-family skill sources only** — no project repo (mind, tradeoxy, repo-stats-herald, observability, digital_ocean, or any other) is touched by this task; those were Phase 2's targets, already done.
+- **Nothing orchestrator-visible is lost.** `config.yaml` was never orchestrator-read (verify against `sakshi-harness.md`'s wiring map: the orchestrator reads only `.ai-factory/RULES.md` + `.ai-factory/ARCHITECTURE.md` at Step 0 of its four agents — `config.yaml` names neither); its retirement removes an aif-family-internal artifact, not a contract the orchestrator depended on.
+- **Generated-artifact language stays English, unchanged** — only the *mechanism* that pinned it (persisted config.yaml keys) is removed, not the invariant itself; restate it directly in the surviving instruction text.
+- **`AGENTS.md` generation is unaffected** — it already creates the symlink per the norm; this task does not touch that section.
+- **Rules-hygiene semantics are unaffected** — only the emission path (`RULES.md` vs. `rules/base.md`) changes; the counter-default filter, the excluded-anti-pattern list, and the near-empty-file default in `rules-generation.md` stay exactly as they are.
+- **Preserve register** — match the existing imperative/declarative voice of each file; this is a targeted edit, not a rewrite.
+
+## Verification
+
+- A fresh `/aif` run on a scratch project yields: a `CLAUDE.md` that opens on its first `## section` — no `# CLAUDE.md` title, no boilerplate intro line; a `.ai-factory/RULES.md` (not `.ai-factory/rules/base.md`, and no `rules/` directory at all); no `.ai-factory/config.yaml` anywhere.
+- `grep -rn 'config.yaml\|rules/base.md' src/skills/aif/SKILL.md src/skills/aif/references/ src/skills/aif-architecture/SKILL.md src/skills/aif-docs/SKILL.md` → zero (excluding this spec's own history once landed).
+- `/aif-architecture` and `/aif-docs`, run against that same scratch project (no `config.yaml` present), complete normally via their existing "config.yaml doesn't exist → use defaults" path — language ambient, paths at their stated defaults.
+- `references/config-template.yaml`, `references/config-persistence.md`, `references/update-config.mjs` no longer exist under `src/skills/aif/`.
+- Re-scan `aif/SKILL.md`'s header/overview lines (L2, L12) for now-superseded claims after editing — they must no longer advertise generating `config.yaml` or `rules/base.md`.
