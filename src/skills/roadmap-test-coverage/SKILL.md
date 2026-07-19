@@ -34,7 +34,24 @@ Read in order (skip if absent):
 Store: `$STACK` (e.g. "NestJS/Jest"), `$TEST_CMD` (e.g. `npm test`),
 `$ROADMAP_PATH`.
 
-Infer stack from `package.json` / `pubspec.yaml` / `go.mod` / `Cargo.toml`.
+Resolve `$STACK` in this order:
+1. **Primary** — if `.ai-factory/ARCHITECTURE.md`'s `## Decision Rationale` →
+   `- **Tech stack:** ...` line is filled in, `$STACK` is that value verbatim.
+2. **Fallback** — only when the file is absent, the line is missing/empty, or
+   the line still carries the unfilled template placeholder
+   `[language, framework]`, infer the stack from `package.json` /
+   `pubspec.yaml` / `go.mod` / `Cargo.toml`.
+
+The fallback list is never extended with new per-language detectors — a
+project needing a stack it cannot sniff is expected to declare it in
+`ARCHITECTURE.md`.
+
+This resolution governs `$STACK` only — the never-extend rule binds `$STACK`
+detection, not `$TEST_CMD`'s read. Regardless of which source `$STACK` came
+from, still read the project's package manifest (the same four: `package.json`
+/ `pubspec.yaml` / `go.mod` / `Cargo.toml`) unconditionally for `$TEST_CMD`
+(e.g. `npm test` out of `package.json`'s scripts, `cargo test` out of
+`Cargo.toml`).
 
 ---
 
