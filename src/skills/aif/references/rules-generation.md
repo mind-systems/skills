@@ -8,7 +8,7 @@ A rule earns its line in `RULES.md` iff **both**:
 - **(a)** the executor would do otherwise by its own defaults, and
 - **(b)** code alone cannot teach it.
 
-Every emitted rule **carries its why** — the incident or invariant behind it. This is the costliest instruction surface per line in the whole system (see the composition-model reasoning in `.ai-factory/specs/41-aif-rules-counter-default-filter.md`): the orchestrator reads this file mandatorily at Step 0 of all four agents with override authority, treating every line as mandatory. A line that fails either gate is pure ongoing cost with no benefit.
+Every emitted rule **carries its why** — the incident or invariant behind it. This is the costliest instruction surface per line in the whole system: the orchestrator reads this file mandatorily at Step 0 of all four agents with override authority, treating every line as mandatory. A line that fails either gate is pure ongoing cost with no benefit.
 
 **Excluded anti-pattern:** generic language/style conventions the agent already follows by default are **not** rules and must never be emitted — this includes case styles (`snake_case`, `PascalCase`, `UPPER_SNAKE_CASE`), formatting, idiomatic naming, and boilerplate error/logging idioms. These fail gate (b): code alone teaches them, so a generated rule restating them is waste, not guidance.
 
