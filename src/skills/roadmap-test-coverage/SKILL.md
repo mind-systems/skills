@@ -26,6 +26,9 @@ already loaded) — it defines the named-roadmap resolution referenced below.
 
 Read in order (skip if absent):
 - `.ai-factory/ARCHITECTURE.md` — module boundaries, folder structure
+- `CLAUDE.md` at the same root as the `.ai-factory/` directory in play (not
+  necessarily the ambient auto-loaded one) — the declared test command in its
+  `## Commands` section
 - The roadmap in play per `roadmap-engine`'s named-roadmap resolution order
   (explicit `$ARGUMENTS` wins, then "my roadmap", then the default
   `.ai-factory/ROADMAP.md`; see the engine's "Named roadmaps" section for the
@@ -46,12 +49,23 @@ The fallback list is never extended with new per-language detectors — a
 project needing a stack it cannot sniff is expected to declare it in
 `ARCHITECTURE.md`.
 
-This resolution governs `$STACK` only — the never-extend rule binds `$STACK`
-detection, not `$TEST_CMD`'s read. Regardless of which source `$STACK` came
-from, still read the project's package manifest (the same four: `package.json`
-/ `pubspec.yaml` / `go.mod` / `Cargo.toml`) unconditionally for `$TEST_CMD`
-(e.g. `npm test` out of `package.json`'s scripts, `cargo test` out of
-`Cargo.toml`).
+This resolution governs `$STACK` only. `$TEST_CMD` has its own rule, resolved
+in this order:
+1. **Primary** — the test command the project declares in its `CLAUDE.md`
+   `## Commands` section. Typically a table row such as `| Tests | pytest |`,
+   but read the section for the declared test command whatever its shape — a
+   list entry or a bare line counts too. Take it verbatim.
+2. **Fallback** — only when `CLAUDE.md` is absent, has no `## Commands`
+   section, or that section declares no test command, infer `$TEST_CMD` from
+   the same four manifests as `$STACK`'s fallback (`package.json` /
+   `pubspec.yaml` / `go.mod` / `Cargo.toml`), e.g. `npm test` out of
+   `package.json`'s scripts, `cargo test` out of `Cargo.toml`.
+3. **Neither resolves** — `$TEST_CMD` is empty. This is a defined state,
+   handled in Layer 7, not an error.
+
+The four-manifest fallback list is never extended with per-language
+detectors — a project needing a test command it cannot sniff declares it in
+`CLAUDE.md`.
 
 ---
 
@@ -272,7 +286,13 @@ Log what was collected. No user confirmation needed — collect and continue.
 
 ## Layer 7 — Existing Tests Run
 
-Run the test suite:
+If `$TEST_CMD` is empty, do not execute it. Treat the project as having no
+runnable existing-test suite: skip the run, skip the failure classification,
+skip the green gate below, log it plainly (e.g. "No test command resolved —
+existing-test gate skipped"), and continue to Layer 8. Do not append anything
+to `$HANDOFF_LIST` — the skip is not a handoff task and has no pointer.
+
+Otherwise, run the test suite:
 ```bash
 <$TEST_CMD>
 ```
@@ -330,7 +350,9 @@ Layer-4 note — Layer 7 runs the whole suite, so a failing test may sit in a
 "Full coverage" area dropped in Layer 2, or a loud-failure area dropped in
 Layer 3 — and those items have no note path. Do NOT touch the test.
 
-Re-run `$TEST_CMD`. All tests must be green before Layer 8.
+Re-run `$TEST_CMD`. All tests must be green before Layer 8 — this gate
+applies only when `$TEST_CMD` resolved; the empty-command case already
+skipped straight to Layer 8 above.
 
 ---
 
@@ -348,9 +370,13 @@ Notes written: N
 Refactor items handed off: M
 Existing tests patched (API drift): K
 Class B items handed off: J
+Existing-test gate: skipped (no test command resolved)
 
 Next step: /roadmap-decompose
 ```
+
+The `Existing-test gate` line prints only when Layer 7 skipped the gate for
+an empty `$TEST_CMD`; omit it entirely when Layer 7 ran the suite.
 
 Then print `$HANDOFF_LIST` as concrete one-line task descriptions ready to
 paste into `/roadmap-decompose`:
