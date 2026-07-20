@@ -50,7 +50,7 @@ None.
 
 ## Deferred observations
 
-- Affects: unknown (pre-existing, `src/skills/aif/references/rules-generation.md` L11) — the file cites `.ai-factory/specs/41-aif-rules-counter-default-filter.md` as the home of its composition-model reasoning; no such file exists under `.ai-factory/specs/` or `.ai-factory/notes/`. Task 7 correctly orders everything outside its four named edits byte-identical, and the edge rotted independently of this task, so it is out of scope here. It wants its own contract line — either repoint it at the surviving artifact or drop the parenthetical.
-- Affects: `orchestrator/.ai-factory/` — `orchestrator/docs/configuration.md:87` disambiguates the orchestrator's own overlay against `.ai-factory/config.yaml`; once this task retires that artifact the sentence disambiguates against nothing. Correctly excluded by the spec's scope guard, which confines this task to the aif-family skill sources; noted so the sibling-repo follow-up is not lost.
+- Affects: unknown (pre-existing, `src/skills/aif/references/rules-generation.md` L11) — the file cites `.ai-factory/specs/41-aif-rules-counter-default-filter.md` as the home of its composition-model reasoning; no such file exists under `.ai-factory/specs/` or `.ai-factory/notes/`. Task 7 correctly orders everything outside its four named edits byte-identical, and the edge rotted independently of this task, so it is out of scope here. It wants its own contract line — either repoint it at the surviving artifact or drop the parenthetical. [fixed]
+- Affects: `orchestrator/.ai-factory/` — `orchestrator/docs/configuration.md:87` disambiguates the orchestrator's own overlay against `.ai-factory/config.yaml`; once this task retires that artifact the sentence disambiguates against nothing. Correctly excluded by the spec's scope guard, which confines this task to the aif-family skill sources; noted so the sibling-repo follow-up is not lost. [fixed]
 
 PLAN_REVIEW_PASS

@@ -81,8 +81,8 @@ The plan's **Task 10 live run** still shows no evidence of having been executed 
 
 ## Deferred observations
 
-- Affects: `src/skills/aif/references/rules-generation.md:11` — cites `.ai-factory/specs/41-aif-rules-counter-default-filter.md`; no such file exists under `.ai-factory/specs/` or `.ai-factory/notes/`. Correctly left byte-identical by this task. Pre-existing rot; wants its own contract line to repoint or drop the parenthetical.
-- Affects: `orchestrator/.ai-factory/` — `orchestrator/docs/configuration.md:87` disambiguates the orchestrator's own overlay against `.ai-factory/config.yaml`, which this task retires; the sentence now disambiguates against nothing. Outside this repo's scope guard.
-- Affects: `src/skills/aif/SKILL.md:5` — no `Bash(ln *)` grant while `## AGENTS.md Generation` runs `ln -sfn CLAUDE.md AGENTS.md`. Carried by contract line 19.2 with a matching guard on the shared L5 edit; correctly untouched here.
+- Affects: `src/skills/aif/references/rules-generation.md:11` — cites `.ai-factory/specs/41-aif-rules-counter-default-filter.md`; no such file exists under `.ai-factory/specs/` or `.ai-factory/notes/`. Correctly left byte-identical by this task. Pre-existing rot; wants its own contract line to repoint or drop the parenthetical. [fixed]
+- Affects: `orchestrator/.ai-factory/` — `orchestrator/docs/configuration.md:87` disambiguates the orchestrator's own overlay against `.ai-factory/config.yaml`, which this task retires; the sentence now disambiguates against nothing. Outside this repo's scope guard. [fixed]
+- Affects: `src/skills/aif/SKILL.md:5` — no `Bash(ln *)` grant while `## AGENTS.md Generation` runs `ln -sfn CLAUDE.md AGENTS.md`. Carried by contract line 19.2 with a matching guard on the shared L5 edit; correctly untouched here. [fixed]
 
 REVIEW_PASS
