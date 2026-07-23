@@ -237,10 +237,10 @@ Choose repair depth:
    Rollback: plan, plan-reviews, reviews, and sidecar deleted; orchestrator re-plans
 
 2. spec + plan — repair spec + plan .md (keeping passing plan-reviews intact if wanted)
-   Rollback: plan-reviews, reviews deleted; sidecar step → "planned"
+   Rollback: plan-reviews, reviews deleted; sidecar step → "planned:1"
 
 3. spec + plan + code — repair spec + plan + code by hand in the working tree
-   Rollback: reviews deleted; sidecar step → "implemented"
+   Rollback: reviews deleted; sidecar step → "implemented:1"
 
 4. plan ratified, implementation absent — keep the plan and its passing plan-review(s);
    the implementer session never produced a diff
@@ -292,7 +292,7 @@ Emit: `Sidecar deleted (full reset).`
 
 ---
 
-**Depth: spec + plan** — repair spec + plan; roll back to `"planned"`.
+**Depth: spec + plan** — repair spec + plan; roll back to `"planned:1"`.
 
 1. If the requirement itself was implicated, edit the task spec + contract line in
    `$TARGET_FILE` (same as spec depth above). If the spec is already correct, this
@@ -301,17 +301,17 @@ Emit: `Sidecar deleted (full reset).`
 3. Delete: all plan-review files, all review files for this slug.
    Keep the plan `.md` and sidecar.
 4. Locate the sidecar at `.ai-factory/plans/{seq}-{slug}.json`. Read it if present;
-   start from `{}` if absent. Set the `step` key to `"planned"` and **delete** the
+   start from `{}` if absent. Set the `step` key to `"planned:1"` and **delete** the
    `implementer` key — it names the session whose implementation was just discarded, so
    its memory no longer describes anything on disk. Preserve every other key —
    `planner`, `elapsed`, and any others — untouched. Write back as JSON with 2-space
    indentation.
 
-Emit: `Sidecar updated: step set to "planned"; implementer session dropped.`
+Emit: `Sidecar updated: step set to "planned:1"; implementer session dropped.`
 
 ---
 
-**Depth: spec + plan + code** — repair spec + plan + code; roll back to `"implemented"`.
+**Depth: spec + plan + code** — repair spec + plan + code; roll back to `"implemented:1"`.
 
 1. If the requirement itself was implicated, edit the task spec + contract line in
    `$TARGET_FILE`. If the spec is already correct, this step is a no-op — repair only
@@ -320,10 +320,10 @@ Emit: `Sidecar updated: step set to "planned"; implementer session dropped.`
 3. Apply the hand-fix directly in the working tree (the diff IS the repair).
 4. Delete: all review files for this slug. Keep the plan `.md`,
    passing plan-review files, hand-fixed diff, and sidecar.
-5. Update the sidecar `step` to `"implemented"` — same read/update/write procedure
+5. Update the sidecar `step` to `"implemented:1"` — same read/update/write procedure
    as the spec+plan depth above.
 
-Emit: `Sidecar updated: step set to "implemented".`
+Emit: `Sidecar updated: step set to "implemented:1".`
 
 ---
 
@@ -357,20 +357,25 @@ do not let them diverge.
 
 | `step` value | Resumes at | Required on disk to validate |
 |---|---|---|
-| `"planned"` | plan-review, attempt 1 | none — always valid |
+| `"planned:N"` | plan-review, attempt N | none — always valid |
 | `"plan_review_failed:N"` | plan, attempt N+1 | `plan-reviews/{seq}-{slug}-plan-review-N.md` |
 | `"plan_reviewed"` | implement, iter 1 | a plan-review file ending with `PLAN_REVIEW_PASS` |
-| `"implemented"` | review, iter 1 | none — always valid |
+| `"implemented:N"` | review, iter N | none — always valid |
 | `"review_failed:N"` | implement, iter N+1 | `reviews/{seq}-{slug}-review-N.md` |
+
+The rescue always writes **N = 1** — both depths delete every plan-review/review file
+from prior rounds, so the next round the orchestrator resumes into is always attempt 1.
+The bare `"planned"` / `"implemented"` forms are retired: the orchestrator no longer
+accepts them.
 
 **Silent failure mode:** the orchestrator clears any `step` value whose required artifact is missing and falls through to the disk heuristic — writing a wrong value silently loses the resume point.
 **Test mode:** `review_failed:N` is replaced by `test_run_failed:N` (artifact: `test-runs/{seq}-{slug}-test-N.txt`).
-**Always-valid guard:** `"planned"` and `"implemented"` carry no artifact reference and always validate — write `"planned"` only when the plan `.md` is present; write `"implemented"` only when the plan `.md` is present and a non-empty working diff exists. Never write `"planned"` after deleting the plan `.md`.
+**Always-valid guard:** `"planned:N"` and `"implemented:N"` carry no artifact reference and always validate — write `"planned:1"` only when the plan `.md` is present; write `"implemented:1"` only when the plan `.md` is present and a non-empty working diff exists. Never write `"planned:1"` after deleting the plan `.md`.
 
 Note: `"plan_reviewed"` **is** written by this skill — exactly by the plan-ratified
 rollback (Step 5), and only when a plan-review file ending with `PLAN_REVIEW_PASS` is
-present on disk for the slug. Otherwise the flow writes only `"planned"` (spec+plan
-depth), `"implemented"` (spec+plan+code depth), or deletes the sidecar (spec depth).
+present on disk for the slug. Otherwise the flow writes only `"planned:1"` (spec+plan
+depth), `"implemented:1"` (spec+plan+code depth), or deletes the sidecar (spec depth).
 `"plan_review_failed:N"` and `"review_failed:N"` remain not written — reference-only
 values from the orchestrator contract.
 
@@ -459,7 +464,7 @@ unmarked, left for `task-rescue-audit` prune mode.
   memory describes a discarded attempt. Do not keep `implementer` around "for the
   elapsed stats" — those stats live in `elapsed`, which is retained regardless. On a
   full reset (spec depth) the sidecar is deleted entirely alongside the plan
-- Do not write `"planned"` or `"implemented"` when the corresponding artifact is
+- Do not write `"planned:1"` or `"implemented:1"` when the corresponding artifact is
   absent — both are always-valid states the orchestrator accepts without artifact
   checks, so writing one after deleting the plan `.md` (or before any working diff
   exists) silently sends the orchestrator into the wrong phase
