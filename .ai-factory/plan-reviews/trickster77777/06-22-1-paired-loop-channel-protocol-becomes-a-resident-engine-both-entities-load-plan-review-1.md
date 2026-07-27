@@ -39,6 +39,6 @@ Fix: add L58–61 to the material Task 2 revises, and state the boundary — enr
 - Symlink task (Task 4) matches the confirmed live pattern (`active/skills/<name> -> ../../src/skills/<name>`) with a concrete verify command.
 
 ## Deferred observations
-- Affects: reserved-words.md `## Paired loop` maintenance (a separate planning edit named in spec L38, outside 22.1's file boundary) — the spec states the `relay`/`channel-message`/`work-order` registry entries "were removed … as a separate planning edit"; the current registry `## Paired loop` section indeed lists only `architect` and `editor`, so that edit appears already applied. Nothing for 22.1 to do; noted only so a downstream prune/verify pass does not re-open it as a gap.
+- Affects: reserved-words.md `## Paired loop` maintenance (a separate planning edit named in spec L38, outside 22.1's file boundary) — the spec states the `relay`/`channel-message`/`work-order` registry entries "were removed … as a separate planning edit"; the current registry `## Paired loop` section indeed lists only `architect` and `editor`, so that edit appears already applied. Nothing for 22.1 to do; noted only so a downstream prune/verify pass does not re-open it as a gap. [dismissed]
 
 Once issue **1** is resolved (and **2**/**3** tightened), the plan is implementation-ready.

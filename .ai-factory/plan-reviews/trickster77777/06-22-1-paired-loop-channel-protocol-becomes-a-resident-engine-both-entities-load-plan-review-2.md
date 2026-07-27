@@ -31,6 +31,6 @@ None.
 - The reverse-graph marker's grep line names all three caller sources and flags this as the family's one engine with an agent caller, rather than silently diverging from the repo's documented reverse-graph command.
 
 ## Deferred observations
-- Affects: `reserved-words.md` `## Paired loop` maintenance (a separate planning edit named in spec L38, outside 22.1's file boundary) — the spec states the `relay`/`channel-message`/`work-order` registry entries were removed as a separate planning edit, and the live registry `## Paired loop` section indeed lists only `architect` and `editor`, so that edit appears already applied. Nothing for 22.1 to do; noted only so a downstream prune/verify pass does not re-open it as a gap.
+- Affects: `reserved-words.md` `## Paired loop` maintenance (a separate planning edit named in spec L38, outside 22.1's file boundary) — the spec states the `relay`/`channel-message`/`work-order` registry entries were removed as a separate planning edit, and the live registry `## Paired loop` section indeed lists only `architect` and `editor`, so that edit appears already applied. Nothing for 22.1 to do; noted only so a downstream prune/verify pass does not re-open it as a gap. [dismissed]
 
 PLAN_REVIEW_PASS
