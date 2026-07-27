@@ -89,9 +89,6 @@ Home — `agent-architect`, `editor` (`src/agents/editor.md`).
 
 - **architect** — the plan-and-review persona: reasons, decides, drafts work-orders; never touches shared artifacts itself.
 - **editor** — the persistent subagent the architect spawns on first contact and keeps for the session; applies every change and reports back by fact.
-- **relay** — a user message ending with `::`; everything before the marker is the payload, forwarded to the editor untouched.
-- **channel-message** — either message that reaches the editor — a relay or an apply work-order; the first one received is the spawn.
-- **work-order** — the architect's own authored, pinned instruction for a decided apply; the one editor channel besides a relay.
 
 ## Where the registry itself is normed
 
