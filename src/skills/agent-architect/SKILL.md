@@ -73,15 +73,22 @@ channel-message (the format is `architect-editor-engine`'s, loaded once at
 birth — see "Spawn once, message thereafter") and worked **in parallel** by
 both entities: the editor reasons over it independently, from the ground up,
 while you reach your own read of the same payload — you perform your own
-part, never a mere pass-through. Before sending, you may enrich the payload
-with **named context** already resident in your own chat — a path, a value,
-the referent of a pronoun the user left implicit, including one named in the
-after-mark remainder of the same message. You add nothing beyond that: no
-findings, no inventory, no collision-hint, no checklist, no verdict, no
-method — supplying named context and injecting a conclusion are different
-acts, and only the first is yours to do. The editor still reasons over the
-payload independently, which is the only way its agreement is real signal
-rather than manufactured echo.
+part, never a mere pass-through. Once the editor's report returns, reconcile
+your independent read against it: concede where the editor's catch is
+sharper and say why, hold where the principle says so and say why, and show
+the user both your own read and a summary of the editor's. This reconcile
+step applies to every before-mark relay, not only a review-shaped one. You
+enrich the payload before sending only
+when the after-mark remainder of the same message is itself an explicit
+instruction to do so — the `<before-mark> :: <"enrich this for the editor
+with X">` pattern, where the user names the context `X`. In that case you add
+exactly the named context: no findings, no inventory, no collision-hint, no
+checklist, no verdict, no method. When the after-mark remainder is anything
+else — a plain clarifying answer, empty, or absent because the marker
+trailed — the before-mark payload relays as-is, unenriched; enrichment is
+never yours to initiate on your own judgment. The editor still reasons over
+the payload independently, which is the only way its agreement is real
+signal rather than manufactured echo.
 
 No marker anywhere in the message means the whole message is conversation
 aimed at you, not the editor — it is **never** forwarded. The marker is
@@ -89,14 +96,16 @@ unconditional: there is no check of whether the user "meant" it to relay;
 that check is the classification this discipline deletes.
 
 Where the marker splits mid-message, the after-mark remainder is yours
-alone — never itself forwarded — but it is exactly the kind of source an
-enrichment is drawn from: a clarifying path, a value, the answer to "which
-one," addressed to you so you can enrich the before-mark payload before you
-send it, not so you can analyze on the editor's behalf.
+alone — never itself forwarded. It triggers an enrichment only when it is
+itself the explicit enrich instruction named above; any other after-mark
+content — a clarifying path, a value, the answer to "which one" — is yours
+to read and act on, never a license to enrich the before-mark payload on
+your own reading of it.
 
 The one transformation a relay may carry: when the before-mark payload
 invokes a skill (`/roadmap-decompose-skeleton phase 8`), expand it to
-skill-by-reference inside the same `REPORT-ONLY` message — "read and run
+skill-by-reference inside a `REPORT-ONLY` message that opens with the
+literal token — "REPORT-ONLY — read and run
 `~/.claude/skills/<name>/SKILL.md` with arguments: … as a report; write no
 files" — the editor never receives the slash-command itself. Any engine the
 skill's own frontmatter `loads:` names resolves on the editor's side
@@ -132,18 +141,14 @@ and an unmarked answer is yours to hold, not to forward.
 
 ## Review in parallel, reconcile before the apply order
 
-A review target is a specific case of the general before-mark rule above:
-when the relayed payload is a review, run your own review concurrently with
-the editor's — reaching your own verdict independently before weighing the
-editor's, the same working-in-parallel the payload rule already requires for
-any before-mark relay, just for a review-shaped target. You never decide
-*when* something goes to the editor; the marker does. Then reconcile: concede where the editor's catch is sharper and say
-why, hold where the principle says so and say why. Draft the apply
-work-order only for what survives reconciliation, and only after the user's
-explicit go. Show the user your own review and your summary
-of the editor's; be adversarial — name the specific, plantable failure, not a
-vague caution — and hunt propagation gaps, a decision taken earlier that never
-reached a file it should have.
+A review target is a specific case of the general before-mark rule above,
+under its working-in-parallel and reconcile mechanic unchanged; a
+review-shaped target adds only this on top: be adversarial — name the
+specific, plantable failure, not a vague caution — and hunt propagation
+gaps, a decision taken earlier that never reached a file it should have.
+Draft the apply work-order only for what survives reconciliation, and only
+after the user's explicit go. You never decide *when* something goes to the
+editor; the marker does.
 
 ## Verify the editor's report by fact
 
