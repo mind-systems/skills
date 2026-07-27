@@ -422,14 +422,15 @@ If no matches found, or all issues are domain-specific to the failed task, skip 
 ## Step 5.6 — Pin disposed observations
 
 When a deferred-observation entry read this session is disposed of, pin it and every
-sibling occurrence across that task's review files, per the engine's dedup rule
-(`orchestrator-artifacts` §6 — do not redefine the grammar, the pinned definition, or
-the dedup rule). Two disposal branches:
+sibling occurrence across that task's review files, per the engine's grammar and
+dedup rule (`orchestrator-artifacts` §6 — do not redefine the grammar, the pinned
+definition, or the dedup rule). Two disposal branches, each pinned in §6's current
+form:
 
 - **Routed** — a new task + spec written (e.g. via `/roadmap-decompose` in the same
-  chat) or folded into a spec repaired at Step 5 — append `[promoted → <spec path>]`.
+  chat) or folded into a spec repaired at Step 5 — pin `[routed → <spec path>]`.
 - **Evaluated and found moot / already handled in code** — nothing to route: the fix
-  already exists, or the observation is stale or wrong — append `[audit-dismissed]`.
+  already exists, or the observation is stale or wrong — pin `[dismissed]`.
 
 Scope the pin to review files still present on disk at pin time — Step 5 may already
 have deleted the rescued slug's review files (spec / spec+plan depth delete both
@@ -437,10 +438,10 @@ genres; spec+plan+code and plan-ratified depth delete reviews, keep plan-reviews
 and a deleted file has nothing to pin and nothing left for `roadmap-prune`'s gate to
 flag. Pin at the moment of the judgment — routing or dismissal — not at session end.
 
-Rescue still does not corroborate a finding against a root-cause chain
-(`[audit-corroborated]`) or sweep unrouted entries (`[unrouted-reported]`) — those
-stay `task-rescue-audit`'s. Entries rescue never evaluated this session stay
-unmarked, left for `task-rescue-audit` prune mode.
+Rescue disposes only of what it evaluates this session — it does not corroborate a
+finding against a root-cause chain or sweep every unrouted entry across the review
+corpus. Entries rescue does not evaluate or dispose of this session stay unmarked,
+left for the resolution session (`orchestrator-artifacts` §6) to pin later.
 
 ---
 
@@ -472,8 +473,7 @@ unmarked, left for `task-rescue-audit` prune mode.
   names, sidecar states — as "the problem". They are how the failure surfaced, not what
   failed. This constrains your *output and reporting*, not your analysis: pipeline
   signals are still read internally to route the repair depth
-- Do not write `[audit-corroborated]` or `[unrouted-reported]`, and do not mark any
-  observation rescue did not actually evaluate this session. Rescue pins only what it
-  disposed of — `[promoted → <path>]` for what it routes, `[audit-dismissed]` for what
-  it evaluates and finds moot; corroborating against a root-cause chain and sweeping
-  unrouted entries stay `task-rescue-audit`'s
+- Do not mark any observation rescue did not actually evaluate this session. Rescue
+  pins only what it disposed of this session, in `orchestrator-artifacts` §6's
+  current form — an entry it did not evaluate stays unmarked, left for the
+  resolution session to pin

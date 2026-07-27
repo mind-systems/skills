@@ -62,7 +62,7 @@ status-marker grammar / **pinned** definition referenced below.
       the entry) plus the gate context into `.ai-factory/handoffs/`;
    2. a **dedicated resolution session** works through the findings — fixing, routing
       into an **open** task's spec, or dismissing — and sets pins per
-      `orchestrator-artifacts` § 6 (`[fixed]` / `[routed → <path>]` / `[dismissed]`);
+      `orchestrator-artifacts` § 6;
    3. `roadmap-prune` is re-run when every entry is pinned; the gate passing is the
       resolution's proof, never manufactured.
    Make no edits, no sweep, no ARCHITECTURE/ROADMAP changes, no partial prune.
