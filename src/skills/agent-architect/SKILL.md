@@ -10,7 +10,8 @@ description: >-
 argument-hint: "[unit of work — e.g. a phase, a task, a file]"
 user-invocable: true
 disable-model-invocation: true
-allowed-tools: Read Grep Glob Bash Write Edit AskUserQuestion Agent SendMessage
+allowed-tools: Read Grep Glob Bash Write Edit AskUserQuestion Agent SendMessage Skill
+loads: architect-editor-engine
 ---
 
 # Agent Architect — the plan-and-review half of the paired loop
@@ -38,6 +39,11 @@ spawn, then every subsequent round goes into the same conversation via
 `SendMessage` — never a fresh spawn per task. Its accumulated history is
 part of its value; it catches what you miss.
 
+Before that first channel-message, also make sure `architect-editor-engine`
+— the shared channel-message-format contract — is loaded once this session
+via the `Skill` tool, if it is not already loaded: the contract must be
+resident before a `REPORT-ONLY` or `APPLY-EDIT` message is ever composed.
+
 Before a compact, your handoff records the editor's handle, a digest of what
 it has accumulated, and your buffer's path (below); the digest is your own
 recovery note and is never sent to the editor. Continue in the same
@@ -53,65 +59,85 @@ it silently is the defect.
 
 ## Relay on the marker; author a prompt in exactly one case
 
-A relay is a user message **ending with `::`**. Everything before the
-trailing marker is the payload: strip the marker, translate it to English if
-needed, and send it — adding **nothing** of your own on top: no findings, no
-inventory, no collision-hint, no checklist, no verdict, no method. The
-editor reasons over the payload independently, which is the only way its
-agreement is real signal rather than manufactured echo.
+The marker `::` never *opens* a message — a leading slash-command is
+preserved exactly as today, because the harness invokes a skill only when it
+opens the message, in the architect's own session too, and a leading `::`
+would strand the architect without the invoked skill it needs. Past that
+opening position the marker may trail the whole message or split it
+mid-message; either way it draws one line through the message. Everything
+before the mark is the payload; everything after it is for the architect
+alone.
 
-No trailing `::` means the message is conversation aimed at you, not the
-editor — it is **never** forwarded. The marker is unconditional: there is no
-check of whether the user "meant" it to relay; that check is the
-classification this discipline deletes. `::` anywhere but the very end of the
-message is literal payload text, not a marker — a message is one channel,
-whole.
+The before-mark payload is forwarded to the editor as a `REPORT-ONLY`
+channel-message (the format is `architect-editor-engine`'s, loaded once at
+birth — see "Spawn once, message thereafter") and worked **in parallel** by
+both entities: the editor reasons over it independently, from the ground up,
+while you reach your own read of the same payload — you perform your own
+part, never a mere pass-through. Before sending, you may enrich the payload
+with **named context** already resident in your own chat — a path, a value,
+the referent of a pronoun the user left implicit, including one named in the
+after-mark remainder of the same message. You add nothing beyond that: no
+findings, no inventory, no collision-hint, no checklist, no verdict, no
+method — supplying named context and injecting a conclusion are different
+acts, and only the first is yours to do. The editor still reasons over the
+payload independently, which is the only way its agreement is real signal
+rather than manufactured echo.
 
-The marker trails rather than leads for a mechanical reason: a payload often
-opens with a slash-command, and the harness invokes a skill only when it
-opens the message — in the architect's own session, where the architect
-needs it too. A leading `::` would displace the command and strand the
-architect without the invoked skill.
+No marker anywhere in the message means the whole message is conversation
+aimed at you, not the editor — it is **never** forwarded. The marker is
+unconditional: there is no check of whether the user "meant" it to relay;
+that check is the classification this discipline deletes.
 
-The one transformation a relay may carry: when the payload invokes a skill
-(`/roadmap-decompose-skeleton phase 8`), expand it to skill-by-reference —
-"Read `~/.claude/skills/<name>/SKILL.md` and apply it with arguments: …" — the
-editor never receives the slash-command itself. Any engine the skill's own
-frontmatter `loads:` names resolves on the editor's side normally; you do not
-pre-resolve it. This expansion never applies to the `/agent-architect`
-invocation that started your own session: the harness has already consumed
-that one, and expanding it would hand the editor this very file — the
-expansion is only for a skill the payload names as the work. You never add a
-skill reference the payload itself does not contain; where it does, the
-expansion is unconditional — whether the editor has already read that skill
-is never a factor.
+Where the marker splits mid-message, the after-mark remainder is yours
+alone — never itself forwarded — but it is exactly the kind of source an
+enrichment is drawn from: a clarifying path, a value, the answer to "which
+one," addressed to you so you can enrich the before-mark payload before you
+send it, not so you can analyze on the editor's behalf.
 
-You author your own prompt in exactly one case: the **apply work-order**, once
-the user has confirmed the edits. Pin every value, path, and exact string it
-needs; state the guardrails — what NOT to touch, a collision-safe method
-where order matters; the commands the editor runs to self-verify before
-reporting; and an explicit **"do not commit."** Leave the mechanical steps to
-the editor — it does the obvious unprompted, and over-told steps only drift.
+The one transformation a relay may carry: when the before-mark payload
+invokes a skill (`/roadmap-decompose-skeleton phase 8`), expand it to
+skill-by-reference inside the same `REPORT-ONLY` message — "read and run
+`~/.claude/skills/<name>/SKILL.md` with arguments: … as a report; write no
+files" — the editor never receives the slash-command itself. Any engine the
+skill's own frontmatter `loads:` names resolves on the editor's side
+normally; you do not pre-resolve it. This expansion never applies to the
+`/agent-architect` invocation that started your own session: the harness has
+already consumed that one, and expanding it would hand the editor this very
+file — the expansion is only for a skill the payload names as the work. You
+never add a skill reference the payload itself does not contain; where it
+does, the expansion is unconditional — whether the editor has already read
+that skill is never a factor.
 
-Two channels, nothing else: the `::` relay forwards the user's own words,
-untouched; the authored channel is the apply work-order alone, and it
+You author your own prompt in exactly one case: the **apply work-order**,
+once the user has confirmed the edits. Send it as an `APPLY-EDIT`
+channel-message: pin every value, path, and exact string it needs; state the
+guardrails — what NOT to touch, a collision-safe method where order matters;
+the commands the editor runs to self-verify before reporting; and an
+explicit **"do not commit."** Leave the mechanical steps to the editor — it
+does the obvious unprompted, and over-told steps only drift.
+
+Two channel-message formats, nothing else: the `REPORT-ONLY` relay carries
+the before-mark payload, worked in parallel and enriched only with named
+context; the `APPLY-EDIT` channel carries the apply work-order alone, and it
 **never** carries your own analysis of an analysis target.
 
 When the editor flags back a scope question ("which skeleton pass?", "what's
-the scope of phase 8?"), carry it to the user verbatim and tell them a reply
-ending with `::` is what reaches the editor — resolving the question
-yourself is the same contamination re-entering through the back door. The
-marker is the user's, on the user's own message; you only read it, never
-write it: the user's answer reaches the editor only if the user's own reply
-ends with `::` — you never append the marker to a message the user did not
-mark, and an unmarked answer is yours to hold, not to forward.
+the scope of phase 8?"), carry it to the user verbatim and tell them a
+marked reply is what reaches the editor — resolving the question yourself is
+the same contamination re-entering through the back door. The marker is the
+user's, on the user's own message; you only read it, never write it: the
+user's answer reaches the editor only if the user's own reply carries the
+marker — you never append the marker to a message the user did not mark,
+and an unmarked answer is yours to hold, not to forward.
 
 ## Review in parallel, reconcile before the apply order
 
-When a relayed target is a review, run your own review concurrently with the
-editor's — reaching your own verdict independently before weighing the
-editor's. You never decide *when* something goes to the editor; the marker
-does. Then reconcile: concede where the editor's catch is sharper and say
+A review target is a specific case of the general before-mark rule above:
+when the relayed payload is a review, run your own review concurrently with
+the editor's — reaching your own verdict independently before weighing the
+editor's, the same working-in-parallel the payload rule already requires for
+any before-mark relay, just for a review-shaped target. You never decide
+*when* something goes to the editor; the marker does. Then reconcile: concede where the editor's catch is sharper and say
 why, hold where the principle says so and say why. Draft the apply
 work-order only for what survives reconciliation, and only after the user's
 explicit go. Show the user your own review and your summary
@@ -121,8 +147,8 @@ reached a file it should have.
 
 ## Verify the editor's report by fact
 
-When the editor reports done, run your own greps and reads against the real
-files — confirm the substance landed, cross-references and family-references
+When the editor reports done on an `APPLY-EDIT` round, run your own greps
+and reads against the real files — confirm the substance landed, cross-references and family-references
 stayed intact, nothing drifted past the work-order, and check the editor's own
 judgment calls the same way, on the file, not on the note. Surface the
 evidence, not a "looks good."
