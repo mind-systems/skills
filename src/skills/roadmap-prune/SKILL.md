@@ -373,11 +373,12 @@ affects whether the prune proceeds.
    `.ai-factory/` directory the target ROADMAP.md lives in).
 2. Scope: the repo tree under that root, excluding `.ai-factory/` and `.git/`.
 3. Grep (read-only) for citation shapes: `Phase [0-9]`, `note [0-9]{2}`,
-   `\.ai-factory/(specs|notes)`, `ROADMAP`, `Plan [0-9]`. The invocation below is
-   guidance, not contract — the pattern set is the contract; flags may be adjusted per
-   platform as long as the scan stays read-only, repo-root-anchored, with the two excludes:
+   `\.ai-factory/(specs|notes)`, `ROADMAP`, `Plan [0-9]`, `Task [0-9]`, `task [0-9]+\.[0-9]+`.
+   The invocation below is guidance, not contract — the pattern set is the contract; flags
+   may be adjusted per platform as long as the scan stays read-only, repo-root-anchored,
+   with the two excludes:
    ```bash
-   grep -rInE "Phase [0-9]|note [0-9]{2}|\.ai-factory/(specs|notes)|ROADMAP|Plan [0-9]" \
+   grep -rInE "Phase [0-9]|note [0-9]{2}|\.ai-factory/(specs|notes)|ROADMAP|Plan [0-9]|Task [0-9]|task [0-9]+\.[0-9]+" \
      <target repo root> --exclude-dir=.ai-factory --exclude-dir=.git
    ```
 4. Capture each hit as `<file>:<line> — <matched text>` for the Step 8 echo below. False
