@@ -59,12 +59,12 @@ own text. `git diff --stat` shows exactly the four scoped files.
   it to the deletion steps (3–4) only; the residual is that the shared "verbatim … procedure"
   pointer slightly over-claims for option 2. The plan-review pre-flagged this and suggested
   stating plainly that option 2 invokes only the deletion portion of the spec-depth procedure.
-  Non-blocking clarity nit, not a functional defect — left for whoever next touches this branch.
+  Non-blocking clarity nit, not a functional defect — left for whoever next touches this branch. [routed → .ai-factory/specs/trickster77777/89-task-rescue-escalation-branch-polish.md]
 - Affects: `docs/reserved-words.md:76` (spec-mandated wording, not the implementer's choice) — the
   new bare `failure` entry shares the stem "failure" with the pre-existing qualified test terms
   `silent failure` / `loud failure` (`:64-65`). They are disambiguated by qualifier and by
   section (Tests vs Orchestrator) and the entry is added verbatim per the task spec, so this is
-  conformant; noted only so a future reader does not read it as an accidental stem collision.
+  conformant; noted only so a future reader does not read it as an accidental stem collision. [dismissed]
 
 REVIEW_PASS
 </content>

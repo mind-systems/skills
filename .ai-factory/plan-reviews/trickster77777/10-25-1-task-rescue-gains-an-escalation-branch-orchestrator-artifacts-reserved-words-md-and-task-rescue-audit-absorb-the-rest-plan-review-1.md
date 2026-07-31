@@ -59,6 +59,6 @@ None.
   `task-rescue` …", a genuine sibling reference). This is a purely cosmetic imprecision in justification
   prose; it does not affect Task 8's edit, which unambiguously changes the single "cold rescue"
   occurrence on line `:32` to "cold audit". No shipped file carries the `:31` citation. Left for whoever
-  next touches the spec's rationale text; not fixable within this task's edit-scope without a spec rewrite.
+  next touches the spec's rationale text; not fixable within this task's edit-scope without a spec rewrite. [dismissed]
 
 PLAN_REVIEW_PASS
