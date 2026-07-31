@@ -137,6 +137,9 @@ Root-cause categories (context for depth + scope-overload flag):
   byte-identical to HEAD; the plan was ratified but no attempt ever produced a diff for
   it to describe
 
+Escalation is not in this list — it carries no root cause; see its own short-form
+branch below and skip the "Attach the root-cause category" step for it.
+
 When a governing spec was read in Step 1, judge the recurring findings against it: a
 candidate "specification gap" may actually be a violation of an already-ratified
 contract that the task spec failed to restate — the root cause and the repair target
@@ -184,9 +187,9 @@ sentence stating the missing or wrong constraint in the spec/contract, phrased s
 had it been present, the failure chain would not have occurred.
 
 Attach the root-cause category (specification gap / scope overload / mechanical error /
-stale implementer session) and the recurring-issue signal to the report as a
-classification, not as a substitute for the narrative — they carry into Step 4 to drive
-the depth choice.
+stale implementer session — not applicable to an escalation classification, which has
+none) and the recurring-issue signal to the report as a classification, not as a
+substitute for the narrative — they carry into Step 4 to drive the depth choice.
 
 ---
 
@@ -232,12 +235,11 @@ Options:
    the user re-runs this rescue after the decision is made.
 ```
 
-Options 1 and 2 both **reuse the existing spec-depth full reset verbatim**
-(Step 5's "Depth: spec" procedure) — do not introduce a new rollback procedure or a
-fifth depth-menu entry. The only new thing here is the routing decision (which of
-the three options) and, for option 2, the pointer report in place of an in-place spec
-edit. Option 3 performs no file changes at all. Proceed to Step 5 with the user's
-choice.
+Each option routes to its own labeled procedure under Step 5 (below) — no new
+rollback mechanism, no fifth depth-menu entry: option 1 runs the existing "Depth:
+spec" procedure unmodified (including its spec/contract-line edit); option 2 runs
+only that procedure's deletion steps, never its spec/contract-line edit; option 3
+runs no Step 5 procedure at all. Proceed to Step 5.
 
 **When classification is non-convergence** — present via `AskUserQuestion`:
 
@@ -326,6 +328,25 @@ other task slugs.
 (options 1, 2, or 3). Leave all artifacts in place — plans, plan-reviews, reviews,
 and sidecar all describe completed, correct work. Do NOT delete any artifact.
 Do NOT touch the sidecar. Proceed directly to Step 5.5.
+
+---
+
+**Escalated — option 1 (decision recorded here):** run the "Depth: spec" procedure
+below exactly as written, steps 1–4 — the spec edit is the point of this option.
+
+---
+
+**Escalated — option 2 (decision belongs elsewhere):** run only steps 3–4 of the
+"Depth: spec" procedure below (delete the plan, all plan-reviews, all reviews, and
+the sidecar). Do NOT run steps 1–2 — do not edit the task spec or the contract line;
+the decision was reported as belonging elsewhere, not resolved here.
+
+---
+
+**Escalated — option 3 (not resolved yet):** no Step 5 procedure runs. Leave every
+artifact in place exactly as the orchestrator left it — plan, sidecar, and any
+plan-review/review files. Do NOT delete anything. Do NOT touch the sidecar. Proceed
+directly to Step 5.5.
 
 ---
 
@@ -428,7 +449,7 @@ accepts them.
 
 **Silent failure mode:** the orchestrator clears any `step` value whose required artifact is missing and falls through to the disk heuristic — writing a wrong value silently loses the resume point.
 **Test mode:** `review_failed:N` is replaced by `test_run_failed:N` (artifact: `test-runs/{seq}-{slug}-test-N.txt`).
-**Always-valid guard:** `"planned:N"` and `"implemented:N"` carry no artifact reference and always validate — write `"planned:1"` only when the plan `.md` is present; write `"implemented:1"` only when the plan `.md` is present and a non-empty working diff exists. Never write `"planned:1"` after deleting the plan `.md`.
+**Always-valid guard:** `"planned:N"`, `"implemented:N"`, and `"escalated"` carry no artifact reference and always validate — write `"planned:1"` only when the plan `.md` is present; write `"implemented:1"` only when the plan `.md` is present and a non-empty working diff exists. `task-rescue` never writes `"escalated"` itself (see the closed-set table's closing note) — it is always-valid for the orchestrator to accept, not for this skill to produce.
 
 Note: `"plan_reviewed"` **is** written by this skill — exactly by the plan-ratified
 rollback (Step 5), and only when a plan-review file ending with `PLAN_REVIEW_PASS` is
