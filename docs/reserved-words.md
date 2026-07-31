@@ -66,13 +66,16 @@ Home — `test-philosophy`.
 
 ## Orchestrator
 
-Home — `orchestrator-artifacts`, [skill-cycle](sakshi-harness/skill-cycle.md).
+Home — `orchestrator-artifacts`, [skill-cycle](sakshi-harness/skill-cycle.md), `orchestrator/docs/concepts/outcomes.md`.
 
 - **orchestrator** — the CLI that executes a finished roadmap task by task; it plans nothing.
 - **sidecar** — a task run's status file.
 - **PASS signal** — `PLAN_REVIEW_PASS` / `REVIEW_PASS`, a stage's pass marker.
 - **deferred observations** — review remarks left unresolved; unpinned ones block a prune. The heading a program scans, `## Deferred observations`, is a protocol token.
 - **prune · rescue · audit** — operations: fold `[x]` tasks into Features; repair a task that did not converge to the depth of its root cause; an outside-view look at a task that looped.
+- **failure** — a review cycle exhausted its attempt budget without a PASS signal; a verdict about the work.
+- **halt** — the run stops for a cause outside the review cycle (a resource, an infrastructure fault, an operator); not a judgment about the work.
+- **escalation** — an agent stops the run before its budget is spent because its mandated output cannot honestly be produced without a decision outside its authority; also carries no verdict about the work, but the cause is the agent's own recognized boundary, never an external one — the distinction from halt.
 
 ## Multiuser
 

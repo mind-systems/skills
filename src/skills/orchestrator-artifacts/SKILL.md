@@ -35,13 +35,19 @@ own `<seq>` axis.
 
 A review passes when its file ends with `PLAN_REVIEW_PASS` / `REVIEW_PASS`
 (`TEST_PASS` for test runs) on its own last line; no signal on the last round means
-the stage did not pass.
+the stage did not pass. `ESCALATION` is a third signal shape, opposite in meaning to
+the PASS signals — it stops the run rather than continuing it. Any of the four roles
+(planner, implementer, plan-reviewer, reviewer) writes it on the last line of the
+artifact it already owns: the plan file for the planner and the implementer, the
+plan-review or review file for the two reviewers.
 
 ## 3. Sidecar fields
 
 `planner`, `implementer` (resumable session ids), `step` (resume point — the closed
-set and its artifact requirements live in `task-rescue`, its only skill-side writer),
-`elapsed` (seconds, cumulative).
+set and its artifact requirements live in `task-rescue`, its only skill-side writer;
+the closed set now includes `escalated`), `elapsed` (seconds, cumulative),
+`escalation` (the escalation record: the role that raised it, the artifact path, and
+a one-line excerpt of the missing decision).
 
 ## 4. Committed ⇔ completed
 
@@ -79,5 +85,5 @@ repos they still count as pinned (lazy migration — history is never rewritten)
 ## 7. Mirrors-the-orchestrator invariant
 
 This file mirrors the orchestrator's file protocol (`orchestrator/main.py`,
-`agents.py`, `prompts/reviewer.md`) — if the protocol changes there, update this
-file; do not let them diverge.
+`agents.py`, `prompts/reviewer.md`, `prompts/escalation.md`, `resume.py`) — if the
+protocol changes there, update this file; do not let them diverge.

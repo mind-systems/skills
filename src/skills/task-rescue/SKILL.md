@@ -79,6 +79,16 @@ user receives — that's Step 3's Diagnosis Report. Signal semantics (`PLAN_REVI
 `REVIEW_PASS`, last-line requirement) are defined in `orchestrator-artifacts`; the
 classification below only applies them.
 
+**Escalated (terminal, human decision pending)** — the sidecar's `step` reads
+`"escalated"`, OR (sidecar absent/stale) the plan file or the most recent
+plan-review/review file ends with the exact line `ESCALATION`. Not a specification,
+plan, or code defect; [role] stopped because its output could not be produced
+honestly without a decision outside its authority. Repair depth does not apply in the
+usual sense — see Step 4's own escalation branch. Check this condition first, ahead
+of every classification below — an escalating planner/implementer writes `ESCALATION`
+into the plan file itself with no plan-review file on disk, which otherwise matches
+Plan-phase failure's condition verbatim.
+
 **Plan-phase failure** — no plan-review file contains `PLAN_REVIEW_PASS` on its own
 line. Root cause is likely a specification gap or scope overload; repair depth starts
 at spec.
@@ -158,6 +168,13 @@ tell: state plainly that the plan was ratified, that every round left the produc
 file(s) unchanged from HEAD, and that the gap is in the pipeline's record of the
 attempt rather than in the spec, plan, or code.
 
+For an escalation classification, the narrative has no defect chain to tell either:
+state plainly that [role] stopped on a decision outside its authority, then restate —
+verbatim or lightly paraphrased — the missing decision and its options from the
+artifact's `## Escalation` section (already domain language by construction). End
+with that decision restated as a block quote, in place of the root-cause sentence —
+there is no root cause here, only a decision still to make.
+
 Domain language only: describe what the task spec / contract line stated wrongly or
 left ambiguous, and how the plan or code went wrong as a consequence. Zero orchestrator
 vocabulary — no iteration counts, no PASS markers, no phase names, no sidecar.
@@ -186,6 +203,41 @@ explicit argument wins, then "my roadmap", then the default `.ai-factory/ROADMAP
 - Otherwise → `$TARGET_FILE` = the roadmap in play (per the resolution order above)
 
 Read `$TARGET_FILE` and locate the contract line matching the slug identified in Step 1.
+
+**When classification is Escalated** — skip the standard four-depth menu entirely;
+nothing is broken to repair at plan or code level. Present the missing decision
+surfaced in Step 3, then present via `AskUserQuestion`:
+
+```
+This task escalated — <one-line restatement of the missing decision>.
+
+Escalation is not a defect at any repair depth; it stops here because a decision
+outside any agent's authority is required before this task can proceed.
+
+Options:
+1. Decision recorded in this task's spec — reset and re-plan
+   Apply the resolved decision to this task's spec + contract line (the normal
+   spec repair), then perform the existing spec-depth full reset (delete the
+   plan, all plan-reviews, all reviews, and the sidecar) — this clears
+   step:"escalated" and the escalation field for free, and the orchestrator
+   re-plans clean.
+2. Decision belongs elsewhere (a neighboring task / the governing spec) —
+   point there and reset
+   Do not edit this task's spec. Report where the decision belongs (the same
+   flag-and-point pattern already used for scope overload). Still perform the
+   spec-depth full reset on THIS escalated task's transient state, so it
+   re-plans fresh once the owning artifact is resolved.
+3. Not resolved yet — report only, leave the escalated state
+   No reset. The escalated sidecar stays exactly as the orchestrator left it;
+   the user re-runs this rescue after the decision is made.
+```
+
+Options 1 and 2 both **reuse the existing spec-depth full reset verbatim**
+(Step 5's "Depth: spec" procedure) — do not introduce a new rollback procedure or a
+fifth depth-menu entry. The only new thing here is the routing decision (which of
+the three options) and, for option 2, the pointer report in place of an in-place spec
+edit. Option 3 performs no file changes at all. Proceed to Step 5 with the user's
+choice.
 
 **When classification is non-convergence** — present via `AskUserQuestion`:
 
@@ -304,7 +356,9 @@ Emit: `Sidecar deleted (full reset).`
 4. Locate the sidecar at `.ai-factory/plans/{seq}-{slug}.json`. Read it if present;
    start from `{}` if absent. Set the `step` key to `"planned:1"` and **delete** the
    `implementer` key — it names the session whose implementation was just discarded, so
-   its memory no longer describes anything on disk. Preserve every other key —
+   its memory no longer describes anything on disk. Also delete the `escalation` key
+   if present — defensive, for a stray `escalation` field left by an earlier,
+   unrelated escalation on this same sidecar. Preserve every other key —
    `planner`, `elapsed`, and any others — untouched. Write back as JSON with 2-space
    indentation.
 
@@ -322,7 +376,7 @@ Emit: `Sidecar updated: step set to "planned:1"; implementer session dropped.`
 4. Delete: all review files for this slug. Keep the plan `.md`,
    passing plan-review files, hand-fixed diff, and sidecar.
 5. Update the sidecar `step` to `"implemented:1"` — same read/update/write procedure
-   as the spec+plan depth above.
+   as the spec+plan depth above, including deleting the `escalation` key if present.
 
 Emit: `Sidecar updated: step set to "implemented:1".`
 
@@ -339,7 +393,9 @@ plan-review(s) stand; only the (missing) implementation is discarded; roll back 
 3. Locate the sidecar at `.ai-factory/plans/{seq}-{slug}.json`. Read it if present;
    start from `{}` if absent. Set the `step` key to `"plan_reviewed"` and **delete** the
    `implementer` key — the session it names never produced the implementation, so its
-   memory would only mislead the next implement attempt. Preserve every other key —
+   memory would only mislead the next implement attempt. Also delete the `escalation`
+   key if present — defensive, for a stray `escalation` field left by an earlier,
+   unrelated escalation on this same sidecar. Preserve every other key —
    `planner`, `elapsed`, and any others — untouched. Write back as JSON with 2-space
    indentation.
 4. Validation contract: only write `"plan_reviewed"` when a plan-review file ending
@@ -351,7 +407,7 @@ Emit: `Sidecar updated: step set to "plan_reviewed"; implementer session dropped
 
 ### Valid sidecar `step` states
 
-This is a **closed set** — Step 5 picks one of the five values below, never invents
+This is a **closed set** — Step 5 picks one of the six values below, never invents
 one. This table mirrors `_validate_sidecar_step()` / `_detect_task_step()` in
 `orchestrator/resume.py` — if the orchestrator's accepted set changes, update this table;
 do not let them diverge.
@@ -363,6 +419,7 @@ do not let them diverge.
 | `"plan_reviewed"` | implement, iter 1 | a plan-review file ending with `PLAN_REVIEW_PASS` |
 | `"implemented:N"` | review, iter N | none — always valid |
 | `"review_failed:N"` | implement, iter N+1 | `reviews/{seq}-{slug}-review-N.md` |
+| `"escalated"` | re-halts immediately, no retry (until cleared) | none — always valid |
 
 The rescue always writes **N = 1** — both depths delete every plan-review/review file
 from prior rounds, so the next round the orchestrator resumes into is always attempt 1.
@@ -378,7 +435,11 @@ rollback (Step 5), and only when a plan-review file ending with `PLAN_REVIEW_PAS
 present on disk for the slug. Otherwise the flow writes only `"planned:1"` (spec+plan
 depth), `"implemented:1"` (spec+plan+code depth), or deletes the sidecar (spec depth).
 `"plan_review_failed:N"` and `"review_failed:N"` remain not written — reference-only
-values from the orchestrator contract.
+values from the orchestrator contract. `"escalated"` is the same: reference-only —
+only the orchestrator writes it, at the moment of detection, before any rescue ever
+runs; `task-rescue` never writes it, only **clears** it, either via the spec-depth
+full reset (the escalation branch's options 1/2 in Step 4) or the defensive
+`escalation`-key drop at the other three rollback depths above.
 
 Restate the Diagnosis Report's conclusion in one paragraph — what was wrong, what was
 repaired, and at which depth — then show the user the list of deleted files and confirm
@@ -478,3 +539,10 @@ left for the resolution session (`orchestrator-artifacts` §6) to pin later.
   pins only what it disposed of this session, in `orchestrator-artifacts` §6's
   current form — an entry it did not evaluate stays unmarked, left for the
   resolution session to pin
+- Do not let the Plan-phase/Implement-phase conditions fire before checking for an
+  escalation — an escalating planner/implementer writes `ESCALATION` into the plan
+  file itself, with no plan-review file at all, which otherwise matches Plan-phase
+  failure's condition and reports a defect chain that never existed
+- Do not invent a new rollback procedure or a fifth depth-menu entry for
+  escalation — options 1 and 2 of the escalation branch reuse the existing
+  spec-depth full reset verbatim

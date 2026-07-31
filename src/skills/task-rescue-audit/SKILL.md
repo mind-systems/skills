@@ -29,7 +29,7 @@ was never named. This audit tells the difference.
 The orchestrator artifacts for **one task** — the plan, all plan-reviews (every
 round), implementation diffs or patches, code-reviews (every round), and any final
 state files. When run right after `task-rescue` these are already in context.
-If run cold, locate and read them before Step 1: cold rescue takes an optional slug
+If run cold, locate and read them before Step 1: cold audit takes an optional slug
 naming the task as `$1`; when no slug arrives, identify the target from the user's
 prose plus a `Glob` over `plan-reviews/`/`reviews/` for the matching
 `<seq>-<slug>-*` artifacts.
