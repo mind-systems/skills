@@ -63,4 +63,14 @@ Source handoff: `.ai-factory/handoffs/04-plan-citation-rule-is-narrower-than-the
 
 - [x] **24.1 — roadmap-prune Step 7.5: widen the citation grep to the `Task N` / `task N.M` forms** — the scan (`roadmap-prune/SKILL.md` Step 7.5, item-3 prose list + the `grep -rInE` invocation) nets `Phase [0-9]`, `note [0-9]{2}`, `\.ai-factory/(specs|notes)`, `ROADMAP`, `Plan [0-9]`, but the dominant real leak (handoff 04: `# Task N:` section comments, `task N.M` coordinate cites like `test_agents.py:260`) matches none. Add two alternations — `Task [0-9]` and `task [0-9]+\.[0-9]+` — to both the prose list and the command. Guard: `--exclude-dir` flags preserved; still report-only; whole-repo scope and Steps 0–8 + Commit byte-identical; `CLAUDE.md:18` untouched (mirror deliberately deferred, §5). Spec: `.ai-factory/specs/trickster77777/87-prune-scan-task-citation-shapes.md`. [7m 58s]
 
+## A third run outcome lands on the orchestrator side; the skills mirror catches up
+
+Source handoff: `.ai-factory/handoffs/05-escalation-outcome-and-a-skill-that-ran-from-inside-the-pipeline.md`. The orchestrator grew a third run outcome — escalation (an agent stops on a decision outside its authority), beside success/failure/halt. Our skills-side surfaces predate it; this direction mirrors its on-disk protocol into them, plus one unrelated audit-wording fix.
+
+### Phase 25 — task-rescue and orchestrator-artifacts learn escalation is a third outcome, not a failure
+
+`orchestrator-artifacts`, `task-rescue`, and `reserved-words.md` § Orchestrator predate escalation: none recognizes an escalated task, and `task-rescue` would misread one as a Plan-phase failure with no way to clear its wedged state. This phase adds recognition, a short-form report, and a clear-and-reset path reusing the existing spec-depth reset, plus the vocabulary.
+
+- [ ] **25.1 — task-rescue gains an escalation branch; orchestrator-artifacts, reserved-words.md, and task-rescue-audit absorb the rest** — `task-rescue`'s four diagnosis classifications, its Diagnosis Report, and its closed-set sidecar table have no branch for an escalated task — one whose artifact ends with the `ESCALATION` marker and whose sidecar `step` is `escalated`. Today it misreads as a Plan-phase failure and narrates a defect that isn't there, and nothing clears the escalated state (the run re-halts on every resume). Add a Step 2 classification checked ahead of the failure conditions, a Step 3 short-form report of the missing decision, a Step 4 `AskUserQuestion` whose clear-and-reset reuses the existing spec-depth full reset, and one closed-set row. `orchestrator-artifacts` §2/§3/§7 and `reserved-words.md` § Orchestrator absorb the tokens and vocabulary; `task-rescue-audit:32` `cold rescue`→`cold audit` rides along. Guard: no new repair-depth flow; no escalation logic added to the audit. Spec: `.ai-factory/specs/trickster77777/88-task-rescue-escalation-outcome.md`.
+
 ---STOP---

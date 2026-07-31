@@ -9,6 +9,7 @@ description: >-
 argument-hint: "[path/to/ROADMAP.md]"
 allowed-tools: Read Write Edit Bash(git *) Bash(rm *) Bash(find *) Glob Grep Skill
 loads: orchestrator-artifacts
+disable-model-invocation: true
 ---
 
 # Roadmap Prune
