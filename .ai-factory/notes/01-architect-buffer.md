@@ -72,3 +72,14 @@ declares it — the same finding reached here from `sdk-tools.d.ts:676`.
 - R9 applied: spec 93 Defect B remedy and the Verification bullet converged to
   change item 2. Zero "private state file" / "first non-deferral" left. Contract
   lines 983/971/906. Nothing committed.
+
+## Editor handle — respawned 2026-09-03
+
+- Previous editor `a921982bf3869d1bc` was stopped by the user and is not
+  resumable. A failed send was the death signal, reported before anything
+  went onward; no payload was auto-replayed.
+- New editor: `ad5c40be806b20e50`. Spawned on the R18 apply work-order
+  (26.8 reset), which the discipline permits to be resent as-is — unlike a
+  relay, which the user must re-phrase.
+- Assigned role this session: the applying half of the pairing
+  (`architect-pairing-engine`), loaded via the Skill tool.

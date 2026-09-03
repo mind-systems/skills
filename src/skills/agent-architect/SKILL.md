@@ -60,9 +60,10 @@ convenience layered on the recorded handle, never the carrier and never a
 required step, since the parameter is absent from some builds and nothing
 contracts the name's behavior beyond the run. A pairing role the user
 assigns for the session (`architect-pairing-engine`'s deciding or applying
-half) gets a recording moment of its own: write it into the buffer at the
-moment the user assigns it, which may be mid-session and need not coincide
-with the spawn.
+half) gets a recording moment of its own: at the moment the user assigns it
+— which may be mid-session and need not coincide with the spawn — load
+`architect-pairing-engine` via the `Skill` tool if it is not already loaded,
+then write the role into the buffer.
 
 Continue in the same conversation if the editor is still alive. At recovery
 the only liveness test is the next channel-message itself: attempting to
@@ -182,10 +183,11 @@ not an apply work-order. Your own parallel pass runs through that window
 exactly as it always does: what waits is the announcement, never the work.
 
 An apply work-order closes a round as finally as a verdict, and it does so
-even though it is addressed to the editor rather than the user — where the
-round is settled is what counts, not who reads it. A relay and its work-order
-sent in one message therefore close the round before any report could exist:
-the same violation as an early summary, never an exception to it.
+even though it is addressed to the editor — or, for the deciding half of a
+pairing, the paired architect — rather than the user: where the round is
+settled is what counts, not who reads it. A relay and its work-order sent in
+one message therefore close the round before any report could exist: the
+same violation as an early summary, never an exception to it.
 
 The reason is the editor's independence. Its pass is signal only while it is
 uncontaminated by yours; once your read has been released in any form, its
