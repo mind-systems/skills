@@ -44,15 +44,49 @@ Before that first channel-message, also make sure `architect-editor-engine`
 via the `Skill` tool, if it is not already loaded: the contract must be
 resident before a `REPORT-ONLY` or `APPLY-EDIT` message is ever composed.
 
-Before a compact, your handoff records the editor's handle, a digest of what
-it has accumulated, and your buffer's path (below); the digest is your own
-recovery note and is never sent to the editor. Continue in the same
-conversation if the editor is still alive. If it is dead — a stale handle
-discovered at recovery, or a failed send — report to the user **before
-anything is sent onward**; an undelivered payload is never auto-replayed into
-a fresh spawn, because the user phrased it for a warm context. The respawn is
-the next channel-message after that report, never eager with authored prose:
-the user re-phrases a relay as a self-contained spawn prompt, or an apply
+Before a compact, the handoff continuing this same architect across it — no
+other handoff has any reason to mention the buffer or the handle, since
+nothing outside this skill ever learns about either — records your buffer's
+path (below) and a digest of what the editor has accumulated; the digest is
+your own recovery note and is never sent to the editor. Of the recorded
+state, only the buffer's path travels: the pointer, never a copy of the
+handle or of any assigned pairing role, both of which live in the buffer.
+
+At the moment you spawn the editor (see above), write its handle into the
+buffer, creating the buffer at its existing path if it does not exist yet.
+Where the running build exposes `Agent`'s `name:` parameter, spawn with it
+too, so the editor can later be addressed by name — an addressing
+convenience layered on the recorded handle, never the carrier and never a
+required step, since the parameter is absent from some builds and nothing
+contracts the name's behavior beyond the run. A pairing role the user
+assigns for the session (`architect-pairing-engine`'s deciding or applying
+half) gets a recording moment of its own: write it into the buffer at the
+moment the user assigns it, which may be mid-session and need not coincide
+with the spawn.
+
+Continue in the same conversation if the editor is still alive. At recovery
+the only liveness test is the next channel-message itself: attempting to
+send it to the recorded handle is the probe, and its outcome — not any prior
+lookup — is the signal. `ListAgents` is never that signal: its subagent rows
+come from the live task registry of what is actively running right now, a
+completed round drops out of it on the order of a minute, and a compact
+never touches the editor at all — it only erases the address from your own
+context — so absence from that listing is never evidence of death; recover
+no handle from a listing, for the same reason. Where you hold no handle at
+recovery — never recorded, or recorded into a buffer whose path did not
+reach you (an auto-compact that fired before any handoff was written, or a
+handoff addressed elsewhere) — fall back to reading
+`~/.claude/projects/<project-key>/<session-id>/subagents/agent-<id>.meta.json`:
+`<project-key>` is the working directory's path with separators replaced by
+hyphens, `<session-id>` is the running session's own id, `"agentType"` inside
+the file names the editor's agent type, newest first by file mtime, and the
+id is the filename segment between `agent-` and `.meta.json`.
+
+If the send fails, the editor is dead: report to the user **before anything
+is sent onward**; an undelivered payload is never auto-replayed into a fresh
+spawn, because the user phrased it for a warm context. The respawn is the
+next channel-message after that report, never eager with authored prose: the
+user re-phrases a relay as a self-contained spawn prompt, or an apply
 work-order is resent as-is. A respawned editor resumes through the same two
 channels, self-contained per round. Losing the editor is never fatal; losing
 it silently is the defect.
@@ -160,13 +194,22 @@ evidence, not a "looks good."
 
 ## Your buffer is yours alone
 
-Keep one private buffer file for anything deliberately deferred — each entry
-names *what*, *why deferred*, and the *trigger* that resolves it; delete an
-entry once it's done. It lives at `.ai-factory/notes/<NN>-architect-buffer.md`,
-numbered like the other temporary notes so several architects can coexist
-without colliding. The editor is never told about it and no work-order
-references it — nothing is broken if it happens to see the file; it is the
-one file you edit directly, because it isn't a shared artifact.
+Keep one private buffer file for whatever of your own state must survive a
+compact: the editor's handle, any pairing role the user has assigned for the
+session, and the deferral entries below. The handoff continuing you across a
+compact carries this buffer's path alone: of the state recorded there, the
+pointer, never a copy of the handle or role it holds — see "Spawn once,
+message thereafter" for the rest of what is recorded, when, and the
+liveness test at recovery; this section does not restate any of that.
+
+Each deferral entry names *what*, *why deferred*, and the *trigger* that
+resolves it; delete an entry once it's done — deferral entries remain the
+buffer's primary content. It lives at
+`.ai-factory/notes/<NN>-architect-buffer.md`, numbered like the other
+temporary notes so several architects can coexist without colliding. The
+editor is never told about it and no work-order references it — nothing is
+broken if it happens to see the file; it is the one file you edit directly,
+because it isn't a shared artifact.
 
 ## The user rules the forks and owns the commits
 
@@ -181,4 +224,4 @@ English, whatever language you reason and report to the user in.
 
 You are re-invoked fresh after every compact and every new session — rebuild
 your working state from whatever the user hands you and, if one exists, the
-pre-compact handoff that recorded your editor's handle.
+pre-compact handoff that recorded your buffer's path.
