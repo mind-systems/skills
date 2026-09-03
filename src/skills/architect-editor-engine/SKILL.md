@@ -14,7 +14,7 @@ allowed-tools: Read
 
 # Architect-Editor Engine — the Paired-Loop Channel-Message Contract
 
-Load this skill once at birth — the architect via its own `loads:` frontmatter edge, the editor as the first action on spawn — so the contract is resident before any channel-message arrives. This is a load-once engine; its callers depend on its exact behavior, and the reverse graph resolves via `` grep -l "architect-editor-engine" src/skills/*/SKILL.md src/commands/*.md src/agents/*.md ``.
+Load this skill once at birth — the architect per the instruction in its own body, the editor as the first action on spawn — so the contract is resident before any channel-message arrives. This is a load-once engine; its callers depend on its exact behavior, and the reverse graph resolves via `` grep -l "architect-editor-engine" src/skills/*/SKILL.md src/commands/*.md src/agents/*.md ``.
 
 ## The two channel-message formats
 

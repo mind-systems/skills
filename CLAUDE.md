@@ -71,7 +71,7 @@ skills/
 └── README.md
 ```
 
-**The active set** (what `~/.claude` actually loads): our skills — `detangle`, `task-rescue`, `task-rescue-audit`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `aif`, `aif-architecture`, `aif-docs`, `test-philosophy`, `roadmap-outline`, `observe-logs`, `orchestrator-artifacts`, `agent-architect`, `architect-pairing-engine` — plus one upstream original we use as-is: `aif-skill-generator`. Everything else (our `aif-plan`, `ui-ux-pro-max`; all other upstream skills) is stored but **not** symlinked into `active/`. Adding a skill to the working set = create a symlink under `active/skills/`.
+**The active set** (what `~/.claude` actually loads): our skills — `detangle`, `task-rescue`, `task-rescue-audit`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `aif`, `aif-architecture`, `aif-docs`, `test-philosophy`, `roadmap-outline`, `observe-logs`, `orchestrator-artifacts`, `agent-architect`, `architect-editor-engine`, `architect-pairing-engine` — plus one upstream original we use as-is: `aif-skill-generator`. Everything else (our `aif-plan`, `ui-ux-pro-max`; all other upstream skills) is stored but **not** symlinked into `active/`. Adding a skill to the working set = create a symlink under `active/skills/`.
 
 Each skill directory contains:
 - `SKILL.md` — required, main instructions (frontmatter + body ≤ 500 lines)
@@ -186,7 +186,7 @@ diff -rq src/skills/aif-architecture upstream/ai-factory/aif-architecture
 diff -rq src/skills/aif-docs upstream/ai-factory/aif-docs
 ```
 
-**Everything else in `src/skills/` is ours** — no upstream counterpart to reconcile, sync never touches it: `detangle`, `task-rescue`, `task-rescue-audit`, `roadmap-outline`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `test-philosophy`, `observe-logs`, `ui-ux-pro-max`, `agent-architect`. The same holds for `src/agents/` — the `editor` agent definition has no upstream counterpart; a re-sync must never overwrite it.
+**Everything else in `src/skills/` is ours** — no upstream counterpart to reconcile, sync never touches it: `detangle`, `task-rescue`, `task-rescue-audit`, `roadmap-outline`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `test-philosophy`, `observe-logs`, `ui-ux-pro-max`, `agent-architect`, `architect-editor-engine`, `architect-pairing-engine`. The same holds for `src/agents/` — the `editor` agent definition has no upstream counterpart; a re-sync must never overwrite it.
 
 **`src/commands/`** — all ours, no upstream source, never synced.
 
