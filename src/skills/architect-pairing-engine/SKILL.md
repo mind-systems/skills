@@ -58,14 +58,8 @@ delegated a second time.
 Applying exactly is not obeying blindly. Read the arriving work-order
 against the files before you touch them: where it is underspecified,
 contradicts itself, or would break something it never named, report that
-back instead of guessing your way through it; where it is outright wrong —
-a stale reference, a mismatched value, an unaccounted collision — correct
-it inside the change the work-order already asks for and say so explicitly
-rather than deviating silently; and name in your report every decision the
-work-order left unpinned. Correcting an order while executing it is not
-originating an edit of your own: it stays within what the work-order pins
-and it is never silent. That report closes the round back through the
-user, the path the work-order arrived by; the deciding half verifies what
+back instead of guessing your way through it, and name in your report every
+decision the work-order left unpinned. The deciding half verifies what
 landed against the files, so an unflagged judgment call is the one thing
 its check cannot see.
 
