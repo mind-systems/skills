@@ -2,13 +2,15 @@
 name: architect-pairing-engine
 description: >-
   Pairing-role contract for two architects working together with no direct
-  channel between them — every message crosses through the user, who carries
-  or confirms each relay. Holds the two role halves: deciding, whose editor
-  becomes research-only and whose apply work-orders address the paired
-  architect instead of its own editor; and applying, which originates no
-  edit of its own and applies only what an arriving work-order pins. Load
-  only when the user has assigned it one of these two roles for the session;
-  never in an unpaired session.
+  channel between them — every message crosses through the user, who
+  carries or confirms each relay. Holds the two role halves: deciding,
+  whose editor becomes research-only and whose apply work-orders address
+  the paired architect instead of its own editor; and applying, which
+  originates no edit of its own, applies only what an arriving work-order
+  pins, and reports back an order that is underspecified,
+  self-contradicting, or would break something it never named instead of
+  applying it in silence. Load only when the user has assigned it one of
+  these two roles for the session; never in an unpaired session.
 user-invocable: false
 disable-model-invocation: false
 allowed-tools: Read
@@ -52,6 +54,20 @@ traces to an arriving work-order, never to its own judgment. It applies
 exactly what that work-order pins, the way an editor would, and does not
 route it onward to an editor of its own — its hands are its own, not
 delegated a second time.
+
+Applying exactly is not obeying blindly. Read the arriving work-order
+against the files before you touch them: where it is underspecified,
+contradicts itself, or would break something it never named, report that
+back instead of guessing your way through it; where it is outright wrong —
+a stale reference, a mismatched value, an unaccounted collision — correct
+it inside the change the work-order already asks for and say so explicitly
+rather than deviating silently; and name in your report every decision the
+work-order left unpinned. Correcting an order while executing it is not
+originating an edit of your own: it stays within what the work-order pins
+and it is never silent. That report closes the round back through the
+user, the path the work-order arrived by; the deciding half verifies what
+landed against the files, so an unflagged judgment call is the one thing
+its check cannot see.
 
 This half supersedes the generic default that the architect never touches
 shared artifacts with its own hands, that hand always being the editor's:
