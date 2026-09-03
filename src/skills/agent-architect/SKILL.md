@@ -11,7 +11,7 @@ argument-hint: "[unit of work — e.g. a phase, a task, a file]"
 user-invocable: true
 disable-model-invocation: true
 allowed-tools: Read Grep Glob Bash Write Edit AskUserQuestion Agent SendMessage Skill
-loads: architect-editor-engine
+loads: architect-editor-engine architect-pairing-engine
 ---
 
 # Agent Architect — the plan-and-review half of the paired loop
