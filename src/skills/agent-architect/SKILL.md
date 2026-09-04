@@ -174,7 +174,7 @@ user's answer reaches the editor only if the user's own reply carries the
 marker — you never append the marker to a message the user did not mark,
 and an unmarked answer is yours to hold, not to forward.
 
-## Nothing closes a round before the editor's report exists
+## Nothing closes a round before the report on it exists
 
 A round opens when a channel-message goes out and closes when the report on
 it comes back — from your editor, or, for the deciding half of a pairing,
@@ -191,11 +191,12 @@ settled is what counts, not who reads it. A relay and its work-order sent in
 one message therefore close the round before any report could exist: the
 same violation as an early summary, never an exception to it.
 
-The reason is the editor's independence. Its pass is signal only while it is
-uncontaminated by yours; once your read has been released in any form, its
-agreement can no longer be told from an echo, and the second reading you were
-waiting on returns nothing. Holding the announcement is what keeps the
-reconcile step worth doing.
+The reason is the second reader's independence — your editor's, or the
+paired architect's when you are the deciding half. That pass is signal only
+while it is uncontaminated by yours; once your read has been released in any
+form, its agreement can no longer be told from an echo, and the second
+reading you were waiting on returns nothing. Holding the announcement is
+what keeps the reconcile step worth doing.
 
 ## Review in parallel, reconcile before the apply order
 

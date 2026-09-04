@@ -41,6 +41,14 @@ Premise of the revert, and it matches the ruling already on record for 26.8: onl
 
 **Standing model for this session, learned the expensive way twice:** an arriving work-order that edits `src/` is out of the paired architects' remit even when it is fully pinned and verifiable. Flag that before applying, not after.
 
+## Round 4 — 26.10 / spec 101 written, planning tier only (2026-09-04)
+
+Between rounds 3 and 4 the orchestrator implemented and committed 26.9 as `466c556`, leaving the tree clean. That is what made this order's line numbers correct: every citation (`:177`, `:179-181`, `:188`, `:194-198`, `:213`, `:22-27`, `:155-161`, and pairing `:35-36` / `:36-40` / `:41-42`) was checked against the live file before sending and all land exactly. A first read had suggested they were post-26.9 projections against a reverted file — reading `git log` before reporting is what corrected it. **Check what moved on disk between rounds before calling an order's numbers stale.**
+
+Verified after the round: contract line byte-identical to the pinned string, 967 chars, at `:102`; 26.9 untouched at `:100`, still `[x]`; `---STOP---` still last non-empty at `:104`; blank lines at `:101` and `:103`. Spec 101 — 6754 bytes, 77 lines, all seven headings, both pinned blocks byte-exact including their three-space indent, 12 verification bullets, `Files & types` naming only `agent-architect`, no leakage of the order's own STEP wording or of the note I added for the editor. `git diff HEAD --stat -- src/` empty, exit 0. `git status --short` exactly two entries. Nothing committed.
+
+**One thing I added to the order myself,** not pinned by the deciding half: an explicit note that the spec's own `## Verification` and `## Files & types` blocks are instructions for the orchestrator, written into the spec as text and not executed. The editor had applied `src/` edits in three prior rounds on this same conversation, and this order was the first planning-only one. It stayed out of the spec file.
+
 ## Deferrals
 
 _(none open)_
