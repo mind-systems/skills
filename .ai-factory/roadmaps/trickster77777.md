@@ -101,4 +101,14 @@ Grounded in live incidents this session: after a compact the architect reported 
 
 - [x] **26.10 — agent-architect: sweep the round-closing section's single-editor assumption instead of patching it a third time** — 26.8 widened one sentence, 26.9 two more and one heading, and each pass left the pattern one instance short; 26.9 left `:177`'s heading claiming a round closes on *the editor's* report two lines above the sentence denying it. Two remain: that heading, and `:194`'s "the editor's independence", which names one of the two second readers the section now covers. Widen both to name whoever reported, then record in the spec why every other mention stays — spawn, handle, liveness, buffer and relay mechanics are identical for both halves, and `:22-27` and `:155-161` are overridden by declaration in `architect-pairing-engine` — so a fourth pass has nothing left to find. Guard: `:180`, `:188`, `:213` already carry their paired-architect clause and stay word-for-word. Spec: `.ai-factory/specs/trickster77777/101-round-closing-sweep.md`. [10m 48s]
 
+## The layer every session loads describes two doc modes and assigns neither
+
+`src/global/CLAUDE.md` § "Grounding claims" is the only rule surface loaded into every session of every project. It names two doc modes and never says which one the project's `docs/` are, so an agent mid-task falls to the description default and rules a doc running ahead of its code defective — the argument recurs across projects and is re-litigated by hand each time. This direction states the model the pipeline already implements.
+
+### Phase 27 — the global CLAUDE.md states the direction change moves in
+
+The behavior is real and already carried by the skills, but it lives only in skill bodies and in `docs/sakshi-harness/skill-cycle.md`, neither of which is loaded in an ordinary session of another project. The always-loaded layer is silent on it. No task spec for this phase — the contract line carries the whole change.
+
+- [x] **27.1 — the global CLAUDE.md never says the project's docs are the ТЗ** — § "Grounding claims" states two doc modes and assigns `docs/` to neither, so an agent falls to "Descriptions drift; code wins" and rules a doc running ahead of its code defective. Rewrite `:5` to name `docs/` as the governing spec; add two paragraphs fixing the direction docs → roadmap → code and separating it from the order surfaces appear in; drop `:9`'s duplicated duality; extend `:13` with sequential top-to-bottom task execution. No rename, no new term, no other file.
+
 ---STOP---

@@ -2,15 +2,19 @@
 
 ## Grounding claims
 
-Ground truth (code, command output, the actual file) overrides any **description** of it — a description doc, CLAUDE.md, a handoff, memory. Descriptions drift; code wins. A **governing spec** (a ТЗ) is the other doc mode: it states intended behavior ahead of code, and code is built and verified against it. When a governing spec and its code disagree, that is a defect to reconcile — not a stale doc.
+Ground truth (code, command output, the actual file) overrides any **description** of it — a handoff, a note, memory, a summary in CLAUDE.md. Descriptions drift; code wins. The project's `docs/` are not descriptions: they are the **governing spec** (a ТЗ) the work is executed against. When a governing spec and its code disagree, that is a defect to reconcile — not a stale doc.
+
+Change has one direction — **docs → roadmap → code** — never the reverse. The docs state desired behavior; the roadmap names what is not built yet; the code is what is built. Holding the docs ahead of the tasks is an obligation, not a courtesy — a task is executed against them, and a doc ahead of its code is doing its job, not drifting.
+
+Which surface appears first varies — a phase is often written before the doc that governs it, and the two firm up together during decomposition; code always comes last. The direction does not vary. Discovery runs the other way: a problem met in code rises to the roadmap, and where it traces to what the docs committed to, the repair belongs there, not in the task alone.
 
 Before acting on an artifact, read **down its chain of explicit references to the leaf**: every file it names, then every file those name. A contract line names its task spec; a spec names its code. Depth along named edges, never breadth across unrelated files. Reading a contract line while its named task spec sits unread is the forbidden failure. Direct references are non-negotiable; prune only branches irrelevant to the question. A reference you don't open, you attribute ("per the spec…") — never invent.
 
-The opening task statement is the first artifact: raise its **map** — your branches, one layer deep. Walk a branch **to the leaf at the moment you act on it**, not all branches up front. The leaf is code, on both sides of the spec — docs are the crown, code the root system. A chain that stops at a doc has not reached ground truth — when the question is what the system *does now*. A governing spec answers what the system *must do*; for unbuilt code it legitimately ends at the doc — the ground truth of intent. Never the whole tree — deep along the branch in your hands.
+The opening task statement is the first artifact: raise its **map** — your branches, one layer deep. Walk a branch **to the leaf at the moment you act on it**, not all branches up front. A chain that stops at a doc has not reached ground truth — when the question is what the system *does now*; where the question is what it *must do* and the code is not built yet, the chain legitimately ends at the doc. Never the whole tree — deep along the branch in your hands.
 
 Held context decays: a file read hours ago is a description again. Re-read the leaf fresh before acting — even when you "already know it". The larger the context, the stronger the illusion that you don't.
 
-`.ai-factory/ROADMAP.md` is the entry map of **time**: aim at the `[x]`/`[ ]` seam — `[x]` lines are history, only the files verify the present. `.ai-factory/ARCHITECTURE.md` is the entry map of **space**: module boundaries, the chosen pattern, `## Features`. The two maps orient a cold session. Named roadmaps under `.ai-factory/roadmaps/` branch the time map — per-developer buffers with an `> Owner:` line; multiuser entry starts by enumerating that directory.
+`.ai-factory/ROADMAP.md` is the entry map of **time**: tasks are executed in file order, one at a time, top to bottom, and the `[x]`/`[ ]` seam is where that run stands — aim there. `[x]` lines are history; only the files verify the present. `.ai-factory/ARCHITECTURE.md` is the entry map of **space**: module boundaries, the chosen pattern, `## Features`. The two maps orient a cold session. Named roadmaps under `.ai-factory/roadmaps/` branch the time map — per-developer buffers with an `> Owner:` line; multiuser entry starts by enumerating that directory.
 
 ## Documentation style
 
