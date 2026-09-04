@@ -111,4 +111,26 @@ The behavior is real and already carried by the skills, but it lives only in ski
 
 - [x] **27.1 — the global CLAUDE.md never says the project's docs are the ТЗ** — § "Grounding claims" states two doc modes and assigns `docs/` to neither, so an agent falls to "Descriptions drift; code wins" and rules a doc running ahead of its code defective. Rewrite `:5` to name `docs/` as the governing spec; add two paragraphs fixing the direction docs → roadmap → code and separating it from the order surfaces appear in; drop `:9`'s duplicated duality; extend `:13` with sequential top-to-bottom task execution. No rename, no new term, no other file.
 
+## The task tier is two-tier; the phase tier above it is not
+
+A task carries a contract line plus a task spec. A phase carries a preamble and nothing else, so the preamble absorbs what a second level would hold and grows until nobody reads it. The pair `roadmap-decompose` / `roadmap-decompose-skeleton` already shows what a second pass over an existing tier looks like; the phase tier never got one.
+
+### Phase 28 — a second pass over drafted phases gives each one a note and a short preamble
+
+`roadmap-outline` drafts phases and stops. Nothing deepens them afterwards, the tier has no note, no preamble budget and no pointer format, and `roadmap-outline` actively forbids a phase-level tag. Outline itself stays as it is — its restraint at the strategic tier is deliberate and the deepening belongs in a separate pass.
+
+- [ ] **28.1 — `roadmap-outline-deep`: a second pass that gives a drafted phase a note and a contract-line preamble** — `roadmap-outline` drafts phases and stops; the tier has no note, no preamble budget and no pointer format, so preambles absorb note-sized prose. Add `src/skills/roadmap-outline-deep/`, a second pass over existing phases only, `loads: roadmap-engine note`, shaped on `roadmap-decompose-skeleton`; it holds the ~200–500 preamble budget and the inline `Phase note:` pointer itself, being the format's only caller. Symlink into `active/skills/`; add to both `CLAUDE.md` enumerations; `skill-cycle.md` already carries it. `roadmap-prune` gains one capture, symmetric with the `Spec:` one it already performs. Modify no other skill — not `note`, `roadmap-engine`, `roadmap-outline` or `task-rescue`. Spec: `.ai-factory/specs/trickster77777/102-roadmap-outline-deep.md`.
+
+- [ ] **28.2 — the phase header's two pointers get their readers: `roadmap-decompose` and `task-rescue`** — 28.1 defines the `Phase note:` token and nothing reads it. In `roadmap-decompose/SKILL.md` hook (a) Granularity (`:26`), add the phase-preamble read, once per phase before its first task is written, in every mode: where the preamble names `Governing spec:` documents or a `Phase note:`, read those files in full — unconditional, never suspicion-gated. In `task-rescue/SKILL.md`, extend the read at `:61-63`, its title, the Step 3 judgment, the copy rule (`:58`, `:143`, `:356`) and the rule at `:541` from `Governing spec:` alone to both pointers, the same unconditional shape, keeping the existing exit: no phase, or neither named, proceed as today. A pointer whose file is absent is reported, never skipped. Runs after 28.1, which defines the token. Modify no other skill; no new `loads:` edge. Spec: `.ai-factory/specs/trickster77777/104-phase-note-readers.md`.
+
+## Nothing checks how a task lands on the code that exists
+
+`command-pin-gaps` reads a task and asks where the implementing agent would have to invent. It asks that of the artifact's own text alone, so the answer is only ever as good as the reader's improvisation: nothing walks the transformation the task claims, from the governing spec through the task into the code, and nothing in the family owns the point where new code meets old. `roadmap-decompose` never reads code, and `roadmap-decompose-skeleton` reads it only to judge testability.
+
+### Phase 29 — command-pin-gaps walks the task's transformation and reports where it fails to join
+
+The question the command asks does not change; what changes is that it stops being asked into the air. The command gains no new authority: it sees holes and names them, and the fixes are applied afterwards by an agent, once the findings have been discussed and a decision made.
+
+- [ ] **29.1 — command-pin-gaps: walk the task's transformation and report where it fails to join** — `roadmap-decompose` never instructs reading code at all, and `roadmap-decompose-skeleton`'s three lenses read it only to judge testability, so nothing checks how a task lands on the code that exists. Rewrite `src/commands/command-pin-gaps.md` so it walks the transformation the task claims — this governing spec, through this task, into that code — and reports each point where it does not join: desired behavior with no landing in the code, and behavior the task assumes that no document states, the same hole from the other end. Blast-radius joins value and meaning as a third class. It names which of `roadmap-decompose`, `roadmap-decompose-skeleton`, `aif-docs` or `test-philosophy` owns a hole and wields none of them. `allowed-tools` and `loads` unchanged; no path into a sibling repository. Spec: `.ai-factory/specs/trickster77777/103-pin-gaps-blast-radius-class.md`.
+
 ---STOP---

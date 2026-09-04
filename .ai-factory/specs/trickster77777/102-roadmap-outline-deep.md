@@ -1,0 +1,62 @@
+# roadmap-outline-deep: the phase tier gets its second level
+
+## Current state (grounded, read fresh)
+
+`src/skills/roadmap-outline/SKILL.md` drafts phases — a `### Phase N` header plus a prose intro — and stops there. It holds no character budget for that prose and no note pointer, and it deliberately holds no per-entry gate: "restraint at the strategic tier is the 5–15 rule, not a split gate". The preamble therefore absorbs whatever a second level would have held; preambles of 1200–1900 characters are the observed result, against 475–498 in a direction that keeps them short.
+
+`src/skills/roadmap-decompose-skeleton/SKILL.md` is the structural precedent one tier down: a second pass over an existing tier, `loads: roadmap-engine test-philosophy`, owning no reusable body of its own, and it does not call `roadmap-decompose` at runtime. Swap task for phase and it describes this skill's relation to `roadmap-outline` exactly.
+
+`src/skills/note/SKILL.md` already exposes the three hooks this needs: a destination directory defaulting to `.ai-factory/notes/`, a caller-supplied section template, and a verbosity directive. Its always-on folder-style layer reads the 1–2 most recent siblings of the destination, and caller hooks win over it. `roadmap-engine` § "Spec destination" already routes a named roadmap's artifacts through that same hook into `.ai-factory/specs/<slug>/`, with the default roadmap staying flat at `.ai-factory/specs/`, and numbering is per-directory as already built. No change to `note` and none to `roadmap-engine` is needed — the destination this skill passes is one the pair already supports.
+
+`src/skills/roadmap-outline/SKILL.md:40-41` already permits the form this skill emits: "Links to handoffs and task specs are allowed as plain markdown links inside the intro/preamble prose — no formal `Spec:` tag, no invented task specs." The live `Governing spec:` line on a phase header proves a pointer there is legal today. Outline's three prohibitions bar a checkbox bullet, a contract line and a formal `Spec:` tag; none of them reaches an inline markdown link.
+
+`src/skills/roadmap-prune/SKILL.md` owns the spec directory. Step 5 item 1 captures "the `Spec:` tag path of every `[x]` line being pruned", never synthesizing a path, and Step 5 then deletes exactly those files; the directories it removes wholesale are `plans/`, `plan-reviews/` and `reviews/`, never `specs/`. Its emptied-phase sweep deletes a phase's "header and its intro prose too" — the very preamble a `Phase note:` pointer sits on. So today a phase note placed in that directory would be neither deleted by mistake nor collected: prune scans task lines, not preambles. It would outlive its phase inside a directory its owner sweeps, which is a file with no owner at all.
+
+`CLAUDE.md` carries two exhaustive skill enumerations: `:74`, "The active set", and `:189`, "Everything else in `src/skills/` is ours". The repository tree earlier in the file is illustrative, not a third list to maintain. Task 26.7 exists precisely because a prior skill was added without updating both.
+
+## The change
+
+1. New skill `src/skills/roadmap-outline-deep/SKILL.md`, `loads: roadmap-engine note`, built in `roadmap-decompose-skeleton`'s image: a second pass over phases `roadmap-outline` has already drafted, never calling it at runtime. It holds its own format, because it is the only caller of that format — a preamble budget of ~200–500 characters, and a pointer of the literal form `Phase note: [<title>](<path>)` closing the preamble line rather than standing as a separate paragraph, so the preamble reads in one line the way a task contract line does. `<path>` is repo-root-relative and begins with `.ai-factory/`, in the exact form the `Spec:` tag uses, so `roadmap-prune` Step 5 item 3 joins it onto the target repo root unchanged; it is a pointer for agents, not an editor-resolvable link. Every drafted phase qualifies: a phase exists because the docs and the code diverge, and the docs may not say so — `aif-docs` writes them in present tense as if the behavior already ships (`src/skills/aif-docs/SKILL.md:19`, `:26`) — so the phase note is the one place that states exactly what diverges now, with pointers into `docs/` for how it must become; never a copy of the doc. Where no document states how the phase must become, the note records that as a governing-spec hole owned by `aif-docs`; the pass never writes under `docs/` and never invents a pointer. The note is written through `note` with a caller-supplied template, to the roadmap's own spec directory — `.ai-factory/specs/<slug>/` for a named roadmap, flat `.ai-factory/specs/` for the default — the same destination and the same per-directory numbering task specs already use, passed through `note`'s existing destination hook. Frontmatter, on `roadmap-decompose-skeleton`'s pattern: `argument-hint: "[phase or slug]"`, `disable-model-invocation: true`, `allowed-tools: Read Write Edit Glob Grep AskUserQuestion Skill`, `loads: roadmap-engine note`. The `description:` names the pass over already-drafted phases, that every drafted phase gets a note stating what diverges now, the `Phase note:` pointer closing the preamble, and the trigger words "deepen phase", "phase note".
+
+2. `active/skills/roadmap-outline-deep` symlink, matching the pattern `../../src/skills/<name>` used by every sibling in `active/skills/`.
+
+3. `CLAUDE.md`'s two enumerations, `:74` and `:189`, gain the skill. Both, not one: the first says what `~/.claude` loads, the second says what the upstream sync must never overwrite.
+
+4. `docs/sakshi-harness/skill-cycle.md` already carries the pass — its own section after the `aif-docs` step and its line in the `## Схема` diagram, written by the planning side before this task, per docs → roadmap → code. The section sits after `aif-docs` because the phase note points into the docs `aif-docs` writes and measures the drift from them; both pointers end up on the same header, `Governing spec:` first. This task does not touch `docs/`.
+
+5. `src/skills/roadmap-prune/SKILL.md` captures the phase note. Step 5 item 1 already captures a `Spec:` tag from every `[x]` line being pruned, before any line is deleted; it gains the same capture one tier up — the `Phase note:` pointer's path on a phase preamble, repo-root-relative exactly as a `Spec:` path, taken before the emptied-phase sweep deletes that header and its intro prose, with the captured path deleted alongside the spec paths in Step 5. Every existing carve-out carries over unchanged and needs no restating in new words: a phase that keeps its header is never emptied, so nothing is captured for it, and a preamble with no `Phase note:` contributes nothing — never synthesize a path.
+
+## Files & types
+
+- new: `src/skills/roadmap-outline-deep/SKILL.md`
+- new: `active/skills/roadmap-outline-deep` (symlink)
+- edit: `CLAUDE.md` — `:74` and `:189`
+- edit: `src/skills/roadmap-prune/SKILL.md` — Step 5's capture, and the emptied-phase sweep
+
+## Guards
+
+- Modify no skill beyond `roadmap-prune`, whose one capture is item 5. `note`, `roadmap-engine` and `roadmap-outline` are out of scope for the reasons recorded in § "Current state"; `task-rescue` is task 28.2's. In particular the preamble format stays inside this skill: the repo factors a mechanism into a shared skill at two or more callers, and this format has one. When `roadmap-outline` or another caller comes to emit it, that move is its own task.
+- The inline pointer is a deliberate departure. Other projects hold sixteen instances of a separate-paragraph pointer after the preamble; counting those precedents and reproducing them would restore exactly the shape this direction abandoned. Do not touch those files.
+- No new directory and no new mechanism. The phase note lands in the roadmap's own spec directory, per-stem for a named roadmap exactly as task specs are, told apart from them by the pointer that names it — a `Phase note:` on a phase preamble rather than a `Spec:` tag on a task line; the filename form is free. A flat destination would have put two developers' phase notes on one counter; the per-stem split the roadmap already uses is what removes that.
+- The capture keys on the literal `Phase note:` token and on nothing else — never on a link's position in a preamble. `roadmap-outline` permits unrelated handoff and task-spec links in that same prose, and `roadmap-prune` holds `Bash(rm *)`; a positional key would follow one of those to a deletion. This is prune's existing rule restated one tier up: capture the token, and where there is no token, synthesize nothing.
+- Coin no new term. `reserved-words.md` gets no entry until the phase-note pattern proves itself across more than this one skill.
+- The skill plans only; the orchestrator implements, in a separate run.
+
+## Verification
+
+Every count is taken against a whitespace-normalized read of the named file — never a line-oriented `grep` — and `**` emphasis markers are normalized out of both sides before any quoted span is compared.
+
+- `name: roadmap-outline-deep` in `src/skills/roadmap-outline-deep/SKILL.md` → 1
+- `loads: roadmap-engine note` in `src/skills/roadmap-outline-deep/SKILL.md` → 1
+- `allowed-tools: Read Write Edit Glob Grep AskUserQuestion Skill` in `src/skills/roadmap-outline-deep/SKILL.md` → 1
+- `](.ai-factory/specs/` in `src/skills/roadmap-outline-deep/SKILL.md` → at least 1 — the pointer's path form is shown repo-root-relative
+- `Phase note:` in `src/skills/roadmap-outline-deep/SKILL.md` → at least 1, byte-exact, capital P and lowercase n
+- the preamble budget, the strings `200` and `500`, in `src/skills/roadmap-outline-deep/SKILL.md` → each at least 1
+- `.ai-factory/specs/` in `src/skills/roadmap-outline-deep/SKILL.md` → at least 1, and the skill names the named-roadmap form `.ai-factory/specs/<slug>/` as well → at least 1
+- `roadmap-outline-deep` in `CLAUDE.md` → at least 2, one in each enumeration
+- `roadmap-outline-deep` in `docs/sakshi-harness/skill-cycle.md` → at least 2, one in the prose section and one in the `## Схема` diagram, both present before the task starts; `git diff HEAD -- docs/` is empty when the orchestrator implements this task, the docs change having been committed with the planning that preceded it
+- `active/skills/roadmap-outline-deep` resolves as a symlink to `../../src/skills/roadmap-outline-deep`
+- `src/skills/roadmap-prune/SKILL.md` captures the phase note by its literal token → `Phase note:` in that file → at least 1, byte-exact
+- `git status --short -uall -- src/ active/ CLAUDE.md` lists exactly the four paths in § "Files & types" and nothing else: the two new paths as `??` (or `A` if staged), `CLAUDE.md` and `src/skills/roadmap-prune/SKILL.md` as ` M`; a new file never appears in `git diff HEAD --stat`, so that command is not the check here
+- `git diff HEAD -- src/skills/note src/skills/roadmap-engine src/skills/roadmap-outline src/skills/task-rescue` is empty — the cut holds, and `roadmap-prune` is the one skill outside it
+- No count above is trusted as evidence until it was taken by the normalized method named at the head of this section
