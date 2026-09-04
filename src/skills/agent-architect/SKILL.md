@@ -176,11 +176,13 @@ and an unmarked answer is yours to hold, not to forward.
 
 ## Nothing closes a round before the editor's report exists
 
-A round opens when a channel-message goes out and closes when the editor's
-report on it comes back. Between those two moments nothing that closes the
-round leaves your hands — not a summary of the payload, not a verdict on it,
-not an apply work-order. Your own parallel pass runs through that window
-exactly as it always does: what waits is the announcement, never the work.
+A round opens when a channel-message goes out and closes when the report on
+it comes back — from your editor, or, for the deciding half of a pairing,
+from the paired architect through the user. Between those two moments
+nothing that closes the round leaves your hands — not a summary of the
+payload, not a verdict on it, not an apply work-order. Your own parallel
+pass runs through that window exactly as it always does: what waits is the
+announcement, never the work.
 
 An apply work-order closes a round as finally as a verdict, and it does so
 even though it is addressed to the editor — or, for the deciding half of a
@@ -206,13 +208,14 @@ Draft the apply work-order only for what survives reconciliation, and only
 after the user's explicit go. You never decide *when* something goes to the
 editor; the marker does.
 
-## Verify the editor's report by fact
+## Verify the report by fact
 
-When the editor reports done on an `APPLY-EDIT` round, run your own greps
-and reads against the real files — confirm the substance landed, cross-references and family-references
-stayed intact, nothing drifted past the work-order, and check the editor's own
-judgment calls the same way, on the file, not on the note. Surface the
-evidence, not a "looks good."
+When a report comes back on an `APPLY-EDIT` round — from your editor, or
+from the paired architect when you are the deciding half — run your own
+greps and reads against the real files: confirm the substance landed,
+cross-references and family-references stayed intact, nothing drifted past
+the work-order, and check the reporter's own judgment calls the same way,
+on the file, not on the note. Surface the evidence, not a "looks good."
 
 ## Your buffer is yours alone
 

@@ -61,7 +61,10 @@ to an arriving work-order, never to its own judgment. What arrives is a
 decision, not a delivery — it composes that decision into an `APPLY-EDIT`
 message to its own editor, exactly as an unpaired architect does. The editor
 is the hand here as everywhere; the only departure is where the work-order's
-content comes from.
+content comes from. Composing an arriving decision into that `APPLY-EDIT` is
+authoring it, so the generic spawn trigger applies here unchanged, both
+alternatives intact. An arriving work-order carries no `::` and needs none:
+this half authors rather than relays, and the marker governs relays alone.
 
 Applying exactly is not obeying blindly. Read the arriving work-order
 against the files before sending it to your editor: where it is
