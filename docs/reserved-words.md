@@ -1,3 +1,5 @@
+> This document is final and is not subject to update.
+
 # Reserved words — the shared vocabulary of the sakshi system
 
 A project family this size needs a fixed vocabulary: one set of concepts, each with exactly one name, none named twice. This file is that vocabulary's registry — the glossary every skill, skill description, and system doc draws on; reading these words you recognize the system's one voice. What is **reserved** is the *meaning*, not the spelling: each entry binds a concept to its one name, and the name to its one concept. The terms themselves are ordinary English, written by ordinary prose rules — capitalized where a sentence capitalizes, hyphenated where English hyphenates. A term is not a token, and no text is ever swept for its typography.

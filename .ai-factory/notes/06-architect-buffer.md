@@ -96,3 +96,67 @@ Still open, pending the user's word (unchanged from handoff 13 § 3): `skill-cyc
 **Why deferred.** `docs/` is the planning side's own surface and the user has given no word on these; edits to a governing doc are never taken on my own initiative. Items 2–3 have been waiting since handoff 13 § 3.
 
 **Trigger.** The user's go. All three ship as one work-order to the applying half — one file, three anchors quoted from disk, `aif-docs` itself untouched.
+
+## Deferral — the same misattribution survives at `skill-cycle.md:15` and `:59` (2026-09-07)
+
+**What.** Two more lines in `docs/sakshi-harness/skill-cycle.md` carry the claim that the ТЗ step *is* a run of the `aif-docs` skill, and they are deliberately outside the three-anchor work-order (D1–D3) shipped for `:17`, `:21`, `:66`:
+
+1. `:15` — the section header `## Техзадание — `aif-docs``. Names the skill as the step's owner, in a file whose headers are "шаг — скилл".
+2. `:59` — «Финальным идёт второй проход `aif-docs` — теперь как сверка… Контракт до и сверка после — два прохода одного скилла, разделённые исполнением.» Once `:17` says the first ТЗ is written by hand in the skill's genre, "два прохода одного скилла" is false in its first half; the closing sentence is the part to repair, not the whole paragraph — the final `aif-docs` pass really is a skill run.
+
+**Why deferred.** After D1–D3 land the section will argue with its own header, so this is a real defect, not polish. Held back deliberately: the user asked for three anchors and additions are what went wrong all last week. Reported in chat at the moment the work-order shipped.
+
+**Trigger.** The user's word, any time after D1–D3 are verified on disk. Ships as a second work-order on the same file, two anchors, `src/skills/aif-docs/` still untouched.
+
+## The essence of `command-pin-gaps` — the user's own words, recorded so it is never asked again (2026-09-07)
+
+Stated for at least the third time, with the explicit instruction never to make them repeat it. Verbatim, then the gloss. **This is the target 29.1 is measured against; spec 103 as it stands does not match it.**
+
+> «ни один из нашших скилов не говорит - пойди и прочитай код и посмотри как таск ложится на него, при декомпозиции. То есть мы декомпозируем фазы в таски и пишем документацию в отрыве от реальности и надеемся, что оркестратор сам разберётся как таск заимплементить. При большой кодовой базе, оркестратор не вписывается в лимиты, тк сам понимаешь - таск написанный в отрыве от кода - фантазия почти целиком.»
+
+The origin, met on `tradeoxy_core`: nothing in the family reads code at decomposition time, so tasks and docs are written away from reality and the orchestrator is left to work it out. On a large codebase it then runs out of budget, because a task written away from the code is almost entirely fantasy. `roadmap-outline-deep` and `command-pin-gaps` are the two answers to that one problem — pin-gaps existed before and its effectiveness was near zero.
+
+> «планировочный и ревью промпты мы не собираемся перетаскивать в пингапс скилл из оркестратора, но минимальную эмуляцию плана и ревью имплементации, с учётом кода, как это собирается делать оркестратор, нам надо сделать. Что б как бы с высоты птичьего полёта посмотреть на проблемы, которые оркестратор может встретить.»
+
+The command performs a **minimal emulation** of the plan and of the implementation review, against the code, the way the orchestrator will do it — a bird's-eye pass over the problems the run will meet. It is never a transplant of the orchestrator's planner/reviewer prompts, and it produces no plan and no verdict.
+
+> «только у нас есть весь контекст, из которого таск рождается, а оркестратор читает только этот таск и это всё что у него есть. В идеале ему даже не надо идти читать документацию, что б понять что нужно сделать, что б этот таск лёг.»
+
+**The self-sufficiency criterion, and it settles the docs end.** The orchestrator reads the task and nothing else; the whole context the task was born from lives only on our side. So a hole is not "no document states this" — it is "the task does not carry it, so the run would have to go dig or invent". Docs are our source for closing a hole into the task, never homework we leave for the orchestrator.
+
+> «Проверять преамбулу вообще не входит в ответственность этого скила, это задача совсем другого скила.»
+
+Reading the phase preamble and its two pointers is out of this command entirely — that is `roadmap-outline-deep`'s and, since 28.2, `roadmap-decompose`'s and `task-rescue`'s work.
+
+Also his, same round: the pass closes contradictions in place, and **surfaces** them instead where there is a fundamental conflict or spaghetti code that does not come apart. Spec 103 carries no such disposition today.
+
+**Durable home.** These are recorded here because the artifacts do not carry them yet. When 29.1 is repaired they belong in spec 103 and in `docs/sakshi-harness/skill-cycle.md` § "Пины"; until then this entry is the only place they live, and it must not be lost to a compact.
+
+### Correction, same day — the division of labour, and docs are not this command's subject
+
+> «У нас есть decompose-outline + roadmap-decompose кто занимается документацией и оформлением тасок. Теперь у нас появляются outline-deep + pin-gaps, которые отвечают за сведение тасок с кодом. Таск уже написан, пингапсу, как и оркестратору - не надо ходить за документацией. Его задача проверить, как таск сходится с кодом и на сколько вообще возможно его заимплементить. То что ему может быть придётся сходить документацию прочитать для лучшего понимания таска - в этом нет ничего плохого! Оркестратор тоже ходит читать документацию, если ему надо!»
+
+Two pairs, two jobs. `roadmap-outline` with `roadmap-decompose` own the documentation and the shaping of tasks. `roadmap-outline-deep` with `command-pin-gaps` own **bringing tasks together with the code**. By the time pin-gaps runs the task is already written; it does not go fetch documentation as a duty, exactly as the orchestrator does not. Its subject is how the task converges with the code and whether it can be implemented at all.
+
+Reading a document to understand the task better is perfectly fine and needs no branch, no permission and no finding — the orchestrator reads one when it needs one too. So documents are **available to the reader, never the subject of the pass**: there is no docs end of a hole, no document-presence check, no `aif-docs` routing decided from an absent document.
+
+**This supersedes the gloss above** on «в идеале ему даже не надо идти читать документацию». That sentence is about the task being complete enough to stand on its own, not a prohibition on reading and not a licence to turn documents into a finding class. My reading of it as a docs-end criterion was wrong twice in a row, in the same direction: I keep re-centring this command on documentation. The subject is the code.
+
+### Third clarification, same day — an undescribed behavior is a real gap, but the weight is the code side
+
+> «Если в ходе исследования мы видим, что поведение, которое таск хочет - не описано в техзадании, это тоже гап, который надо запинить. Тк в нашем построении - документация это фундамент, на котором стоит код. Видимо отсюда пришло требование читать доки.. В таком случае это правильное требование, но основная часть - это именно кодовая сторона этого скила, тк как я уже сказал выше - до сих пор ни один скилл вообще не обращал на это внимание.»
+
+Behavior the task wants that the ТЗ does not describe **is** a gap and is pinned like any other, because in this construction the documentation is the foundation the code stands on. That is where the requirement to read documents came from, and so read it — the requirement is right.
+
+What the correction above still kills, and what it does not:
+- **Does not kill:** the finding "the task wants behavior no governing document describes". It is a legitimate pin, and reading the documents the task and its own spec name is how it is found.
+- **Still killed:** locating the phase, reading the two pointers on its header, branching on their presence, and emitting a finding because a phase names no document. The gap is about a *behavior* the task claims, never about a *pointer* being absent.
+- **Proportion, stated by the user:** this is the secondary half. The main part is the code side — how the task converges with the code and whether it can be implemented at all — because no skill in the family has ever looked at that. A repaired spec that spends its weight on the docs end is wrong even when every sentence in it is true.
+
+## Ruling — the divergence IS the phase's intent; there is no second half (2026-09-07)
+
+> «то что расходится с желаемым поведением, описанным в документации - это и есть интент фазы! Не уходи в фанатизм!»
+
+The note states, in words, what is not yet as the docs say. That statement *is* what the phase is for — the intent needs no separate half, no extra clause in the template hook, and no follow-up task. `roadmap-outline-deep` as shipped is correct on this point, and so are `skill-cycle.md:21` and spec 102 item 1.
+
+I had read «ноут расширяет смысл преамбулы» as a second content requirement and drafted a task around it. That was the same failure as the governing-spec hole: taking one sentence of a ruling and building a structure on it. Retracted in full — nothing to edit, nothing to plan. Do not re-derive this.

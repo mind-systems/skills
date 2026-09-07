@@ -780,3 +780,31 @@ Anchor verified once, `governing-spec hole` once, `the note says so in one line`
 **The editor's conduct held up under load.** It caught two of its own defects mid-round (a duplicated `4. ` prefix on rule 4, a 129-character seam where a pre-wrapped paragraph met an untouched lead-in), fixed both before reporting, said so, and separately corrected its own earlier byte-count measurement to the code-point one. Both self-caught defects were absent from the files when I checked.
 
 Round open until the report; verify by fact.
+
+## Round 31 — skill-cycle: the ТЗ step is a genre, not a skill run; § Пины described the wrong command (2026-09-07, open)
+
+**Doc-only round, and the doc leads: nothing under `src/` moves, the roadmap and task spec follow separately.** Two defects: the cycle wrote the ТЗ step as an `aif-docs` run when it is written by the planning side in that skill's genre, with `Governing spec:` placed by hand; and § "Пины" gave `command-pin-gaps` the phase tier's work — walking spec→task→code and checking both header pointers — which belongs to `roadmap-outline-deep` and `roadmap-decompose`. Its actual subject is the code: how the already-written task lands on it and whether it is implementable at all.
+
+**All six anchors verified once. Two corrections handed to the editor rather than passed through:**
+1. The order credits the paragraph split to **D6**; it is **D4**. D6 is a one-sentence swap and changes no line count. Left uncorrected, the editor would hunt for a two-paragraph change in the wrong edit.
+2. **The diagram holds two `aif-docs` rows** — line 66 (ТЗ, being replaced) and line 82 (`сверка ТЗ с построенным`, staying). Matching by the skill name alone would hit both. Pinned the match to the full line.
+
+**Alignment checked rather than trusted.** Every ordinary diagram row puts `→` at code-point column **41**; the proposed row lands at 41, its name field 28 characters like its neighbours. Told the editor to count code points — the row is Cyrillic, and a byte count would put the arrow nowhere near the true column.
+
+87 lines now, 89 after D4.
+
+Round open until the report; verify by fact.
+
+## Round 32 — 29.1 rescued at spec depth, and the doc's authority made explicit (2026-09-07, open)
+
+**The doc led and the spec follows.** § "Пины" was rewritten last round; spec 103 and the 29.1 contract line still carried the old docs-first formula and the whole phase-header apparatus — the single paragraph that produced every finding across three failed plan reviews. The discarded attempt (plan, sidecar, three plan-reviews) is deleted so the run plans clean.
+
+**The command's subject moves to the code.** It reads the task, its spec and the code it lands in, and walks what the orchestrator will do — planner against this code, reviewer over the result — as a way of reasoning, producing no plan and no verdict and naming no orchestrator prompt. Two questions decide a finding: would the run invent, and is the task implementable at all. The phase header is explicitly not its business.
+
+**Token positions checked before trusting the expected zeros.** `Governing spec:` and `Phase note:` live only on lines 19 and 62, `task-rescue` only on 19, `422` only on 23 — all lines this order replaces, so every expected 0 is reachable rather than aspirational.
+
+**Sixth instance of the bytes-vs-characters trap, this time inside the order's own verification command.** It gives 995 for the new contract line and suggests `LC_ALL=en_US.UTF-8 awk '{print length($0)}'`. Ran it: awk on this machine counts bytes whatever the locale, and the line is **991 characters / 995 bytes**. Both inside 400–1000, so nothing breaks — but the expected value and the method were both byte-based while the rule is about characters. Told the editor to report 991 by Python.
+
+**Also verified before relaying:** all five `23-` artifacts are genuinely untracked (`??`), so `git clean -f` per path is right and `git rm` would fail; spec 103 is 64 lines and becomes 68 by the order's own arithmetic.
+
+Round open until the report; verify by fact.
