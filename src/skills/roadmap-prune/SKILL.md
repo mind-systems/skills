@@ -269,7 +269,7 @@ Follow the table format and grouping rules from Step 2.2. Additional rules:
 
 ## Step 5 — Sweep completed artifacts and specs
 
-Run this after Step 4 and before Step 6. Tags are captured before any ROADMAP.md line is deleted.
+Run this after Step 4 and before Step 6. The `Spec:` tags and `Phase note:` pointers below are captured before any ROADMAP.md line is deleted.
 
 Derive the **target repo root**: the parent of the `.ai-factory/` directory the target ROADMAP.md lives in (from the skill argument). Anchor every deletion in this step at that root. For a sub-repo roadmap at `<subrepo>/.ai-factory/ROADMAP.md`, the target repo root is `<subrepo>`, and the sweep touches only `<subrepo>/.ai-factory/*`.
 
@@ -277,6 +277,17 @@ Derive the **target repo root**: the parent of the `.ai-factory/` directory the 
    line's `Spec:` tag is not captured — its contract line and its spec file both stay
    untouched. A `[x]` line with no `Spec:` tag contributes nothing — skip it, never
    synthesize a path.
+
+   **Also capture** the `Phase note:` pointer path from the preamble of every phase
+   that Step 6's emptied-phase sweep below will delete. Key on the literal
+   `Phase note:` token and on nothing else — never on a link's position in a
+   preamble: `roadmap-outline` permits unrelated handoff and task-spec links in that
+   same prose and this skill holds `Bash(rm *)`, so a positional key would follow one
+   of those to a deletion. A preamble with no `Phase note:` token contributes
+   nothing — skip it, never synthesize a path. The existing carve-outs apply
+   unchanged: a phase that keeps its header — one still holding a `[ ]` task or a
+   user-kept `[x]` task — is never emptied, so nothing is captured for it; the
+   always-retained last phase header likewise contributes nothing.
 2. Determine the sweep scope from the same skill argument used to anchor this step,
    then delete:
    - **Default pair** — the target is `.ai-factory/ROADMAP.md` or
@@ -301,11 +312,11 @@ Derive the **target repo root**: the parent of the `.ai-factory/` directory the 
      `<target repo root>/.ai-factory/` — never the flat dirs, never a sibling stem's
      subdirectories (another developer's completed artifacts are not this prune's to
      delete).
-3. `rm -f` each captured spec path — the captured paths are repo-root-relative and already begin with `.ai-factory/`; join them onto the target repo root, not onto `.ai-factory/`.
+3. `rm -f` each captured spec path — the captured paths are repo-root-relative and already begin with `.ai-factory/`; join them onto the target repo root, not onto `.ai-factory/`. The captured phase-note paths from item 1 go into this same deletion, joined the same way.
 
-Spec deletion goes only through the **pruned** `[x]` lines' `Spec:` tags — no spec
-directory is ever scanned or swept, so a user-kept `[x]` line's spec and open `[ ]`
-tasks' specs are never touched.
+Deletion goes only through captured tokens — the **pruned** `[x]` lines' `Spec:` tags
+and the emptied phases' `Phase note:` pointers — no spec directory is ever scanned or
+swept, so a user-kept `[x]` line's spec and open `[ ]` tasks' specs are never touched.
 
 `test-runs/` is swept only when the pruned target is the **test** roadmap —
 `ROADMAP_TESTS.md` for the default pair, `roadmaps/<name>-tests.md` for a named
@@ -325,8 +336,8 @@ unchanged.
 
 Delete the pruned `[x]` tasks from the task-holding sections — a flat `## Tasks` (or
 legacy `## Milestones`) list, or direction sections (`## <Direction name>` → `### Phase N` → `N.M` tasks) —
-only after Step 5's tag capture has run. Do not replace them with a table — the tasks
-are gone from the roadmap.
+only after Step 5's capture of tags and pointers has run. Do not replace them with a
+table — the tasks are gone from the roadmap.
 
 Keep the task-holding sections with all remaining `[ ]` tasks. Additionally, always
 retain the last phase header, even when it is emptied of all its tasks.
@@ -335,9 +346,10 @@ retain the last phase header, even when it is emptied of all its tasks.
 header now has no tasks left under it, delete the header and its intro prose too —
 never renumber surviving phases; numbering is historic and gaps are normal (a
 deleted phase's number may still be referenced from specs, commits, and
-ARCHITECTURE.md features). This coexists with the retain rule above: a phase that
-still holds a user-kept `[x]` task is not emptied and keeps its header; the last
-phase header is kept regardless.
+ARCHITECTURE.md features). The preamble deleted here is the one Step 5 captured the
+`Phase note:` path from — capture in Step 5, delete here. This coexists with the
+retain rule above: a phase that still holds a user-kept `[x]` task is not emptied and
+keeps its header; the last phase header is kept regardless.
 
 **Emptied-direction sweep:** after the emptied-phase sweep removes a direction
 section's last phase header, if the `## <Direction name>` section now has no phases
@@ -396,7 +408,7 @@ deferred.
 List the dirs swept in Step 5 — the flat three dirs (plus flat `test-runs/` in tests
 mode) for a default-pair prune, or the pruned stem's `plans/<stem>/`,
 `plan-reviews/<stem>/`, `reviews/<stem>/` (plus `test-runs/<stem>/` in tests mode) for
-a named prune — and the spec files deleted in Step 5.
+a named prune — and the task specs and phase notes deleted in Step 5.
 
 Report-only, never gates: echo the paragraph(s) captured by Step 0.6 under a "possible
 unharvested margins" heading, one entry per source file. Do not re-scan
@@ -428,9 +440,10 @@ commits, never ask about the message.
 - Do not invent commit hashes — find real ones from `git log`
 - Do not merge unrelated features into one row to save space
 - Do not update the first hash when a feature only had minor internal changes
-- Do not scan or sweep a spec directory — spec deletion goes only through the **pruned**
-  `[x]` lines' `Spec:` tags; never touch a path an open `[ ]` line's tag names or a
-  user-kept `[x]` line's tag names
+- Do not scan or sweep a spec directory — deletion goes only through captured tokens:
+  the **pruned** `[x]` lines' `Spec:` tags and the emptied phases' `Phase note:`
+  pointers; never touch a path an open `[ ]` line's tag names or a user-kept `[x]`
+  line's tag names
 - Do not touch `handoffs/` — it is never swept
 - Do not use `git rm` — deletion is unstaged (`rm`/`find -delete`), never `git rm`; staging happens once, at commit time, via `git add -A`
 - Do not resolve artifacts per task — no slug derivation, no discovery, no orphan report, no extended verify

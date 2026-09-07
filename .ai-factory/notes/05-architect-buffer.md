@@ -752,3 +752,31 @@ Round open until the report; verify by fact.
 **One boundary check narrowed rather than relayed.** The order's `git diff HEAD --stat -- src/ active/ CLAUDE.md` empty is right, but `docs/` had to be excluded and stated as such: D is edited this round by design and already carried an uncommitted change from round 20. Third time this session that a boundary check needed re-deriving against what the preceding rounds actually wrote.
 
 Round open until the report; verify by fact.
+
+## Round 28 — task-rescue of 28.1 at spec + plan + code (2026-09-06, open)
+
+**28.1 ran to implementation and failed review three times.** Sidecar at `"review_failed:3"` with an `implementer` session; the skill, the symlink, `CLAUDE.md` and `roadmap-prune` are all staged `A`/`M`. This rescue keeps the code and hand-fixes one sentence.
+
+**Everything the order asserted about state was verified and held:** review-1 and review-2 staged `A`, review-3 untracked; both doc sections exist (`skill-cycle.md:19` and `:37`); Phase 28 at `:118`, Phase 29 at `:130`; Phase 19's `Governing spec:` form at `:11`. All five anchors exactly one, the K one under normalization since it wraps three lines.
+
+**Two mechanics pinned tighter than the order gave them.**
+1. **The K span sits inside a wrapped bullet.** The sentence starts mid-line 84; the bullet `- **Verbosity directive**` runs 80–86. Replacing the span alone would leave the tail wrapped to the old text's shape. Gave the editor the bullet's boundaries, the ~85-column measurement (longest lines 86), and the two-space continuation indent. Also confirmed the new sentence's closing reference — "the template hook above" — resolves to the preceding bullet's tail at 78–79, so it is not a dangling pointer.
+2. **Order of operations is load-bearing here, not stylistic.** `task-rescue:452` permits `"implemented:1"` only when "the plan `.md` is present **and a non-empty working diff exists**". K is staged whole with no working diff right now; the diff only exists after the step-3 hand-fix. Writing the sidecar before the code edit would produce a marker the guard forbids. Told the editor the sidecar goes last, with the reason.
+
+**Two deletion hazards restated:** `git rm -f` per path for the two staged reviews, `git clean -f -- <path>` for the untracked one and never bare — the plans directory sits alongside; and the **plan-review** files are a different set from the **review** files and all three stay.
+
+Rollback matches the skill's own prescription for the depth, checked at `:390` and `:298`.
+
+Round open until the report; verify by fact.
+
+## Round 30 — the last ceremony residue in the plan (2026-09-06, open)
+
+**The one residual I reported last round is being closed.** `governing-spec hole` survived at P:52, inside the task that drafts K's Critical Rules — it instructed writing the very rule the strip had just removed. Not live today, since the rollback sits at `implemented:1` and re-entry goes to review rather than implementation; live the moment a later rescue drops to plan depth.
+
+Anchor verified once, `governing-spec hole` once, `the note says so in one line` once today → two after.
+
+**Worth recording about rounds 28–30.** Three rounds of one task, and the pattern across them was consistent: the ceremony was added at several surfaces at once (skill, spec, plan, roadmap headers) and had to be removed from each separately, one surface per round, because each removal order named only the surfaces its author was looking at. Same shape as the spec-102 sweeps in rounds 9–13 — the mechanism moves, and the sentences resting on it are found one at a time afterwards.
+
+**The editor's conduct held up under load.** It caught two of its own defects mid-round (a duplicated `4. ` prefix on rule 4, a 129-character seam where a pre-wrapped paragraph met an untouched lead-in), fixed both before reporting, said so, and separately corrected its own earlier byte-count measurement to the code-point one. Both self-caught defects were absent from the files when I checked.
+
+Round open until the report; verify by fact.
