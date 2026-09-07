@@ -133,4 +133,14 @@ The question the command asks does not change; what changes is that it stops bei
 
 - [x] **29.1 — command-pin-gaps: join the task to the code it lands in** — nothing reads code at decomposition time, so a task is written away from its code. Rewrite `src/commands/command-pin-gaps.md` to read the task, its spec and that code to the leaf, then walk what the orchestrator will do: how the planner plans against this code and how the reviewer judges the result. A finding is anywhere the run, holding this task alone, would invent; the pass also weighs whether it can be implemented at all. Blast-radius joins value and meaning as a third class; a contradiction that resolves is closed in place, a fundamental conflict or unpickable code goes up as a blocker. It names which of `roadmap-decompose`, `roadmap-decompose-skeleton`, `aif-docs` or `test-philosophy` owns a hole and wields none. It never checks the phase header's pointers. `allowed-tools` and `loads` unchanged; no path outside this repo. Spec: `.ai-factory/specs/trickster77777/103-pin-gaps-blast-radius-class.md`. [22m 59s]
 
+## A failed attempt disappears with the rollback that repairs it
+
+Every artifact that records how a task failed — the plan, the reviews, the sidecar's own count of the time spent — is deleted by the repair that follows it, and the diagnosis of that failure is only ever printed to chat. A task later redone or dropped takes the rest with it. A month of the same failure leaves nothing to point at.
+
+### Phase 30 — task-rescue leaves a durable record of every run
+
+The rescue already writes the diagnosis; it only throws it away. The record belongs in the skills repo, one folder for every project, under version control, so a month of runs can be read together.
+
+- [ ] **30.1 — task-rescue writes a durable report of every run it finishes** — the Diagnosis Report is mandatory at `:162` and printed to chat only, so once Step 5 deletes the sidecar the failed attempt leaves no trace, and a task later redone or dropped takes its history with it. Give `src/skills/task-rescue/SKILL.md` a `loads: note` edge; snapshot project, date and the sidecar's `step` and `elapsed` at Step 1, before anything is deleted. One report per run, written once through `note` at the end, when the repair is done and the task is ready for a new run: the four facts, the diagnosis, and what the repair did. Destination is the skills repo, resolved at write time by `git -C ~/.claude/skills/task-rescue rev-parse --show-toplevel`, under `.ai-factory/rescue-reports/<project>/`; never stored, never cached. The grant gains `Bash(mkdir *)`, which `note` needs. Spec: `.ai-factory/specs/trickster77777/105-rescue-report-persisted.md`.
+
 ---STOP---

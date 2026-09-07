@@ -160,3 +160,17 @@ What the correction above still kills, and what it does not:
 The note states, in words, what is not yet as the docs say. That statement *is* what the phase is for — the intent needs no separate half, no extra clause in the template hook, and no follow-up task. `roadmap-outline-deep` as shipped is correct on this point, and so are `skill-cycle.md:21` and spec 102 item 1.
 
 I had read «ноут расширяет смысл преамбулы» as a second content requirement and drafted a task around it. That was the same failure as the governing-spec hole: taking one sentence of a ruling and building a structure on it. Retracted in full — nothing to edit, nothing to plan. Do not re-derive this.
+
+## Measurement — `awk 'length($0)'` counts bytes, not characters, even under `LC_ALL=en_US.UTF-8` (2026-09-07)
+
+Measured on the 30.1 contract line: `python3` reports 965 characters and 971 bytes; the `LC_ALL=en_US.UTF-8 awk '{print length($0)}'` I drafted with, and pinned into two work-orders as the verification instrument, reports 971. The BSD `awk` on this machine is not multibyte-aware and the locale does not change that. Every contract line I have measured this session was measured in bytes: each was inside the 400–1000 band either way, so nothing shipped wrong, but the instrument was.
+
+The correct instruments: `python3 -c` with `len()` over a `utf-8` read, or `wc -m` under a UTF-8 locale. From now on a work-order pins one of those and never `awk`.
+
+## Ruling — a side effect does not enter a skill's `description:` (2026-09-08)
+
+> «не надо в дескрипшн скилла засовывать описание новой способности. Это сайдэффект, касающийся всей системы в целом, а не главная поведенческая фишка этого скила, достойная быть упомянутой в дескрипшине.»
+
+Raised as a deferred observation on 30.1: `task-rescue`'s `description:` does not say the skill now leaves a report on disk every run. It should not. The field is the always-loaded atom that decides *when to invoke* a skill, and a durable side effect changes nothing about when a rescue is called. The existing description also stays true — nothing in it becomes wrong — so there is no repair, only an addition that was tempting.
+
+The general form, for the next task that adds a capability: an addition earns a place in the `description:` only when it changes the moment of invocation. Growth of the field is a cost paid by every session that loads it.
