@@ -76,3 +76,23 @@ Orchestrator ran 28.1: plan + 3 plan-reviews, no PASS, no ESCALATION, sidecar pl
 ## Rounds 6–8 — second orchestrator run of 28.1 and its rescue (2026-09-06)
 
 Run 2: plan passed round 3; code review failed ×3 (r1: skill never read the code — spec gap, mine; r2: implementer no-op round; r3: hole clause keyed on a missing `Governing spec:` line). My first rescue order over-built (invented "phase-header gap", added `Governing spec:` lines to phases 28/29) and was applied; the user called it fanaticism, rightly. Corrective order stripped all ceremony from K, S, P, R: the pass reads the docs the phase links and the code it is about; the note is short, in words, "this and this are not yet as the docs say", with links; no doc → one line. Residue in the plan's Critical Rules task removed last. State: reviews deleted, sidecar `implemented:1`, index as the orchestrator left it, nothing committed. Lesson recorded: run the spec-103 walk over every task before the orchestrator, 28.1 included — the "where does the skill read the code" hole was one question away.
+
+## Round 9 — post-compact rehydration (2026-09-07)
+
+State moved past handoff 13: 28.1 passed review round 2 (`REVIEW_PASS`) and is committed as `e264805` — roadmap line 122 is `[x]`, skill/symlink/CLAUDE.md/roadmap-prune/spec 102/plan/3 plan-reviews/2 reviews all in that commit. The orchestrator is running now on **28.2** (`uv run orchestrator implement …/skills`, pid 81856): plan `22-…`, sidecar `planned:2`, plan-review 1 on disk with 5 findings (no PASS) — round 2 in progress. Orchestrator repo still uncommitted (24.1, spec 57, handoff 11), no permission given.
+
+Editor `ad996378e59d96773` not probed — no relay has arrived since the compact; liveness is tested by the next channel-message, never by a listing.
+
+Still open, pending the user's word (unchanged from handoff 13 § 3): `skill-cycle.md:17` and `:62` (ТЗ written by the planning side in `aif-docs`' genre; `Governing spec:` set by hand); spec 103's "422 characters" → about 420. Deferred observations from 28.1's reviews now live in the committed review files, so nothing is lost this time; 28.2's plan-review 1 adds two more (task-rescue over 500 lines; nothing preserves `Phase note:` through a `roadmap-outline`/`roadmap-engine` rewrite).
+
+## Deferral — `docs/sakshi-harness/skill-cycle.md` carries three lines that no longer match the code (2026-09-07)
+
+**What.** Three edits in one file, none applied, no permission asked yet:
+
+1. `:21` (§ "Углубление phase") — «Где документа нет, это записывается как дыра governing-spec с владельцем `aif-docs`, но здесь не пишется.» This is the stripped ceremony surviving in a committed doc (`8e00bff`). The shipped skill says only "where no doc says how it must be, the note says so in one line" (`src/skills/roadmap-outline-deep/SKILL.md:68-70`, `:129-130`) — no hole, no class, no owner. Found through the editor's round-10 report, which quoted the doc back as if it were the skill's behavior: the doc is already teaching the wrong thing to its readers.
+2. `:17` (§ "Техзадание — `aif-docs`") — reads as though the skill writes the ТЗ and puts `Governing spec:` on the header. The user writes docs in chat without invoking the skill; `aif-docs`' description defines the genre, and the header line is set by hand.
+3. `:62` (§ "Схема") — the diagram row `aif-docs → ТЗ на phase (= Governing spec: phase)` says the same thing in one line and must move with `:17`.
+
+**Why deferred.** `docs/` is the planning side's own surface and the user has given no word on these; edits to a governing doc are never taken on my own initiative. Items 2–3 have been waiting since handoff 13 § 3.
+
+**Trigger.** The user's go. All three ship as one work-order to the applying half — one file, three anchors quoted from disk, `aif-docs` itself untouched.

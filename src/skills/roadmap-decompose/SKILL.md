@@ -37,6 +37,19 @@ when the target file/region has no phase headers, emit unnumbered bullets exactl
 today — never invent a phase header to hang a number on (covers `ROADMAP_TESTS.md`,
 legacy flat roadmaps, and this repo's own ROADMAP.md).
 
+Before a phase's first entry is drafted, read that phase's preamble; where the phase
+header or preamble names `Governing spec:` documents or a `Phase note:`, read those
+files in full before drafting continues — unconditional, never suspicion-gated. The
+two pointers are not interchangeable: the governing spec states how the phase must
+become, the phase note what diverges now. This read runs once per phase, at the
+moment that phase's first entry is drafted, in every mode — never once per entry, and
+never re-run for later entries of a phase already read. A preamble can be present at:
+the create-mode draft cycle as re-run by the update menu's Rewrite action over an
+existing `$TARGET_FILE`, the Add action, and hook (d)'s "Decompose existing" for the
+target task's phase. Under the flat fallback (no phase headers) there is no preamble
+to read; where the preamble names neither pointer, proceed as today. A named file
+that does not exist is reported to the user as a finding, never skipped silently.
+
 Two parity carry-overs the engine's create flow does not itself hold:
 - On first run, mark already-completed tasks as `[x]`.
 - Create-mode gather-input question (fills the engine's

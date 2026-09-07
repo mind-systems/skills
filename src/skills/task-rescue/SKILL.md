@@ -55,14 +55,15 @@ the user: there is nothing to rescue.
 filenames (see `orchestrator-artifacts` for the naming convention). If files from
 multiple slugs are present, ask the user which task to rescue before proceeding.
 
-**Read the phase's governing spec.** Determine `$TARGET_FILE` (the same resolution
-Step 4 determines), read it, and locate the phase section the
-task belongs to. Check the phase header and its intro lines for a
-`Governing spec:` reference. If present, read every named document in full before
+**Read the phase's governing spec and phase note.** Determine `$TARGET_FILE` (the same
+resolution Step 4 determines), read it, and locate the phase section the
+task belongs to. Check the phase header and its intro lines for `Governing spec:`
+documents or a `Phase note:`. If present, read every named document in full before
 proceeding to Step 2 — this is unconditional, not suspicion-based. If the task is
-under no phase, or no `Governing spec:` is named, proceed as today. This read is
+under no phase, or neither pointer is named, proceed as today. This read is
 additive to Step 4's own `$TARGET_FILE` resolution and contract-line locate — it does
-not replace it.
+not replace it. A named file that does not exist is told to the user here, and
+carried into Step 3's Diagnosis Report as a finding — never skipped silently.
 
 **Read every artifact file found** — all rounds, not just the latest. The pattern of
 failures across rounds matters as much as the final round. A plan-review from round 1
@@ -140,12 +141,20 @@ Root-cause categories (context for depth + scope-overload flag):
 Escalation is not in this list — it carries no root cause; see its own short-form
 branch below and skip the "Attach the root-cause category" step for it.
 
-When a governing spec was read in Step 1, judge the recurring findings against it: a
-candidate "specification gap" may actually be a violation of an already-ratified
-contract that the task spec failed to restate — the root cause and the repair target
-differ (amend the task spec to carry the governing constraint vs. invent a new
-decision). The Diagnosis Report must state whether the failure violates the governing
-spec and quote the relevant clause.
+When a governing spec or phase note was read in Step 1, judge the recurring findings
+against them: a candidate "specification gap" may actually be a violation of an
+already-ratified contract that the task spec failed to restate — the root cause and
+the repair target differ (amend the task spec to carry the governing constraint vs.
+invent a new decision). The phase note stands beside the governing spec as a second
+baseline a finding is judged against: the governing spec states how the phase must
+become, the note what diverges now. Where a governing spec was read, the Diagnosis
+Report must state whether the failure violates it and quote the relevant clause;
+where a finding instead matches a divergence the phase note already records, the
+report says so and names it as already-recorded divergence. Such a finding is not by
+itself a "specification gap" — the divergence is known and ratified at the phase
+tier — so it does not on its own drive Step 4's depth choice toward inventing a new
+decision; the repair target is the task spec failing to carry what the note already
+stated, mirroring the root-cause/repair-target distinction above.
 
 Identify the dominant root cause and whether any issue is recurring — both carry into
 Step 4, driving the depth choice and the scope-overload flag.
@@ -353,8 +362,9 @@ directly to Step 5.5.
 **Depth: spec** — repair task spec + contract line; full reset.
 
 1. Edit the task spec (the file the contract line's `Spec:` tag points at) to address
-   the root cause. If a governing spec was read in Step 1, do not copy its content into the task spec
-   wholesale — quote/restate only the clauses implicated by the findings.
+   the root cause. If a governing spec or phase note was read in Step 1, do not copy
+   its content into the task spec wholesale — quote/restate only the clauses
+   implicated by the findings.
 2. Edit the contract line in `$TARGET_FILE` to match (keep it concise;
    each constraint is one semicolon-separated clause matching surrounding style).
 3. Delete: plan `.md`, all plan-review files, all review files for
@@ -538,9 +548,11 @@ left for the resolution session (`orchestrator-artifacts` §6) to pin later.
 - Do not skip reading earlier rounds — the pattern of failures across rounds is the
   primary signal, not just the final round
 - Do not issue a semantic diagnosis, blocker, or spec repair without having read the
-  phase's `Governing spec:` documents when the phase names them — otherwise the
-  ratified spec tier does not participate in the rescue at all. This read is
-  unconditional whenever the phase names a governing spec, never suspicion-gated.
+  phase's `Governing spec:` documents or `Phase note:` when the phase names them —
+  otherwise the ratified spec tier does not participate in the rescue at all, and
+  without the note the rescue never sees what the phase already recorded as
+  diverging. This read is unconditional whenever the phase names either pointer,
+  never suspicion-gated.
 - Do not overwrite `planner` or `elapsed` in the sidecar — these persist untouched at
   every depth. `implementer` is the one exception: delete it whenever the repair
   discards the implementation the session produced (spec+plan depth, and the
