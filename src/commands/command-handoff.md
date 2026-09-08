@@ -3,7 +3,8 @@ description: >-
   Mine the live session and emit a dense, self-contained handoff prompt that
   transfers context to a future agent or session. Run this while the
   originating session's context is still live — that is the only moment
-  there is something to mine. Always persists the handoff as a durable note
+  there is something to mine. The result is a temporary memory buffer that
+  carries context from one session to the next, spent once read, persisted
   under `.ai-factory/handoffs/`.
 argument-hint: ""
 allowed-tools: Read Write Bash(ls *) Bash(mkdir *) Glob Skill
@@ -28,6 +29,8 @@ Compose in the shape inferred from the session's type.
 
 ~~~
 # Handoff — <semantic slug derived from the session subject>
+
+**Processed:** `[ ]` — whoever reads this marks it; a marked handoff is spent.
 
 ## 1. Frame
 <one sentence: where we are in the project> — the originating session's
@@ -84,7 +87,13 @@ everything into one inventory.>
 <For each work-unit touched: one line of what it became + one line of the non-obvious thing to verify (where the work was tricky or a mistake nearly happened). Distinct from the flat "Current state" list. Only if the session covered many work-units.>
 ~~~
 
-**Prose shape.** Write flowing prose carrying the causal thread: the path walked, the false turns, the decision made and its rationale. References to files, specs, and notes appear inline at the moment they are load-bearing, not catalogued in a separate read-map. End by making the durable next step and the working discipline explicit — woven into the prose, not sectioned away.
+**Prose shape.** The file opens with the `# Handoff — <slug>` title and, directly beneath it, the same mark line reproduced verbatim:
+
+~~~
+**Processed:** `[ ]` — whoever reads this marks it; a marked handoff is spent.
+~~~
+
+From there it flows into prose carrying the causal thread: the path walked, the false turns, the decision made and its rationale. References to files, specs, and notes appear inline at the moment they are load-bearing, not catalogued in a separate read-map. End by making the durable next step and the working discipline explicit — woven into the prose, not sectioned away.
 
 Both shapes populate via `note` in Step 2 — do not populate here; the agent's job in this step is to shape the lens and directive `note` will use.
 
@@ -95,7 +104,7 @@ Before emitting, self-check: *could a fresh agent, from this handoff alone, hold
 Delegate composition and file mechanics to `note` (loaded via `loads: note` above) — do not mine, number, slug, `mkdir`, or `Write` yourself. Invoke `note` once this chat, supplying only hooks:
 
 - **Destination directory** = the resolved `<root>/.ai-factory/handoffs/` from above.
-- **Template** = the chosen shape: for the grid shape, the skeleton above passed **blank** — its placeholder descriptions are the mining lens `note` uses to distill the session (do NOT pre-fill it: a filled-in skeleton would make `note`'s distillation a no-op); for the prose shape, a free-form body directive through the same hook — the causal-thread structure above, not a section skeleton.
+- **Template** = the chosen shape: for the grid shape, the skeleton above passed **blank** — its placeholder descriptions are the mining lens `note` uses to distill the session (do NOT pre-fill it: a filled-in skeleton would make `note`'s distillation a no-op); for the prose shape, a free-form body directive through the same hook — the causal-thread structure above, not a section skeleton. The mark line beneath the title is the one exception in either shape: it is literal template text, reproduced verbatim into the written file, not a placeholder description — nothing is mined into it, so the blank-skeleton rule above does not apply to it.
 - **Verbosity directive** = "verbose; carry the full meaning-tree and its causal thread; strip irrelevant tool-calls and dead-end reads" — this exercises `note`'s Rule-2 override so the causal thread survives distillation.
 - **Slug** (`note`'s `$1`/topic derivation, not a named hook) = derived semantically from the session's subject matter — lowercase, hyphenated, specific to what was actually worked on. Do NOT use the literal word `handoff`.
 
@@ -120,3 +129,11 @@ Example (adapt wording to the actual session):
 > **Next:** Run the migration dry-run and confirm row counts match before applying.
 >
 > *Paste the path above into the next session to rehydrate.*
+
+## Holding a handoff
+
+The rule below addresses whoever opens or holds a handoff file — not this command's own write path, which always produces a new numbered file through `note`.
+
+A processed handoff — its mark line reading `[x]` — is never edited. Only an unprocessed handoff, marked `[ ]`, is edited, and the one permitted change is flipping that same line to `[x]`; nothing else in the file changes. Where a handoff is assembled across a project family in parts and the previous part already carries `[x]`, a new handoff is written rather than extending the one already marked spent.
+
+A handoff's facts are superseded by the project's own files the moment the two diverge; the global CLAUDE.md § "Grounding claims" already names a handoff among the descriptions ground truth overrides, and that guarantee holds here without restating it further.
