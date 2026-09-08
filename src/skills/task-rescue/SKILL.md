@@ -8,8 +8,8 @@ description: >-
   "REVIEW_PASS never achieved" — trigger phrases: "rescue", "milestone failed",
   "pipeline stopped".
 argument-hint: "[path/to/ROADMAP.md | ROADMAP_TESTS.md]"
-allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion Skill
-loads: orchestrator-artifacts roadmap-engine
+allowed-tools: Read Write Edit Glob Grep Bash(git *) Bash(mkdir *) AskUserQuestion Skill
+loads: orchestrator-artifacts roadmap-engine note
 disable-model-invocation: true
 ---
 
@@ -64,6 +64,26 @@ under no phase, or neither pointer is named, proceed as today. This read is
 additive to Step 4's own `$TARGET_FILE` resolution and contract-line locate — it does
 not replace it. A named file that does not exist is told to the user here, and
 carried into Step 3's Diagnosis Report as a finding — never skipped silently.
+
+**Capture the report facts.** Record four facts now, at discovery, before anything is
+deleted, and hold them for the report Step 5.7 writes — Step 5 deletes the sidecar at
+some repair depths, and `step`/`elapsed` are unrecoverable once that happens.
+
+- **Project** — the last path segment of `git rev-parse --show-toplevel` run in the
+  project being rescued. This fact fills the report's `**Project:**` line only; it is
+  not the destination path, which Step 5.7 resolves for itself at write time.
+- **Date** — today's date, ISO form (`YYYY-MM-DD`).
+- **`step` and `elapsed`** — read from the task's sidecar; the two fields worth
+  keeping, per `orchestrator-artifacts` § 3.
+- **Where the sidecar lives** — located per `orchestrator-artifacts` § 1: the flat
+  `plans/<seq>-<slug>.json` layout holds for the default `ROADMAP.md`/`ROADMAP_TESTS.md`
+  pair only, while a named roadmap's sidecar sits under a subdirectory keyed by its
+  roadmap file stem (`roadmaps/john-doe.md` → `plans/john-doe/<seq>-<slug>.json`).
+  `$TARGET_FILE` is already resolved above, so the stem is known here. This is pinned
+  because a sidecar missed by reading the wrong path records exactly the same thing as
+  an absent one — both numbers lost, with no signal.
+- **No sidecar on disk** → record both `step` and `elapsed` as **absent**; never guess,
+  never reconstruct a number from anything else. Step 5.7 renders absence as absence.
 
 **Read every artifact file found** — all rounds, not just the latest. The pattern of
 failures across rounds matters as much as the final round. A plan-review from round 1
@@ -535,6 +555,98 @@ Rescue disposes only of what it evaluates this session — it does not corrobora
 finding against a root-cause chain or sweep every unrouted entry across the review
 corpus. Entries rescue does not evaluate or dispose of this session stay unmarked,
 left for the resolution session (`orchestrator-artifacts` §6) to pin later.
+
+---
+
+## Step 5.7 — Write the durable report
+
+Write one durable report for this run, through `note` (loaded via `loads: note`
+above), so a failed attempt leaves a record even after Step 5 deletes the artifacts
+it was drawn from.
+
+**When.** The report is written **once, at the end, when the repair is done and the
+task is ready for a new run** — `note` is invoked **exactly once per run**, and the
+file it writes is never reopened, by this run or a later one. There is no second
+write and nothing is completed later: a run that ends before this step leaves no
+report at all, which is the accepted cost of writing once.
+
+**Which runs.** Every terminating branch that reaches this step writes a report —
+every repair depth (spec, spec+plan, spec+plan+code, plan-ratified), **escalation**
+(all three options of Step 4's escalation branch, including option 3, which runs no
+Step 5 procedure and arrives here via Step 5.5) and **non-convergence** (all three
+options) included. The one terminating branch that does **not** reach this step is
+the **scope-overload exit** in Step 4: it flags the task and points to
+`/roadmap-decompose` and skips the depth menu entirely, so no repair runs and no
+report is written.
+
+**Destination, both halves resolved at write time.** The report's destination is
+`<skills repo root>/.ai-factory/rescue-reports/<project>/`, built from two commands
+run **at this moment**, here in Step 5.7, not carried from any earlier step:
+
+- `git -C ~/.claude/skills/task-rescue rev-parse --show-toplevel` gives the skills
+  repo root — inside the existing `Bash(git *)` grant; `~/.claude/skills` is the
+  personal-scope symlink every session already relies on to load any skill.
+- `git rev-parse --show-toplevel` run in the project being rescued gives, in its last
+  path segment, `<project>`.
+
+Neither half is stored nor cached — both are re-resolved here regardless of anything
+computed earlier. The Step 1 project fact is not this address: it fills the report's
+`**Project:**` line only, and the destination path is resolved fresh at this point
+independently of it.
+
+The destination lies outside the project being rescued, so the skills repo has to be
+a writable directory in the session running this rescue — via `--add-dir` or the
+project's own settings. This is a one-time setup act per project.
+
+**All three of `note`'s hooks are supplied** (`note`'s own Step "Hooks (caller
+inputs)"), named as such:
+
+- *destination directory* — the path resolved above; it drives `note`'s `mkdir -p`,
+  its per-directory `[0-9][0-9]-*.md` numbering scan, and the final path.
+- *template* — the caller-supplied skeleton below, passed verbatim.
+- *verbosity directive* — the diagnosis keeps its own register and length; the report
+  is not re-condensed. This replaces `note`'s default Rules 1 and 2 for this run.
+
+Also pass the topic slug `note` takes as `$1`: the task number with dots turned into
+hyphens, followed by the same short phrase used in the report's title line (e.g.
+`30-1-<phrase>`), matching the files already in the folder. `note`'s own mechanics —
+numbering, `mkdir -p`, folder style — are not restated here; they are reached through
+these hooks.
+
+**The template**, given literally below, in the shape the folder already holds:
+
+```markdown
+# <task number> — <short phrase naming what stopped the run>
+
+**Project:** <the Step 1 project fact, or "absent">
+**Date:** <the Step 1 date fact, ISO form>
+**Stopped at:** <the Step 1 `step` fact, or "absent">
+**Elapsed before the rescue:** <the Step 1 `elapsed` fact, or "absent">
+
+<the diagnosis, exactly as Step 3 wrote it>
+
+## What was done
+
+<what the repair did — the depth chosen, or the escalation option taken, or the
+non-convergence choice made — and what was deleted or kept>
+```
+
+The title phrase names what stopped the run, never a root-cause claim — a branch
+that produces no root cause still needs a title. Where Step 3 produced no
+root-cause sentence and no category — the escalation branch, which ends in the
+restated decision instead — the report carries **what Step 3 actually emitted**: the
+template never demands a part that branch does not produce, and no section is
+invented to fill it.
+
+**When the write cannot happen.** Two ways it fails: the skills repo root does not
+resolve, or the run has not been given that repository as a writable directory.
+Either way, **say so plainly to the user and complete the rescue anyway.** Never
+invent a fallback path, never fall back to any directory inside the project being
+rescued, never invoke `note` a second time, and never defer the write to a later run.
+
+**The chat printout is unchanged.** The Diagnosis Report is still printed exactly as
+Step 3 mandates; the file this step writes is additional, and no step of this skill
+ever reads it back.
 
 ---
 
