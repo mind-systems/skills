@@ -143,4 +143,34 @@ The rescue already writes the diagnosis; it only throws it away. The record belo
 
 - [x] **30.1 — task-rescue writes a durable report of every run it finishes** — the Diagnosis Report is mandatory at `:162` and printed to chat only, so once Step 5 deletes the sidecar the failed attempt leaves no trace, and a task later redone or dropped takes its history with it. Give `src/skills/task-rescue/SKILL.md` a `loads: note` edge; snapshot project, date and the sidecar's `step` and `elapsed` at Step 1, before anything is deleted. One report per run, written once through `note` at the end, when the repair is done and the task is ready for a new run: the four facts, the diagnosis, and what the repair did. Destination is the skills repo, resolved at write time by `git -C ~/.claude/skills/task-rescue rev-parse --show-toplevel`, under `.ai-factory/rescue-reports/<project>/`; never stored, never cached. The grant gains `Bash(mkdir *)`, which `note` needs. Spec: `.ai-factory/specs/trickster77777/105-rescue-report-persisted.md`. [18m 28s]
 
+## A spent handoff looks exactly like a live one
+
+A handoff is one-shot: it is mined from a session that no longer exists and its facts start ageing the moment it is written. Nothing on the file records whether it has been used, so a spent one keeps being cited as confirmation long after it stopped being true, and anyone may edit one that is already spent.
+
+### Phase 31 — the handoff says, on itself, whether it has been used
+
+Nothing in the family reads a handoff as a step, and nothing needs to. The instruction travels on the artifact, addressed to whoever opens it.
+
+- [ ] **31.1 — a handoff says on itself that it is a spent, temporary buffer** — a handoff is a temporary memory buffer for carrying context between sessions, but its `description:` calls it a durable note and nothing on the file says whether it has been used. In `src/commands/command-handoff.md`: the `description:` names the entity and its lifetime and drops the word `durable`; the emitted template gains one line between the `# Handoff` title and `## 1. Frame` — an unprocessed mark and the sentence naming the reader as the one who flips it, carried by both emitted shapes; and the body gains the rule that a processed handoff is never edited, that only an unprocessed one is edited, and that a spent previous part means a new handoff rather than an extended one. No skill reads the mark, nothing scans it, `roadmap-prune` keeps its hands off `handoffs/`. Spec: `.ai-factory/specs/trickster77777/106-handoff-processed-mark.md`.
+
+## A budget stated in characters is measured in bytes
+
+Two budgets in this family are stated in characters and neither says what a character is counted with. The machine sets no locale, so every shell tool reaches for bytes by default, and a rule written correctly is checked incorrectly every time.
+
+### Phase 32 — the budget carries its own unit and method
+
+The numbers are right and do not change. What is missing is one sentence at the budget's own home saying how the count is taken, so nobody invents a command for it a ninth time.
+
+- [ ] **32.1 — the character budget names how a character is counted** — `roadmap-engine`'s contract-line budget (`Target ~600 characters (range 400–1000)`) and `roadmap-outline-deep`'s `~200–500 character` preamble budget are both stated in characters and neither names a method; this machine sets no locale, so `wc -m` and `awk`'s `length` both return bytes and read a 991-character line as 995. In `roadmap-engine`, beside the contract-line budget, state that every budget in this family counts Unicode code points with the trailing newline excluded, and pin the one command that yields them here. In `roadmap-outline-deep`, the preamble budget names the engine as that method's home rather than restating it — it already loads the engine. No new skill, no new grant, no verification step gains a count, and neither budget's numbers change. Spec: `.ai-factory/specs/trickster77777/107-character-budget-names-its-method.md`.
+
+## The durable surfaces name a buffer that is spent on first read
+
+A handoff is `note` under a lens — the same distiller aimed at another genre and another folder — and `docs/sakshi-harness/skill-graph.md` already says so. Notes obey that without a rule: nothing in the family references a note file, and nothing ever tried to. The handoff is the one genre that acquired a top-level skill name, and once the name existed the skills wrote it into surfaces that outlive the artifact — a format, a permission, a deletion-safety rationale, and a protocol's definition of its own writer.
+
+### Phase 33 — the skills stop naming the handoff
+
+Reconciliation, not a new rule: the governing doc leads and four skills trail it. The act of handing off is untouched — `roadmap-prune`'s parked gate still tells the user to make one, and `agent-architect` still carries its buffer path across a compact. What goes is the reference to the artifact from a surface that outlives it.
+
+- [ ] **33.1 — four durable surfaces stop naming the handoff** — `docs/sakshi-harness/skill-graph.md` already holds that a handoff is `note` under a lens, yet four skills reference the artifact from surfaces that outlive it: `roadmap-engine`'s roadmap-format block lists `source handoff/spec links` in the direction preamble, `roadmap-outline` permits handoff links in that same prose, `roadmap-prune`'s `Phase note:` deletion-safety rationale rests on that permission, and `orchestrator-artifacts` defines the status-marker writer as the session opened from a parked prune's handoff. Drop the handoff from all four, keeping prune's rationale at full force on task-spec links alone. The act of handing off is untouched: prune's parked gate and `agent-architect`'s compact recovery stay, and `roadmap-test-coverage`'s unrelated `$HANDOFF_LIST` is out of scope. Spec: `.ai-factory/specs/trickster77777/108-skills-stop-naming-the-handoff.md`.
+
 ---STOP---

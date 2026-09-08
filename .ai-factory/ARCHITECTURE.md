@@ -38,6 +38,8 @@ Two kinds of skill follow, mirroring the classic separation of mechanism and pol
 
 A philosophy skill invokes an engine for mechanism; the engine holds no policy and never drives. Control stays with the caller — the engine renders when handed work, the way a strategy varies independently of the context that runs it. A shared skill is loaded once for its content (load-once), never re-loaded per item. `roadmap-decompose` invoking `roadmap-engine` for the two-tier artifact format is this pattern: the caller keeps control, the loaded engine supplies shared content.
 
+Above both sits the always-loaded layer — the skill-description-field and the global CLAUDE.md's discipline — present in every session whether a skill is invoked or not. A skill restates nothing that layer already guarantees: the restatement is paid for on every load and drifts from its source. Where a skill leans on such a guarantee, it names it in one sentence at the point of reliance, the same way a cross-file invariant is declared at its coupling point. Full account: [docs/always-loaded-discipline.md](../docs/always-loaded-discipline.md).
+
 ## Key constraints
 
 - `name` in frontmatter = directory name (enforced by validator)

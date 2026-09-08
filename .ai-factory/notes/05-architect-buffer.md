@@ -808,3 +808,19 @@ Round open until the report; verify by fact.
 **Also verified before relaying:** all five `23-` artifacts are genuinely untracked (`??`), so `git clean -f` per path is right and `git rm` would fail; spec 103 is 64 lines and becomes 68 by the order's own arithmetic.
 
 Round open until the report; verify by fact.
+
+## Rehydration after compact (2026-09-08)
+
+Rebuilt from handoff 18 (`.ai-factory/handoffs/18-position-addresses-and-the-rulings-that-grew.md`, **now marked processed by me**) plus this buffer. Rounds 33–45 of the previous session were never written here — the handoff is their only record; this buffer's own narrative stops at Round 32.
+
+**State carried forward:** pairing role **applying half** (`architect-pairing-engine`, assigned 2026-09-04, session-scoped — reassert with the user before treating an arriving message as a decision). Editor handle `aa73188f9b856545e` (Round 9); liveness is untested and is tested only by the next channel-message, never by `ListAgents`.
+
+**What moved on disk while I was gone.** `29.1` and `30.1` are committed (`0762ab8`, `248ebbe`). The tree now carries only: the roadmap (phases 31–33), spec 106 modified, spec 108 and handoff 18 and buffer 07 untracked.
+
+**The 31.1 blocker is resolved, and not by me.** A parallel architect (buffer `07-`, unpaired, editor `ad6a88c15b45ee4f5`) took the second of the two exits I put in handoff 18 § 4: the rule stays as stated in the `description:`, and **Phase 33 / task 33.1 / spec 108** opens for the corpus — `roadmap-engine`, `roadmap-outline`, `roadmap-prune`, `orchestrator-artifacts` stop naming the handoff, one task because it is one reason to revert. Spec 106's guards now also say the plan-layer citations are not swept there.
+
+**All four repairs to spec 106 landed** — the mark's literal pinned byte-for-byte with both states, the prose shape given item 2, the blank-template collision closed at the Template hook with `note`'s `**Date:**` precedent named, and the last verification bullet carrying a clean-tree caveat. Verified by reading the file, not the report.
+
+**Correction against my own finding, and it stands.** I told that architect seven shipped `description:` blocks already carry prohibitions, which withdrew pin-gaps finding №5. Buffer 07 now records the count as false, and my own re-check confirms it: every hit is a scope statement (`test-philosophy`, `roadmap-engine`, `architect-editor-engine`), a routing statement (`architect-pairing-engine`), a persona statement (`agent-architect`, `editor`), or a quoted literal (`task-rescue`) — none is a rule about what *other* artifacts may cite. №5 stays withdrawn on the pass-test argument alone. **Same defect as the error log's last entry: I measured the corpus in front of me and reported it as the corpus the claim was about.**
+
+**Ruling (2026-09-08): a contract line is not obliged to carry every aspect of its task — that is the task spec's job.** I reported the `31.1` line as naming three of four edited sites in `command-handoff.md`, omitting the Template-hook exemption. Withdrawn on the user's ruling: «контракт строка не обязана нести каждый аспект таска. Для этого таск ноут.» The line exists to let the user verify intent; completeness lives one tier down, reached through the `Spec:` tag. Same class as the «шлак» bar — a two-tier gap is only a finding when the missing half changes what gets built.
