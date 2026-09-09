@@ -43,6 +43,11 @@ per-directory numbering happens there.
 tasks on screen; the task spec holds the full implementation detail. The char budget below
 is guidance, not a hard clamp.
 
+**What a task spec holds:** three parts and nothing else — *what is true now*, read
+from the code with exact values, so the implementer does not re-derive it; *what must
+be true after*, in the code's own terms: which file, which text, which value; and
+*what breaks on contact*, enumerated rather than hedged.
+
 **Never write a full spec inline in the roadmap** — the contract line is the header;
 the task spec is the implementation.
 
@@ -102,7 +107,7 @@ key contracts / pinned decisions the phase rests on>
 - Target ~600 characters (range 400–1000) — enough to verify intent, short enough to fit 3–4 tasks on screen
 - Always end with the `Spec:` tag pointing at the task spec
 - One reason to revert — if two concerns are independently shippable, make two tasks
-- Full current-state / target / guards / verify detail lives in the task spec, not the contract line
+- Full current-state / target / blast-radius detail lives in the task spec, not the contract line
 
 **Counting characters:** every character budget in these skills — the contract-line budget above, and the phase-preamble budget in `roadmap-outline-deep` — counts Unicode code points with the trailing newline excluded. The command that yields them here is `python3 -c "import sys;print(len(sys.stdin.read().rstrip('\n')))"`.
 
