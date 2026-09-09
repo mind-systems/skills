@@ -281,7 +281,7 @@ Derive the **target repo root**: the parent of the `.ai-factory/` directory the 
    **Also capture** the `Phase note:` pointer path from the preamble of every phase
    that Step 6's emptied-phase sweep below will delete. Key on the literal
    `Phase note:` token and on nothing else — never on a link's position in a
-   preamble: `roadmap-outline` permits unrelated handoff and task-spec links in that
+   preamble: `roadmap-outline` permits unrelated task-spec links in that
    same prose and this skill holds `Bash(rm *)`, so a positional key would follow one
    of those to a deletion. A preamble with no `Phase note:` token contributes
    nothing — skip it, never synthesize a path. The existing carve-outs apply

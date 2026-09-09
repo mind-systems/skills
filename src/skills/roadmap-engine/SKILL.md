@@ -83,7 +83,7 @@ reach the task spec.
 
 ## <Direction name>
 
-<direction preamble: source handoff/spec links, hard rules, gating for this direction>
+<direction preamble: source spec links, hard rules, gating for this direction>
 
 ### Phase N — <Phase title>
 

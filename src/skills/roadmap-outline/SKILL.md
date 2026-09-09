@@ -37,7 +37,7 @@ One parity carry-over the engine's create flow does not itself hold:
   `AskUserQuestion: <caller phrases this…>` placeholder): *"What are the major goals
   for this project?"*
 
-Links to handoffs and task specs are allowed as plain markdown links inside the
+Links to task specs are allowed as plain markdown links inside the
 intro/preamble prose — no formal `Spec:` tag, no invented task specs.
 
 ### (b) Per-entry gate

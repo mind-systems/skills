@@ -65,8 +65,8 @@ markers — the field after the observation text is reserved for downstream tool
 ## 6. Status-marker grammar
 
 Append-only space-separated bracketed suffix at the end of the entry line. Written by
-the **resolution session** — the dedicated session the user opens from the parked
-prune's handoff — at the moment it disposes of an observation:
+the **resolution session** — the dedicated session the user opens when a prune parks —
+at the moment it disposes of an observation:
 
 - `[fixed]` — the gap is fixed directly in this session
 - `[routed → <path>]` — routed into an **open** task's spec; `<path>` must resolve to
