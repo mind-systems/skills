@@ -22,7 +22,7 @@ Home — `roadmap-engine` format.
 - **phase** — a `### Phase N` header with a prose intro; the strategic tier; produced by `roadmap-outline`.
 - **task** — an `N.M` entry; atomic, one reason to revert; produced by `roadmap-decompose`.
 - **contract line** — the ~600-char task line in the roadmap.
-- **task spec** — one task's full specification file under `.ai-factory/specs/`, written through `note`, referenced by the contract line's tag; the implementation-tier work-order.
+- **task spec** — one task's full specification file under `.ai-factory/specs/`, written through `note`, referenced by the contract line's tag.
 - **two-tier** — a contract line plus its task spec: two levels of one task.
 - **governing spec** — a phase's spec, named on the phase header; the authority every reader of the phase conforms to — the meaning of what the system *must* do, written before code, code implements it. Lives in `docs/`. Home — [skill-cycle](sakshi-harness/skill-cycle.md), `aif-docs`.
 
