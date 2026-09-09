@@ -1,0 +1,62 @@
+# Plan Review — 34.2 `command-pin-gaps` closes holes and writes no checks
+
+## Code Review Summary
+
+**Files Reviewed:** plan (1) + target (1): `src/commands/command-pin-gaps.md`; plus the task spec `110-…`, the contract line and the `### Phase 34` header prose with its direction preamble, `src/skills/roadmap-engine/SKILL.md` § "The two-tier artifact", `src/skills/test-philosophy/SKILL.md`, `docs/reference-by-name.md`, `docs/sakshi-harness/skill-cycle.md`, `docs/skill-description-field.md`, `docs/sakshi-harness/skill-graph.md`, `docs/reserved-words.md`, `.ai-factory/ARCHITECTURE.md`, the sibling `orchestrator` repo (no reference), and the round-2 plan review of 34.1
+**Risk Level:** 🟡 Medium — three prose edits in one file, every positional and textual claim verified byte-exact; one pinned sentence lands a classification rule the file contradicts two paragraphs above it.
+
+### Context Gates
+
+- **Architecture** — PASS. `.ai-factory/ARCHITECTURE.md` § "Composition: mechanism vs policy" is undisturbed: no skill added or re-tiered, no `loads:` edge changed (the plan forbids one explicitly), no engine gains policy and no lens inlines mechanism. The shape's one home stays `roadmap-engine`, which the command already loads, and the new paragraph points at it rather than copying it. Body cap intact: 45 lines today, 49 after — nowhere near 500.
+- **Rules** — WARN (non-blocking). `.ai-factory/RULES.md` does not exist in this repo; nothing to check against. The governing conventions live in `CLAUDE.md`, `.ai-factory/ARCHITECTURE.md`, `docs/reserved-words.md`, `docs/using-the-language.md` and `docs/reference-by-name.md` — all checked below.
+- **Roadmap** — PASS. `.ai-factory/roadmaps/trickster77777.md` line 185 is the first `- [ ]` line in the file — the seam — and it is 34.2, the task this plan targets; `.ai-factory/orchestrator.json` sets `roadmap_path: "my"`, which resolves to this named roadmap. The plan's `# Plan:` heading matches the contract line's title verbatim. The `Spec:` tag resolves to `.ai-factory/specs/trickster77777/110-pin-gaps-closes-holes-and-writes-no-checks.md`, which exists and was read in full. Phase 34 names no `Governing spec:` line, so the reference chain runs contract line → task spec → `src/commands/command-pin-gaps.md`, with `roadmap-engine` and `docs/reference-by-name.md` as the two named authorities the change leans on.
+- **Vocabulary** — PASS. Nothing edited is a protocol token: the `Spec:` tag, the scan-mode report format and the `owner: <skill>` token stay byte-identical, and the plan pins the scan line as out of scope. `task spec`, `loud failure` and `blast-radius` are used at their registry meanings; the three hole-class names are the command's own, unchanged. The new text names `test-philosophy` as a discriminator without adding a `loads:` edge — matching line 42's existing treatment, and leaving the grep-based reverse graph exactly as it already reads today.
+
+### Verified against ground truth
+
+Every positional and textual claim re-checked against the file's bytes, not against the plan's or the spec's description of it:
+
+- The insertion seam is where the plan says. Line 34 is the "A task spec that repeats a paragraph from a document…" paragraph and ends byte-exact `unlike the two surfaces it sits between.`; line 35 is blank; line 36 opens `**Value holes:**`. Inserting two paragraphs with a blank line on each side is well-formed.
+- The replaced clause is quoted byte-exact. Line 36 ends `Repair: read the code/proto and pin the **exact** value with a \`file:line\` citation — never invent.` — character for character what the plan says it will replace, and the value-hole enumeration before it is untouched by the replacement.
+- The `file:line` occurrence count is right: exactly three in the file (lines 26, 36, 44), so the Guards' "the two other occurrences stay" is exhaustive, and no fourth occurrence can be swept by accident.
+- The reference the new paragraph makes resolves by name. `src/skills/roadmap-engine/SKILL.md` line 46 opens with the bold lead-in `**What a task spec holds:**` — landed by 34.1 — so the citation is a name, not a position, and the plan's own edit obeys the rule it is installing.
+- The no-heading claim checks out and is load-bearing elsewhere: the file carries no `#` heading at any level, and `docs/reference-by-name.md` line 13 cites exactly that ("`command-pin-gaps` carries no headings at all, and its three finding classes are cited by name everywhere, because each opens with a bold lead-in"). Two more bold lead-ins strengthen that sentence rather than dating it.
+- The "no skill or command under `src/` references a `docs/*.md` file of this repository" claim reproduces. Every `docs/` hit under `src/` (`aif-docs` lines 24/32/190–216, `roadmap-outline-deep` lines 69/130) means the *target project's* docs directory, never this repository's. So stating the naming rule inline instead of linking `docs/reference-by-name.md` is correct for a command that runs in arbitrary projects.
+- The `test-philosophy` framing matches its home. The discriminator at `src/skills/test-philosophy/SKILL.md` lines 24–41 is the signal-immediately / run-on-silently question, and "loud-failure surfaces are already caught" is the skip rule the new sentence leans on. The step from "a check that can only fail where the instruction was ignored" to "loud failure" is inherited verbatim from the ratified contract line and task spec, not invented by the plan.
+- Nothing downstream depends on the clause being changed. `grep -rn "pin-gaps" --include="*.md"` outside `.ai-factory/` returns `docs/skill-description-field.md:13`, `docs/sakshi-harness/skill-cycle.md:37,39,74`, `docs/sakshi-harness/skill-graph.md:49`, `docs/reference-by-name.md:13` and the `CLAUDE.md` index row — all describe the pass's *job* (close the places an implementer would guess), none quotes its value-hole repair or claims it writes checks. The Guards' "docs stay correct" holds. The sibling `orchestrator` repo contains no reference to this command at all, so nothing crosses the repo boundary.
+- Delivery is clean. `active/commands/command-pin-gaps.md → ../../src/commands/command-pin-gaps.md` is a live symlink, so the edit goes live; `upstream/ai-factory/` ships skills only and has no counterpart, so a re-sync cannot clobber it. The working tree holds only this task's own two untracked plan artifacts, so the `git diff HEAD --stat` post-condition is a clean signal rather than noise.
+- The duplication the plan anticipates was weighed and is accepted. Paragraph 2's closing sentence ("A surface that fails silently still owes a test, routed to its owner as below") restates a fact line 42 already carries. It survives one-home-per-fact because its role differs: line 42 routes ownership among four skills, while the new sentence is the carve-out that stops the absolute "never authors a check" from being read as "never mentions a test", and it points at line 42 rather than re-deriving it. The plan states that reasoning and pins line 42 shut, which is the right disposition.
+
+### Critical Issues
+
+**1. The pinned bijection contradicts line 32 and line 38 on two of their own items.** (`src/commands/command-pin-gaps.md`, shape paragraph)
+
+The pinned text asserts a clean one-to-one mapping and then defines each class by which part is left open:
+
+> each hole class is exactly one of them left open. A value hole is *what is true now* unread; a meaning hole is *what must be true after* undecided; a blast-radius hole is *what breaks on contact* unenumerated.
+
+Line 32 already routes two items the other way: "an existing shape nobody looked at, or work already half-done, is a **meaning** hole" — repeated as the last two members of the meaning-hole enumeration on line 38. Read compositionally, "an existing shape nobody looked at" *is* what is true now (an existing shape) left unread (nobody looked at it), which the new sentence classifies as a value hole. So after this lands, the file gives two answers for the same finding, six lines apart, and the Guards ("their contents survive unchanged") forbid the implementer from reconciling it.
+
+The classification line 32 draws is defensible — the *hole* in "an existing shape nobody looked at" is the fit the task must satisfy, which is undecided, and the meaning-hole repair (write the missing constraint from the observed behaviour of the code) supplies precisely *what must be true after*. What the pinned wording is missing is the principle that makes it so: a class is named by **which part its repair supplies**, not by which part went unread. Without that clause the file reads as a strict identity and collides with itself.
+
+Two ways to close it, both inside this task's boundary and inside what the task spec asks for ("mapping each to the hole class that closes it"):
+- Name the principle in the pinned text — e.g. a class is the part its repair supplies, so an existing shape nobody looked at is a meaning hole because the fit it must satisfy is undecided, not because the shape is unread; or
+- Soften the identity from "is" to what closes it — a value hole is closed by supplying *what is true now*, a meaning hole by deciding *what must be true after*, a blast-radius hole by enumerating *what breaks on contact* — which leaves line 32 as the finer routing inside that frame rather than a competing rule.
+
+### Minor Issues
+
+**2. "every body paragraph in this file is a single long line, 120–887 columns" is false for the file's first paragraph.** (plan, shape-paragraph task)
+
+Lines 17–18 are one hard-wrapped body paragraph at 81 and 77 columns (`Ensure \`roadmap-engine\` is loaded once this chat …`). The 120–887 range describes lines 20–45 exactly (line 22 is 120, line 38 is 887), so the *instruction* — insert as one unwrapped line, do not hard-wrap — is right for the insertion site and the landing is unaffected. Only the supporting claim overreaches; narrowing it to the paragraphs from line 20 onward makes it true as written.
+
+### Positive Notes
+
+- Pinning the full text of both new paragraphs, their order, their insertion point and their line-wrapping leaves nothing for the implementer to re-derive on a change whose entire deliverable is prose.
+- The Guards do the harder half of the work: naming the two `file:line` occurrences that must **survive**, with the reason each is exempt (a landing described while reasoning; a chat report thrown away), forecloses the sweep a `grep file:line` would otherwise produce — the single most likely way this task could go wrong.
+- The plan pins the negative space precisely where an implementer would drift: no `loads: test-philosophy`, no heading, no rewrite of line 22, no touching line 42, no `docs/reference-by-name.md` citation in a file that runs in projects where that path does not exist, and no anticipation of siblings 34.3 / 34.4.
+- Deciding to state the naming rule inline rather than link it, and grounding that decision in a verified sweep of what `src/` may reference, is the right call for an artifact that executes outside this repository.
+- Naming `roadmap-engine`'s paragraph by its bold lead-in — and forbidding paraphrase of the engine's elaborations — holds one-home-per-fact on the exact fact three tasks of this phase circle.
+
+## Deferred observations
+
+- Affects: Phase 34 / `.ai-factory/specs/trickster77777/110-pin-gaps-closes-holes-and-writes-no-checks.md` — `src/skills/roadmap-outline-deep/SKILL.md` line 72 still instructs the phase note's verbosity directive to carry "a `file:line` where a claim needs one". A phase note is a durable artifact pointed at by the `Phase note:` tag and outlives the numbering it was written against, so it is the same defect class this task repairs in `command-pin-gaps` — `docs/reference-by-name.md` § "The check" names a spec, a roadmap line and a document as the three places a position address never enters. It is correctly outside this task's boundary (the contract line names only `command-pin-gaps`, and no sibling in Phase 34 or 35 owns `roadmap-outline-deep`), so it wants a follow-up task rather than a widening here. The residue while it stands is that the family is half-converted: one pass is told to name its source while the pass immediately upstream of it is still told to cite a line. `roadmap-prune`'s occurrence at line 62 is a different case and needs nothing — it addresses an entry inside a review file for a handoff that is spent on first read, which is the throwaway genre that document explicitly exempts.
