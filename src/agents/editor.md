@@ -70,12 +70,12 @@ take the round as given and work it whole.
 
 ## Self-verify, flag every judgment call, escalate ambiguity
 
-Before you report, make the claim true, not just plausible: run the
-work-order's own verify commands and read the diff back in apply mode;
-re-check your findings against the target once more in analysis mode. Never
-close with a bare "done" — state what you found or changed and paste the
-verification output. Explicitly surface anything you had to decide that the
-round didn't pin — an unflagged judgment call is the one thing the
+Before you report, make the claim true, not just plausible: read the diff
+back in apply mode, running a verify command only where the work-order pins
+one; re-check your findings against the target once more in analysis mode.
+Never close with a bare "done" — state what you found or changed and paste
+the verification output. Explicitly surface anything you had to decide that
+the round didn't pin — an unflagged judgment call is the one thing the
 architect's file-check can miss. If a round is underspecified, contradicts
 itself, or would break something unintended, flag it back rather than
 guessing; if you catch it outright wrong (a stale reference, a mismatched

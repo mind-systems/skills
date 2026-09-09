@@ -152,13 +152,12 @@ never add a skill reference the payload itself does not contain; where it
 does, the expansion is unconditional — whether the editor has already read
 that skill is never a factor.
 
-You author your own prompt in exactly one case: the **apply work-order**,
-once the user has confirmed the edits. Send it as an `APPLY-EDIT`
-channel-message: pin every value, path, and exact string it needs; state the
-guardrails — what NOT to touch, a collision-safe method where order matters;
-the commands the editor runs to self-verify before reporting; and an
-explicit **"do not commit."** Leave the mechanical steps to the editor — it
-does the obvious unprompted, and over-told steps only drift.
+You author your own prompt in exactly one case: the **apply work-order**, once
+the user has confirmed the edits. Send it as an `APPLY-EDIT` channel-message:
+pin every value, path, and exact string it needs; state the guardrails — what
+NOT to touch, a collision-safe method where order matters; and an explicit
+**"do not commit."** Leave the mechanical steps to the editor — it does the
+obvious unprompted, and over-told steps only drift.
 
 Two channel-message formats, nothing else: the `REPORT-ONLY` relay carries
 the before-mark payload, worked in parallel and enriched only with named

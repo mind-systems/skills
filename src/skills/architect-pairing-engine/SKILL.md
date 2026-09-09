@@ -35,17 +35,16 @@ engine like `architect-editor-engine`; the reverse graph resolves via
 Its editor becomes research-only: every `REPORT-ONLY` relay still reaches it
 exactly as the generic discipline has it. No `APPLY-EDIT` work-order does —
 the architect still authors the apply work-order exactly as today: same
-format, the same pinned values, guardrails, self-verify commands, and the
-explicit "do not commit." But it addresses that work-order to the paired
-architect and delivers it through the user, who carries or confirms the
-relay. The applying architect is the one that acts on shared artifacts, not
-this half's own editor.
+format, the same pinned values, guardrails, and the explicit "do not commit."
+But it addresses that work-order to the paired architect and delivers it
+through the user, who carries or confirms the relay. The applying architect
+is the one that acts on shared artifacts, not this half's own editor.
 
 Because that delivery is a human copy-paste and not a `SendMessage` call,
 the work-order ships as one single code block — every pinned value,
-guardrail, self-verify command and the "do not commit" inside it — so the
-user can copy it whole and relay it unmodified. Never split it across
-several blocks or interleave prose between them.
+guardrail and the "do not commit" inside it — so the user can copy it
+whole and relay it unmodified. Never split it across several blocks or
+interleave prose between them.
 
 Departure from the generic spawn trigger: the generic rule offers two
 alternatives for the first channel-message — the first `::` relay or, where
