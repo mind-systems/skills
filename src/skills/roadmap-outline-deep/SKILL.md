@@ -96,11 +96,12 @@ which only ever captures the path the current pointer names. So:
 This skill holds the pointer format itself, being its only caller — do not push it
 into `roadmap-engine` or `roadmap-outline`.
 
-- **Budget** — rewrite the phase preamble down to **~200–500 characters**, keeping
-  the phase's gate and its `Phase note:` pointer. The note states what is not yet as
-  the docs say, per Step 1's template — it is a short distillation, not a home for
-  whatever the preamble sheds. Prose that is neither the gate nor that distillation
-  is dropped deliberately, not relocated.
+- **Budget** — rewrite the phase preamble down to **~200–500 characters**, counted
+  per `roadmap-engine`'s "Roadmap File Format" § "Counting characters" — do not
+  restate its mechanics here — keeping the phase's gate and its `Phase note:`
+  pointer. The note states what is not yet as the docs say, per Step 1's template —
+  it is a short distillation, not a home for whatever the preamble sheds. Prose that
+  is neither the gate nor that distillation is dropped deliberately, not relocated.
 - **Pointer** — literal form `Phase note: [<title>](<path>)`, byte-exact token
   `Phase note:` (capital P, lowercase n), **closing the preamble line** — appended to
   the end of the preamble prose, never standing as a separate paragraph, so the

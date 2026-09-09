@@ -104,6 +104,8 @@ key contracts / pinned decisions the phase rests on>
 - One reason to revert — if two concerns are independently shippable, make two tasks
 - Full current-state / target / guards / verify detail lives in the task spec, not the contract line
 
+**Counting characters:** every character budget in these skills — the contract-line budget above, and the phase-preamble budget in `roadmap-outline-deep` — counts Unicode code points with the trailing newline excluded. The command that yields them here is `python3 -c "import sys;print(len(sys.stdin.read().rstrip('\n')))"`.
+
 **Numbering rules:**
 - **Phase numbers are globally sequential** across the whole file — a new section
   (including the first phases of a new direction) continues from the file-wide
