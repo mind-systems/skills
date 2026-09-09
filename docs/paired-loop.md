@@ -18,6 +18,16 @@ A ruling recorded in the buffer is a **debt against the skill**, not a record of
 
 Two architects are two heads. No architect reads another's buffer, and an editor reads only its own architect's.
 
+## How the memory begins, and how it survives
+
+The memory exists before the hands do. A head holds its buffer before it has an editor to write with, because the buffer is what an order leans on rather than restates — what is leaned on cannot begin only once the first order is sent.
+
+A **memory snapshot** naming a buffer is what continues one memory across a break. A head that begins from such a snapshot works in the buffer it names — the same memory, resumed, not a new one under an old name. A head that begins with no such pointer is a new head: it creates its own buffer first, and only then takes on a hand. What the snapshot carries toward this is a pointer to the buffer's place, never a copy of what the buffer holds.
+
+Each half holds the other's address. At the moment a hand joins, its own address is recorded in the memory, and the memory's place is given to the hand in turn. A settled zone the hand cannot locate is not shared, whatever the discipline says about who holds it.
+
+A hand's own history ends without a signal. Nothing announces the loss, and a hand asked to recall what it no longer carries answers anyway, confident rather than true. What recovers it is the head's latest memory snapshot, handed to it again — the same artifact that carries the head across a break carries the hand across its own. The head hands the snapshot to its hand whenever the head itself rehydrates from one, unconditionally: a condition no one can evaluate is not a condition, and handing the snapshot over costs less than establishing whether it was needed.
+
 ## What crosses the channel
 
 An order names what a sentence must say and where it goes. It does not compose the sentence: the text is written by whoever has the file open, because a writer looking at a passage does not restate what already stands beside it, and a head composing a replacement blind does exactly that.

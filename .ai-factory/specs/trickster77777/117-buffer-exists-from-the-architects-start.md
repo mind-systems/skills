@@ -2,18 +2,20 @@
 
 ## Current state (grounded, read fresh)
 
-`src/skills/agent-architect/SKILL.md:55-56` creates the buffer at one moment only: "At the moment you spawn the editor (see above), write its handle into the buffer, creating the buffer at its existing path if it does not exist yet."
+`src/skills/agent-architect/SKILL.md`'s spawn-moment paragraph, in § "Spawn once, message thereafter," is the one place the buffer comes into being, and it happens as a side effect of a different act: "At the moment you spawn the editor (see above), write its handle into the buffer, creating the buffer at its existing path if it does not exist yet." Before that paragraph, the same section's opening line tells the architect the opposite of holding state: "Until the first channel-message arrives, you work alone on the unit named and tell the user you are working alone until it exists."
 
-Before that moment, `:32-33` tells the architect the opposite of holding state: "Until the first channel-message arrives, you work alone on the unit named and tell the user you are working alone until it exists." Nothing between those two passages, or anywhere else in the file, instructs the architect to create or hold a buffer before an editor is spawned.
-
-The consequence is unstated but follows from the file's own recovery mechanism: `:47-53` has the pre-compact handoff record "your buffer's path" so a compact can be recovered from. A compact that happens before the first channel-message has no buffer to record a path to — whatever the architect had already decided in that window is lost with nothing for the handoff to point at.
+Nothing between those two passages, or anywhere else in the file, distinguishes an architect that begins from a memory snapshot naming a buffer from an architect that begins with no such pointer at all — both paths run into the same spawn-moment clause, and the clause treats them alike, creating a buffer exactly when the editor is spawned regardless of which path led there.
 
 ## The change
 
-The architect creates its buffer when it begins, not when it spawns its editor. Writing the editor's handle into the buffer at spawn time stays exactly as `:55-56` already has it — only the creation moment moves earlier, to the architect's own start.
+The buffer's creation becomes its own moment, at the architect's own start, and conditional rather than unconditional. A memory snapshot naming a buffer means the architect works in that buffer — no new one is created. No such pointer means the architect creates one, before any editor exists — the buffer's creation moves ahead of the spawn-moment paragraph rather than living inside it.
+
+Recording the editor's handle stays exactly where the spawn-moment paragraph already puts it: a write into a buffer that by then already exists, whichever of the two paths produced it.
 
 ## Blast radius
 
-The buffer's naming and per-architect numbering convention — `.ai-factory/notes/<NN>-architect-buffer.md`, numbered like the other temporary notes so several architects can coexist without colliding (`agent-architect/SKILL.md:232-234`) — does not change.
+36.1 moves the buffer's shape and its naming convention into the engine both halves load; this task must not restate either.
 
-A handoff continuing the architect across a compact still carries the buffer's path alone, never a copy of its contents (`:47-53`), unaffected by when the file was first created.
+The existing fallback that recovers the editor's handle from session metadata, used when no handle was ever recorded, is untouched.
+
+Two further places in the file read as "the buffer may not exist yet," worth naming rather than left silent: the spawn-moment paragraph's own "if it does not exist yet," which this task's rewrite absorbs into the conditional; and the invocation-time instruction to rebuild working state from whatever the user hands over "and, if one exists, the pre-compact handoff that recorded your buffer's path" — a second place where the file already anticipates an architect that starts with nothing recorded, consistent with the conditional this task states rather than in tension with it.
