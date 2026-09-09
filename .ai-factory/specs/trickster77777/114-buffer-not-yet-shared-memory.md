@@ -1,0 +1,5 @@
+# Phase 36 — the buffer is not yet shared memory
+
+`agent-architect` defines the buffer alone and closes it to the editor by name (`SKILL.md:235-237`, "The editor is never told about it"), against `docs/paired-loop.md:11`, which has the editor hold it as its own working context. No settled/live split exists anywhere in the four paired-loop artifacts — the buffer's stated content is deferral entries alone (`agent-architect/SKILL.md:230-232`). It is created at the editor's spawn, not the architect's own start (`:55-56`), so an architect with no editor yet is told to hold nothing. `architect-editor-engine` scopes itself to the two message formats and names no buffer (`SKILL.md:5-8`), though the spec calls it the buffer's home; `architect-pairing-engine` never mentions a buffer at all, so the no-cross-reading rule has nowhere to live. Neither side names what happens when the editor's own context runs out short of death — undocumented on both. `.ai-factory/ARCHITECTURE.md`'s mechanism/policy rule does not block moving the definition into the engine.
+
+See `docs/paired-loop.md`.
