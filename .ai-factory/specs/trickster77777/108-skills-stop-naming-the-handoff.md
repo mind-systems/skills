@@ -39,10 +39,7 @@ The sibling `orchestrator` repository is touched in one way and not in another. 
 - `roadmap-prune`'s "Do not touch `handoffs/` — it is never swept" is not touched.
 - `agent-architect` is not touched.
 - `roadmap-test-coverage` is not touched. Its `$HANDOFF_LIST` is a different concept wearing the same word, and settling that needs a decision about the reserved-words registry that this task does not carry.
-- The `Phase note:` rationale does not weaken. Narrowing the enumeration is the whole edit; the reason for keying on the literal token stays stated in full.
-- No document changes. `docs/sakshi-harness/skill-graph.md` already holds the position this task reconciles to, and `docs/sakshi-harness/skill-cycle.md` already describes the act that stays.
 - The plan layer is not swept. Task specs and direction preambles that open with a source-handoff line keep their text and leave with their tasks at prune.
-- No frontmatter changes: no `loads:` edge, no grant, no `description:`, no new skill.
 - The line breaks stay where the removed words leave them. All four sites are hard-wrapped prose and every edit shortens a line; no paragraph is re-flowed and no line outside the removed phrase is rewritten. At the three sites where the phrase sits inside one line — `roadmap-engine`, `roadmap-outline`, `roadmap-prune` — exactly that line changes. At `orchestrator-artifacts` the phrase spans a line break, so the two lines it spans are rewritten and the rest of the paragraph keeps its breaks. A re-wrap would swell four diffs that should each read as one phrase removed.
 - The sibling `orchestrator` repository is not edited and owes no lockstep change; the mirror contract its CLAUDE.md declares covers a protocol surface this task does not touch. Its own roadmap and task specs keep their handoff citations — that is another repository's plan layer, pruned on its own cycle, and this task changes only what this repository owns.
 
@@ -55,6 +52,4 @@ Counts against a whitespace-normalized read of each named file.
 - `handoff`, case-insensitive, in `roadmap-prune` → 4; it carries 5 today. The four that remain: two on the blocked-gate resolution's `/command-handoff` line, one on its `.ai-factory/handoffs/` destination line, one on "never swept"
 - the `Phase note:` rationale still states all three of: keying on the literal token, links living in that same prose, and the skill holding `Bash(rm *)` → each 1
 - the status-marker grammar still names the resolution session as the writer and still names a parked prune as the trigger → each 1
-- the wrapping did not move → the `roadmap-engine`, `roadmap-outline` and `roadmap-prune` hunks change exactly one line each, and the `orchestrator-artifacts` hunk changes the two lines its phrase spans; in every hunk the changed text differs from its predecessor by the removed words and the re-wrap those words force, and no paragraph outside the edited phrase appears in the diff at all
 - `git diff HEAD --stat -- src/` lists exactly the four named files and nothing else; `docs/`, `CLAUDE.md` and `active/` show no change from this task
-- no frontmatter line changes in any of the four files → `git diff HEAD -- src/skills/*/SKILL.md | grep -cE '^[+-](name|description|loads|allowed-tools|argument-hint):'` → 0

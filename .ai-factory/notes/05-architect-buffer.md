@@ -824,3 +824,42 @@ Rebuilt from handoff 18 (`.ai-factory/handoffs/18-position-addresses-and-the-rul
 **Correction against my own finding, and it stands.** I told that architect seven shipped `description:` blocks already carry prohibitions, which withdrew pin-gaps finding №5. Buffer 07 now records the count as false, and my own re-check confirms it: every hit is a scope statement (`test-philosophy`, `roadmap-engine`, `architect-editor-engine`), a routing statement (`architect-pairing-engine`), a persona statement (`agent-architect`, `editor`), or a quoted literal (`task-rescue`) — none is a rule about what *other* artifacts may cite. №5 stays withdrawn on the pass-test argument alone. **Same defect as the error log's last entry: I measured the corpus in front of me and reported it as the corpus the claim was about.**
 
 **Ruling (2026-09-08): a contract line is not obliged to carry every aspect of its task — that is the task spec's job.** I reported the `31.1` line as naming three of four edited sites in `command-handoff.md`, omitting the Template-hook exemption. Withdrawn on the user's ruling: «контракт строка не обязана нести каждый аспект таска. Для этого таск ноут.» The line exists to let the user verify intent; completeness lives one tier down, reached through the `Spec:` tag. Same class as the «шлак» bar — a two-tier gap is only a finding when the missing half changes what gets built.
+
+## Deferral — the reference-by-name extraction, SUPERSEDED 2026-09-09 (see the entry at the end of this file)
+
+**What.** Three pieces, drafted and measured, nothing on disk: (1) a 556-code-point paragraph into `src/global/CLAUDE.md` § "Grounding claims", immediately after the chain-to-the-leaf paragraph and before "The opening task statement is the first artifact" — a reference addresses by name, a `file:line` is a defect report against its target and is repaired there, position addresses live only in a work-order; no path into a sibling repository, since the file loads in projects where our `docs/` does not exist. (2) A new direction, `### Phase 34` and an `[x] 34.1` contract line of 740 code points, no `Spec:` tag, by the 27.1 precedent the user set for a by-hand insertion. (3) A handoff into `tradeoxy_core`'s own `.ai-factory/handoffs/`, written by me after the change lands so it reports a fact — core then drops its local `RULES.md` rule itself, and clears the four position addresses that rule's own file carries.
+
+**Why deferred.** The user: «пусть оркестратор закончит, он работает сейчас». The run writes the same roadmap file (`[x]` marks, sidecars) and 32.1/33.1 edit `roadmap-engine`, `roadmap-outline`, `roadmap-prune`, `orchestrator-artifacts`. An insertion of mine into that file mid-run collides with its writes.
+
+**Trigger.** The run reaches the end of the open tail (31.1, 32.1, 33.1 all `[x]`), or the user says go earlier.
+
+**Known consequence to state when it lands:** the `[x]` line sits below the open `[ ]` ones unless the tail closes first, so the seam stops being a single boundary. Nothing breaks — the orchestrator takes the first open line top-down and prune sweeps every `[x]` regardless of position.
+
+## Round 33 — task-rescue of 32.1 at spec + plan depth (2026-09-08, closed)
+
+**Pairing live again:** an `APPLY-EDIT` arrived through the user from the deciding architect; I am still the applying half. Editor `aa73188f9b856545e` answered on the first send — alive across the compact, as the discipline predicts.
+
+**Four blockers reported before sending, all four confirmed by the deciding half.** (1) EDIT 1a's replacement span ended one sentence short of its own replacement text — applied literally it would have printed "The numbers themselves — `~600`, `400–1000` — do not change" twice; span extended to the end of item 1. (2) The self-verify pinned `**Counting characters:**` → 3, counting item 2's address as a hit; that address carries neither asterisks nor colon, so the true value is 2. (3) A guard attributed "guidance and not a hard clamp" to the engine, which says "guidance, not a hard clamp" — one word off inside an explicit attribution. (4) Part 2 pinned no wording and no anchor for the plan edits.
+
+**Landed and verified by my own counts:** spec `**Counting characters:**` 2, address 2, retired phrase 0, `within the **Budget** bullet` 1, `guidance, not a hard clamp` 1, `code point` 3, items 1./2., guards 7, checks 8, the fenced `rstrip('\n')` intact; plan `every budget in this family` 3 with `**` stripped, both anchors once, three tasks and six headings untouched; sidecar `planned:1` with `planner`/`elapsed` and key order and the missing trailing newline preserved; three plan-reviews gone; `src/`, `docs/`, `active/`, `CLAUDE.md` clean.
+
+**Defect the order created and I reported after landing:** § Current state now states the `awk` measurement twice in consecutive sentences — the new 1c text ends with it and the deliberately-retained tail repeats it. The `wc -m` = 12 pair also doubles, but the second carries the trailing-newline argument and must stay. Fix is to drop the trailing `awk` sentence. Same shape as the three sweeps of rounds 9–13: text replaced, the sentence downstream that restated it left standing.
+
+**Step 5.5 — propagation:** the recurring shape (a requirement in prose with no check) was already audited out of 33.1/spec 108 hours earlier, and 32.1 is the task being repaired. Nothing to propagate.
+
+**Step 5.6 — pins:** the grant observation rode in all three plan-reviews, which the spec+plan depth deletes; no file remains to carry a marker. Disposal is recorded instead as a guard in spec 107 and in the durable report.
+
+**Step 5.7 — durable report:** `.ai-factory/rescue-reports/skills/05-32-1-every-round-found-a-requirement-with-no-check.md`.
+
+
+## The reference-by-name extraction became task 35.1 (2026-09-09)
+
+**The by-hand plan is dropped.** The user ruled: «давай напишем таск для этого. Простейший, в свою фазу. пусть оркестратор выполнит его сам» — so the paragraph is no longer mine to insert, the 27.1 precedent no longer applies, and the `[x]`-below-open-`[ ]` consequence recorded in the superseded entry never arises.
+
+**Phase 34 and specs 109/110 were taken while I was rescuing 32.1** — the parallel architect's direction on what a task spec holds. Checked before composing; mine went in as **Phase 35 / task 35.1 / spec 111**, `- [ ]` with a `Spec:` tag, contract line 994 code points. Insertion was anchored on the literal `---STOP---` and the file re-read immediately before writing, because a running orchestrator writes the same file.
+
+**What 35.1 does:** one pinned 556-code-point paragraph into `src/global/CLAUDE.md` § "Grounding claims", between the chain-to-the-leaf paragraph and "The opening task statement". The deep home `docs/reference-by-name.md` is deliberately not linked — the file loads in projects that do not contain it.
+
+**One defect of mine in spec 111, caught by the editor and repaired:** § Verification carried `` `reference-by-name` in the file → 0 `` with no file named, while specs 106/107/108 each open that section by naming what the counts are taken over. True about the target, ambiguous to a reader — the editor measured it against the spec and got 3. Closed by adding the scoping sentence in the folder's own style.
+
+**Still open, and the only piece left:** the handoff into `tradeoxy_core`'s `.ai-factory/handoffs/`, written by me. *Trigger:* 35.1 lands and the paragraph is really in the file — the handoff reports a fact, not an intention. Core then drops its local `RULES.md` rule and clears the four position addresses that same file carries.
