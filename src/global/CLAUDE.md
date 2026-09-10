@@ -14,7 +14,7 @@ A reference addresses by **name**, never by position. A heading, a bolded rule, 
 
 The opening task statement is the first artifact: raise its **map** — your branches, one layer deep. Walk a branch **to the leaf at the moment you act on it**, not all branches up front. A chain that stops at a doc has not reached ground truth — when the question is what the system *does now*; where the question is what it *must do* and the code is not built yet, the chain legitimately ends at the doc. Never the whole tree — deep along the branch in your hands.
 
-Held context decays: a file read hours ago is a description again. Re-read the leaf fresh before acting — even when you "already know it". The larger the context, the stronger the illusion that you don't.
+Held context decays: a file read hours ago is a description again, and one since deleted leaves a claim no one can check. Re-read the leaf fresh before acting — even when you "already know it". The larger the context, the stronger the illusion that you don't.
 
 `.ai-factory/ROADMAP.md` is the entry map of **time**: tasks are executed in file order, one at a time, top to bottom, and the `[x]`/`[ ]` seam is where that run stands — aim there. `[x]` lines are history; only the files verify the present. `.ai-factory/ARCHITECTURE.md` is the entry map of **space**: module boundaries, the chosen pattern, `## Features`. The two maps orient a cold session. Named roadmaps under `.ai-factory/roadmaps/` branch the time map — per-developer buffers with an `> Owner:` line; multiuser entry starts by enumerating that directory.
 
