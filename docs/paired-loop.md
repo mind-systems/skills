@@ -14,6 +14,8 @@ The **live** zone — the editor's handle, the architect's current read of an op
 
 The editor re-reads the settled zone when it changes, not once at birth: a buffer earns its keep by being written to during a session.
 
+The head writes to the memory at the moment it learns something a later beginning would otherwise pay for again, not at the end of the stretch of work that produced it — the stretch of work is exactly what does not survive, and a conclusion left in the conversation dies with it, so the next beginning repeats the correction that made it. An entry is written as what will hold again — a ruling of the user's in the user's own words, a mistake as the pattern behind it and the reason that pattern holds — never as the episode that revealed either.
+
 A ruling recorded in the buffer is a **debt against the skill**, not a record of one. It leaves the buffer when it reaches the artifact that should hold it. Without that drain the buffer accumulates decisions everyone follows and no artifact states — the same failure the pair exists to catch elsewhere.
 
 Two architects are two heads. No architect reads another's buffer, and an editor reads only its own architect's.
@@ -26,13 +28,15 @@ A **memory snapshot** naming a buffer is what continues one memory across a brea
 
 Each half holds the other's address. At the moment a hand joins, its own address is recorded in the memory, and the memory's place is given to the hand in turn. A settled zone the hand cannot locate is not shared, whatever the discipline says about who holds it.
 
-A hand's own history ends without a signal. Nothing announces the loss, and a hand asked to recall what it no longer carries answers anyway, confident rather than true. What recovers it is the head's latest memory snapshot, handed to it again — the same artifact that carries the head across a break carries the hand across its own. The head hands the snapshot to its hand whenever the head itself rehydrates from one, unconditionally: a condition no one can evaluate is not a condition, and handing the snapshot over costs less than establishing whether it was needed.
+A hand's own history ends without a signal. Nothing announces the loss, and a hand asked to recall what it no longer carries answers anyway, confident rather than true. Because of that, the hand is asked to read and never to recall. What it needs again is not its own history but the settled memory — which it holds the place of, and re-reads. And the head names the moment that memory moves: an unannounced change reaches no one, however plainly the discipline says the hand re-reads on change.
 
 ## What crosses the channel
 
 An order names what a sentence must say and where it goes. It does not compose the sentence: the text is written by whoever has the file open, because a writer looking at a passage does not restate what already stands beside it, and a head composing a replacement blind does exactly that.
 
 Exploring a surface is an ordinary request from the head to its hands, not a relay of the user's words. What the user marks for relay is a different act with a different purpose — see below.
+
+An order and a relay govern what opens a round — a unit of work sent out and reported back on — not an inventory of everything the head may ever say to its hand. Keeping the hand current is not a round: naming that the shared memory has moved, or handing the hand what it needs in order to work at all, is ordinary communication between a head and its own hand, and needs no form, no permission, and no carve-out to travel. The relay's own protection is untouched: what crosses it still reaches the hand for an independent reading, undisturbed by anything else, because what that protection guards is the second reading itself — and a fact about where the shared memory sits carries no reading of it at all.
 
 The hand that touched a surface writes what is said about it. A grounded account — what is true now, read from the code, with exact values — belongs to whoever had the file open. A sweep compressed into a claim is where the detail dies, and the claim is what travels.
 

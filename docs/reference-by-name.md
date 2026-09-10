@@ -26,6 +26,10 @@ Split a document where its **reason to change** differs, never where it merely g
 
 **A `file:line` reference is a defect report against its target.** It says: the thing I needed had no name. The repair belongs in the target — a name added, or an existing name used — never in the reference. Position addresses belong in a work-order, which is thrown away when it is applied; they never enter a spec, a roadmap line, or a document, all of which outlive the line numbering they were written against.
 
+A second form of the same defect carries no marker that invites suspicion. A definite article or a demonstrative standing where a name belongs — "the engine", "that engine", "the same section", "the file above" — resolves by proximity to whatever was named last, and proximity is position wearing ordinary grammar. It survives exactly as long as its neighbouring sentence does, and nothing reports it when that neighbour is rewritten. It escapes notice where a `file:line` does not: a `file:line` looks like an address and invites the question of whether it still resolves; an article reads as ordinary English and invites no question at all. That is the whole of its danger.
+
+The test that separates the two forms: ask whether the reference would still resolve if the sentence beside it were replaced. A name survives that question undisturbed; an article survives neither that question nor a move. Replacing a single clause in one roadmap line left two such references pointing at nothing in the same stroke, because the replaced clause held the only naming of the thing both reached for — the first was caught reading the line whole, the second only on a second reading of the same line.
+
 ## Where things are normed
 
 The walked layer this discipline serves is [context-tree](philosophy/context-tree.md); the always-loaded layer that sets its direction is [always-loaded-discipline](always-loaded-discipline.md), and the one-home-per-fact rule it rests on is normed in the global CLAUDE.md § "Grounding claims". The composition rule that decides when a named thing becomes a file of its own is `.ai-factory/ARCHITECTURE.md` § "Composition: mechanism vs policy".

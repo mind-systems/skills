@@ -4,6 +4,8 @@
 
 `agent-architect` instructs the apply work-order to "pin every value, path, and exact string it needs." That instruction is the textual source of the register `docs/paired-loop.md` § "What crosses the channel" argues against — not a bare habit with no home: "An order names what a sentence must say and where it goes. It does not compose the sentence: the text is written by whoever has the file open, because a writer looking at a passage does not restate what already stands beside it, and a head composing a replacement blind does exactly that."
 
+Checked against the whole file: this is the only passage stating the character-pinning register — no second sentence says it anywhere else — and no other task claims this sentence. This task has somewhere to land.
+
 The same section states the anchoring discipline this task leaves untouched: "Every address in what crosses is a name, never a position... Position addresses do not survive an edit above them, and two sessions editing one file collide on positions and not on names."
 
 ## The change
@@ -15,3 +17,5 @@ The boundary this task must hold: a value is still pinned — a path, a number, 
 ## Blast radius
 
 The anchoring mechanism does not change: a match is still asserted against a unique string rather than a position, which is what lets two sessions edit one file without collision (`docs/paired-loop.md` § "What crosses the channel").
+
+This task's own landing sentence sits immediately after 37.1's, in the same paragraph of § "Relay on the marker; author a prompt in exactly one case." 37.1 lands first and disambiguates that preceding sentence's opening pronoun, so this task inherits a sentence already fixed rather than one it must repair itself.

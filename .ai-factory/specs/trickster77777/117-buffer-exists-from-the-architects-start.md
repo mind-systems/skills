@@ -12,10 +12,14 @@ The buffer's creation becomes its own moment, at the architect's own start, and 
 
 Recording the editor's handle stays exactly where the spawn-moment paragraph already puts it: a write into a buffer that by then already exists, whichever of the two paths produced it.
 
+Making the engine resident belongs to the architect's own start too, ahead of creating the buffer — the load moment stops being a deadline that merely falls somewhere before the first channel-message. The path lives in the engine after 36.1, so creation runs against a path already known.
+
 ## Blast radius
 
 36.1 moves the buffer's shape and its naming convention into the engine both halves load; this task must not restate either.
 
+36.4 adds a path-giving clause to the same spawn-moment sentence this task shortens; the addition attaches to the handle-writing clause this task keeps, not to the "creating the buffer … if it does not exist yet" clause this task removes, so the two edits do not collide.
+
 The existing fallback that recovers the editor's handle from session metadata, used when no handle was ever recorded, is untouched.
 
-Two further places in the file read as "the buffer may not exist yet," worth naming rather than left silent: the spawn-moment paragraph's own "if it does not exist yet," which this task's rewrite absorbs into the conditional; and the invocation-time instruction to rebuild working state from whatever the user hands over "and, if one exists, the pre-compact handoff that recorded your buffer's path" — a second place where the file already anticipates an architect that starts with nothing recorded, consistent with the conditional this task states rather than in tension with it.
+Two further places in the file read as "the buffer may not exist yet," worth naming rather than left silent: the spawn-moment paragraph's own "if it does not exist yet," which this task's rewrite absorbs into the conditional; and the invocation-time instruction to rebuild working state from whatever the user hands over "and, if one exists, the pre-compact handoff that recorded your buffer's path" — a second place where the file already anticipates an architect that starts with nothing recorded, consistent with the conditional this task states rather than in tension with it. 36.5 reworks that quoted wording; spec 123 already supplies the reasoning that the claim this spec leans on survives the rework, and is pointed at here rather than restated.
