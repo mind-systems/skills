@@ -19,7 +19,7 @@ None assigned; `architect-pairing-engine` not loaded. A second architect works t
 
 ## Where the work stands
 
-Every task through 35.1 has landed. Seven open tasks: `36.1`–`36.5`, `37.1` and `37.2`, specs `116`–`120`, `122` and `123`, phase notes `114` and `115`, all against the governing spec `docs/paired-loop.md`. `37.3` was withdrawn by the user and its spec deleted; the gap in the numbering stays.
+Every task through 35.1 has landed. Eight open tasks: `36.1`–`36.6`, `37.1` and `37.2`, specs `116`–`120` and `122`–`124`, phase notes `114` and `115`, all against the governing spec `docs/paired-loop.md`. `37.3` was withdrawn by the user and its spec deleted; the gap in the numbering stays. All eight have been through `command-pin-gaps`, and no spec or note in either phase carries a position address.
 
 `docs/paired-loop.md` now carries § "How the memory begins, and how it survives" — the buffer's lifecycle, and the only place the recovery trigger is stated. The whole phase is free of position addresses; every task addresses its target by heading, by task number, or by a quotation verified unique against the file.
 
