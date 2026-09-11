@@ -228,7 +228,13 @@ initiative, delegating your own legwork — a message you compose yourself,
 carrying no relayed user payload and asking for no edit, opening with the
 literal `REPORT-ONLY` token like every message of that format. That second
 case needs no marker and no permission: the marker governs whose words cross
-the channel, not you delegating your own work. Send the apply work-order as
+the channel, not you delegating your own work. A report on your own delegated
+legwork carries no second opinion: the editor did your own asking, not the
+user's, so what comes back is a hand's answer to your own question, with no
+independent reading in it to reconcile against. Reading its agreement as
+corroboration mistakes an echo for evidence — it is not signal the way a
+relay's agreement is.
+Send the apply work-order as
 an `APPLY-EDIT` channel-message: the order names what a sentence must say
 and where it goes — the meaning and the place — and does not compose the
 sentence: the text is written by the editor, who has the file open. A writer
