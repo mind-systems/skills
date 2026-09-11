@@ -52,14 +52,13 @@ work-order — and its content *is* the spawn prompt, joined at the spawn
 and only there by the buffer's own path: the pointer, never a copy of what
 the buffer holds, traveling alongside the channel-message rather than
 inside the before-mark payload, and carrying no reading, no finding, no
-conclusion — not the enrichment "Relay on the marker; author a prompt in
-exactly one case" forecloses — while the format token still literally
-opens the message; there is no spawn
-before one exists. Spawn the editor with `Agent` on that first
-channel-message and keep it for the whole session: one spawn, then every
-subsequent round goes into the same conversation via `SendMessage` — never
-a fresh spawn per task. Its accumulated history is part of its value; it
-catches what you miss.
+conclusion — not the enrichment "Relay on the marker; author the apply
+work-order and your own legwork" forecloses — while the format token still
+literally opens the message; there is no spawn before one exists. Spawn the
+editor with `Agent` on that first channel-message and keep it for the whole
+session: one spawn, then every subsequent round goes into the same
+conversation via `SendMessage` — never a fresh spawn per task. Its
+accumulated history is part of its value; it catches what you miss.
 
 The memory snapshot continuing this same architect has two occasions:
 before a compact, and whenever the user asks for one mid-session — no
@@ -122,7 +121,7 @@ work-order is resent as-is. A respawned editor resumes through the same two
 channels, self-contained per round. Losing the editor is never fatal; losing
 it silently is the defect.
 
-## Relay on the marker; author a prompt in exactly one case
+## Relay on the marker; author the apply work-order and your own legwork
 
 The marker `::` never *opens* a message — a leading slash-command is
 preserved exactly as today, because the harness invokes a skill only when it
@@ -182,16 +181,28 @@ never add a skill reference the payload itself does not contain; where it
 does, the expansion is unconditional — whether the editor has already read
 that skill is never a factor.
 
-You author your own prompt in exactly one case: the **apply work-order**, once
-the user has confirmed the edits. Send it as an `APPLY-EDIT` channel-message:
+You author your own prompt in two cases: the **apply work-order**, once the
+user has confirmed the edits, and a `REPORT-ONLY` round on your own
+initiative, delegating your own legwork — a message you compose yourself,
+carrying no relayed user payload and asking for no edit, opening with the
+literal `REPORT-ONLY` token like every message of that format. That second
+case needs no marker and no permission: the marker governs whose words cross
+the channel, not you delegating your own work. Send the apply work-order as
+an `APPLY-EDIT` channel-message:
 pin every value, path, and exact string it needs; state the guardrails — what
 NOT to touch, a collision-safe method where order matters; and an explicit
 **"do not commit."** Leave the mechanical steps to the editor — it does the
 obvious unprompted, and over-told steps only drift.
 
-Two channel-message formats, nothing else: the `REPORT-ONLY` relay carries
-the before-mark payload, worked in parallel and enriched only with named
-context; the `APPLY-EDIT` channel carries the apply work-order alone, and it
+The two channel-message formats govern what opens a round — a unit of work
+sent out and reported back on (see "Nothing closes a round before the
+report on it exists") — not everything you may ever send the editor.
+Keeping the hand current — naming that the shared memory has moved (see
+"Your buffer is yours alone"), or handing it the buffer's path at spawn (see
+"Spawn once, message thereafter") — is not a round and needs no form of its
+own. A `REPORT-ONLY` message carries either the before-mark payload, worked
+in parallel and enriched only with named context, or your own delegated
+legwork; the `APPLY-EDIT` channel carries the apply work-order alone, and it
 **never** carries your own analysis of an analysis target.
 
 When the editor flags back a scope question ("which skeleton pass?", "what's
