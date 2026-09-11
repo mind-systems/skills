@@ -30,7 +30,7 @@ Every channel-message the architect sends opens literally with its format token 
 
 ## The mode rule
 
-A receiver keys its mode strictly off the token that opens the message — never off content, never off a referenced skill's own default. Ambiguity resolves to `REPORT-ONLY`. The full authoring and execution mechanics of each format stay with the callers; this engine holds the two formats, the rule for telling them apart, and the buffer's definition below — when-to-use policy stays with the caller.
+A receiver keys its mode strictly off the token that opens the message — never off content, never off a referenced skill's own default. Ambiguity resolves to `REPORT-ONLY`. That fallback never reaches what keeps the hand current: as § "The architect's buffer" states, what rides alongside a channel-message opens no message of its own, so there is no opening for this rule to classify — it travels inside a message that already carries its own token. The full authoring and execution mechanics of each format stay with the callers; this engine holds the two formats, the rule for telling them apart, and the buffer's definition below — when-to-use policy stays with the caller.
 
 ## The architect's buffer
 
@@ -39,6 +39,8 @@ The pair shares one working memory: the architect's buffer, a file at `.ai-facto
 The buffer has two zones, and the split is load-bearing. The **settled** zone — the working discipline, the rulings the user has made about how the pair works, the method learned from repeated failure, and the register of where the skills still lag the practice — is held by both halves: the editor reads it as its own working context from the head it is the hand of, not as an outsider glancing at private notes, which is what lets an order name meaning instead of restating the discipline every time. The **live** zone — the editor's handle, the architect's current read of an open question, a diagnosis still forming — is the architect's alone: a hand that already holds the head's conclusion returns an echo where an independent reading was wanted, and an independent reading is the only reason to ask for one.
 
 The editor re-reads the settled zone when it changes, not once at birth — and the same rule covers being named a different buffer's path outright by its architect: either way the memory has moved, and the hand adopts what it is now told, replacing what it held, holding one memory at a time.
+
+A channel-message the architect is already sending may carry, alongside its payload, what keeps the hand current: a fact about where the shared memory sits — that the settled zone has moved, or the buffer's path itself — or what the hand needs in order to work at all. This opens no message of its own and takes no form of its own; it rides inside a message that already opens with its own token. It is never a reading of the payload: no finding, no conclusion, no verdict about what the message carries — what crosses for an independent reading still reaches the hand undisturbed, and a fact about where the memory sits carries no reading of it.
 
 A ruling recorded in the buffer is a debt against the skill, not a record of one. It leaves the buffer when it reaches the artifact that should hold it; without that drain the buffer accumulates decisions everyone follows and no artifact states.
 
