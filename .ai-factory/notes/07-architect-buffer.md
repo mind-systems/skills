@@ -6,11 +6,11 @@ Two zones. **Live** is the architect's own and is not read by the editor: a hand
 
 # Live — the architect's own
 
-## What is loaded here is behind what is on disk
+## The skills are rewritten; a session that loads them fresh already has the mechanics
 
-Phases 36 through 38 have landed. `agent-architect`, `editor.md` and `architect-editor-engine` on disk now carry the buffer's definition, the conditional lifecycle, the spawn-time path, the on-request snapshot, the writing occasion and its announce-obligation, and the corrected account of what the architect may send. **This session's context holds none of it** — the skill text was loaded at entry, before any of those landed, and a loaded file does not refresh itself.
+Phases 36 through 38 landed. `agent-architect`, `editor.md` and `architect-editor-engine` carry the buffer's definition, the conditional lifecycle, the spawn-time path, the on-request snapshot, the writing occasion and its announce-obligation, and the corrected account of what the architect may send. A session invoked after they landed loads all of it — so the drain markers on entries below are bookkeeping, not debts still owed.
 
-So the Settled zone below is not a record of debts still owed by the skills. It is the only live statement of the new behaviour available to this session, and it stays whole until a fresh invocation loads the rewritten text. The drain markers left on individual entries say what landed where; they are bookkeeping now, not instructions to delete.
+What the skills do **not** carry is the judgment that did the work: whether a task has anywhere to land is asked by `command-pin-gaps` and asked well; whether a task is **wider than its defect** is asked by nothing, and it was the most productive question of the phase. The Settled zone below is where that lives, and it does not travel to a session that has not read this file.
 
 ## Editor
 

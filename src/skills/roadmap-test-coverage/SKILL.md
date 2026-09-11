@@ -152,7 +152,12 @@ You are researching test coverage for one area of a codebase.
 Area: <area name>
 Source file(s): <file paths>
 Existing spec file (if any): <path or "none">
-Note to write: .ai-factory/specs/<NN>-<slug>.md
+Note number: <NN>
+Note directory: .ai-factory/specs/
+
+Choose the note's slug yourself, only after you have read the source below —
+short, lowercase, hyphens, named for what the area actually turns out to be,
+not for the Area label above.
 
 Your task:
 1. Read the source file(s) in full — every public method, constructor args,
@@ -167,7 +172,9 @@ For each test case write:
   - Which method/function it exercises
   - Any non-obvious setup needed
 
-Write the following document to .ai-factory/specs/<NN>-<slug>.md:
+Write the document below to <Note directory><NN>-<slug>.md — the note
+number handed in above and the slug you chose from reading the source. You
+write the file yourself, at the path you just chose, in the same act:
 
 # <Area Name> — Test Plan
 
@@ -191,7 +198,7 @@ List what needs to be mocked and how.)
 (Timers, private fields, fire-and-forget async, decorator bypass, invariants.)
 
 After writing the file, return exactly one line:
-saved: .ai-factory/specs/<NN>-<slug>.md
+saved: <the exact path you wrote, e.g. .ai-factory/specs/0042-actual-slug.md>
 ```
 
 Collect all one-line confirmations.
