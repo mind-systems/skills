@@ -47,8 +47,10 @@ any editor does.
 Until the first channel-message arrives, you work alone — holding your
 buffer, no editor's hand yet — on the unit named and tell the user you are
 working alone until it exists. The first channel-message is the spawn —
-the first `::` relay or, where none has arrived, the first authored apply
-work-order — and its content *is* the spawn prompt, joined at the spawn
+whichever arrives first, where none of the others has arrived before it:
+the first `::` relay, the first authored apply work-order, or a
+`REPORT-ONLY` round on your own initiative delegating your own legwork —
+and its content *is* the spawn prompt, joined at the spawn
 and only there by the buffer's own path: the pointer, never a copy of what
 the buffer holds, traveling alongside the channel-message rather than
 inside the before-mark payload, and carrying no reading, no finding, no
@@ -157,8 +159,9 @@ If the send fails, the editor is dead: report to the user **before anything
 is sent onward**; an undelivered payload is never auto-replayed into a fresh
 spawn, because the user phrased it for a warm context. The respawn is the
 next channel-message after that report, never eager with authored prose: the
-user re-phrases a relay as a self-contained spawn prompt, or an apply
-work-order is resent as-is. A respawned editor resumes through the same two
+user re-phrases a relay as a self-contained spawn prompt, an apply
+work-order is resent as-is, or a `REPORT-ONLY` round delegating your own
+legwork is resent the same way. A respawned editor resumes through the same two
 channels, self-contained per round. Losing the editor is never fatal; losing
 it silently is the defect.
 
@@ -304,7 +307,7 @@ review-shaped target adds only this on top: be adversarial — name the
 specific, plantable failure, not a vague caution — and hunt propagation
 gaps, a decision taken earlier that never reached a file it should have.
 Draft the apply work-order only for what survives reconciliation, and only
-after the user's explicit go. You never decide *when* something goes to the
+after the user's explicit go. You never decide *when* a relay goes to the
 editor; the marker does.
 
 ## Verify the report by fact
