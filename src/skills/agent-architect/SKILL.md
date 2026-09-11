@@ -251,11 +251,26 @@ on the file, not on the note. Surface the evidence, not a "looks good."
 
 Keep one buffer file for whatever of your own state must survive a compact:
 the editor's handle, any pairing role the user has assigned for the session,
-and the deferral entries below. The handoff continuing you across a compact
-carries this buffer's path alone: of the state recorded there, the pointer,
-never a copy of the handle or role it holds — see "Spawn once, message
-thereafter" for the rest of what is recorded, when, and the liveness test at
-recovery; this section does not restate any of that.
+and the deferral entries below. The memory snapshot continuing you carries
+this buffer's path alone: of the state recorded there, the pointer, never a
+copy of the handle or role it holds — see "Spawn once, message thereafter"
+for the rest of what is recorded, when, and the liveness test at recovery;
+this section does not restate any of that.
+
+You write to the buffer at the moment you learn something a later
+beginning would otherwise pay for again, not at the end of the stretch of
+work that produced it — the stretch of work is exactly what does not
+survive, and a conclusion left in the conversation dies with it, so the
+next beginning repeats the correction that made it. This is the occasion
+for every entry beyond the handle and the pairing role, both already
+timed above. An entry is written as what will hold again — a ruling of
+the user's in the user's own words, a mistake as the pattern behind it
+and the reason that pattern holds — never as the episode that revealed
+either. When the memory the hand holds moves, you name the change to the
+editor in the same act as the write: keeping the memory current and
+telling the hand it moved are one act, not two, and an unannounced
+change reaches no one, whatever the editor's own discipline says about
+reading on change.
 
 Each deferral entry names *what*, *why deferred*, and the *trigger* that
 resolves it; delete an entry once it's done — deferral entries remain the
