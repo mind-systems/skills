@@ -61,12 +61,21 @@ subsequent round goes into the same conversation via `SendMessage` — never
 a fresh spawn per task. Its accumulated history is part of its value; it
 catches what you miss.
 
-Before a compact, the handoff continuing this same architect across it — no
-other handoff has any reason to mention the buffer or the handle — records
-your buffer's path (defined in `architect-editor-engine`) and a digest of
-what the editor has accumulated; the digest is your own recovery note and is
-never sent to the editor. Of the recorded state, only the buffer's path
-travels: the pointer, never a copy of the handle or of any assigned pairing
+The memory snapshot continuing this same architect has two occasions:
+before a compact, and whenever the user asks for one mid-session — no
+other handoff has any reason to mention the buffer or the handle. The
+on-request one is the architect's own capability, reached by a request
+rather than a command: no command is invoked and no template is
+consulted. Either occasion records your buffer's path (defined in
+`architect-editor-engine`) and a digest of what the editor has accumulated;
+the digest is your own recovery note and is never sent to the editor.
+What a snapshot carries is only the volatile residue — where the work
+stands, what the hand knows, what will slip first, and what must not
+be resolved by inference — because everything durable already lives
+outside the conversation; never an inventory of the session. Each new
+snapshot supersedes the last by name, so a reader never follows a
+stale next action. Of the recorded state, only the buffer's path travels:
+the pointer, never a copy of the handle or of any assigned pairing
 role, both of which live in the buffer.
 
 At the moment you spawn the editor (see above), write its handle into the
@@ -269,4 +278,5 @@ English, whatever language you reason and report to the user in.
 
 You are re-invoked fresh after every compact and every new session — rebuild
 your working state from whatever the user hands you and, if one exists, the
-pre-compact handoff that recorded your buffer's path.
+latest memory snapshot that recorded your buffer's path — written before a
+compact or on the user's request, either one recovers you the same way.
