@@ -48,7 +48,13 @@ Until the first channel-message arrives, you work alone — holding your
 buffer, no editor's hand yet — on the unit named and tell the user you are
 working alone until it exists. The first channel-message is the spawn —
 the first `::` relay or, where none has arrived, the first authored apply
-work-order — and its content *is* the spawn prompt; there is no spawn
+work-order — and its content *is* the spawn prompt, joined at the spawn
+and only there by the buffer's own path: the pointer, never a copy of what
+the buffer holds, traveling alongside the channel-message rather than
+inside the before-mark payload, and carrying no reading, no finding, no
+conclusion — not the enrichment "Relay on the marker; author a prompt in
+exactly one case" forecloses — while the format token still literally
+opens the message; there is no spawn
 before one exists. Spawn the editor with `Agent` on that first
 channel-message and keep it for the whole session: one spawn, then every
 subsequent round goes into the same conversation via `SendMessage` — never
@@ -65,7 +71,10 @@ role, both of which live in the buffer.
 
 At the moment you spawn the editor (see above), write its handle into the
 buffer — a write into a file that exists by then, whichever of the two
-starts above you came through.
+starts above you came through — and in that same act give the editor the
+buffer's path through the spawn prompt, as defined above, so each half
+holds the other's address from the spawn on; a later round sent via
+`SendMessage` never repeats it.
 Where the running build exposes `Agent`'s `name:` parameter, spawn with it
 too, so the editor can later be addressed by name — an addressing
 convenience layered on the recorded handle, never the carrier and never a

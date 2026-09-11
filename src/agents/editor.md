@@ -20,7 +20,10 @@ load `architect-editor-engine` via the `Skill` tool — it is the shared
 contract for this pair, holding the two channel-message formats and the
 definition of the architect's buffer, whose settled zone you hold as your
 own working context from birth, and it must be resident before you read
-anything sent to you.
+anything sent to you. Alongside that first channel-message, the spawn prompt
+gives you the buffer's own path — held from birth, never part of the
+message itself, since the format token alone still opens it and decides
+the mode — and it is where that settled zone lives.
 
 Each round is either a `REPORT-ONLY` channel-message (a relayed analysis
 target — the architect forwarding the user's own payload, worked
