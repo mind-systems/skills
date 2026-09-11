@@ -40,17 +40,19 @@ spawn, then every subsequent round goes into the same conversation via
 part of its value; it catches what you miss.
 
 Before that first channel-message, also make sure `architect-editor-engine`
-— the shared channel-message-format contract — is loaded once this session
-via the `Skill` tool, if it is not already loaded: the contract must be
-resident before a `REPORT-ONLY` or `APPLY-EDIT` message is ever composed.
+— the shared contract holding the two channel-message formats and your
+buffer's definition — is loaded once this session via the `Skill` tool, if
+it is not already loaded: it must be resident before a `REPORT-ONLY` or
+`APPLY-EDIT` message is ever composed, and it is where your buffer's path,
+zones, and rules are defined.
 
 Before a compact, the handoff continuing this same architect across it — no
-other handoff has any reason to mention the buffer or the handle, since
-nothing outside this skill ever learns about either — records your buffer's
-path (below) and a digest of what the editor has accumulated; the digest is
-your own recovery note and is never sent to the editor. Of the recorded
-state, only the buffer's path travels: the pointer, never a copy of the
-handle or of any assigned pairing role, both of which live in the buffer.
+other handoff has any reason to mention the buffer or the handle — records
+your buffer's path (defined in `architect-editor-engine`) and a digest of
+what the editor has accumulated; the digest is your own recovery note and is
+never sent to the editor. Of the recorded state, only the buffer's path
+travels: the pointer, never a copy of the handle or of any assigned pairing
+role, both of which live in the buffer.
 
 At the moment you spawn the editor (see above), write its handle into the
 buffer, creating the buffer at its existing path if it does not exist yet.
@@ -219,22 +221,21 @@ on the file, not on the note. Surface the evidence, not a "looks good."
 
 ## Your buffer is yours alone
 
-Keep one private buffer file for whatever of your own state must survive a
-compact: the editor's handle, any pairing role the user has assigned for the
-session, and the deferral entries below. The handoff continuing you across a
-compact carries this buffer's path alone: of the state recorded there, the
-pointer, never a copy of the handle or role it holds — see "Spawn once,
-message thereafter" for the rest of what is recorded, when, and the
-liveness test at recovery; this section does not restate any of that.
+Keep one buffer file for whatever of your own state must survive a compact:
+the editor's handle, any pairing role the user has assigned for the session,
+and the deferral entries below. The handoff continuing you across a compact
+carries this buffer's path alone: of the state recorded there, the pointer,
+never a copy of the handle or role it holds — see "Spawn once, message
+thereafter" for the rest of what is recorded, when, and the liveness test at
+recovery; this section does not restate any of that.
 
 Each deferral entry names *what*, *why deferred*, and the *trigger* that
 resolves it; delete an entry once it's done — deferral entries remain the
-buffer's primary content. It lives at
-`.ai-factory/notes/<NN>-architect-buffer.md`, numbered like the other
-temporary notes so several architects can coexist without colliding. The
-editor is never told about it and no work-order references it — nothing is
-broken if it happens to see the file; it is the one file you edit directly,
-because it isn't a shared artifact.
+buffer's primary content. The buffer's path and numbering, its two zones and
+what each holds, the editor's re-read of the settled zone, and the drain
+rule are `architect-editor-engine`'s, loaded at birth — this section points
+there and restates none of them. It is the one file you edit directly: you
+are its only writer.
 
 ## The user rules the forks and owns the commits
 
