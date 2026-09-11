@@ -121,10 +121,25 @@ Store confirmed list as `$RESEARCH_AREAS`.
 Determine next note number:
 ```bash
 mkdir -p .ai-factory/specs
-find .ai-factory/specs -name "[0-9][0-9]-*.md" | sort | tail -1
+find .ai-factory/specs -maxdepth 1 -name "[0-9]*-*.md" -exec basename {} \; | sort -n | tail -1
 ```
-Extract highest two-digit prefix + 1. If none, start at `01`.
+The depth limit scopes the scan to the flat `.ai-factory/specs/` directory
+only, so named-roadmap spec subdirectories are never counted. The scan counts files
+whose name matches `^[0-9]+-.*\.md$` — a leading run of digits of any
+length — and the highest prefix is the numerically largest parsed integer,
+never the last name in string order. `$NEXT_NOTE_NUM` is that integer + 1,
+written with exactly four zero-padded digits regardless of how small it
+is — this width governs only what this skill writes; existing names of any
+width are still read. If no numbered file exists, start at `0001`.
 Store as `$NEXT_NOTE_NUM`.
+
+Numbers run `0001` through `9999`. When the highest number the scan finds is
+`9999` or greater, Layer 4 launches no agent and writes nothing — instead it
+stops the pipeline here and reports that the numbering bound is reached,
+naming the destination, in the form
+`Numbering bound reached: .ai-factory/specs/ already holds 9999 — nothing
+written.` `$NEXT_NOTE_NUM` is computed once, before the parallel launch
+below, so no agent is ever spawned part-way.
 
 Launch one `Explore` agent per area in a **single message** (parallel).
 Each agent writes its note to disk and returns one line to the orchestrator.
