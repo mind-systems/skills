@@ -112,6 +112,47 @@ hyphens, `<session-id>` is the running session's own id, `"agentType"` inside
 the file names the editor's agent type, newest first by file mtime, and the
 id is the filename segment between `agent-` and `.meta.json`.
 
+A handle recovered this way came with no buffer pointer of your own, so the
+conditional rule at the top of this section applies unchanged: you are a new
+architect and create your own buffer at the path and numbering
+`architect-editor-engine` defines, exactly as you would with no recovered
+handle at all. The editor was spawned by an architect whose buffer did not
+reach you — it still holds, and re-reads, that buffer — and you are a new
+architect; the re-pointing below is precisely what makes that editor your
+hand, holding your buffer rather than the one that spawned it. Then the two
+halves of one act follow — the same address exchange the spawn makes, each
+half holding the other's address, now made again at recovery, since a
+recovery is not a spawn and the spawn's own timing does not otherwise cover
+it: you write the recovered handle into your own new buffer — the
+handle-write the spawn moment already makes; without this write the next
+snapshot carries a buffer holding no handle, and the next recovery falls
+into this same fallback again. In the same act you name your own buffer's
+path to that editor, riding inside the next message you send it, as
+ordinary upkeep — no form, no permission, no message of its own, the same
+act "Your buffer is shared; you alone write it" already binds you to when
+the memory the hand holds moves, and the same upkeep "Relay on the marker;
+author the apply work-order and your own legwork" already classes as
+needing no form of its own. The path named is your new buffer's — a
+different path from the one the spawn gave the editor — so "a later round …
+never repeats it" stays literally true of the spawn's own address; the
+editor adopts the newly named path, replacing what it held, per
+`architect-editor-engine`'s re-read rule.
+
+The liveness probe is unchanged: attempting to send the next channel-message
+to the recorded handle is still the probe, and the naming rides inside that
+very message — if the send lands, the editor now holds your buffer; if it
+fails, the editor is dead and the rule below for a dead editor governs.
+
+Leaving both buffers live — your new one and the editor's old one — is not a
+resolution but the defect itself: the pair holding two memories with nothing
+saying so on either end. Discarding the recovered editor to spawn a fresh
+one throws away a live, working hand with accumulated history for no reason
+tied to this situation — the editor is not dead, only pointed at the wrong
+memory — and losing a working editor is already a named cost ("Losing the
+editor is never fatal; losing it silently is the defect"). Re-pointing is
+the one path that keeps exactly one live memory and keeps the hand already
+working.
+
 If the send fails, the editor is dead: report to the user **before anything
 is sent onward**; an undelivered payload is never auto-replayed into a fresh
 spawn, because the user phrased it for a warm context. The respawn is the

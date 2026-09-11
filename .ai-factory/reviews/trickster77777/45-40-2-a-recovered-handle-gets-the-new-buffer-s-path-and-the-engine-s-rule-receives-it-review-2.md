@@ -1,0 +1,25 @@
+## Re-review — 40.2: a recovered handle gets the new buffer's path, and the engine's rule receives it
+
+**Changes reviewed (fresh):** `git diff HEAD` — `src/skills/agent-architect/SKILL.md` (+41 lines, one hunk, zero `-` lines: three paragraphs inserted between the recovery paragraph ending "…between `agent-` and `.meta.json`." and the respawn paragraph opening "If the send fails, the editor is dead") and `src/skills/architect-editor-engine/SKILL.md` (one sentence widened in § "The architect's buffer", unchanged since review 1). Both files re-read in full; `src/agents/editor.md` and `docs/paired-loop.md` confirmed untouched (`git diff HEAD -- src/agents docs` is empty).
+
+### Verdicts on review-1 findings
+
+1. **Position address "the paragraph that follows governs" → Fixed.**
+   Current text of the probe paragraph's closing sentence: "if it fails, the editor is dead and the rule below for a dead editor governs." The reference now names its target by what it is — the dead-editor rule — rather than by adjacency, so it resolves correctly with the alternatives paragraph sitting between them, and `grep -n "paragraph that follows"` over the file returns nothing.
+
+2. **"the governing spec" with no referent → Fixed.**
+   Current text: "Then the two halves of one act follow — the same address exchange the spawn makes, each half holding the other's address, now made again at recovery, since a recovery is not a spawn and the spawn's own timing does not otherwise cover it: you write the recovered handle into your own new buffer — the handle-write the spawn moment already makes; …". The anchor is now the file's own spawn-paragraph fact ("so each half holds the other's address from the spawn on"); `grep -n "governing spec\|paired-loop"` over the file returns nothing, and no path to a repo-local doc was added.
+
+### Full pass for new issues
+
+Plan probes, run against the working tree: `grep -n "recovered"` → four hits, all inside the `Continue in the same conversation` … `If the send fails` range; the scoped lineage probe (`sed -n '/^Continue…/,/^If the send fails/p' | grep "earlier run\|same architect"`) → no hits; `grep -n "re-reads"` in the engine → the single widened sentence, "not once at birth" intact; line counts 361 / 45. Every guardrailed paragraph — the conditional buffer rule, the spawn paragraph (including "a later round sent via `SendMessage` never repeats it"), the snapshot paragraph, the handle-write paragraph, the respawn paragraph — is byte-identical, as is every other section; the engine's frontmatter, mode rule, drain rule, and two-architects paragraph are untouched.
+
+Content against the spec and plan: the conditional rule is applied unchanged; the recovered editor's identity is held in the one pinned framing; both halves of the address exchange are present and pointed at the spawn moment's own write by concept; the naming rides inside the next message as upkeep with both sibling sections cited by their exact heading text; the different-path point keeps the spawn sentence literally true; the probe is unchanged and the failure branch now names the dead-editor rule; both alternatives are named with reasons and the quoted sentence matches the respawn paragraph exactly; the engine sentence widens one rule with no policy leak. Reserved vocabulary is used where the concepts are named (buffer, settled zone, handle, editor/hand, snapshot); the register matches the file's own. No new issues found.
+
+## Deferred observations
+
+- Affects: `docs/paired-loop.md` § "What the memory holds, and who holds it" / the final `aif-docs` verification pass — the engine's re-read sentence now covers being named a different buffer's path outright, while the governing spec's own sentence at the same place ("The editor re-reads the settled zone when it changes, not once at birth: a buffer earns its keep by being written to during a session") covers only in-place change. The meaning is carried elsewhere in the doc (§ "How the memory begins": "the head names the moment that memory moves"), so no contradiction; docs → code direction says the doc's sentence should widen at its next revision. Spec 129 keeps the doc unedited.
+- Affects: task 40.3 / `src/agents/editor.md` — "gives you the buffer's own path — held from birth" describes the spawn moment only; after this task the path the hand holds can be replaced by a naming inside a later message. Not false, since the engine governs and is loaded at birth; 40.3 edits the paragraph directly below and can bring the clause level in passing.
+- Affects: governing spec `docs/paired-loop.md` § "How the memory begins, and how it survives" / phase 40 follow-up — the conditional rule closes "Either way the buffer exists before any editor does", and the doc says "creates its own buffer first, and only then takes on a hand"; on the recovery path pinned here an editor exists before the new buffer does, and what stays true is that the buffer exists before the architect *addresses* a hand. Spec 129 keeps the conditional rule byte-identical; candidate wording for the doc's next revision.
+
+REVIEW_PASS
