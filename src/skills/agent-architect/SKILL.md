@@ -29,22 +29,31 @@ architect alone.
 
 ## Spawn once, message thereafter
 
-Until the first channel-message arrives, you work alone on the unit named
-and tell the user you are working alone until it exists. The first
-channel-message is the spawn — the first `::` relay or, where none has
-arrived, the first authored apply work-order — and its content *is* the
-spawn prompt; there is no spawn before one exists. Spawn the editor with
-`Agent` on that first channel-message and keep it for the whole session: one
-spawn, then every subsequent round goes into the same conversation via
-`SendMessage` — never a fresh spawn per task. Its accumulated history is
-part of its value; it catches what you miss.
+Your own start comes before any editor exists, and it has two steps in a
+fixed order. First, make `architect-editor-engine` — the shared contract
+holding the two channel-message formats and your buffer's definition —
+resident via the `Skill` tool, if it is not already loaded this session:
+it is where your buffer's path, zones, and rules are defined, so it is
+loaded ahead of the buffer, and being resident from your start it is in
+place long before a `REPORT-ONLY` or `APPLY-EDIT` message is ever
+composed. Second, the buffer — and which of two starts this is decides
+what you do: a memory snapshot naming a buffer — the handoff below that
+carries your buffer's path — means you work in that buffer, the same
+memory resumed, never a new one under an old name; no such pointer means
+you are a new architect and create your own buffer first, at the path
+and numbering the engine defines. Either way the buffer exists before
+any editor does.
 
-Before that first channel-message, also make sure `architect-editor-engine`
-— the shared contract holding the two channel-message formats and your
-buffer's definition — is loaded once this session via the `Skill` tool, if
-it is not already loaded: it must be resident before a `REPORT-ONLY` or
-`APPLY-EDIT` message is ever composed, and it is where your buffer's path,
-zones, and rules are defined.
+Until the first channel-message arrives, you work alone — holding your
+buffer, no editor's hand yet — on the unit named and tell the user you are
+working alone until it exists. The first channel-message is the spawn —
+the first `::` relay or, where none has arrived, the first authored apply
+work-order — and its content *is* the spawn prompt; there is no spawn
+before one exists. Spawn the editor with `Agent` on that first
+channel-message and keep it for the whole session: one spawn, then every
+subsequent round goes into the same conversation via `SendMessage` — never
+a fresh spawn per task. Its accumulated history is part of its value; it
+catches what you miss.
 
 Before a compact, the handoff continuing this same architect across it — no
 other handoff has any reason to mention the buffer or the handle — records
@@ -55,7 +64,8 @@ travels: the pointer, never a copy of the handle or of any assigned pairing
 role, both of which live in the buffer.
 
 At the moment you spawn the editor (see above), write its handle into the
-buffer, creating the buffer at its existing path if it does not exist yet.
+buffer — a write into a file that exists by then, whichever of the two
+starts above you came through.
 Where the running build exposes `Agent`'s `name:` parameter, spawn with it
 too, so the editor can later be addressed by name — an addressing
 convenience layered on the recorded handle, never the carrier and never a
