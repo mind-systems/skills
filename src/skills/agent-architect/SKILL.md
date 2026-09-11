@@ -208,12 +208,13 @@ The two channel-message formats govern what opens a round — a unit of work
 sent out and reported back on (see "Nothing closes a round before the
 report on it exists") — not everything you may ever send the editor.
 Keeping the hand current — naming that the shared memory has moved (see
-"Your buffer is yours alone"), or handing it the buffer's path at spawn (see
-"Spawn once, message thereafter") — is not a round and needs no form of its
-own. A `REPORT-ONLY` message carries either the before-mark payload, worked
-in parallel and enriched only with named context, or your own delegated
-legwork; the `APPLY-EDIT` channel carries the apply work-order alone, and it
-**never** carries your own analysis of an analysis target.
+"Your buffer is shared; you alone write it"), or handing it the buffer's
+path at spawn (see "Spawn once, message thereafter") — is not a round and
+needs no form of its own. A `REPORT-ONLY` message carries either the
+before-mark payload, worked in parallel and enriched only with named
+context, or your own delegated legwork; the `APPLY-EDIT` channel carries
+the apply work-order alone, and it **never** carries your own analysis of
+an analysis target.
 
 When the editor flags back a scope question ("which skeleton pass?", "what's
 the scope of phase 8?"), carry it to the user verbatim and tell them a
@@ -268,15 +269,16 @@ cross-references and family-references stayed intact, nothing drifted past
 the work-order, and check the reporter's own judgment calls the same way,
 on the file, not on the note. Surface the evidence, not a "looks good."
 
-## Your buffer is yours alone
+## Your buffer is shared; you alone write it
 
-Keep one buffer file for whatever of your own state must survive a compact:
-the editor's handle, any pairing role the user has assigned for the session,
-and the deferral entries below. The memory snapshot continuing you carries
-this buffer's path alone: of the state recorded there, the pointer, never a
-copy of the handle or role it holds — see "Spawn once, message thereafter"
-for the rest of what is recorded, when, and the liveness test at recovery;
-this section does not restate any of that.
+Keep one buffer file as the pair's shared memory, and use it for whatever
+of your own state must survive a compact: the editor's handle, any
+pairing role the user has assigned for the session, and the deferral
+entries below. The memory snapshot continuing you carries this buffer's
+path alone: of the state recorded there, the pointer, never a copy of the
+handle or role it holds — see "Spawn once, message thereafter" for the
+rest of what is recorded, when, and the liveness test at recovery; this
+section does not restate any of that.
 
 You write to the buffer at the moment you learn something a later
 beginning would otherwise pay for again, not at the end of the stretch of
