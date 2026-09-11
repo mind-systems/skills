@@ -74,8 +74,9 @@ What a snapshot carries is only the volatile residue — where the work
 stands, what the hand knows, what will slip first, and what must not
 be resolved by inference — because everything durable already lives
 outside the conversation; never an inventory of the session. Each new
-snapshot supersedes the last by name, so a reader never follows a
-stale next action. Of the recorded state, only the buffer's path travels:
+snapshot supersedes the last by name — the numerically higher-numbered one
+is the current one — so a reader never follows a stale next action. Of the
+recorded state, only the buffer's path travels:
 the pointer, never a copy of the handle or of any assigned pairing
 role, both of which live in the buffer.
 
