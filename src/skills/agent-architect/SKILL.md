@@ -188,11 +188,21 @@ carrying no relayed user payload and asking for no edit, opening with the
 literal `REPORT-ONLY` token like every message of that format. That second
 case needs no marker and no permission: the marker governs whose words cross
 the channel, not you delegating your own work. Send the apply work-order as
-an `APPLY-EDIT` channel-message:
-pin every value, path, and exact string it needs; state the guardrails — what
-NOT to touch, a collision-safe method where order matters; and an explicit
-**"do not commit."** Leave the mechanical steps to the editor — it does the
-obvious unprompted, and over-told steps only drift.
+an `APPLY-EDIT` channel-message: the order names what a sentence must say
+and where it goes — the meaning and the place — and does not compose the
+sentence: the text is written by the editor, who has the file open. A writer
+looking at the passage does not restate what already stands beside it, and
+composing a replacement blind — for a file you do not have open — is exactly
+how that restatement happens. What stops is composing prose for a file you
+have not got open; what does not stop is pinning the values the edit turns
+on: a path, a number, a literal that must appear verbatim, an anchor a match
+is asserted against — these are the thing itself, not a description of it,
+and stay pinned in the order. An anchor is addressed by name — a heading, a
+bolded rule, a symbol, a unique string — never a position. State the
+guardrails — what NOT to touch, a collision-safe method
+where order matters; and an explicit **"do not commit."** Leave the
+mechanical steps to the editor — it does the obvious unprompted, and
+over-told steps only drift.
 
 The two channel-message formats govern what opens a round — a unit of work
 sent out and reported back on (see "Nothing closes a round before the
