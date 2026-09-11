@@ -602,7 +602,7 @@ project's own settings. This is a one-time setup act per project.
 inputs)"), named as such:
 
 - *destination directory* — the path resolved above; it drives `note`'s `mkdir -p`,
-  its per-directory `[0-9][0-9]-*.md` numbering scan, and the final path.
+  its per-directory numbering scan, and the final path.
 - *template* — the caller-supplied skeleton below, passed verbatim.
 - *verbosity directive* — the diagnosis keeps its own register and length; the report
   is not re-condensed. This replaces `note`'s default Rules 1 and 2 for this run.

@@ -28,7 +28,7 @@ honor their expectations as part of its contract; the reverse graph resolves via
 
 Three optional inputs a caller may supply; all default to today's standalone behavior when unset:
 
-- **Destination directory** — target directory for the note. Unset → default `.ai-factory/notes/` exactly as now. When set, every directory-scoped step uses it: the `mkdir -p`, the `[0-9][0-9]-*.md` numbering scan, and the final path. Numbering stays **per-directory** (scan the chosen directory only).
+- **Destination directory** — target directory for the note. Unset → default `.ai-factory/notes/` exactly as now. When set, every directory-scoped step uses it: the `mkdir -p`, the numbering scan, and the final path. The numbering scan matches files whose name begins with a run of one or more digits followed by a hyphen and ends in `.md` — `` `^[0-9]+-.*\.md$` `` — and reads that leading run as an integer, comparing numerically rather than as a string, so `100-…` ranks above `99-…`. Numbering stays **per-directory** (scan the chosen directory only).
 - **Template** — a section skeleton for the note body, or a free-form (non-skeleton) body directive the caller passes verbatim. Unset → the current default template (Key Findings / Details / Open Questions). When set, the note body follows the caller's directive verbatim — a section skeleton or a free-form structure (grid or prose); `note` supplies only the mechanism (mining, distillation, numbering, placement) and does not reshape the caller's structure.
 - **Verbosity directive** — free-text depth/length policy for the distillation. Unset → the current default (Important Rule 1, "Be concise", and Important Rule 2, "Focus on findings"). When set, the caller's directive **replaces both** the default concision rule (Rule 1) and the findings-focus/not-process rule (Rule 2) for this run; all other Important Rules — file paths, English — still apply.
 
@@ -52,11 +52,13 @@ Use `$1` if provided. Otherwise derive a short descriptive slug from the researc
 **Note file path:** `<destination>/<NN>-<slug>.md` where:
 - `<destination>` is the destination-directory hook from above, defaulting to `.ai-factory/notes/` when unset
 - `<slug>` is derived from the topic (lowercase, hyphens)
-- `<NN>` is a zero-padded two-digit sequence number (`01`, `02`, `03` …)
+- `<NN>` is a zero-padded four-digit sequence number (`0001`, `0002`, `0003` …); this width governs only what `note` writes — existing names of any width are still read
 
-To determine `<NN>`, find the highest existing `NN` prefix among files matching `[0-9][0-9]-*.md` in `<destination>` and add 1. If no numbered files exist yet, start at `01`.
+To determine `<NN>`, find the highest existing prefix among files matching the numbering scan from the Destination directory hook (`` `^[0-9]+-.*\.md$` ``) in `<destination>`, parsed as an integer and compared numerically, and add 1. If no numbered files exist yet, start at `0001`. The result is written with exactly four zero-padded digits regardless of how small it is.
 
-**Folder style:** before composing the body, reuse that same `[0-9][0-9]-*.md` scan to read the 1–2 most recent (highest-numbered) sibling files in `<destination>` and learn the folder's prevailing register, prose-vs-list density, and heading/formatting habits. Hold to that style **only where the caller's hooks are silent** — style is *matched*, never content-copied. Precedence, high to low: (1) caller hooks (template/verbosity) always win, (2) neighbor style fills only what hooks leave unsaid, (3) engine defaults last. Guards: empty `<destination>` (no numbered files) or a hook that already fully determines the body → skip silently, no ceremony; at most 2 sibling reads.
+Numbers run `0001` through `9999`. When the highest number the scan finds is `9999` or greater, `note` writes nothing — no `mkdir -p`, no file, no sibling reads — and instead reports that the numbering bound is reached, naming `<destination>`, rather than proposing `10000` or a number already taken.
+
+**Folder style:** before composing the body, reuse the same numbering scan defined in the Destination directory hook to read the 1–2 most recent (highest-numbered) sibling files in `<destination>` and learn the folder's prevailing register, prose-vs-list density, and heading/formatting habits. "Most recent (highest-numbered)" is decided over the parsed integer, not the string — the 1–2 siblings with the numerically highest prefixes, so a name with a longer prefix outranks any shorter-prefixed one (`100-…` ranks above `99-…`). Hold to that style **only where the caller's hooks are silent** — style is *matched*, never content-copied. Precedence, high to low: (1) caller hooks (template/verbosity) always win, (2) neighbor style fills only what hooks leave unsaid, (3) engine defaults last. Guards: empty `<destination>` (no numbered files) or a hook that already fully determines the body → skip silently, no ceremony; at most 2 sibling reads.
 
 **Before saving, ensure directory exists:**
 ```bash
@@ -101,6 +103,12 @@ Key findings:
 
 (`<destination>` defaults to `.ai-factory/notes/` when the destination hook is unset.)
 
+When the numbering bound is reached (see Step 3), report this instead:
+
+```
+Numbering bound reached: <destination> already holds 9999 — nothing written.
+```
+
 ---
 
 ## Important Rules
@@ -109,10 +117,10 @@ Key findings:
 2. **Focus on findings** — what was learned, not the process of learning it.
 3. **Include file paths** — when the research identified specific files or code locations, include them so the note is actionable.
 4. **All content in English** — regardless of conversation language.
-5. **Duplicates are OK** — multiple notes on the same topic are expected. Research is iterative — notes capture the flow of thought and how understanding evolves over time. By default, always create a new file. Update an existing note only if the user explicitly asks to.
+5. **Duplicates are OK** — multiple notes on the same topic are expected. Research is iterative — notes capture the flow of thought and how understanding evolves over time. By default, always create a new file. Update an existing note only if the user explicitly asks to. The one exception is the numbering bound: a destination already at `9999` or above produces no file.
 
 ## Note File Handling
 
 Notes live at `<destination>/<NN>-<slug>.md`, where `<destination>` defaults to `.ai-factory/notes/` when the destination hook is unset:
-- `<NN>` determined by scanning existing `[0-9][0-9]-*.md` files per-directory in `<destination>` and incrementing the highest
+- `<NN>` is the four-digit number determined by the per-directory numbering scan in Step 3 (bounded at `9999`)
 - `<slug>` derived from the topic or `$1` argument (lowercase, hyphens)
