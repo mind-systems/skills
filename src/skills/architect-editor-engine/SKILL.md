@@ -9,8 +9,9 @@ description: >-
   architect's buffer the pair shares: its path and numbering, its settled zone
   held by both halves and its live zone held by the architect alone, the
   editor's re-read of the settled zone on change, and the drain rule that a
-  ruling leaves the buffer once it reaches the artifact that should hold it.
-  When-to-use policy stays with the caller.
+  ruling leaves the buffer once it reaches the artifact that should hold it,
+  and the rule that no architect reads another's buffer and an editor reads
+  only its own architect's. When-to-use policy stays with the caller.
 user-invocable: false
 disable-model-invocation: false
 allowed-tools: Read
@@ -40,3 +41,5 @@ The buffer has two zones, and the split is load-bearing. The **settled** zone �
 The editor re-reads the settled zone when it changes, not once at birth.
 
 A ruling recorded in the buffer is a debt against the skill, not a record of one. It leaves the buffer when it reaches the artifact that should hold it; without that drain the buffer accumulates decisions everyone follows and no artifact states.
+
+Two architects are two heads, and a head that reads another's memory is no longer holding its own. Several architects coexist under the numbering above, and each keeps its own buffer: no architect reads another architect's buffer. An editor reads only its own architect's buffer — the memory of the head it is the hand of — never another architect's, settled zone included.
