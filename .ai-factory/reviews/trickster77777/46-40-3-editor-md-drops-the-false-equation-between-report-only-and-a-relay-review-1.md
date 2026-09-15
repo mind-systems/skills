@@ -24,7 +24,7 @@ None. The diff is exactly the plan's two sites, each rewritten within the spec's
 
 ## Deferred observations
 
-- Affects: Phase 40 / unknown — `src/agents/editor.md` frontmatter `description:` (line 5) still reads "reasons independently over a relayed analysis target". After this task the agent's always-loaded description asserts the equation its body no longer does. Spec 130 names two body sites and scopes the rest of the file as untouched, so leaving it was correct here; it needs a contract line of its own.
-- Affects: Phase 40 / unknown — `src/agents/editor.md` § "The round's unit" still names the analysis-mode unit by origin ("one relayed message … the relayed message in analysis mode"), and § "Analysis mode" still opens "A relayed message —" (the latter kept deliberately by spec 130). Neither is this task's site; whoever sweeps `editor.md`'s remaining "relayed" register should take these together with the frontmatter above. 40.6's sweep is scoped to `agent-architect` only and does not cover them.
+- Affects: Phase 40 / unknown — `src/agents/editor.md` frontmatter `description:` (line 5) still reads "reasons independently over a relayed analysis target". After this task the agent's always-loaded description asserts the equation its body no longer does. Spec 130 names two body sites and scopes the rest of the file as untouched, so leaving it was correct here; it needs a contract line of its own. [routed → Phase 53]
+- Affects: Phase 40 / unknown — `src/agents/editor.md` § "The round's unit" still names the analysis-mode unit by origin ("one relayed message … the relayed message in analysis mode"), and § "Analysis mode" still opens "A relayed message —" (the latter kept deliberately by spec 130). Neither is this task's site; whoever sweeps `editor.md`'s remaining "relayed" register should take these together with the frontmatter above. 40.6's sweep is scoped to `agent-architect` only and does not cover them. [routed → Phase 53]
 
 REVIEW_PASS

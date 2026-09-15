@@ -106,6 +106,6 @@ No finding survived this pass.
   this is reinforcement rather than plain duplication — but under one-home-per-fact it
   is the pair that drifts if one side is later reworded. Closing it requires amending
   an existing sentence, which this task's additive-only guard forbids; it belongs to
-  whoever next opens the relay section's spec.
+  whoever next opens the relay section's spec. [dismissed]
 
 REVIEW_PASS

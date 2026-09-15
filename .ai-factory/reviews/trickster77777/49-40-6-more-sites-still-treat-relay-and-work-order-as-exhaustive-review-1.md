@@ -28,6 +28,6 @@ None.
 - Line 163 wraps at 80 columns against the file's usual ~78; lines 148 and 245 already do the same, so it is within the file's existing tolerance.
 
 ## Deferred observations
-- Affects: `.ai-factory/specs/trickster77777/133-sites-still-treat-relay-and-work-order-as-exhaustive.md` § "Blast radius" — carried from plan-review-1: the paragraph says the spawn-sentence site "sits directly after the paragraph 40.7 edits — the memory-snapshot paragraph"; in the file the spawn sentence's paragraph comes *before* the memory-snapshot paragraph. The edit landed correctly because the plan anchored by sentence, and the non-collision conclusion holds in either order; the wording belongs corrected at the spec (and in 40.7's spec if it repeats it), not here.
+- Affects: `.ai-factory/specs/trickster77777/133-sites-still-treat-relay-and-work-order-as-exhaustive.md` § "Blast radius" — carried from plan-review-1: the paragraph says the spawn-sentence site "sits directly after the paragraph 40.7 edits — the memory-snapshot paragraph"; in the file the spawn sentence's paragraph comes *before* the memory-snapshot paragraph. The edit landed correctly because the plan anchored by sentence, and the non-collision conclusion holds in either order; the wording belongs corrected at the spec (and in 40.7's spec if it repeats it), not here. [dismissed]
 
 REVIEW_PASS

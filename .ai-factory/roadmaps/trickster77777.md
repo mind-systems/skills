@@ -315,4 +315,46 @@ Governing spec: `docs/paired-loop.md`
 
 The buffer's own file is numbered and scoped per architect, one per session; the settled zone it holds is described as project-wide discipline, rulings and method. Nothing in the governing spec bridges the two when a head ends with no snapshot. This phase decides which side gives way: a staging area the drain rule already covers, or durable shared context the file cannot yet hold. Phase note: [the container is per head, and the content is not](.ai-factory/specs/trickster77777/143-the-container-is-per-head-and-the-content-is-not.md)
 
+## The docs describe skills that have since moved
+
+### Phase 50 — the documentation catches up with what the skills now do
+
+Nine deferred observations across phases 26–30 describe skills that have moved since the doc was written: `skill-graph.md`'s caller count, four separate gaps in `skill-cycle.md`, `multiuser-roadmaps.md`'s spec-dir description, and two omissions in the global CLAUDE.md. Direction runs docs → roadmap → code; here the code moved first and nothing carried the docs forward with it. Phase note: [the documentation catches up with what the skills now do](.ai-factory/specs/trickster77777/144-the-docs-catch-up-with-the-skills.md)
+
+## The rescue path carries its own unrepaired defects
+
+### Phase 51 — task-rescue and the artifact protocol close their own gaps
+
+Six deferred observations against `task-rescue` and the artifact protocol survived their own tasks' guarded boundaries: a sidecar write site still using the wrong path for a named roadmap, a body over the line bound, two small gaps in the marker grammar's writer attribution, a stale path shorthand, and an unstated ban on hand-composing. None blocked its own task; none closed itself either. Phase note: [task-rescue and the artifact protocol close their own gaps](.ai-factory/specs/trickster77777/145-task-rescue-and-the-artifact-protocol.md)
+
+## The coverage pass has leftovers no phase claimed
+
+### Phase 52 — roadmap-test-coverage's remaining observations
+
+Governing spec: `docs/test-coverage-pass.md`
+
+`roadmap-test-coverage` leaves observations no later phase claimed: a spec's now-pruned overstatement of what `aif` mandates for `$TEST_CMD`, checked fresh against the skill it described; and two residues in the test-plan template — a note titled by the area it was called before research, and a template that spawns its sole writer as a possibly read-only agent. Phase note: [roadmap-test-coverage's remaining observations](.ai-factory/specs/trickster77777/146-roadmap-test-coverage-leftovers.md)
+
+## Sentences in the skills still describe what earlier phases retired
+
+### Phase 53 — the skill bodies stop describing retired shapes
+
+Seven sentences a landed task's own removal orphaned: `roadmap-outline-deep`'s justification for its pointer now paraphrases a narrowed grant more loosely than the grant reads; a coupling declared on one side only; `roadmap-decompose` and `roadmap-engine` disagreeing about a task spec's parts; and two skill bodies whose descriptions still assert what their own bodies no longer do. Phase note: [the skill bodies stop describing retired shapes](.ai-factory/specs/trickster77777/147-sentences-that-outlived-their-shape.md)
+
+## The registry is final and meets words it does not hold
+
+### Phase 54 — three concepts without a registry entry
+
+Governing spec: `docs/reserved-words.md`
+
+Blocked on the user's ruling whether a registry that declares itself final admits an entry. Three concepts recur in skill bodies with no home in `docs/reserved-words.md` § "Paired loop": the deciding and applying halves, named twice over; second reader, named once; work-order, defined only by implication inside another entry. Phase note: [three concepts without a registry entry](.ai-factory/specs/trickster77777/148-three-words-the-registry-does-not-hold.md)
+
+## The pairing's second half was never fully wired
+
+### Phase 55 — the pairing engine and the editor's licence
+
+Governing spec: `docs/paired-loop.md`
+
+Blocked on the user's ruling — the reviewer names handoff 08 as where the question was parked. `architect-pairing-engine`'s own text still carries a fourth carrier of the own-hands model it purged elsewhere, the correction licence's trigger for an outright-wrong order was cut along with its power, and the editor's gloss for `APPLY-EDIT` does not anticipate an order decided one architect upstream. Phase note: [the pairing engine and the editor's licence](.ai-factory/specs/trickster77777/149-the-pairing-engine-and-the-editors-licence.md)
+
 ---STOP---

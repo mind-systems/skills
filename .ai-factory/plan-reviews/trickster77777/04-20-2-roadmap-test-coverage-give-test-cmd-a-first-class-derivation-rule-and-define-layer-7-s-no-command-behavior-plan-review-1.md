@@ -45,6 +45,6 @@ Relying on the ambient auto-load of the project `CLAUDE.md` is not a substitute 
 
 ## Deferred observations
 
-- Affects: phase 20 / `.ai-factory/specs/trickster77777/82-test-cmd-derivation-rule.md` — The spec's Change bullet 1 says the primary is "the `## Commands` table `aif` writes into `CLAUDE.md` (the `Tests` row…)", which overstates what `aif` actually mandates (see Positive Notes). The plan works around this correctly at the plan tier, but the spec text itself remains inaccurate about its own upstream and will mislead the next reader who consults it directly. Worth a small spec correction on a future pass, independent of this task's implementation.
+- Affects: phase 20 / `.ai-factory/specs/trickster77777/82-test-cmd-derivation-rule.md` — The spec's Change bullet 1 says the primary is "the `## Commands` table `aif` writes into `CLAUDE.md` (the `Tests` row…)", which overstates what `aif` actually mandates (see Positive Notes). The plan works around this correctly at the plan tier, but the spec text itself remains inaccurate about its own upstream and will mislead the next reader who consults it directly. Worth a small spec correction on a future pass, independent of this task's implementation. [dismissed]
 
 Critical issue 1 requires a decision recorded in the spec, and issue 2 requires an added task step. Both sit inside this task's file boundary and are findings, not deferrals.

@@ -27,6 +27,6 @@ None.
 - The re-flow left a short line: "recorded state, only the buffer's path travels:" (48 columns) followed by the untouched "the pointer, never a copy of the handle …" line. The plan asked not to re-wrap neighboring sentences, so this is the expected consequence, and it renders identically; a future edit to that sentence can absorb the wrap. Not worth a round.
 
 ## Deferred observations
-- Affects: `docs/paired-loop.md` / Phase 40 owner — carried from plan-review-1: the skill states two snapshot occasions (before a compact; on request, "no command is invoked and no template is consulted") while the comparison rule now installed compares across numbered siblings; neither the skill nor the governing spec says both occasions land as numbered siblings in one folder. 40.7 was pinned to the comparison rule alone and correctly did not name a destination, so the gap is unchanged by this task and belongs to the governing spec, not here.
+- Affects: `docs/paired-loop.md` / Phase 40 owner — carried from plan-review-1: the skill states two snapshot occasions (before a compact; on request, "no command is invoked and no template is consulted") while the comparison rule now installed compares across numbered siblings; neither the skill nor the governing spec says both occasions land as numbered siblings in one folder. 40.7 was pinned to the comparison rule alone and correctly did not name a destination, so the gap is unchanged by this task and belongs to the governing spec, not here. [routed → Phase 41]
 
 REVIEW_PASS

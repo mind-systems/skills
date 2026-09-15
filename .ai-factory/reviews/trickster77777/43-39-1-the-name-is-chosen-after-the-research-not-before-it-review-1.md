@@ -24,7 +24,7 @@ None.
 
 ## Deferred observations
 
-- Affects: `roadmap-test-coverage` (outside 39.1's three-sentence boundary, carried forward from plan-review-1) — The note's H1 `# <Area Name> — Test Plan` and the Layer 8 `(<area name>)` annotation still carry the spawn-time `Area:` label while the slug now names what research found; the prompt itself now says "not for the Area label above", which makes the gap between slug and title visible. Whoever next touches the template should decide whether the title follows the slug.
-- Affects: unknown (carried forward from plan-review-1) — The template is spawned as an `Explore` agent; in this harness's own definition that type excludes `Write`/`Edit` (Bash remains). Pre-existing and untouched by 39.1, but 39.1 makes the agent the sole holder of the pen, so if the agent type cannot write, the returned `saved:` path is the first place the failure would surface.
+- Affects: `roadmap-test-coverage` (outside 39.1's three-sentence boundary, carried forward from plan-review-1) — The note's H1 `# <Area Name> — Test Plan` and the Layer 8 `(<area name>)` annotation still carry the spawn-time `Area:` label while the slug now names what research found; the prompt itself now says "not for the Area label above", which makes the gap between slug and title visible. Whoever next touches the template should decide whether the title follows the slug. [routed → Phase 52]
+- Affects: unknown (carried forward from plan-review-1) — The template is spawned as an `Explore` agent; in this harness's own definition that type excludes `Write`/`Edit` (Bash remains). Pre-existing and untouched by 39.1, but 39.1 makes the agent the sole holder of the pen, so if the agent type cannot write, the returned `saved:` path is the first place the failure would surface. [routed → Phase 52]
 
 REVIEW_PASS

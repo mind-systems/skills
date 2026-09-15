@@ -33,7 +33,9 @@ Of the ten observations those reviews left, two were disposed of by fact and one
 
 **Phases 41 through 49 are drafted**, all nine out of one field report: `.ai-factory/handoffs/24-field-report-running-pin-gaps-to-exhaustion.md`, the other architect's account of running `command-pin-gaps` to exhaustion over two phases in `tradeoxy_core` — the planning that then landed fourteen tasks in about three hours with no rescue. The phases carry that report's facts; the report itself carries the reasoning behind them and is the thing to re-read before decomposing any of them.
 
-Next: decompose 41–49, and pin the deferred observations phases 39 and 40 have now answered. `roadmap-prune` still refuses while any stay unpinned, and the tasks that answer them have run.
+Phases 50–55 are outlined and deepened in one stroke, from the deferred observations the prune gate parked on; 54 and 55 are gated on the user. Every observation is pinned — the gate reads zero.
+
+Next: `roadmap-prune`, which will now pass and fold phases 20–40 into Features, deleting their specs, phase notes and review files. Then decomposition of 41–55, with 46, 54 and 55 waiting on their rulings.
 
 ## Open deferrals
 
@@ -89,6 +91,7 @@ The split that governs it: a **factual** question (what does this line say, how 
 - **A task is not an instruction for reviewing itself.** The orchestrator has a department for that. Guards against what nobody would do, and counts that restate the instruction, belong to neither tier.
 - **The buffer's life is keyed to the handoff, and the editor is told which buffer is ours.** "Если скилл архитектора спавнится вместе с хэндофом, снапшотом памяти — это значит, буфер уже есть и он прописан в хэндофе. Если в хэндофе нет ссылки на буфер — это новый спавн архитектора и он обязан себе создать сначала новый буфер. Потом создать редактора и записать его имя или айди в буфер. Во время спавна редактору должны сказать — какой буфер наш. Если редактор компактнул свой чат, ему надо снова скормить последний хэндоф-снапшот памяти архитектора." Four consequences: a handoff naming a buffer means adopt, never create; no pointer means create first, before the editor exists; the editor learns the buffer's path at spawn; and the handoff is the editor's recovery carrier too, not the architect's alone.
 - **Keeping the hand in the loop is a basic need, not something that must find a slot in a format.** "Я не хочу архитектора ограничивать какими то конкретными сообщениями… но свободное общение и держание редактора в курсе происходящего — какая то базовая потребность что ли." The two forms govern what opens a round; they were never an inventory of everything the head may say. Read as exhaustive, they manufactured three problems in one phase — a path that needed a sentence widened to travel, a recovery judged unimplementable, an announcement with nowhere to go. *A debt: `docs/paired-loop.md` states the round/upkeep split, 37.1 carries it into the skill.*
+- **A phase is a legitimate routing target while no open task exists.** "Я знаю, что скилл требует указывать в каком конкретно таске это разруливается, но хочу сейчас другое поведение — достаточно указать фазу и чтобы прун прошёл. Суть этого прохода перед пруном — чтоб не потерялись находки при удалении старых артефактов. Мы самим своим существованием гарантируем, что эти таски не канут в лету." The marker reads `[routed → Phase N]`; decomposition of that phase is where the routed finding lands in a spec. *A debt against `orchestrator-artifacts` § "Status-marker grammar", which admits only an open task's spec as the target.*
 - **A task explains what an artifact must hold, never where to type it.** "Мы должны объяснять 'в таком-то классе нужны методы такого плана', не надо объяснять на какой строке что написать." The register, not just the addressing: name the artifact and what must be true of it. A line range is the visible form of the same error, and a heading substituted for a line range is only half the repair.
 
 ## The discriminator that decides a check
@@ -135,11 +138,19 @@ The other direction is the one that catches you unawares: **a phase's own shorth
 - **The clause that earned its keep:** research agents required to produce each case as a behaviour under a condition, with the arrangement and the doubles named. Twelve implementations, twelve first-try passes.
 - **What looked load-bearing and was not:** a careful two-tier resolution of the stack and test command, whose resolved values were then used by nothing — every spec named its own suite path. And a printed handoff list that never ran and was never missed. The thing that actually carried was a demand nobody had listed: that research take a census of the repository rather than trust the spec — that is what dissolved a whole area before it became a task.
 
-## The drift register, inverted
+## The drift register — the deferred observations, disposed
 
-It recorded where the skills lagged this practice. All three entries are closed on disk — the strings they named are gone from `agent-architect`, and the buffer's definition stands in the engine. The register's subject has flipped: what lags now is **the text loaded in this session**, not the files.
+The prune gate parked on 166 unpinned deferred observations across phases 20–40 (169 by the handoff's own tool, which misses a marker on the last line of a wrapped entry; task 25.1's three are already pinned). They collapse roughly three to one into distinct findings. This is their disposition in final form, written before the review files that carry them are pruned, so that nothing is lost with them. Each row: task key · target · gist. Every occurrence of a finding across that task's review files is pinned with the same marker.
 
-Nothing here needs repair. What it needs is the caution at the top of this zone — an instruction recalled from the loaded skill is an instruction from before the phase landed, and the files are the only authority on what the architect is now told to do.
+**Dismissed — landed by phase 40, verified on the files, not on the plan:**
+36.2 recovered-handle divergence → 40.2 · 36.5 "supersedes by name" referent → 40.7 · 36.6 buffer heading and opening clause → 40.1 · 37.1 `editor.md` relayed asymmetry → 40.3 · 37.1 echo rule absent from the skill → 40.5 · 37.1 formless notice under the ambiguity fallback → 40.4 · 37.1 closed-list claim in three more sites → 40.6 · 26.8–26.10 contract line reads `[ ]` at review time → self-resolving · 26.9 round-closing heading names the editor alone → 40.1/40.6 · 26.9/26.10 "the marker does" overreach → 40.6.
+
+**Dismissed — moot, or informational by the reviewer's own words:**
+26.1 meta.json fallback never recovers the buffer's path → a cost the user ruled acceptable · 26.3 echo rationale stated twice in one file, three occurrences, one of them unreadable to the handoff's tool → reviewer: defensible reinforcement · 40.6 spec 133's "directly after" geography → a spec of a `[x]` task, pruned with it · 20.2 `$TEST_CMD` resolves empty here → reviewer: not a defect · 25.2 dropped redundant sentence → reviewer: no behavioural loss · 28.1 `note` folder-style over two genres → informational · 34.4 the one plan without a subheading → harmless.
+
+**Routed — every remaining finding now has a phase.** The review files carry `[routed → Phase N]` on every occurrence, and the phases hold the findings: 41, 42, 43, 47 and 49 took the ten that already fell under their subject, plus `<session-id>`'s derivation (49), a blocker's destination (43) and `agent-architect` as a phase-note reader (47); phases 50–55 were outlined for the rest, each with a note written from the entries' own text — `144` the docs catching up, `145` task-rescue and the protocol, `146` test-coverage's leftovers, `147` orphaned sentences, `148` the registry (gated), `149` the pairing engine (gated). Two more were dismissed on inspection: the `[x]` contract line's guard, pruned with its line, and spec 82's `$TEST_CMD` overstatement, which the live skill does not carry. The corrected scan over all 156 files reads zero; the gate will pass.
+
+*Drain: the dismissed rows above stay — after prune, the reasons live nowhere else. Everything routed has reached its artifact and is gone from here.*
 
 ## Buffer ownership
 

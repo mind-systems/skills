@@ -21,7 +21,7 @@ All four spec-mandated edits landed exactly as specified:
 
 ## Deferred observations
 
-- The Always-valid guard rewrite (`:452`) dropped the former trailing sentence `Never write "planned:1" after deleting the plan .md.` This is exactly what spec item 4 prescribes (its replacement text omits it), and the clause is logically redundant with the retained positive rule — a deleted plan `.md` is "not present", which the `write "planned:1" only when the plan .md is present` condition already forbids. No behavioral loss; recorded only for traceability. Not blocking.
+- The Always-valid guard rewrite (`:452`) dropped the former trailing sentence `Never write "planned:1" after deleting the plan .md.` This is exactly what spec item 4 prescribes (its replacement text omits it), and the clause is logically redundant with the retained positive rule — a deleted plan `.md` is "not present", which the `write "planned:1" only when the plan .md is present` condition already forbids. No behavioral loss; recorded only for traceability. Not blocking. [dismissed]
 
 No bugs, security issues, or correctness problems found.
 

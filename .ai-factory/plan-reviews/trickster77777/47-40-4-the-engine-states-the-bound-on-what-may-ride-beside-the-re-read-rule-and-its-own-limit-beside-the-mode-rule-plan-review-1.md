@@ -24,6 +24,6 @@ None.
 - The dependency between the two tasks is stated (the pointer needs its target first), and both anchors are named by their opening words, never by line number.
 
 ## Deferred observations
-- Affects: Phase 40 / `docs/paired-loop.md` owner — the engine's `description:` field enumerates what the engine holds (formats, mode rule, buffer definition with its zones, re-read, drain, isolation rules). After 40.4 the buffer section will also carry the ride-alongside permission and its bound, which the description does not name. Spec 131 bounds the edit to two body sites and 40.2 set the precedent of not touching the description for a widening in this section, so the plan is right not to edit it here; whether the always-loaded description should name the bound is a question for whoever next revises the engine's description as a whole, not for this task.
+- Affects: Phase 40 / `docs/paired-loop.md` owner — the engine's `description:` field enumerates what the engine holds (formats, mode rule, buffer definition with its zones, re-read, drain, isolation rules). After 40.4 the buffer section will also carry the ride-alongside permission and its bound, which the description does not name. Spec 131 bounds the edit to two body sites and 40.2 set the precedent of not touching the description for a widening in this section, so the plan is right not to edit it here; whether the always-loaded description should name the bound is a question for whoever next revises the engine's description as a whole, not for this task. [routed → Phase 53]
 
 PLAN_REVIEW_PASS

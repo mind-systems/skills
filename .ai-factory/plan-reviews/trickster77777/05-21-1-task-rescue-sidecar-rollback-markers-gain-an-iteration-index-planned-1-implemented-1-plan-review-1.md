@@ -26,6 +26,6 @@ None.
 - The reference-only rows and `plan_reviewed` are called out as byte-identical in three separate tasks, pre-empting the most likely over-reach.
 
 ## Deferred observations
-- Affects: a future doc-accuracy pass on `src/skills/task-rescue/SKILL.md` — the closed-set table preamble (line 355) cites the mirror source as `orchestrator/resume.py`, whereas the grove-root-relative path is `orchestrator/orchestrator/resume.py` (as the task spec itself uses at its line 19). The plan deliberately and correctly leaves this reminder byte-identical (this task's scope is the marker grammar only, and the shorthand is pre-existing), so it is not a finding here — flagged only so a later scoped pass can reconcile the path shorthand across both `task-rescue` and `orchestrator-artifacts §7`.
+- Affects: a future doc-accuracy pass on `src/skills/task-rescue/SKILL.md` — the closed-set table preamble (line 355) cites the mirror source as `orchestrator/resume.py`, whereas the grove-root-relative path is `orchestrator/orchestrator/resume.py` (as the task spec itself uses at its line 19). The plan deliberately and correctly leaves this reminder byte-identical (this task's scope is the marker grammar only, and the shorthand is pre-existing), so it is not a finding here — flagged only so a later scoped pass can reconcile the path shorthand across both `task-rescue` and `orchestrator-artifacts §7`. [routed → Phase 51]
 
 PLAN_REVIEW_PASS
