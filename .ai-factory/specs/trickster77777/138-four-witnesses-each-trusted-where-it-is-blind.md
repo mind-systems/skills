@@ -1,0 +1,13 @@
+# Phase 44 — four witnesses, each trusted where it is blind
+
+The ground all four share: an existing verification signal — a green suite, a requirement that looks satisfied, a confirmed quote, a passing build — is trusted as proof of correctness in exactly the configuration where it is compatible with the defect still standing. Each of the four over-trusts a different witness.
+
+What separates them is the layer the witness sits at, and that is what decides the home — three homes, not one.
+
+The vacuous assertion belongs to `test-philosophy`. Its Discriminator opens "For any surface being considered for a test" — an authoring decision made before a test exists — and its After-the-Fact Corollary triggers on "When an existing test fails after a source change" — a failure event. A negative assertion whose subject is gone is neither: it never goes red, so it never enters the classification at all. The skill's own discriminator already reaches this case once it is turned on the instrument rather than the product: a test that can no longer fail is itself a silent-failure surface — the test layer's own — and "test only silent-failure surfaces" read one tier up is the rule that licenses a third class beside A and B, keyed on a test that stays green while what it exercised is gone. The repair reaches two files, not one: `roadmap-test-coverage` restates the same corollary, gated on "For each failing test," and carries the identical blind spot.
+
+Q2 and Q3 sit inside `command-pin-gaps`' own walk. Q2 is a reachability check the meaning-hole class does not ask — whether what a spec has already pinned can be carried out where it lands, not only whether something is missing. Q3 is a second self-check the repair step does not perform — a cited quote can be true while the repair text riding beside it would have the implementer write a false statement; both halves of an item need checking, not only the evidence.
+
+Q4 needs no new class. The blast-radius repair already reads "a `Grep`/`rg` sweep whose enumeration goes into the task spec, never a sentence saying something may need updating" — one clause is owed to it, naming what a rename's sweep searches for: declarations, not readers. The distinction decides the outcome because reads are pulled along by the compiler and independent declarations are not, so a green build is compatible with a half-converted vocabulary.
+
+No document under `docs/`, in `CLAUDE.md`, or in `.ai-factory/ARCHITECTURE.md` states any of the four, and nothing anywhere in this repository says how a rename's completeness is judged. Nothing under `docs/` is written.

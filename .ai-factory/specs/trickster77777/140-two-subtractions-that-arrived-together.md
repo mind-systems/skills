@@ -1,0 +1,17 @@
+# Phase 46 — two subtractions that arrived together
+
+Both shapes subtract, and that is the whole of what they share.
+
+The chain has no subtractive operation at all. `roadmap-decompose`'s per-entry gate asks: "Can the first half be deployed without the second half and still make sense?" — yes splits into two entries, recursively; no leaves the entry atomic. Splitting redistributes scope across more entries; it never reduces what the total claims. `roadmap-decompose-skeleton` carries two restraints, both gating the same decision: "Restraint: contracts/protos are usually laid first anyway — do not blanket-cover tasks with abstract classes. Only extract a skeleton where it makes a shared or non-obvious surface testable," and "Restraint: never split a simple task, even if it nominally touches two classes, into a contract-task." Its own disposition rule confirms the original task is never touched down: "Keep its existing line and task spec **in place**." Both restraints gate only whether to split; neither ever shrinks.
+
+The first shape — a task wider than its defect — is checkable from the task's own two tiers alone, its claimed problem against its claimed change; no governing document is needed. No document anywhere states the rule. The gap is a missing rule, not missing enforcement.
+
+The second shape — a spec offering as its own open choice what a governing document has ratified — already has its rule stated, generally and unconditionally: the global CLAUDE.md states "they are the **governing spec** (a ТЗ) the work is executed against. When a governing spec and its code disagree, that is a defect to reconcile — not a stale doc," and "Change has one direction — docs → roadmap → code — never the reverse." The gap here is enforcement alone. The difference in kind between the two shapes is what makes one home unlikely to serve both: one has no rule and needs one written; the other has a rule and needs only a check.
+
+`command-pin-gaps` already performs the comparison the second shape needs — task-claimed behavior against what the governing document states — and draws exactly one conclusion from it: the document is silent, so the hole is in the governing spec and the command points at `aif-docs`. The same comparison supports conclusions the file never draws: that the document has already ratified what the task treats as its own open choice, and that the task contradicts what the document states outright. The first shape is not this comparison at all — it needs no document to check.
+
+The reader problem is why the second shape survives every pass. Of the readers between drafting and the orchestrator, only `roadmap-decompose` reads the governing document unconditionally — "read those files in full before drafting continues — unconditional, never suspicion-gated" — and it is the task's own author. `roadmap-decompose-skeleton` names no such read in its own Step 0. `command-pin-gaps` reads a document when it needs one, conditionally. `agent-architect` mandates none. No independent reader is guaranteed to hold the document at the moment it looks at the task.
+
+The gate is waiting on two rulings, not one: whether the first shape's rule should exist at all and whose it is, and where the second shape's enforcement goes given that no independent reader holds the document. If those two answers name different homes, this phase is two phases. This pass may not split a phase, so it records that and leaves it.
+
+Nothing under `docs/` is written.
