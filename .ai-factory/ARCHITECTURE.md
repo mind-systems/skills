@@ -48,15 +48,25 @@ Above both sits the always-loaded layer — the skill-description-field and the 
 
 ## Features (roadmap-prune v2)
 
-A single skill's own capability accumulates no row here — each skill is enumerated under `src/` with its per-file git history. The table records the cross-cutting capabilities and foundations that no single skill holds alone — what the system does across many skills or the whole fleet — plus the prune ledger.
-
 | Feature | Hashes |
 |---------|--------|
 | **Foundation** | |
-| Reserved-words language — the semantic contract every skill body, `description:`, roadmap, and spec is written in; specified in `docs/reserved-words.md` (+ `docs/skill-description-field.md`, how it loads) and mandated from the root CLAUDE.md. | a379ac9 039bf45 |
-| Manage a project's coordination-layer tree — from one authoring system, hold every project's CLAUDE.md tree and `.ai-factory/` to the harness wiring contract: drive a convention across the whole fleet, detect and repair drift, cold-rehydrate any leaf from its own tree. Model: `docs/sakshi-harness/sakshi-harness.md`. | 0aa7a99 |
-| Multiuser roadmaps — per-developer named roadmaps (`.ai-factory/roadmaps/<slug>.md`, slug from git `user.email`), the `> Owner:` single-writer line, the family's target-file resolution order, and per-roadmap spec/artifact subdirectories; the default single `ROADMAP.md` layout stays valid unchanged. Model: `docs/philosophy/multiuser-roadmaps.md`. | b2272fe |
-| Governing-spec-leads-code doctrine — the global CLAUDE.md recognizes two doc modes: a governing spec states intended behavior and leads its code; a description lags, and code wins. | 94ad78d |
-| AGENTS.md is a symlink to CLAUDE.md — the one-line-pointer form is retired; the convention lives in the global CLAUDE.md and the `aif` generator that emits `ln -sfn CLAUDE.md AGENTS.md`. | c02c3c0 |
+| Reserved-words language | a379ac9 039bf45 |
+| Coordination-layer tree management (sakshi harness) | 0aa7a99 |
+| Multiuser roadmaps | b2272fe |
+| Governing-spec doctrine in the global CLAUDE.md | 94ad78d 13b677a |
+| AGENTS.md symlink generation | c02c3c0 |
+| **Planning chain** | |
+| Phase notes & preambles (`roadmap-outline-deep`) | 01ec355 |
+| Pin-gaps readiness pass | 497510b |
+| **Paired loop** | |
+| Architect↔editor channel protocol engine | 7d0581a |
+| Two-architect pairing | 366d7d1 |
+| Shared working memory & compact recovery | 6969f84 |
+| **Rescue** | |
+| Escalated-task rescue | ddaaecb |
+| Rescue reports per project | 248ebbe |
+| **Handoffs** | |
+| Handoff processed mark | 64366b4 |
 | **Internal** | |
-| Roadmap drop history | 2d2f3f6, 902f7d9, 5348761 |
+| Roadmap drop history | 2d2f3f6, 902f7d9, 5348761, 1da6fc2 |
