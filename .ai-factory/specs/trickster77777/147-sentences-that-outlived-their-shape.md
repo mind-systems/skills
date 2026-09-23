@@ -10,4 +10,4 @@
 
 **`architect-editor-engine`'s description omits the ride-alongside bound.** Its `description:` field enumerates what the engine holds — the two formats, the mode rule, the buffer definition with its zones, re-read, drain, isolation rules — and after task 40.4 the buffer section also carries the ride-alongside permission and its bound, which the description does not name. Spec 131 bounded 40.4's edit to two body sites, and 40.2 set the precedent of not touching the description for a widening in this same section, so 40.4 correctly left it. Whether the always-loaded description should name the bound is a question for whoever next revises the engine's description as a whole (one occurrence).
 
-Nothing under `docs/` is written by this phase's own note; the instance class is phase 45's own rule — a removal orphans the prose that described the shape it removed, and none of it fails loudly.
+Nothing under `docs/` is written by this phase's own note; the instance class is a removal that leaves behind the prose describing what it removed, and none of it fails loudly.

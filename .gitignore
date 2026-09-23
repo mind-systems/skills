@@ -18,3 +18,6 @@ __pycache__/
 
 # observe-logs env registry (contains tokens — .env.example stays tracked)
 /src/skills/observe-logs/.env
+
+# Claude Code's own synced skills cache — not ours, rewritten by the harness
+active/skills/synced/

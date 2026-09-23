@@ -1,0 +1,28 @@
+# 55.8 — a key core does not own
+
+**Project:** tradeoxy_core
+**Date:** 2026-09-24
+**Stopped at:** escalated
+**Elapsed before the rescue:** 248
+
+This one has no defect chain to tell. The reading stopped four minutes in, on a decision no agent in the run had the authority to make, and it stopped for the right reason.
+
+The task locks a cast behind a lint rule, and the project's own convention, the task's specification and its roadmap line all agree on where two of the remaining casts should go: through the constructor, like every other boundary. The reader followed that instruction to the leaf, and the leaf is in another repository. The value at those two sites is a session identifier, and core never owns it — it is a fragment of a key into a shared store, written there by the other service, and core only ever reads it back by interpolating it into the same key verbatim. That other service mints it as a native identifier of its own language and writes it in upper case, and hands it to core the same way inside the token. Today the two sites work precisely because the cast they carry is erased at run time and the string travels byte for byte.
+
+Route it through the constructor, and the constructor lowercases it. The key no longer exists in the store, the liveness check answers false, and every authenticated request over both transports is refused — the whole surface at once. Nothing in the task's acceptance would show it: the type-checker sees the same branded type either way, the two guards sit in no named suite, and the module they live in contains no test file at all. The reader named this as the project's own definition of a silent failure — wrong output, nothing crashing — and then did not choose a repair, because every available repair changes something above the task: the convention itself, the specification, or the other repository.
+
+> Is a session identifier an identifier in this project's sense — a value a boundary constructs and canonicalises — or an opaque key that core echoes into another service's store exactly as that service wrote it?
+
+The three ways out, as the reader framed them: treat it as opaque, so the types become plain strings and the casts disappear with no constructor at all, at the cost of a sentence in the convention and an amendment to the roadmap line; canonicalise the key at its writer first and only then switch core, at the cost of a cross-repository migration with a hard ordering and a dual-read window as long as the tokens already issued; or split the two meanings, constructing at the guards and matching the other service's casing inside the store's own service, at the cost of pinning core to a casing no document states, where the next change breaks it silently again.
+
+## What was done
+
+The user chose the first, and the reason he gave reshaped the repair. An identifier is case-insensitive in this system not by decree but by construction: comparison happens in the logic layer, the logic layer holds the identifier as an object, and that object parses from any case. The convention therefore governs the identifiers that layer reasons about — and the session identifier is not one of them. It never reaches that layer as an identifier at all; it is only ever a fragment of somebody else's key, matched byte for byte.
+
+So the convention was not given an exception. It was given its reach: the rule now states what kind of value it governs, and that a value which is only ever a key into another service's storage is not that kind, is never constructed, and travels exactly as received. No site is named in it and no exception is carved. The specification follows: three service methods and two guard call sites lose their casts because their types become plain strings, not because a constructor replaces them; the lint rule consequently needs no exemption for either guard; and the sibling call seven lines away, which constructs a user identifier from the same token, is named as deliberately asymmetric — correct precisely because that value is only ever compared against database columns that render it lower case. Same shape, opposite ground, and the next reader is told so rather than left to "fix" it.
+
+The specification also gained the coverage the escalating reader asked for. That module has no test file, and the failure mode is silent, so the guard path owes a case proving the identifier reaches the store's service exactly as it arrived. What is reachable was checked rather than assumed: one of the two guards is a plain object with a plain socket and is directly unit-testable against an existing precedent in the same repository; the other extends a framework mixin whose authentication runs against a real request before the check under test is ever reached. The obligation is stated; the construction is left to the plan.
+
+One thing belongs in the record for the third time in two days. The work-order listed a declaration as needing to change to a plain string; the hand opened the file and found it already was one, and said so instead of following the list. The same discipline has now caught a report claiming work was done that was not, an order carrying a mechanism from a reader's prose that the code would not support, and now an order's own inventory. Neither party's account survives contact with the files. That is not a remark about either party — it is the reason the measuring exists.
+
+The task's transient state was cleared in full — its plan, its sidecar and its single reading deleted — so the escalated marker and the escalation record go with them and the run re-plans clean against the amended specification and contract line.

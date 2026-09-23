@@ -6,13 +6,11 @@ The shared memory is the architect's buffer. Its shape and rules live in the eng
 
 ## What the memory holds, and who holds it
 
-The buffer has two zones, and the split is load-bearing.
+The head is the memory's only writer. The hand reads it in full — that is what makes the memory the link between the two halves — and never writes to it.
 
-The **settled** zone — the working discipline, the rulings the user has made about how the pair works, the method learned from repeated failure, and the register of where the skills still lag the practice — is held by both halves. The editor reads it as its own working context from the head it is the hand of, not as an outsider glancing at private notes. This is what makes an order able to name meaning instead of characters: the discipline an order would otherwise restate every time is already held.
+The memory holds the working discipline, the rulings the user has made about how the pair works, the method learned from repeated failure, and the register of where the skills still lag the practice. The editor reads it as its own working context from the head it is the hand of, not as an outsider glancing at private notes. This is what makes an order able to name meaning instead of characters: the discipline an order would otherwise restate every time is already held.
 
-The **live** zone — the editor's handle, the architect's current read of an open question, a diagnosis still forming — is the architect's alone. A hand that already holds the head's conclusion returns an echo where an independent reading was wanted, and an independent reading is the only reason to ask for one.
-
-The editor re-reads the settled zone when it changes, not once at birth: a buffer earns its keep by being written to during a session.
+The editor re-reads the memory when it changes, not once at birth: a buffer earns its keep by being written to during a session.
 
 The head writes to the memory at the moment it learns something a later beginning would otherwise pay for again, not at the end of the stretch of work that produced it — the stretch of work is exactly what does not survive, and a conclusion left in the conversation dies with it, so the next beginning repeats the correction that made it. An entry is written as what will hold again — a ruling of the user's in the user's own words, a mistake as the pattern behind it and the reason that pattern holds — never as the episode that revealed either.
 
@@ -24,11 +22,23 @@ Two architects are two heads. No architect reads another's buffer, and an editor
 
 The memory exists before the hands do. A head holds its buffer before it has an editor to write with, because the buffer is what an order leans on rather than restates — what is leaned on cannot begin only once the first order is sent.
 
+A break leaves the durable artifacts untouched — the roadmap holds time, the specs hold decisions, the buffer holds the practice — none of them ever at risk. What a break destroys is the reasoning: why one course was taken over another, which premise proved false and how it was shown false, which correction came from the user and in what words. That reasoning lives only in the conversation, and the conversation is exactly what a break ends. A head that inherits decisions without their reasons re-opens them.
+
 A **memory snapshot** naming a buffer is what continues one memory across a break. A head that begins from such a snapshot works in the buffer it names — the same memory, resumed, not a new one under an old name. A head that begins with no such pointer is a new head: it creates its own buffer first, and only then takes on a hand. What the snapshot carries toward this is a pointer to the buffer's place, never a copy of what the buffer holds.
 
-Each half holds the other's address. At the moment a hand joins, its own address is recorded in the memory, and the memory's place is given to the hand in turn. A settled zone the hand cannot locate is not shared, whatever the discipline says about who holds it.
+The snapshot is written by the head, and a hand cannot write it — not by prohibition but by the same principle that governs what crosses the channel reaching one more case: the hand that touched a surface writes what is said about it, because a grounded account belongs to whoever had the file open, and a sweep compressed into a claim is where the detail dies. The surface here is the conversation, and the head is what held it; a hand that never held it can only render back what it is handed.
+
+Each half holds the other's address. At the moment a hand joins, its own address is recorded in the memory, and the memory's place is given to the hand in turn. A memory the hand cannot locate is not shared, whatever the discipline says about who holds it.
+
+A newer snapshot supersedes the older one's next action, and nothing else. The record it carries — what was tried, what proved wrong, what corrected it — is not superseded, because only the next action is a standing instruction, and the record beside it is not.
+
+Read in order, and each filtered by the buffer it names, the snapshots are the only account of how the pair moved: what it tried, where it went wrong, what corrected it. Neither the roadmap nor the specs hold that — one shows what changed, the other what was decided, and neither shows why the turn was taken.
 
 A hand's own history ends without a signal. Nothing announces the loss, and a hand asked to recall what it no longer carries answers anyway, confident rather than true. Because of that, the hand is asked to read and never to recall. What it needs again is not its own history but the settled memory — which it holds the place of, and re-reads. And the head names the moment that memory moves: an unannounced change reaches no one, however plainly the discipline says the hand re-reads on change.
+
+The hand belongs to the head, and the head makes and remakes it without ceremony. A hand's ending is an event, not a decision to be taken — nothing is asked before the next one is made. What a fresh hand costs is context, not permission: it holds none of the rounds already run, so what it is handed carries its own ground.
+
+Two genres share the occasion and nothing else. A memory snapshot is a head continuing itself: its reader is that same head after a break, and its subject is the stretch's reasoning. A project handoff is written for whoever comes next: its reader is another agent, its subject is the project's state, and its lifetime ends when it is read.
 
 ## What crosses the channel
 
