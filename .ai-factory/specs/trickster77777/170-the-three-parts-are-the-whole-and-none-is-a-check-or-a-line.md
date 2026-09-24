@@ -1,4 +1,4 @@
-# 61.2 — the three parts are the whole, and none is a check or a line
+# 61.2 — the three parts exclude a check, a line, and a fence
 
 ## What is true now
 
@@ -6,7 +6,7 @@
 
 > **What a task spec holds:** three parts and nothing else — *what is true now*, read from the code with exact values, so the implementer does not re-derive it; *what must be true after*, in the code's own terms: which file, which text, which value; and *what breaks on contact*, pinned rather than hedged.
 
-"Three parts and nothing else" states that the list is exhaustive but never states what a fourth part would be — so a fourth part can arrive without ever contradicting the letter. It already has: `.ai-factory/notes/07-architect-buffer.md`'s finding names two such arrivals, both recorded there as debts against no artifact for weeks and stated nowhere under `docs/` or `src/` (checked directly, zero hits — phase 61's own note carries the sweep). The first is a checking instruction — `command-pin-gaps.md`'s Blast-radius holes Repair sentence ordered its invariant as "every match must satisfy after the change," an instruction to a later run — whose cost is measured: task 58.2's rescue plan carried four verification tasks against two edit tasks, every one of three failed rounds landing inside the verification half, the change itself never faulted (task 61.1 repairs this occurrence). The second is a position: the user's own ruling that a spec explains what an artifact must hold, never where in the file to type it.
+"Three parts and nothing else" states that the list is exhaustive but never states what a fourth part would be — so a fourth part can arrive without ever contradicting the letter. `docs/what-a-task-carries.md`, now written, states what the paragraph lacked: none of the three parts is a check, since checking is the review's own step and not the spec's; none is a position in the file; and none fences off a neighbour by name, since scope is stated positively, as what the task changes. The document carries the argument and the measured case — task 58.2's own rescue among them (task 61.1 repairs the occurrence that produced it) — so this spec leans on it rather than re-deriving it.
 
 `src/commands/command-pin-gaps.md` names and quotes this paragraph by its heading text, as the source its own hole classes derive from and do not restate: *"defined in `roadmap-engine`'s 'What a task spec holds' paragraph and not restated here."* Checked directly: `grep -l "roadmap-engine" src/skills/*/SKILL.md src/commands/*.md` finds the engine itself and many callers reaching this paragraph for the task-spec shape, `command-pin-gaps` among them by name — the only one that names the heading directly, the rest inheriting the shape by construction.
 
@@ -14,7 +14,7 @@
 
 The paragraph gains one sentence, appended after its current text:
 
-> **What a task spec holds:** three parts and nothing else — *what is true now*, read from the code with exact values, so the implementer does not re-derive it; *what must be true after*, in the code's own terms: which file, which text, which value; and *what breaks on contact*, pinned rather than hedged. Nothing else means, concretely: no clause is a check that the instruction was carried out — that belongs to the review the orchestrator already runs — and no clause is a position in the file; each states what the artifact must hold, never where to write it.
+> **What a task spec holds:** three parts and nothing else — *what is true now*, read from the code with exact values, so the implementer does not re-derive it; *what must be true after*, in the code's own terms: which file, which text, which value; and *what breaks on contact*, pinned rather than hedged. Nothing else means, concretely: no clause is a check that the instruction was carried out, which belongs to the review the orchestrator already runs; no clause is a position in the file — each states what the artifact must hold, never where to write it; and no clause fences off a neighbour by name — scope is stated positively, as what the task changes, never as a prohibition standing in for it.
 
 Untouched, byte-identical: the paragraph's own bold heading text, `**What a task spec holds:**` — many callers reach this engine and `command-pin-gaps` cites this heading by name, and the name must still resolve; the existing three clauses ("what is true now," "what must be true after," "what breaks on contact, pinned rather than hedged"); the "Why two tiers" paragraph immediately above; the "Never write a full spec inline in the roadmap" sentence immediately below; every other section of the file, including frontmatter and the `loads:`/reverse-graph lines.
 
