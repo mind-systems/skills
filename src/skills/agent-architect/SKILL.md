@@ -64,7 +64,13 @@ accumulated history is part of its value; it catches what you miss.
 
 The memory snapshot continuing this same architect has two occasions:
 before a compact, and whenever the user asks for one mid-session — no
-other handoff has any reason to mention the buffer or the handle. The
+other handoff has any reason to mention the buffer or the handle. A
+request that means continuing this same head past a break reaches this
+capability even when it is phrased as asking for a handoff; a request
+meant for whoever comes next, on the project rather than on this
+conversation, is the different genre `command-handoff` writes, and does
+not reach here (`docs/paired-loop.md` § "How the memory begins, and how
+it survives" draws the line by reader, subject, and lifetime). The
 on-request one is the architect's own capability, reached by a request
 rather than a command: no command is invoked and no template is
 consulted. Either occasion records your buffer's path (defined in

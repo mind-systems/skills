@@ -13,6 +13,8 @@ loads: note
 
 A handoff always lives in `<root>/.ai-factory/handoffs/`. `$ARGUMENTS`, when present, names the project **root** only — not a file to read, not the destination itself. `<root>` is that named project, or the current project when no argument is given. The resolved `<root>/.ai-factory/handoffs/` is the destination-directory hook `note` receives in Step 2 — never `notes/`, never the bare argument path.
 
+A request meant to continue the same architect's own memory across a break is a different genre — the architect's own on-request snapshot, not this command — and never reaches here, however it is phrased; `docs/paired-loop.md` § "How the memory begins, and how it survives" draws that line by reader, subject, and lifetime.
+
 ---
 
 ## Step 1 — Shape the mining lens
