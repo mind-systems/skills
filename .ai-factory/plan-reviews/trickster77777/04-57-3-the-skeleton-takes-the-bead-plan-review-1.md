@@ -1,0 +1,55 @@
+# Plan Review — 57.3 the skeleton takes the bead
+
+## Plan Review Summary
+
+**Artifacts read:** the plan; the task spec (`158-…md`); the phase note (`151-…md`); the contract line in `.ai-factory/roadmaps/trickster77777.md`; the target `src/skills/roadmap-decompose-skeleton/SKILL.md` in full; `src/skills/polymorphism-philosophy/SKILL.md` and its `active/skills/` symlink; `src/skills/test-philosophy/SKILL.md` (the shape the engine side is built in); `docs/counts-go-stale.md`; `docs/sakshi-harness/skill-cycle.md`; `CLAUDE.md` § "Dependencies and the skill graph"; `.ai-factory/ARCHITECTURE.md` § "Composition: mechanism vs policy"; the orchestrator's implementer prompt (annotation protocol).
+**Risk Level:** 🟡 Medium — the two content edits are correct and fully pinned; the defects are in the verification gate and in one protocol instruction, both of which would fire during the run rather than land in the product.
+
+### Context Gates
+
+- **Architecture — OK.** The change is one more caller→engine edge of exactly the kind `.ai-factory/ARCHITECTURE.md` § "Composition: mechanism vs policy" describes: policy (Lens 1's gate) stays with the caller, the loaded unit supplies shared content and drives nothing. No boundary is crossed and no new file appears.
+- **Rules — WARN (optional file absent).** This repo has no `.ai-factory/RULES.md`; the convention layer that applies is `CLAUDE.md` § "Dependencies and the skill graph", and the plan honours it precisely: the dependency is declared in the caller's own `loads:` field, the engine's reverse-graph marker and caller sentence are already present on `polymorphism-philosophy`'s side, and no central dependency map is touched (there is none to touch).
+- **Roadmap — OK.** The plan matches contract line 57.3 clause for clause: Lens 1 fires on the unit's event instead of judging testability, the dependency field gains the third name, Lens 2/Lens 3/the restraint rules stay untouched. The sequencing precondition the line states is satisfied — 57.2 is `[x]`, the skill file and its symlink are on disk, verified directly.
+- **Governing spec — N/A, correctly.** Phase 57's header names no `Governing spec:`, and the phase note opens by saying so outright. The authority for this task is therefore the phase note plus the task spec, which is what the plan reads. One documentary edge is worth recording as already closed: `docs/sakshi-harness/skill-cycle.md` already describes this pass by both axes and already names `polymorphism-philosophy` as the second axis's home — the divergence the phase note said "must close" is closed on the doc side, ahead of the code, which is the correct direction. The plan's `Docs: no` setting is right; nothing is owed there.
+
+### Critical Issues
+
+**1. The verification step's expected sweep result is false today — the plan file itself is a fourth match, and the step's own stop-rule fires on it.**
+`.ai-factory/plans/trickster77777/04-57-3-the-skeleton-takes-the-bead.md`, § "Verification".
+
+The step asserts the sweep returns three paths before the task (spec 158, phase note 151, the target SKILL.md). Run from the repo root as written, it returns **four**: those three plus the plan file itself, which embeds the sweep command verbatim inside its fenced block — the command line contains both alternatives of its own pattern, and the `$`-anchored alternative matches there because nothing follows it on that line. After the edit the sweep returns three paths — spec 158, phase note 151, and the plan — and the implementer, holding the instruction "If any *other* path appears, stop and report it rather than editing it", meets a path that is neither of the two it was told to expect. The likely outcomes are both bad: a spurious stop and report on an artifact that is not stale at all, or a hand-wave past the stop-rule that costs the gate its meaning for the case it was written for.
+
+This is not a defect in the sweep — the spec's **rule** ("any file quoting Lens 1's current testability wording verbatim, *as ground truth for its own argument*") correctly excludes a run artifact that merely carries the grep command. It is a defect in the plan's restatement of the expected result, which counted the repository as it stood before the plan was written into it.
+
+Repair, inside the Verification task: state the post-change expectation as the three paths that will actually be returned — spec 158, phase note 151, and this plan file (self-match: it quotes the sweep command, not the passage) — and re-phrase the stop-rule against the spec's rule rather than against a count: stop only on a path that *quotes one of the two passages as a standing claim about the present*. Note in the same breath that this task's own review artifacts may match the pattern for the same self-referential reason and are equally not findings. Do not "fix" the pattern and do not edit any matching artifact.
+
+**2. The plan pre-authorises a `DEVIATION` annotation the implementer protocol does not define for this case.**
+`.ai-factory/plans/trickster77777/04-57-3-the-skeleton-takes-the-bead.md`, § "The consequence inside the same file", last sentence.
+
+The orchestrator's implementer prompt defines the annotation narrowly, under "Ground truth over the plan": it is written when the plan and the file on disk disagree, it carries the triple `DEVIATION: <plan said / file showed / done>`, and the prompt closes the paragraph with "It is for genuine contradictions, not running commentary." Critical Rule 6 repeats the same scope.
+
+Here there is no plan/file disagreement to record. The plan itself orders the count removed; an implementer who removes it has followed the plan exactly. The divergence is the *plan's* — against the task spec's "stays accurate" clause — and it is already argued in full in § "What the spec pins, and the one thing it does not", which is where a reviewer reads it. An annotation emitted anyway cannot fill the triple honestly (there is no "file showed" leg), and the implementation reviewer, whose instructions tell it to read a `DEVIATION` as ground truth that disagreed with the plan, will go looking for a contradiction that does not exist.
+
+Repair: drop the final clause of that task ("annotate this edit in the plan file as a `DEVIATION` …"). The plan's prose section already carries the divergence and its justification; nothing further is owed. If the intent is that the spec-versus-plan divergence stay visible after the run, the place for it is the plan's own reasoning section — it is already there.
+
+### Issues
+
+**3. The replacement Lens 1 block is pinned as text but not as layout, and the source it is copied from is a single unwrapped line.**
+`.ai-factory/plans/trickster77777/04-57-3-the-skeleton-takes-the-bead.md`, § "The lens", first task.
+
+The task spec renders the replacement as a blockquote — paragraph and restraint bullet each on one long line — and the plan says "Copy them; they are the deliverable". The target file is hard-wrapped throughout: the Lens 1 block sits at 81–90 columns per line, its restraint bullet uses a two-space continuation indent, and the file's longest line anywhere is 96. A literal copy lands a ~370-character paragraph and a ~200-character bullet in the middle of a wrapped file.
+
+The plan's "Hold to these" list is otherwise exhaustive — it pins the load phrasing, the bold markers, the absence of a restated question, and the byte-stability of the neighbours — which is precisely why the silence on wrapping reads as an oversight rather than a licence. It also matters here more than usual: the file's text is treated as contract by its own callers and by this phase's sweeps, so "verbatim" needs to say explicitly whether newlines are part of the pinned bytes.
+
+Repair: add one hold — the block is inserted re-wrapped to the file's existing convention (≤ ~90 columns, restraint bullet continued at two spaces), the words and their order byte-identical to the spec's pinned text, whitespace and line breaks conformed to the destination. Note the one consequence while doing it: a phrase from the new text may then span a line break, so any later sweep against this block matches per line, not per sentence.
+
+### Positive Notes
+
+- **The count repair is correctly reasoned and correctly bounded.** The plan detects that its own edit falsifies the lead sentence's "two", tests the word against `docs/counts-go-stale.md`'s one-sentence test (adding a member falsifies it → census → delete), applies the doc's own prescription rather than re-measuring, and stops there — honouring the spec's ruling that the section gains no restatement of the third dependency. Repairing a sentence its own diff makes false, inside its own file, is in-boundary by the review engine's own test, and the plan says so in those terms instead of leaving it for someone else.
+- **The restraint against restating the loaded unit's content is the right call, argued from the file's own precedent.** Lens 2's construction against `test-philosophy` and Critical Rule 2 are cited as the standard the new Lens 1 must meet; the effect is that Lens 1 leans on nothing about `polymorphism-philosophy` beyond its name, and the question keeps exactly one home.
+- **Both sides of the coupling were checked on disk, not assumed.** The engine's load-once sentence, its reverse-graph grep line, and its naming of this caller are all present; the plan correctly concludes nothing further is owed on the engine's side, and correctly notes that `allowed-tools` already carries `Skill`, so the new load adds no tool.
+- **The one thing deliberately not touched is named and argued** — the `description:` frontmatter field — rather than left silent, with the reason (always-loaded text is its own decision, and the phrase is not falsified) stated where a reviewer will look for it.
+
+## Deferred observations
+
+- Affects: `.ai-factory/specs/trickster77777/158-the-skeleton-takes-the-bead.md` (phase 57) — after this task the "Load-once / dependencies" section describes two of the three skills the file now loads once per chat via the `Skill` tool: the lead sentence stops counting, but the bullet list under it stays at two entries while Lens 1 has begun delegating its discriminator to a third. By `docs/counts-go-stale.md`'s own test the list is the same census the deleted word was, written as bullets instead of a number — a reader building the delegation picture from that section alone now misses one edge, and only the `loads:` field carries it. The plan is right not to act: the task spec rules explicitly that the section "gains no restatement of the third dependency there", and a plan that added a bullet anyway would be overriding a ratified spec ruling on its own authority. The decision belongs where the ruling was made — either the list is deliberately a prose description of the two engines that carry render and test policy (in which case one sentence in that section should say so, so the omission reads as intent), or the third delegation belongs in it and the spec's ruling wants revisiting in a later task.

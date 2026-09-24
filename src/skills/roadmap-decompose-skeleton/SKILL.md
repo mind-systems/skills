@@ -11,7 +11,7 @@ description: >-
 argument-hint: "[phase/slug or task description]"
 disable-model-invocation: true
 allowed-tools: Read Write Edit Glob Grep AskUserQuestion Skill
-loads: roadmap-engine test-philosophy
+loads: roadmap-engine test-philosophy polymorphism-philosophy
 ---
 
 # Roadmap Decompose Skeleton — Skeleton / TDD / Concurrency Decomposition Lens
@@ -28,7 +28,7 @@ untouched.
 
 This skill owns no reusable body of its own — only the three lenses below (targeting,
 skeleton, TDD, concurrency, ordering/fusion, restraint). Everything reusable is
-delegated to two shared skills, each loaded **once per chat** via the `Skill` tool and
+delegated to shared skills, each loaded **once per chat** via the `Skill` tool and
 never re-invoked per task:
 
 - `roadmap-engine` — the shared two-tier artifact format (contract line + task spec)
@@ -62,14 +62,13 @@ territory.
 
 ### Step 1: Apply the three lenses
 
-**Lens 1 — Skeleton (primary).** Scan the target task(s) for a shared type/interface
-surface — shared between 2+ tasks, or a single task whose shape is non-obvious — where
-an interface / abstract-class skeleton genuinely makes the surface testable. Where
-appropriate, extract a **skeleton task**: interfaces, types, abstract classes only —
-**no implementation bodies**. This is the scaffold the TDD lens writes tests against.
+**Lens 1 — Skeleton (primary).** Load `polymorphism-philosophy` once via the `Skill`
+tool, then apply its question to the target task(s). Where it fires, extract a
+**skeleton task**: interfaces, types, abstract classes only — **no implementation
+bodies**. This is the scaffold the TDD lens writes tests against.
 - Restraint: contracts/protos are usually laid first anyway — do not blanket-cover
-  tasks with abstract classes. Only extract a skeleton where it makes a shared or
-  non-obvious surface testable.
+  tasks with abstract classes. The question is the gate; it fires only on the event,
+  never on style.
 
 **Lens 2 — TDD.** Against the skeleton's public surface, insert a **tests-first task**.
 Load `test-philosophy` once via the `Skill` tool, then apply its silent-failure
