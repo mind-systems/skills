@@ -46,7 +46,7 @@ is guidance, not a hard clamp.
 **What a task spec holds:** three parts and nothing else — *what is true now*, read
 from the code with exact values, so the implementer does not re-derive it; *what must
 be true after*, in the code's own terms: which file, which text, which value; and
-*what breaks on contact*, enumerated rather than hedged.
+*what breaks on contact*, pinned rather than hedged.
 
 **Never write a full spec inline in the roadmap** — the contract line is the header;
 the task spec is the implementation.
