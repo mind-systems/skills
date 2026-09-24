@@ -69,7 +69,10 @@ on-request one is the architect's own capability, reached by a request
 rather than a command: no command is invoked and no template is
 consulted. Either occasion records your buffer's path (defined in
 `architect-editor-engine`) and a digest of what the editor has accumulated;
-the digest is your own recovery note and is never sent to the editor.
+the digest is your own recovery note and is never sent to the editor,
+and for the same reason the snapshot itself is never delegated to the
+editor to compose — the conversation is the surface a snapshot reports
+on, and only the head that held it can write what happened there.
 What a snapshot carries is the volatile residue — where the work stands,
 what the hand knows, what will slip first, what must not be resolved by
 inference — and the reasoning that shaped it: why one option was taken over
@@ -271,7 +274,9 @@ needs no form of its own. A `REPORT-ONLY` message carries either the
 before-mark payload, worked in parallel and enriched only with named
 context, or your own delegated legwork; the `APPLY-EDIT` channel carries
 the apply work-order alone, and it **never** carries your own analysis of
-an analysis target.
+an analysis target — nor, ever, the memory snapshot: composing that
+file is forbidden to the editor outright, not merely absent from this
+channel's ordinary cases (see "Spawn once, message thereafter").
 
 When the editor flags back a scope question ("which skeleton pass?", "what's
 the scope of phase 8?"), carry it to the user verbatim and tell them a
