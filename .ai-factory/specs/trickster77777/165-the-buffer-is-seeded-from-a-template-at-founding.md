@@ -72,4 +72,4 @@ The new template file has no existing citation anywhere to update — it is a wh
 grep -rln "agent-architect/templates\|buffer-seed" src/ docs/ .ai-factory/
 ```
 
-**Invariant:** the sweep returns the roadmap's own contract line and this task's own spec — both naming the path as what this task creates, not a prior claim on it — and no other file. This corrects an earlier version of this section, which claimed "no other file references `agent-architect/templates/` or a buffer-seed file" without exempting the task's own two planning artifacts, which do.
+**Invariant:** after the change, the roadmap's own contract line for this task and this task's own spec are the only artifacts naming `agent-architect/templates/` or `buffer-seed.md` by path, and each names it as what this task creates, not as a prior claim on it. This corrects an earlier version of this section, which claimed "no other file references `agent-architect/templates/` or a buffer-seed file" without exempting the task's own two planning artifacts, which do. The sweep locates candidates; reading decides.

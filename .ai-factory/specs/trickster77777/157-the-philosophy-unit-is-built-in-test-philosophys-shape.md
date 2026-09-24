@@ -95,7 +95,7 @@ This deploys alone and makes sense: the skill exists, is directly invocable per 
 ls src/skills/ active/skills/ 2>/dev/null | grep -i "polymorphism-philosophy"
 ```
 
-**Invariant:** after the change, the sweep returns exactly two matches — `src/skills/polymorphism-philosophy` (a real directory) and `active/skills/polymorphism-philosophy` (a symlink resolving to it) — and no third, colliding entry anywhere. Run before this task, the sweep returns nothing, confirming no prior claim on the name.
+**Invariant:** after the change, `src/skills/polymorphism-philosophy` exists as a real directory and `active/skills/polymorphism-philosophy` exists as a symlink resolving to it, and no other entry anywhere claims the same name. Before this task, neither path existed, confirming no prior claim on the name.
 
 **A second rule:** `CLAUDE.md` carries two exhaustive rosters of skills that this task's own addition would invalidate — the **"The active set"** paragraph, naming every skill actually symlinked into `active/skills/`, and the **"Everything else in `src/skills/` is ours"** paragraph, naming every no-upstream-counterpart skill in `src/skills/`. Neither carries an ellipsis or any other mark of incompleteness, so both assert completeness and both go stale the moment this task's skill exists unnamed in them.
 
@@ -104,4 +104,4 @@ ls src/skills/ active/skills/ 2>/dev/null | grep -i "polymorphism-philosophy"
 grep -c "polymorphism-philosophy" CLAUDE.md
 ```
 
-**Invariant:** after the change, `polymorphism-philosophy` occurs once in each of the two rosters above, and nowhere else in the file — the "Repository Structure" tree makes no completeness claim and is outside this invariant, per the guard above. Before this task, the sweep finds it in neither roster.
+**Invariant:** after the change, `polymorphism-philosophy` stands named in both of the two rosters above — the "Repository Structure" tree makes no completeness claim and is outside this invariant, per the guard above. Before this task, the sweep finds it in neither roster.

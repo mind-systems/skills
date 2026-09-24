@@ -8,7 +8,7 @@
 
 `src/commands/command-pin-gaps.md` names and quotes this exact paragraph, by its heading text, as the source its own Blast-radius holes clause's shape derives from and does not restate: *"defined in `roadmap-engine`'s 'What a task spec holds' paragraph and not restated here."* The paragraph's third clause — "enumerated rather than hedged" — is the wording that clause's own `Repair:` sentence concretized into a census, per this phase's note.
 
-Checked directly: `grep -l "roadmap-engine" src/skills/*/SKILL.md src/commands/*.md` returns nine files — the engine itself plus eight callers (`roadmap-decompose-skeleton`, `roadmap-decompose`, `roadmap-outline-deep`, `roadmap-outline`, `roadmap-test-coverage`, `task-rescue`, `temporal-tree`, `command-pin-gaps`). Of these, only `command-pin-gaps.md` names this paragraph by its heading text; the other seven reference `roadmap-engine`'s format generally, without naming this specific paragraph, though any of them that renders a task spec inherits its shape by construction.
+Checked directly: `grep -l "roadmap-engine" src/skills/*/SKILL.md src/commands/*.md` finds the engine itself and each of its callers; of these, only `command-pin-gaps.md` names this paragraph by its heading text, while the rest reference `roadmap-engine`'s format generally, without naming this specific paragraph, though any of them that renders a task spec inherits its shape by construction.
 
 ## The change
 

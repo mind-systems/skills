@@ -57,6 +57,15 @@ The skill treats a dead hand as a stop — reported first, never auto-replayed, 
 
 - [ ] **60.1 — a dead hand stops being a stop** — `src/skills/agent-architect/SKILL.md` § "Spawn once, message thereafter" holds a dead editor as a stop: report before anything is sent, a payload never auto-replayed, the respawn waiting on the user. Change: per the ruling and `docs/paired-loop.md`, replace the passage — the death is reported in passing, the next message is the new spawn, standing permission, never asked for; a fresh hand holds no round history, so the next order stays self-contained. `src/agents/editor.md` is untouched — no matching stop. Spec: `.ai-factory/specs/trickster77777/167-a-dead-hand-stops-being-a-stop.md`.
 
+## The rule that would have prevented it was held by the architect while the architect broke it
+
+### Phase 61 — a spec states what to hold, never a check or a line
+
+Two of the user's rulings — a task is not an instruction for reviewing itself, and a spec states what to hold, never where to write it — sat in the buffer as debts for weeks; 58.2's rescue paid the cost, three rounds failing inside the verification tasks it produced, the change itself never faulted. Phase note: [a spec states what to hold, never a check or a line](.ai-factory/specs/trickster77777/169-a-spec-states-what-to-hold-never-a-check-or-a-line.md)
+
+- [ ] **61.1 — the repair is a mood, not a mechanism** — `command-pin-gaps.md`'s Blast-radius holes Repair sentence orders the invariant as something "every match must satisfy after the change" — an instruction to a later run, exactly what *What the pass never writes* forbids; 58.2's rescue failed three rounds inside the verification tasks this produced, never the change itself. Change: the invariant becomes a recorded finding — what the sweep, run now, reaches — never a check for later; note `138-…`'s Q4 paragraph, quoting the sentence live, updates in the same stroke. Spec: `.ai-factory/specs/trickster77777/168-the-repair-is-a-mood-not-a-mechanism.md`.
+- [ ] **61.2 — the three parts are the whole, and none is a check or a line** — `roadmap-engine/SKILL.md`'s **What a task spec holds** paragraph says "three parts and nothing else" but never states what a fourth is not, and a checking instruction shipped as spec content without contradicting it. Add one sentence: none of the three checks that the instruction was carried out — that is the review the orchestrator already runs — and each states what the artifact must hold, never where to write it. The heading and its three clauses stay byte-identical; many callers reach it, `command-pin-gaps` among them by name. Spec: `.ai-factory/specs/trickster77777/170-the-three-parts-are-the-whole-and-none-is-a-check-or-a-line.md`.
+
 ---STOP---
 
 ## A number written into a folder that never used one
