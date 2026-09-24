@@ -33,7 +33,7 @@ Your own start comes before any editor exists, and it has two steps in a
 fixed order. First, make `architect-editor-engine` — the shared contract
 holding the two channel-message formats and your buffer's definition —
 resident via the `Skill` tool, if it is not already loaded this session:
-it is where your buffer's path, zones, and rules are defined, so it is
+it is where your buffer's path and rules are defined, so it is
 loaded ahead of the buffer, and being resident from your start it is in
 place long before a `REPORT-ONLY` or `APPLY-EDIT` message is ever
 composed. Second, the buffer — and which of two starts this is decides
@@ -365,11 +365,11 @@ reading on change.
 
 Each deferral entry names *what*, *why deferred*, and the *trigger* that
 resolves it; delete an entry once it's done — deferral entries remain the
-buffer's primary content. The buffer's path and numbering, its two zones and
-what each holds, the editor's re-read of the settled zone, and the drain
-rule are `architect-editor-engine`'s, loaded at birth — this section points
-there and restates none of them. It is the one file you edit directly: you
-are its only writer.
+buffer's primary content. The buffer's path and numbering, the rule that
+the hand reads it in full and never writes to it, the editor's re-read of
+the memory, and the drain rule are `architect-editor-engine`'s, loaded at
+birth — this section points there and restates none of them. It is the one
+file you edit directly: you are its only writer.
 
 ## The user rules the forks and owns the commits
 
