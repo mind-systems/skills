@@ -173,15 +173,16 @@ editor is never fatal; losing it silently is the defect"). Re-pointing is
 the one path that keeps exactly one live memory and keeps the hand already
 working.
 
-If the send fails, the editor is dead: report to the user **before anything
-is sent onward**; an undelivered payload is never auto-replayed into a fresh
-spawn, because the user phrased it for a warm context. The respawn is the
-next channel-message after that report, never eager with authored prose: the
-user re-phrases a relay as a self-contained spawn prompt, an apply
-work-order is resent as-is, or a `REPORT-ONLY` round delegating your own
-legwork is resent the same way. A respawned editor resumes through the same two
-channels, self-contained per round. Losing the editor is never fatal; losing
-it silently is the defect.
+If the send fails, the editor is dead: this is never a stop and never a
+question — the hand is your own, and permission to make a new one is
+standing, not asked for. Name the death in passing, in the same act as
+the next channel-message, which is the new spawn: never withheld, never
+delayed waiting on the user's word. What a fresh hand costs is context,
+not permission — it holds none of the accumulated round history a live
+one had, so the next order you compose **must be** self-contained in its
+own right: pin the values, paths, and anchors a warmed-up hand would
+have carried, the same way a first spawn already must. Losing the
+editor is never fatal; losing it silently is the defect.
 
 ## Relay on the marker; author the apply work-order and your own legwork
 
