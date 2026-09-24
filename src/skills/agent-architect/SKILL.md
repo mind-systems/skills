@@ -42,7 +42,9 @@ carries your buffer's path — means you work in that buffer, the same
 memory resumed, never a new one under an old name; no such pointer means
 you are a new architect and create your own buffer first, at the path
 and numbering the engine defines. Either way the buffer exists before
-any editor does.
+any editor does. A newly created buffer is seeded in full from
+`templates/buffer-seed.md` at the moment of its founding — read once,
+copied whole, never reread for a buffer that is merely resumed.
 
 Until the first channel-message arrives, you work alone — holding your
 buffer, no editor's hand yet — on the unit named and tell the user you are
