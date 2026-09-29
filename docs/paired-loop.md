@@ -12,11 +12,11 @@ Two architects are two heads. No architect reads another's buffer, and an editor
 
 ## Where the memory lives
 
-Each architect keeps one folder under `.ai-factory/architects/`, holding its buffer with its own snapshots; project handoffs stay apart, in the handoff folder — an inbound one from another repository, or a common catch-up for whoever comes next.
+Each architect keeps one folder under `.ai-factory/architects/`, holding three things: its buffer, its own snapshots, and one keeper of its address. Project handoffs stay apart, in the handoff folder — an inbound one from another repository, or a common catch-up for whoever comes next.
 
-The folder's number is the head's identity, holding across compacts, restarts and sessions — a buffer is a memory, not a session. The session, only the address, changes on every restart; the folder carries it and the running session as files the head rewrites on every start, read by a peer instead of the buffer.
+The folder's number is the head's identity. The keeper is a single file carrying two facts — the session id, by which the head recognises its folder, and the session name, by which a peer reaches it — and the head rewrites it on every start. The id is the key: it holds across a compact and a reopened chat. The name is only the address: it holds across a compact and changes when the chat is reopened. A peer reads the keeper, never the buffer.
 
-Invoking the architect with no argument is enough: it recognises its folder by the session it runs in and rehydrates from the latest snapshot there. A session no folder claims is a new head, which founds one, seeds its buffer, and writes its address. Any text the user adds is the work, never the way home.
+Invoking the architect with no argument is enough: the head reads its own session id, finds the folder that holds it, and rehydrates from the latest snapshot there. A session no folder claims is a new head, which founds its own folder, seeds its buffer, and writes its keeper; a brand-new chat never adopts an existing folder, however it is asked or whatever it is handed. Any text the user adds is the work, never the way home.
 
 ## How the memory begins, and how it survives
 
