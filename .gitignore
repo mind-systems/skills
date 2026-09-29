@@ -21,3 +21,6 @@ __pycache__/
 
 # Claude Code's own synced skills cache — not ours, rewritten by the harness
 active/skills/synced/
+
+# Trash left behind by tooling, anywhere in the tree
+**/.trash/
