@@ -10,6 +10,12 @@ The snapshot that continues the memory is the head's to write, for the same reas
 
 Two architects are two heads. No architect reads another's buffer, and an editor reads only its own architect's — the same encapsulation the handoffs below are built on.
 
+## Where the pair's behaviour lives
+
+A skill is read once, when a head starts, and fades within a few messages; the buffer is read, edited and re-read all session. So the behaviour both halves must keep holding lives in the buffer, and the seed a buffer is founded from carries it into every new one as standing entries. It matters most for the hand, which writes the artifacts and is never handed the architect's skill.
+
+The drain has two destinations. A ruling about the project or its skills drains to the artifact that should hold it and leaves the buffer. The base behaviour of the pair drains to the seed and stays in the buffer as its standing entry. At every rehydration the head reads the seed's standing entries against its own: where the two differ it takes the seed's text, and it adds what the seed has that its buffer lacks. Something the user had to say twice, or that failed twice, is a debt to drain; said once, it is not.
+
 ## Where the memory lives
 
 Each architect keeps one folder under `.ai-factory/architects/`, holding three things: its buffer, its own snapshots, and one keeper of its address. Project handoffs stay apart, in the handoff folder — an inbound one from another repository, or a common catch-up for whoever comes next.
