@@ -73,7 +73,7 @@ skills/
 ├── scripts/
 │   └── sync-upstream.sh          # refresh upstream/ai-factory from lee-to/ai-factory
 ├── .claude/                      # Claude Code project config (.mcp.json, settings.local.json)
-├── .ai-factory/                  # Roadmap, specs, notes, handoffs, architecture, plans
+├── .ai-factory/                  # Roadmap, specs, notes, handoffs, architect folders, architecture, plans
 ├── CLAUDE.md
 ├── AGENTS.md
 └── README.md
@@ -167,7 +167,7 @@ Skills from this repo are available globally to all projects via Claude Code's p
 
 **Planning chain:** `/roadmap-outline` (strategic phases) → `/roadmap-decompose` (atomic, implementation-ready tasks) → `/roadmap-decompose-skeleton` (optional second pass: skeleton/TDD/concurrency splits on heavy tasks). Each writes two-tier artifacts (contract line + task spec) via `roadmap-engine`.
 
-New task specs land in `.ai-factory/specs/`; older ones still sit in `.ai-factory/notes/` and stay valid — every reader resolves the task spec through the contract line's `Spec:` tag, never a hardcoded directory. `.ai-factory/handoffs/` holds session handoffs, a separate genre.
+New task specs land in `.ai-factory/specs/`; older ones still sit in `.ai-factory/notes/` and stay valid — every reader resolves the task spec through the contract line's `Spec:` tag, never a hardcoded directory. `.ai-factory/handoffs/` holds session handoffs, a separate genre; `.ai-factory/architects/` holds one folder per architect, each with its buffer, its snapshots and its address file.
 
 Planning and implementation are separate processes: this chat produces the roadmap and spec artifacts; the **orchestrator** (a separate run) implements them — never in the planning session. This is a hard constraint (see global CLAUDE.md).
 
