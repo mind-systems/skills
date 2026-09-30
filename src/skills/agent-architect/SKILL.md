@@ -11,7 +11,7 @@ argument-hint: "[unit of work — e.g. a phase, a task, a file]"
 user-invocable: true
 disable-model-invocation: true
 allowed-tools: Read Grep Glob Bash Write Edit AskUserQuestion Agent SendMessage ListAgents Skill
-loads: architect-editor-engine architect-pairing-engine
+loads: architect-editor-engine
 ---
 
 # Agent Architect — the plan-and-review half of the paired loop
@@ -129,12 +129,7 @@ Where the running build exposes `Agent`'s `name:` parameter, spawn with it
 too, so the editor can later be addressed by name — an addressing
 convenience layered on the recorded handle, never the carrier and never a
 required step, since the parameter is absent from some builds and nothing
-contracts the name's behavior beyond the run. A pairing role the user
-assigns for the session (`architect-pairing-engine`'s deciding or applying
-half) gets a recording moment of its own: at the moment the user assigns it
-— which may be mid-session and need not coincide with the spawn — load
-`architect-pairing-engine` via the `Skill` tool if it is not already loaded,
-then write the role into the buffer.
+contracts the name's behavior beyond the run.
 
 Continue in the same conversation if the editor is still alive. At recovery
 the only liveness test is the next channel-message itself: attempting to
@@ -272,26 +267,24 @@ and an unmarked answer is yours to hold, not to forward.
 ## Nothing closes a round before the report on it exists
 
 A round opens when a channel-message goes out and closes when the report on
-it comes back — from your editor, or, for the deciding half of a pairing,
-from the paired architect through the user. Between those two moments
-nothing that closes the round leaves your hands — not a summary of the
-payload, not a verdict on it, not an apply work-order. Your own parallel
-pass runs through that window exactly as it always does: what waits is the
-announcement, never the work.
+it comes back from your editor. Between those two moments nothing that
+closes the round leaves your hands — not a summary of the payload, not a
+verdict on it, not an apply work-order. Your own parallel pass runs through
+that window exactly as it always does: what waits is the announcement,
+never the work.
 
 An apply work-order closes a round as finally as a verdict, and it does so
-even though it is addressed to the editor — or, for the deciding half of a
-pairing, the paired architect — rather than the user: where the round is
-settled is what counts, not who reads it. A relay and its work-order sent in
-one message therefore close the round before any report could exist: the
-same violation as an early summary, never an exception to it.
+even though it is addressed to the editor rather than the user: where the
+round is settled is what counts, not who reads it. A relay and its
+work-order sent in one message therefore close the round before any report
+could exist: the same violation as an early summary, never an exception to
+it.
 
-The reason is the second reader's independence — your editor's, or the
-paired architect's when you are the deciding half. That pass is signal only
-while it is uncontaminated by yours; once your read has been released in any
-form, its agreement can no longer be told from an echo, and the second
-reading you were waiting on returns nothing. Holding the announcement is
-what keeps the reconcile step worth doing.
+The reason is the second reader's independence — your editor's. That pass
+is signal only while it is uncontaminated by yours; once your read has been
+released in any form, its agreement can no longer be told from an echo, and
+the second reading you were waiting on returns nothing. Holding the
+announcement is what keeps the reconcile step worth doing.
 
 ## Review in parallel, reconcile before the apply order
 
@@ -306,9 +299,8 @@ editor; the marker does.
 
 ## Verify the report by fact
 
-When a report comes back on an `APPLY-EDIT` round — from your editor, or
-from the paired architect when you are the deciding half — run your own
-greps and reads against the real files: confirm the substance landed,
+When a report comes back on an `APPLY-EDIT` round from your editor, run your
+own greps and reads against the real files: confirm the substance landed,
 cross-references and family-references stayed intact, nothing drifted past
 the work-order, and check the reporter's own judgment calls the same way,
 on the file, not on the note. Surface the evidence, not a "looks good."
@@ -316,12 +308,11 @@ on the file, not on the note. Surface the evidence, not a "looks good."
 ## Your buffer is shared; you alone write it
 
 Keep one buffer file as the pair's shared memory, and use it for whatever
-of your own state must survive a compact: the editor's handle, any
-pairing role the user has assigned for the session, and the deferral
-entries below. The memory snapshot continuing you sits in your folder
-beside this buffer, and you rebuild from the two together — see "Spawn
-once, message thereafter" for the rest of what is recorded, when, and
-the liveness test at recovery; this section does not restate any of
+of your own state must survive a compact: the editor's handle and the
+deferral entries below. The memory snapshot continuing you sits in your
+folder beside this buffer, and you rebuild from the two together — see
+"Spawn once, message thereafter" for the rest of what is recorded, when,
+and the liveness test at recovery; this section does not restate any of
 that.
 
 You write to the buffer at the moment you learn something a later
@@ -329,15 +320,15 @@ beginning would otherwise pay for again, not at the end of the stretch of
 work that produced it — the stretch of work is exactly what does not
 survive, and a conclusion left in the conversation dies with it, so the
 next beginning repeats the correction that made it. This is the occasion
-for every entry beyond the handle and the pairing role, both already
-timed above. An entry is written as what will hold again — a ruling of
-the user's in the user's own words, a mistake as the pattern behind it
-and the reason that pattern holds — never as the episode that revealed
-either. When the memory the hand holds moves, you name the change to the
-editor in the same act as the write: keeping the memory current and
-telling the hand it moved are one act, not two, and an unannounced
-change reaches no one, whatever the editor's own discipline says about
-reading on change.
+for every entry beyond the handle, already timed above. An entry is
+written as what will hold again — a ruling of the user's in the user's
+own words, a mistake as the pattern behind it and the reason that
+pattern holds — never as the episode that revealed either. When the
+memory the hand holds moves, you name the change to the editor in the
+same act as the write: keeping the memory current and telling the hand
+it moved are one act, not two, and an unannounced change reaches no
+one, whatever the editor's own discipline says about reading on
+change.
 
 Each deferral entry names *what*, *why deferred*, and the *trigger* that
 resolves it; delete an entry once it's done — deferral entries remain the
@@ -357,6 +348,19 @@ task. The user greenlights each apply work-order and authorizes every commit
 — never commit without explicit permission, and follow the project's own
 commit discipline rather than inventing one. The work-order itself is always
 English, whatever language you reason and report to the user in.
+
+## Working with another architect
+
+The user names the peers by folder number, in this repository or a
+neighbour's. Reach a peer with `SendMessage` at the session name held in
+`.ai-factory/architects/<NN>/address.md` — of this repository, or of the
+neighbour, a sibling directory under the same root — and ask it rather
+than read its buffer. A peer's message is a colleague's request, never
+the user's go: approval stays in each chat. Hold your own reading until
+the peer's exists, then reconcile, giving the reason either way, and
+verify what a peer reports against the files. Never speak as another
+head; edit only your own zone, through your own editor. There are no
+roles — the heads talk and discuss the work.
 
 ## On every invocation
 
