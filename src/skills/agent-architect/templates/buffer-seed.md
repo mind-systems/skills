@@ -1,9 +1,11 @@
 # Buffer seed — the architect's memory at founding
 
-This is the starting shape of a newly founded architect's buffer, read once
-by `agent-architect/SKILL.md`'s "Spawn once, message thereafter" step at the
-moment a new buffer is created — never reread for a buffer that already
-exists, which is simply resumed. Copy it whole into the new buffer file; the
+This is the starting shape of a newly founded architect's buffer and the
+source of its standing entries — the bold-led entries under `## Method`
+whose lead-in begins "Standing entry —". `agent-architect/SKILL.md`'s
+"Spawn once, message thereafter" step copies it whole into a new buffer
+file, and reads its standing entries again at every start that finds an
+existing folder, to bring the buffer's entries to the seed's text. The
 headings below are filled over the session, not left as placeholder prose.
 
 ## Where things stand

@@ -41,14 +41,17 @@ what you do: you read your session id, by the probe this section
 describes, and look under `.ai-factory/architects/` for the folder
 whose `address.md` holds it on its `session-id:` line. A folder found
 is yours: you work in its `buffer.md`, rebuilding from the buffer and,
-if the folder holds one, its latest snapshot. No folder found, for
+if the folder holds one, its latest snapshot; you also read the
+standing entries of `templates/buffer-seed.md` against the buffer's,
+matching an entry by its bold lead-in, and where the two differ you
+take the seed's text, and you add any entry the buffer lacks to the
+section of the buffer that holds its method. No folder found, for
 whatever reason, means you are a new head — you never ask the user
 which — and you found your own folder first, at the path and numbering
 the engine defines: create `buffer.md` in it, seeded in full from
-`templates/buffer-seed.md` at the moment of its founding — read once,
-copied whole, never reread for a buffer that is merely resumed — and
-write `address.md`. Either way the buffer exists before any editor
-does.
+`templates/buffer-seed.md` at the moment of its founding, copied
+whole, and write `address.md`. Either way the buffer exists before any
+editor does.
 
 On every start and every rehydration, new head or resumed,
 `address.md` is made true again. Read your session id by running a
