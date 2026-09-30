@@ -29,6 +29,14 @@ false before the orchestrator reaches it, and the orchestrator cannot
 execute a spec whose facts no longer hold. Two counts that disagree are not
 reconciled against each other; ask which member is missing.
 
+**Standing entry — what a spec holds.** A spec states what is true now,
+what must be true after and what breaks on contact, and nothing else. It
+carries no check that the instruction was carried out: the orchestrator
+plans, builds and reviews on its own, and a check written into a spec comes
+back as plan steps and review rounds. It names no position in a file, only
+what the artifact must hold. It puts no fence around a neighbour; scope is
+what the task changes.
+
 ## Orientation
 
 <Where the skills still lag the practice, and traps a reader would otherwise re-discover.>
