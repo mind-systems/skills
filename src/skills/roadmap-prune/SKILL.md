@@ -59,8 +59,8 @@ status-marker grammar / **pinned** definition referenced below.
    entry is pinned, and name the resolution — the prune is parked, not engineered
    around:
    1. the user runs `/command-handoff` on this session — the handoff carries every
-      unpinned observation (gist, original reviewer text, `Affects:`, `file:line` of
-      the entry) plus the gate context into `.ai-factory/handoffs/`;
+      unpinned observation (gist, original reviewer text, `Affects:`, the review file
+      the entry sits in) plus the gate context into `.ai-factory/handoffs/`;
    2. a **dedicated resolution session** works through the findings — fixing, routing
       into an **open** task's spec, or dismissing — and sets pins per
       `orchestrator-artifacts` § 6;
