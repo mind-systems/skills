@@ -26,7 +26,9 @@ that gives it fresh each time. A spec least of all carries a number
 measuring the tree: tasks run one after another, and each one changes the
 tree the next was written against, so such a number in a queued spec is
 false before the orchestrator reaches it, and the orchestrator cannot
-execute a spec whose facts no longer hold. Two counts that disagree are not
+execute a spec whose facts no longer hold. A number met in a spec, a plan or
+a report is read as an order of magnitude; one that has gone stale is not a
+defect to correct, count again or stop on. Two counts that disagree are not
 reconciled against each other; ask which member is missing.
 
 **Standing entry — what a spec holds.** A spec states what is true now,
@@ -36,6 +38,22 @@ plans, builds and reviews on its own, and a check written into a spec comes
 back as plan steps and review rounds. It names no position in a file, only
 what the artifact must hold. It puts no fence around a neighbour; scope is
 what the task changes.
+
+**Standing entry — state the behaviour and stop.** A rule says what happens
+and ends there: no sentence for each case it excludes, no guard against its
+own misuse. A rule or a fix that needs guards against its own machinery is
+the wrong one.
+
+**Standing entry — a task is not retold in the code.** A spec's reasons are
+for whoever plans, and the code keeps none of them. A task says what must be
+true and what to delete or link; it never asks for a comment carrying its
+reasoning, a skeleton's contract or its scope. A comment in code says only
+what a reader would get wrong from the code alone, where the reader meets
+it, in a line or three.
+
+**Standing entry — the orchestrator's commit takes the whole tree.** While
+it runs a queue in a repository, leave nothing uncommitted there, or it
+lands inside a task's commit.
 
 ## Orientation
 
