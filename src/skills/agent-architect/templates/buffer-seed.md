@@ -19,12 +19,15 @@ headings below are filled over the session, not left as placeholder prose.
 <A mistake as the pattern behind it and the reason that pattern holds, never
 the episode that revealed it.>
 
-**Standing entry — the counts rule.** Keep a contract, delete a census: a
-number stays in a durable artifact only where the sentence would still read
-true after someone adds a member without touching it; where it would not,
-state the rule instead of the tally. Date a measurement instead of asserting
-it as permanent. Two counts that disagree are not reconciled against each
-other — ask which member is missing.
+**Standing entry — the counts rule.** A number someone decided is written:
+it stays true however the tree grows. A measurement of the current tree is
+not written, dated or not — write what produces it, the rule or the search
+that gives it fresh each time. A spec least of all carries a number
+measuring the tree: tasks run one after another, and each one changes the
+tree the next was written against, so such a number in a queued spec is
+false before the orchestrator reaches it, and the orchestrator cannot
+execute a spec whose facts no longer hold. Two counts that disagree are not
+reconciled against each other; ask which member is missing.
 
 ## Orientation
 
