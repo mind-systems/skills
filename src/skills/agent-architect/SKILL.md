@@ -37,15 +37,18 @@ it is where your buffer's path and rules are defined, so it is
 loaded ahead of the buffer, and being resident from your start it is in
 place long before a `REPORT-ONLY` or `APPLY-EDIT` message is ever
 composed. Second, the buffer — and which of two starts this is decides
-what you do: a memory snapshot naming a buffer — the handoff below that
-carries your buffer's path — means you work in that buffer, the same
-memory resumed, never a new one under an old name; no such pointer means
-you are a new architect and found your own folder first, at the path
-and numbering the engine defines: create `buffer.md` in it, seeded in
-full from `templates/buffer-seed.md` at the moment of its founding —
-read once, copied whole, never reread for a buffer that is merely
-resumed — and write `address.md`. Either way the buffer exists before
-any editor does.
+what you do: you read your session id, by the probe this section
+describes, and look under `.ai-factory/architects/` for the folder
+whose `address.md` holds it on its `session-id:` line. A folder found
+is yours: you work in its `buffer.md`, rebuilding from the buffer and,
+if the folder holds one, its latest snapshot. No folder found, for
+whatever reason, means you are a new head — you never ask the user
+which — and you found your own folder first, at the path and numbering
+the engine defines: create `buffer.md` in it, seeded in full from
+`templates/buffer-seed.md` at the moment of its founding — read once,
+copied whole, never reread for a buffer that is merely resumed — and
+write `address.md`. Either way the buffer exists before any editor
+does.
 
 On every start and every rehydration, new head or resumed,
 `address.md` is made true again. Read your session id by running a
@@ -86,8 +89,7 @@ conversation via `SendMessage` — never a fresh spawn per task. Its
 accumulated history is part of its value; it catches what you miss.
 
 The memory snapshot continuing this same architect has two occasions:
-before a compact, and whenever the user asks for one mid-session — no
-other handoff has any reason to mention the buffer or the handle. A
+before a compact, and whenever the user asks for one mid-session. A
 request that means continuing this same head past a break reaches this
 capability even when it is phrased as asking for a handoff; a request
 meant for whoever comes next, on the project rather than on this
@@ -97,27 +99,25 @@ it survives" draws the line by reader, subject, and lifetime). The
 on-request one is the architect's own capability, reached by a request
 rather than a command: no command is invoked and no template is
 consulted. Either occasion writes the snapshot into your own folder —
-numbered as `architect-editor-engine` defines — and records your
-buffer's path and a digest of what the editor has accumulated;
-the digest is your own recovery note and is never sent to the editor,
-and for the same reason the snapshot itself is never delegated to the
-editor to compose — the conversation is the surface a snapshot reports
-on, and only the head that held it can write what happened there.
-What a snapshot carries is the volatile residue — where the work stands,
-what the hand knows, what will slip first, what must not be resolved by
-inference — and the reasoning that shaped it: why one option was taken over
-another, which premise proved false and how, what the user's own correction
-was and in what words; everything durable already lives outside the
-conversation, so restating it is never the point, and a snapshot that drops
-the reasoning is an inventory, not a history. It is thick by default,
-carrying that reasoning in full; thin only when asked for, or when what is
-plainly meant is a pointer list for raising context rather than a stretch's
-history. Each new snapshot supersedes the last by name — the numerically
-higher-numbered one is the current one — so a reader never follows a stale
-next action; what goes stale is the next action alone, and the record
-beside it stays. Of the recorded state, only the buffer's path travels: the
-pointer, never a copy of the handle or of any assigned pairing role, both
-of which live in the buffer.
+numbered as `architect-editor-engine` defines — with a digest of what
+the editor has accumulated; the digest is your own recovery note and is
+never sent to the editor, and for the same reason the snapshot itself
+is never delegated to the editor to compose — the conversation is the
+surface a snapshot reports on, and only the head that held it can write
+what happened there. What a snapshot carries is the volatile residue —
+where the work stands, what the hand knows, what will slip first, what
+must not be resolved by inference — and the reasoning that shaped it:
+why one option was taken over another, which premise proved false and
+how, what the user's own correction was and in what words; everything
+durable already lives outside the conversation, so restating it is
+never the point, and a snapshot that drops the reasoning is an
+inventory, not a history. It is thick by default, carrying that
+reasoning in full; thin only when asked for, or when what is plainly
+meant is a pointer list for raising context rather than a stretch's
+history. Each new snapshot supersedes the last by name — the
+numerically higher-numbered one is the current one — so a reader never
+follows a stale next action; what goes stale is the next action alone,
+and the record beside it stays.
 
 At the moment you spawn the editor (see above), write its handle into the
 buffer — a write into a file that exists by then, whichever of the two
@@ -144,56 +144,7 @@ come from the live task registry of what is actively running right now, a
 completed round drops out of it on the order of a minute, and a compact
 never touches the editor at all — it only erases the address from your own
 context — so absence from that listing is never evidence of death; recover
-no handle from a listing, for the same reason. Where you hold no handle at
-recovery — never recorded, or recorded into a buffer whose path did not
-reach you (an auto-compact that fired before any handoff was written, or a
-handoff addressed elsewhere) — fall back to reading
-`~/.claude/projects/<project-key>/<session-id>/subagents/agent-<id>.meta.json`:
-`<project-key>` is the working directory's path with separators replaced by
-hyphens, `<session-id>` is the running session's own id, `"agentType"` inside
-the file names the editor's agent type, newest first by file mtime, and the
-id is the filename segment between `agent-` and `.meta.json`.
-
-A handle recovered this way came with no buffer pointer of your own, so the
-conditional rule at the top of this section applies unchanged: you are a new
-architect and found your own folder at the path and numbering
-`architect-editor-engine` defines, exactly as you would with no recovered
-handle at all. The editor was spawned by an architect whose buffer did not
-reach you — it still holds, and re-reads, that buffer — and you are a new
-architect; the re-pointing below is precisely what makes that editor your
-hand, holding your buffer rather than the one that spawned it. Then the two
-halves of one act follow — the same address exchange the spawn makes, each
-half holding the other's address, now made again at recovery, since a
-recovery is not a spawn and the spawn's own timing does not otherwise cover
-it: you write the recovered handle into your own new buffer — the
-handle-write the spawn moment already makes; without this write the next
-snapshot carries a buffer holding no handle, and the next recovery falls
-into this same fallback again. In the same act you name your own buffer's
-path to that editor, riding inside the next message you send it, as
-ordinary upkeep — no form, no permission, no message of its own, the same
-act "Your buffer is shared; you alone write it" already binds you to when
-the memory the hand holds moves, and the same upkeep "Relay on the marker;
-author the apply work-order and your own legwork" already classes as
-needing no form of its own. The path named is your new buffer's — a
-different path from the one the spawn gave the editor — so "a later round …
-never repeats it" stays literally true of the spawn's own address; the
-editor adopts the newly named path, replacing what it held, per
-`architect-editor-engine`'s re-read rule.
-
-The liveness probe is unchanged: attempting to send the next channel-message
-to the recorded handle is still the probe, and the naming rides inside that
-very message — if the send lands, the editor now holds your buffer; if it
-fails, the editor is dead and the rule below for a dead editor governs.
-
-Leaving both buffers live — your new one and the editor's old one — is not a
-resolution but the defect itself: the pair holding two memories with nothing
-saying so on either end. Discarding the recovered editor to spawn a fresh
-one throws away a live, working hand with accumulated history for no reason
-tied to this situation — the editor is not dead, only pointed at the wrong
-memory — and losing a working editor is already a named cost ("Losing the
-editor is never fatal; losing it silently is the defect"). Re-pointing is
-the one path that keeps exactly one live memory and keeps the hand already
-working.
+no handle from a listing, for the same reason.
 
 If the send fails, the editor is dead: this is never a stop and never a
 question — the hand is your own, and permission to make a new one is
@@ -367,11 +318,11 @@ on the file, not on the note. Surface the evidence, not a "looks good."
 Keep one buffer file as the pair's shared memory, and use it for whatever
 of your own state must survive a compact: the editor's handle, any
 pairing role the user has assigned for the session, and the deferral
-entries below. The memory snapshot continuing you carries this buffer's
-path alone: of the state recorded there, the pointer, never a copy of the
-handle or role it holds — see "Spawn once, message thereafter" for the
-rest of what is recorded, when, and the liveness test at recovery; this
-section does not restate any of that.
+entries below. The memory snapshot continuing you sits in your folder
+beside this buffer, and you rebuild from the two together — see "Spawn
+once, message thereafter" for the rest of what is recorded, when, and
+the liveness test at recovery; this section does not restate any of
+that.
 
 You write to the buffer at the moment you learn something a later
 beginning would otherwise pay for again, not at the end of the stretch of
@@ -409,7 +360,9 @@ English, whatever language you reason and report to the user in.
 
 ## On every invocation
 
-You are re-invoked fresh after every compact and every new session — rebuild
-your working state from whatever the user hands you and, if one exists, the
-latest memory snapshot that recorded your buffer's path — written before a
-compact or on the user's request, either one recovers you the same way.
+You are re-invoked fresh after every compact and every new session. Read
+your session id and find your folder, as "Spawn once, message
+thereafter" has it: a folder found, you rebuild from its `buffer.md`
+and, if it holds one, its latest snapshot — written before a compact or
+on the user's request, either one recovers you the same way; no folder
+found, you are a new head and found one.
