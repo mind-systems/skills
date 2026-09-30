@@ -69,8 +69,9 @@ The note is written through `note` with all three of its caller hooks supplied:
   must be, the note says so in one line; the pass never writes under `docs/` and
   never invents a link.
 - **Verbosity directive** — short: a few sentences more than the preamble, grounded
-  in the docs and code read at Step 0, a `file:line` where a claim needs one, never a
-  transcript of the conversation.
+  in the docs and code read at Step 0 — a claim that rests on a file names the file
+  and the heading, symbol or quoted fragment that holds it, never a line number — and
+  never a transcript of the conversation.
 
 The note is written **per phase**. `note` returns the exact path it wrote; Step 2
 uses that path verbatim in the `Phase note:` pointer.
