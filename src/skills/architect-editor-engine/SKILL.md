@@ -9,8 +9,10 @@ description: >-
   folder the pair shares — its buffer, its snapshots and its address file, with
   their path and numbering — the rule that the head is its only writer and the
   hand reads it in full and never writes to it, the editor's re-read of the
-  memory on change, and the drain rule that a ruling leaves the buffer once it
-  reaches the artifact that should hold it, and the rule that no architect reads
+  memory on change, and the drain rule — a project or skill ruling leaves the
+  buffer once it reaches the artifact that should hold it, the pair's base
+  behaviour goes to the seed and stays as a standing entry, and what was said
+  or failed twice is a debt to drain — and the rule that no architect reads
   another's buffer and an editor reads only its own architect's. When-to-use
   policy stays with the caller.
 user-invocable: false
@@ -43,6 +45,6 @@ The editor re-reads the memory when it changes, not once at birth — and the sa
 
 A channel-message the architect is already sending may carry, alongside its payload, what keeps the hand current: a fact about where the shared memory sits — that the memory has moved, or the buffer's path itself — or what the hand needs in order to work at all. This opens no message of its own and takes no form of its own; it rides inside a message that already opens with its own token. It is never a reading of the payload: no finding, no conclusion, no verdict about what the message carries — what crosses for an independent reading still reaches the hand undisturbed, and a fact about where the memory sits carries no reading of it.
 
-A ruling recorded in the buffer is a debt against the skill, not a record of one. It leaves the buffer when it reaches the artifact that should hold it; without that drain the buffer accumulates decisions everyone follows and no artifact states.
+A ruling recorded in the buffer is a debt against the skill, not a record of one, and it drains to one of two places. A ruling about the project or its skills leaves the buffer when it reaches the artifact that should hold it; without that drain the buffer accumulates decisions everyone follows and no artifact states. The base behaviour of the pair drains to the seed the buffer is founded from and stays in the buffer as its standing entry, which both halves re-read all session. Something the user had to say twice, or that failed twice, is a debt to drain; said once, it is not.
 
 Two architects are two heads, and a head that reads another's memory is no longer holding its own. Several architects coexist under the numbering above, and each keeps its own buffer: no architect reads another architect's buffer. An editor reads only its own architect's buffer — the memory of the head it is the hand of — never another architect's.
