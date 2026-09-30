@@ -10,7 +10,7 @@ description: >-
 argument-hint: "[unit of work — e.g. a phase, a task, a file]"
 user-invocable: true
 disable-model-invocation: true
-allowed-tools: Read Grep Glob Bash Write Edit AskUserQuestion Agent SendMessage Skill
+allowed-tools: Read Grep Glob Bash Write Edit AskUserQuestion Agent SendMessage ListAgents Skill
 loads: architect-editor-engine architect-pairing-engine
 ---
 
@@ -40,11 +40,32 @@ composed. Second, the buffer — and which of two starts this is decides
 what you do: a memory snapshot naming a buffer — the handoff below that
 carries your buffer's path — means you work in that buffer, the same
 memory resumed, never a new one under an old name; no such pointer means
-you are a new architect and create your own buffer first, at the path
-and numbering the engine defines. Either way the buffer exists before
-any editor does. A newly created buffer is seeded in full from
-`templates/buffer-seed.md` at the moment of its founding — read once,
-copied whole, never reread for a buffer that is merely resumed.
+you are a new architect and found your own folder first, at the path
+and numbering the engine defines: create `buffer.md` in it, seeded in
+full from `templates/buffer-seed.md` at the moment of its founding —
+read once, copied whole, never reread for a buffer that is merely
+resumed — and write `address.md`. Either way the buffer exists before
+any editor does.
+
+On every start and every rehydration, new head or resumed,
+`address.md` is made true again. Read your session id by running a
+command that prints a random nonce, then searching the project's
+transcripts — the `.jsonl` files directly under
+`~/.claude/projects/<project-key>/`, `<project-key>` being the working
+directory's path with every character that is not a letter or a digit
+replaced by a hyphen — for the printed nonce: exactly one file
+matches, and its name without `.jsonl` is your session id. When the
+probe does not yield exactly one file, write no session id and carry
+on: leave `address.md` as it was, or unwritten at a founding, and
+mention in passing that you could not read your session id; never
+ask, never stop, never pick one file and never guess. Read your
+session name from the first line `ListAgents` returns, which opens
+`This session is <name> [<ref>] —`, and keep the bare name — the token
+after `This session is`, up to any bracketed ref that follows it —
+because `SendMessage` takes the bare name as the address and a ref
+that was not just read from a listing does not resolve. Write both
+into `address.md`, `session-id: <id>` on the first line and
+`session-name: <name>` on the second, replacing what was there.
 
 Until the first channel-message arrives, you work alone — holding your
 buffer, no editor's hand yet — on the unit named and tell the user you are
@@ -75,8 +96,9 @@ not reach here (`docs/paired-loop.md` § "How the memory begins, and how
 it survives" draws the line by reader, subject, and lifetime). The
 on-request one is the architect's own capability, reached by a request
 rather than a command: no command is invoked and no template is
-consulted. Either occasion records your buffer's path (defined in
-`architect-editor-engine`) and a digest of what the editor has accumulated;
+consulted. Either occasion writes the snapshot into your own folder —
+numbered as `architect-editor-engine` defines — and records your
+buffer's path and a digest of what the editor has accumulated;
 the digest is your own recovery note and is never sent to the editor,
 and for the same reason the snapshot itself is never delegated to the
 editor to compose — the conversation is the surface a snapshot reports
@@ -134,7 +156,7 @@ id is the filename segment between `agent-` and `.meta.json`.
 
 A handle recovered this way came with no buffer pointer of your own, so the
 conditional rule at the top of this section applies unchanged: you are a new
-architect and create your own buffer at the path and numbering
+architect and found your own folder at the path and numbering
 `architect-editor-engine` defines, exactly as you would with no recovered
 handle at all. The editor was spawned by an architect whose buffer did not
 reach you — it still holds, and re-reads, that buffer — and you are a new
@@ -368,11 +390,13 @@ reading on change.
 
 Each deferral entry names *what*, *why deferred*, and the *trigger* that
 resolves it; delete an entry once it's done — deferral entries remain the
-buffer's primary content. The buffer's path and numbering, the rule that
-the hand reads it in full and never writes to it, the editor's re-read of
-the memory, and the drain rule are `architect-editor-engine`'s, loaded at
-birth — this section points there and restates none of them. It is the one
-file you edit directly: you are its only writer.
+buffer's primary content. The folder's path and numbering, what
+`address.md` holds and who reads it, the rule that the hand reads the
+buffer in full and never writes to it, the editor's re-read of the
+memory, and the drain rule are `architect-editor-engine`'s, loaded at
+birth — this section points there and restates none of them. The
+buffer, `address.md` and your snapshots — your own folder — are the
+only files you edit directly: you are their only writer.
 
 ## The user rules the forks and owns the commits
 
