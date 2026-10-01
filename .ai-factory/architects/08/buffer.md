@@ -17,7 +17,9 @@ session name.>
 
 ## Where things stand
 
-Head 08, no team, no editor yet. The user asked for a prune of `roadmaps/trickster77777.md` "до стопа на 149" — up to the `---STOP---` line that separates the closed phases from the outlined-only ones below it. The prune is parked at its deferred-observations gate: no entry in the stem's review files carries a pin, so nothing was edited. The resolution is handed to architect 07 (`skills-9f`) by message, at the user's word, never written to disk: 07 pins every entry, routing onto phases below the stop; then the prune re-runs, by whoever the user names.
+Editor: `ad674212d411e34f2` (named `editor-08`), spawned 2026-10-01 on the APPLY-EDIT that added the side-effect finding to Phase 50's note.
+
+Head 08, no team. The prune of `roadmaps/trickster77777.md` up to the first `---STOP---` ran after architect 07 cleared the gate: every closed phase above the stop is gone, the roadmap opens on the stop line and holds only outlined phases below it, Features and the drop-history ledger are written. All of it is committed as `Roadmap prune` (parent `cd341bb`), together with the handoff and notes cleanup; snapshot `01` carries the session's reasoning. Of the four candidates recovered from the dead heads' buffers, the user kept one — the side-effect rule — now a finding in Phase 50's note; the other three are ruled settled as they stand.
 
 ## Rulings in force
 

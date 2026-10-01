@@ -59,14 +59,19 @@ Above both sits the always-loaded layer — the skill-description-field and the 
 | **Planning chain** | |
 | Phase notes & preambles (`roadmap-outline-deep`) | 01ec355 |
 | Pin-gaps readiness pass | 497510b |
+| Polymorphism lens | d5ab6e4 |
 | **Paired loop** | |
 | Architect↔editor channel protocol engine | 7d0581a |
-| Two-architect pairing | 366d7d1 |
+| Architect peer collaboration | 366d7d1 6b32009 |
+| Architect folders & self-rehydration | 2fa47fa |
+| Seeded buffer with standing entries | 6168187 e11c503 |
 | Shared working memory & compact recovery | 6969f84 |
 | **Rescue** | |
 | Escalated-task rescue | ddaaecb |
 | Rescue reports per project | 248ebbe |
 | **Handoffs** | |
 | Handoff processed mark | 64366b4 |
+| **Prune** | |
+| Observations routed onto phases | b5bfbf7 |
 | **Internal** | |
-| Roadmap drop history | 2d2f3f6, 902f7d9, 5348761, 1da6fc2 |
+| Roadmap drop history | 2d2f3f6, 902f7d9, 5348761, 1da6fc2, cd341bb |
