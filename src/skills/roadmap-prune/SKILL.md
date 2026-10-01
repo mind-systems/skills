@@ -62,7 +62,7 @@ status-marker grammar / **pinned** definition referenced below.
       unpinned observation (gist, original reviewer text, `Affects:`, the review file
       the entry sits in) plus the gate context into `.ai-factory/handoffs/`;
    2. a **dedicated resolution session** works through the findings — fixing, routing
-      into an **open** task's spec, or dismissing — and sets pins per
+      into an **open** task's spec or onto a phase, or dismissing — and sets pins per
       `orchestrator-artifacts` § 6;
    3. `roadmap-prune` is re-run when every entry is pinned; the gate passing is the
       resolution's proof, never manufactured.
