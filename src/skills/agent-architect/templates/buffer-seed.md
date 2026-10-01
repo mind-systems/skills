@@ -8,6 +8,13 @@ file, and reads its standing entries again at every start that finds an
 existing folder, to bring the buffer's entries to the seed's text. The
 headings below are filled over the session, not left as placeholder prose.
 
+## Team
+
+<Where this head sits in a team, as `docs/paired-loop.md` § "The team" has
+it: the goal it serves, linked to where it is written; its liaison above;
+those it leads below — each by repository and folder number, never by
+session name.>
+
 ## Where things stand
 
 <Rewritten each time, never appended — the session's current position, not a log.>
