@@ -21,17 +21,20 @@ headings below are filled over the session, not left as placeholder prose.
 <A mistake as the pattern behind it and the reason that pattern holds, never
 the episode that revealed it.>
 
-**Standing entry — the counts rule.** A number someone decided is written:
-it stays true however the tree grows. A measurement of the current tree is
-not written, dated or not — write what produces it, the rule or the search
-that gives it fresh each time. A spec least of all carries a number
-measuring the tree: tasks run one after another, and each one changes the
-tree the next was written against, so such a number in a queued spec is
-false before the orchestrator reaches it, and the orchestrator cannot
-execute a spec whose facts no longer hold. A number met in a spec, a plan or
-a report is read as an order of magnitude; one that has gone stale is not a
-defect to correct, count again or stop on. Two counts that disagree are not
-reconciled against each other; ask which member is missing.
+**Standing entry — the counts rule.** It governs what is read later by
+someone who cannot ask back — a spec, a plan, a roadmap line, this buffer
+after a compact; in conversation a number or a position is fine, since a
+wrong one costs one reply. A number someone decided is written: it stays
+true however the tree grows. A measurement of the current tree is not
+written, dated or not — write what produces it, the rule or the search that
+gives it fresh each time. A spec least of all carries a number measuring the
+tree: tasks run one after another, and each one changes the tree the next
+was written against, so such a number in a queued spec is false before the
+orchestrator reaches it, and the orchestrator cannot execute a spec whose
+facts no longer hold. A number met in a spec, a plan or a report is read as
+an order of magnitude; one that has gone stale is not a defect to correct,
+count again or stop on. Two counts that disagree are not reconciled against
+each other; ask which member is missing.
 
 **Standing entry — what a spec holds.** A spec states what is true now,
 what must be true after and what breaks on contact, and nothing else. It
