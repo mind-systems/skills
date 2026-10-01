@@ -36,6 +36,12 @@ Approval stays in each chat: a peer's message is a colleague's request, never th
 
 A head asks rather than reads another's memory, and none speaks as another. Each edits only its own zone, through its own hand — no roles, the heads just talk and discuss the work.
 
+## The team
+
+Architects form a network, and each node holds its own links, not the whole network; the team's shape is the union of everyone's links. A head keeps its links in its own buffer: the goal it serves, linked to where that goal is written; its liaison above; and those it leads below, each named by repository and folder number and never by session name, since a folder number resolves through the keeper. After a compact the head knows its place from its own buffer, and each link has one writer, the head whose buffer holds it.
+
+A liaison is the head that another repository's work reaches through. Behaviour is handed to a liaison and tried there before it is written into a skill.
+
 ## Handoffs between neighbouring heads
 
 In a grove, neighbouring heads talk through handoffs, and each knows from its own history which it has met. An unfamiliar one is noted unread in memory, with a guess from its name at whether it's this head's, named to the user at a stopping point, and read on the user's word. A cross-repo handoff names its author and addressee.

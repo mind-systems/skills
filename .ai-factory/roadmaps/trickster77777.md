@@ -118,11 +118,33 @@ Docs address by name (`reference-by-name`), write what produces a measurement, n
 
 Governing spec: `docs/paired-loop.md`
 
-The skill is read once and fades; the buffer is read, edited and re-read all session, so the behaviour both halves must keep holding lives there, and the seed carries it into every buffer. The seed lacks part of that behaviour, the skill reads it only at founding, and the engine's drain has one destination. Phase note: [the skill gives birth, the buffer is the ROM](.ai-factory/specs/trickster77777/184-the-skill-gives-birth-to-the-architect-the-buffer-is-its-rom.md)
+The skill is read once and fades; the buffer is read, edited and re-read all session, so the behaviour both halves must keep holding lives there, and the seed carries it into every buffer and refreshes it at rehydration. The counts entry still reads as a ban where its reason does not hold. Phase note: [the skill gives birth, the buffer is the ROM](.ai-factory/specs/trickster77777/184-the-skill-gives-birth-to-the-architect-the-buffer-is-its-rom.md)
 
 - [x] **66.1 — the seed gains the pair's base behaviour** — `src/skills/agent-architect/templates/buffer-seed.md`, `## Method`, holds standing entries on the counts rule and on what a spec holds, and none of the pair's other base behaviour, though `docs/paired-loop.md` § "Where the pair's behaviour lives" has the seed carry it into every new buffer, and the hand, which writes, reads the buffer whole. Change: the counts entry gains the reading half, that a number met in a text is read as an order of magnitude and a stale one is no defect to chase; three standing entries follow the spec entry — state the behaviour and stop, a task is not retold in the code, the orchestrator's commit takes the whole tree; each pinned verbatim in the spec. Spec: `.ai-factory/specs/trickster77777/186-the-seed-gains-the-pairs-base-behaviour.md`. [4m 27s]
 - [x] **66.2 — a head refreshes its standing entries from the seed** — `agent-architect/SKILL.md` § "Spawn once, message thereafter" and the opening of `templates/buffer-seed.md` both say the seed is read once and never reread for a buffer that exists, so a living buffer keeps the entries it was founded with, against `docs/paired-loop.md`, which has the head read the seed's standing entries against its own at every rehydration. Change: where a folder is found, the head also reads the seed's standing entries against the buffer's, takes the seed's text where they differ and adds what the buffer lacks; the founding passage and the seed's opening are pinned verbatim in the spec, one behaviour in two files and so one task. Sequenced after 66.1, since both edit the seed. Spec: `.ai-factory/specs/trickster77777/187-a-head-refreshes-its-standing-entries-from-the-seed.md`. [3m 39s]
 - [x] **66.3 — the drain names its second destination** — `architect-editor-engine/SKILL.md` § "The architect's buffer" says a ruling "leaves the buffer when it reaches the artifact that should hold it", one destination, and its frontmatter description repeats that, while `docs/paired-loop.md` gives the drain two — a project ruling to its artifact, the pair's base behaviour to the seed, where it stays as a standing entry — and a threshold: what the user said twice, or what failed twice, is a debt to drain. Both halves load the engine. Change: the drain paragraph and the description clause say what the doc says, each pinned verbatim in the spec, the description staying within its limit of 1024 code points. Spec: `.ai-factory/specs/trickster77777/188-the-drain-names-its-second-destination.md`. [4m 48s]
+- [ ] **66.4 — the counts entry opens with its scope** — `src/skills/agent-architect/templates/buffer-seed.md`, `## Method`, **Standing entry — the counts rule.** opens "A number someone decided is written…" and then "A measurement of the current tree is not written, dated or not", which reads as a ban wherever a number appears; architects in another repository applied it to plain conversation and stripped numbers from speech, though the reason it gives, a queued spec false before the orchestrator reaches it, covers only text read later by someone who cannot ask back. `docs/counts-go-stale.md` already scopes itself to a number "in a durable artifact". Change: the entry's body opens with a sentence giving that scope, pinned verbatim in the spec, and the entry follows as it reads. Sequenced after 66.1, which added to the entry. Spec: `.ai-factory/specs/trickster77777/189-the-counts-entry-opens-with-its-scope.md`.
+
+## A new head is born without a place for its team
+
+### Phase 67 — a new head is born knowing it may have a team
+
+Governing spec: `docs/paired-loop.md` § "The team"
+
+The team model lives in `docs/paired-loop.md` § "The team", and heads already keep a `## Team` section in their own buffers, written by hand. A new head's buffer is copied from `templates/buffer-seed.md`, which has no such section, so a newly founded head neither knows a team can exist nor where its links go. No start step is needed: a head reads its buffer whole on rehydration, and after the compact of 2026-10-01 one found its `## Team` unprompted, so the skill body gains nothing.
+
+- [ ] **67.1 — the seed gains a `## Team` section** — `src/skills/agent-architect/templates/buffer-seed.md` has headings for a buffer's state, rulings, method, orientation, ledger, candidates and thread, and none holds a head's links, so a head founded from it has nowhere to write the goal it serves, its liaison above and those it leads below, though `docs/paired-loop.md` § "The team" has each head keep them in its own buffer. Change: a `## Team` heading, first among the seed's sections, with a placeholder in the seed's own `<…>` form saying what it holds, each link by repository and folder number and never by session name; the text is pinned verbatim in the spec. It is the head's own section, filled by the head and not refreshed from the seed. Spec: `.ai-factory/specs/trickster77777/190-the-seed-gains-a-team-section.md`.
+
+
+## The grammar admits one route target where the work uses two
+
+### Phase 68 — a pin may land on a phase, and a phase counts its touches
+
+The prune gate's resolution session pins each parked observation. The grammar admits only an open task's spec as a route target, while in this repository and in `tradeoxy_broker` findings are routed straight onto phases, at the user's word in both. The user also wants a phase's touches counted — how many distinct findings were routed onto it — as a light hint for sorting a long roadmap, never a rule; a missed count does no harm.
+
+- [ ] **68.1 — a route target may be a phase, and a phase counts its touches** — `src/skills/orchestrator-artifacts/SKILL.md` § "Status-marker grammar" admits one route target for `[routed → <path>]`, an open task's spec, while findings are in fact routed straight onto phases in two repositories, and nothing counts how often a phase is routed to. Change: a route target may be a phase, spelled `[routed → <roadmap path> § Phase N]`; routing a distinct finding onto a phase adds one to a `**Touches:** N` line kept in the phase note, or in the phase's preamble while it has no note, a count of one not written and one counted per finding, not per occurrence; the grammar text is pinned verbatim in the spec. Spec: `.ai-factory/specs/trickster77777/191-a-route-target-may-be-a-phase-and-a-phase-counts-its-touches.md`.
+- [ ] **68.2 — the prune gate names a phase as a route target** — `src/skills/roadmap-prune/SKILL.md`, § "Step 0 — Deferred-observations gate", says in its park resolution that the resolution session routes "into an **open** task's spec", one target where the grammar will have two, and no other place in the skill restates it. Change: the sentence names a phase as a target too, per `orchestrator-artifacts`, pinned verbatim in the spec. Sequenced after 68.1, which defines the target. Spec: `.ai-factory/specs/trickster77777/192-the-prune-gate-names-a-phase-as-a-route-target.md`.
+
 
 ---STOP---
 
@@ -146,80 +168,50 @@ A session cited a governing document's section by number, consistently and wrong
 
 `command-pin-gaps` walks one task at a time — its deciding question asks whether the run, holding this task and nothing else, would have to invent — yet its own targeting permits a phase or the whole open roadmap as one invocation, with nothing saying whether the walk repeats per task or runs once over all of them. A hole one task's context closes goes unseen when several are read together, and the file never says so. Phase note: [the unit is fixed for the walk and open for the call](.ai-factory/specs/trickster77777/137-the-unit-is-fixed-for-the-walk-and-open-for-the-call.md)
 
-## Four questions the pass does not ask
-
-### Phase 44 — the walk asks the four questions the run found it was not asking
-
-Four questions the gap pass never asks share one shape: a verification signal — a green suite, a satisfied-looking requirement, a confirmed quote, a passing build — is trusted as proof exactly where it is compatible with the defect standing. They part at the layer the witness sits on, landing in three homes: `test-philosophy`'s own discriminator, `command-pin-gaps`' walk, and its blast-radius sweep. Phase note: [four witnesses, each trusted where it is blind](.ai-factory/specs/trickster77777/138-four-witnesses-each-trusted-where-it-is-blind.md)
-
 ## Every question in the chain looks for what is missing
 
 ### Phase 46 — something asks whether a task claims more than its defect requires
 
 This phase is blocked on two rulings, not one: whether a task claiming more than its defect needs a new rule at all, and whose it is; and where a spec's re-decided, already-ratified answer gets caught, given that no independent reader between drafting and the orchestrator is guaranteed to hold the governing document. If the two answers name different homes, this is two phases. Phase note: [two subtractions that arrived together](.ai-factory/specs/trickster77777/140-two-subtractions-that-arrived-together.md)
 
-## A note written after the tasks takes their shape
+## The phase-note skill leaves its budget, grounding and engine use open
 
-### Phase 47 — the phase note describes the diverging ground, never the task set
+### Phase 47 — the phase-note skill decides what its budget counts, what grounds a note and how it uses the engine
 
-A phase note describes the area of code that diverges and names the documentary surface where one exists; task keys never appear in it, because the contract line is a task's only home. The failure this phase names — one entry per task — is not reproducible on this repository's own two notes, both of which already hold that shape; the evidence is foreign, from elsewhere. The template presupposes a document to measure against, with an escape hatch for when none exists. Phase note: [what the note describes, and what the skill presupposes](.ai-factory/specs/trickster77777/141-what-the-note-describes-and-what-the-skill-presupposes.md)
+`roadmap-outline-deep` leaves unsettled whether the pointer counts toward the preamble budget, whether a note can be grounded in the code alone when its verbosity directive asks for "docs and code", and whether it should run the engine's maintenance flow, given that it rewrites preambles with no confirmation step. Phase note: [what the note describes, and what the skill presupposes](.ai-factory/specs/trickster77777/141-what-the-note-describes-and-what-the-skill-presupposes.md)
 
-## The rule discourages the most productive round in the loop
+## `agent-architect` keys the echo on who asked
 
-### Phase 48 — an echo is about the verdict, not about whose question it was
-
-Governing spec: `docs/paired-loop.md`
-
-The variable that decides an echo is whether a second, independently produced reading exists — not who asked. § "The user's marker" keys on origin alone; § "Where the split falls" keys on independence and leakage. `agent-architect` inherits the doc's imprecision word for word; the spec never states the round-closing rule it names as its own section. Phase note: [whether a second reading exists at all](.ai-factory/specs/trickster77777/142-two-readings-or-one.md)
-
-## The buffer's definition describes a use it outgrew
-
-### Phase 49 — the shared memory says what it is actually for
+### Phase 48 — an echo is about whether a second reading exists, not about who delegated
 
 Governing spec: `docs/paired-loop.md`
 
-The buffer's file is numbered per architect, one per session; the memory it holds is project-wide discipline, rulings and method. Nothing bridges the two when a head ends with no snapshot. This phase decides which gives way: a staging area the drain rule covers, or durable shared context the file cannot yet hold. Phase note: [the container is per head, and the content is not](.ai-factory/specs/trickster77777/143-the-container-is-per-head-and-the-content-is-not.md)
+`agent-architect` says a report on the head's own delegated legwork "carries no second opinion", however much of the ground the head walked itself. What decides an echo is whether a second, independently produced reading exists, and `docs/paired-loop.md` § "Where the split falls" already says so; only the skill's sentence remains. Phase note: [whether a second reading exists at all](.ai-factory/specs/trickster77777/142-two-readings-or-one.md)
 
 ## The docs describe skills that have since moved
 
 ### Phase 50 — the documentation catches up with what the skills now do
 
-Nine deferred observations across phases 26–30 describe skills that have moved since the doc was written: `skill-graph.md`'s caller count, four separate gaps in `skill-cycle.md`, `multiuser-roadmaps.md`'s spec-dir description, and two omissions in the global CLAUDE.md. Direction runs docs → roadmap → code; here the code moved first and nothing carried the docs forward with it. Phase note: [the documentation catches up with what the skills now do](.ai-factory/specs/trickster77777/144-the-docs-catch-up-with-the-skills.md)
+Docs lag the skills: `skill-graph.md` names one direct caller of `note`; `skill-cycle.md` omits phase notes from what prune deletes and says the gap pass "closes", as does `skill-description-field.md`; `multiuser-roadmaps.md` knows one way into the specs directory; two CLAUDE.md lists omit `roadmap-outline-deep` and `orchestrator-artifacts`. Phase note: [the documentation catches up with what the skills now do](.ai-factory/specs/trickster77777/144-the-docs-catch-up-with-the-skills.md)
 
 ## The rescue path carries its own unrepaired defects
 
 ### Phase 51 — task-rescue and the artifact protocol close their own gaps
 
-Six deferred observations against `task-rescue` and the artifact protocol survived their own tasks' guarded boundaries: a sidecar write site still using the wrong path for a named roadmap, a body over the line bound, two small gaps in the marker grammar's writer attribution, a stale path shorthand, and an unstated ban on hand-composing. None blocked its own task; none closed itself either. Phase note: [task-rescue and the artifact protocol close their own gaps](.ai-factory/specs/trickster77777/145-task-rescue-and-the-artifact-protocol.md)
+`task-rescue` still writes its rollback to the flat sidecar path, wrong for a named roadmap, and its body is far over the line bound. The marker grammar names one writer where `task-rescue` is another, and Step 5.6 has no `[fixed]` branch; the mirror source has a short path, and the durable report lacks the ban on hand-composing. Phase note: [task-rescue and the artifact protocol close their own gaps](.ai-factory/specs/trickster77777/145-task-rescue-and-the-artifact-protocol.md)
 
-## The coverage pass has leftovers no phase claimed
+## The coverage note's title and its writing agent were left as they were
 
-### Phase 52 — roadmap-test-coverage's remaining observations
+### Phase 52 — the test-plan note's title follows its slug, and its writer can write
 
 Governing spec: `docs/test-coverage-pass.md`
 
-`roadmap-test-coverage` leaves observations no later phase claimed: a spec's now-pruned overstatement of what `aif` mandates for `$TEST_CMD`, checked fresh against the skill it described; and two residues in the test-plan template — a note titled by the area it was called before research, and a template that spawns its sole writer as a possibly read-only agent. Phase note: [roadmap-test-coverage's remaining observations](.ai-factory/specs/trickster77777/146-roadmap-test-coverage-leftovers.md)
+`roadmap-test-coverage`'s Layer 4 titles each test-plan note by the area's name before research, while the agent picks its slug after reading the source, and has an `Explore` agent write the file, an agent type that can be read-only. Phase note: [roadmap-test-coverage's remaining observations](.ai-factory/specs/trickster77777/146-roadmap-test-coverage-leftovers.md)
 
 ## Sentences in the skills still describe what earlier phases retired
 
 ### Phase 53 — the skill bodies stop describing retired shapes
 
-Seven sentences a landed task's own removal orphaned: `roadmap-outline-deep`'s justification for its pointer now paraphrases a narrowed grant more loosely than the grant reads; a coupling declared on one side only; `roadmap-decompose` and `roadmap-engine` disagreeing about a task spec's parts; and two skill bodies whose descriptions still assert what their own bodies no longer do. Phase note: [the skill bodies stop describing retired shapes](.ai-factory/specs/trickster77777/147-sentences-that-outlived-their-shape.md)
-
-## The registry is final and meets words it does not hold
-
-### Phase 54 — three concepts without a registry entry
-
-Governing spec: `docs/reserved-words.md`
-
-Blocked on the user's ruling whether a registry that declares itself final admits an entry. Three concepts recur in skill bodies with no home in `docs/reserved-words.md` § "Paired loop": the deciding and applying halves, named twice over; second reader, named once; work-order, defined only by implication inside another entry. Phase note: [three concepts without a registry entry](.ai-factory/specs/trickster77777/148-three-words-the-registry-does-not-hold.md)
-
-## The pairing's second half was never fully wired
-
-### Phase 55 — the pairing engine and the editor's licence
-
-Governing spec: `docs/paired-loop.md`
-
-Blocked on the user's ruling — the reviewer names handoff 08 as where the question was parked. `architect-pairing-engine`'s own text still carries a fourth carrier of the own-hands model it purged elsewhere, the correction licence's trigger for an outright-wrong order was cut along with its power, and the editor's gloss for `APPLY-EDIT` does not anticipate an order decided one architect upstream. Phase note: [the pairing engine and the editor's licence](.ai-factory/specs/trickster77777/149-the-pairing-engine-and-the-editors-licence.md)
+Skill bodies still describe retired shapes: the link grant is paraphrased loosely and `roadmap-prune`'s safety reason leans on it with no matching sentence in `roadmap-outline`; "Decompose existing" asks for guards and how to verify against "nothing else"; `editor.md` still says "relayed"; the engine's description omits the ride-alongside bound. Phase note: [the skill bodies stop describing retired shapes](.ai-factory/specs/trickster77777/147-sentences-that-outlived-their-shape.md)
 
 ---STOP---

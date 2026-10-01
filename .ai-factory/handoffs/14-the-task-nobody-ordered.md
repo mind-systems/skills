@@ -1,5 +1,7 @@
 # Handoff — the task nobody ordered, and the provenance field that never asked
 
+**Processed:** `[x]` — read on the user's word on 2026-10-01.
+
 ## 1. Frame
 
 A week of deleting roadmap tasks for behaviour nobody requested traced to its cause this session: every quality gate the family owns checks a task's *form*, none checks whether it was *commissioned* — and the one field that looks like it records commissioning turns out to be a template constant. The originating session's context isn't available here; trust these files, not memory.

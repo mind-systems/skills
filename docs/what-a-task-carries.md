@@ -66,6 +66,14 @@ the checking apparatus this document removes: pinning a decision states what mus
 true, where removing a check removes an instruction for confirming that it became so.
 Removing the fences does not remove the decisions inside them.
 
+## A task has a source
+
+A task answers to something: a document's promise, the user's ruling, or the path to a goal the user set. The user's word and his goal are sources as much as a document is. A find that has none of these is real and still not a task. It goes to the user, who decides whether it becomes a promise, a ruling, or nothing. A missing delivery state found while working on something else is a true find; turning it straight into a task is how a wrong task was once written.
+
+A repair has a source too, a reviewer's observation. Where a goal is set, a repair belongs above the roadmap's stop only when it lies on the goal's path or is a silent failure on a path the goal uses.
+
+A field that only looks answered is worse than none, because it silences the question. A template constant that names a source records nothing, while an absent field at least prompts someone to ask.
+
 ## The check
 
 Ask of any passage in a spec: does it tell the reader what must be true, or does it

@@ -12,7 +12,7 @@ The architect that wrote these tasks kept a private buffer. It is the recovery f
 
 ### Must-read now (minimal rehydration set)
 
-- `.ai-factory/notes/05-architect-buffer.md` — **lead here, start at the section headed `PRE-COMPACT CONSOLIDATION` near the end.** It holds the decisions register (every ruling and its reason), the standing method rules, the open deferrals with their triggers, and the paired-loop state. Everything else in this handoff is orientation around it.
+- `.ai-factory/architects/05/buffer.md` — **lead here, start at the section headed `PRE-COMPACT CONSOLIDATION` near the end.** It holds the decisions register (every ruling and its reason), the standing method rules, the open deferrals with their triggers, and the paired-loop state. Everything else in this handoff is orientation around it.
 - `.ai-factory/roadmaps/trickster77777.md` — tasks `28.1`, `28.2`, `29.1`, all `- [ ]`, under `### Phase 28` and `### Phase 29`.
 - `.ai-factory/specs/trickster77777/102-roadmap-outline-deep.md` — 28.1's spec: the new skill, its format, its guards.
 - `.ai-factory/specs/trickster77777/103-pin-gaps-blast-radius-class.md` — 29.1's spec: the transformation walk. Its filename is a fossil of the task's first framing; the file's own title is current.
