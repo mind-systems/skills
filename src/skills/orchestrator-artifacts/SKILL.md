@@ -69,14 +69,24 @@ the **resolution session** — the dedicated session the user opens when a prune
 at the moment it disposes of an observation:
 
 - `[fixed]` — the gap is fixed directly in this session
-- `[routed → <path>]` — routed into an **open** task's spec; `<path>` must resolve to
-  an editable surface (the task spec of an open task), never a completed or frozen one
+- `[routed → <path>]` — routed into an **open** task's spec, or onto a phase as
+  `[routed → <roadmap path> § Phase N]`, `<roadmap path>` being the roadmap file's
+  repo-root-relative path — `.ai-factory/ROADMAP.md`, or `.ai-factory/roadmaps/<slug>.md`
+  for a named roadmap; the target must resolve to an editable surface (the task spec of
+  an open task, or a phase still in the roadmap), never a completed or frozen one
 - `[dismissed]` — evaluated and found moot, stale, or already handled
 
 The reviewer never writes or imitates markers. Entry text and `Affects:` are never
 rewritten — markers only accumulate. **Pinned** = the entry line carries ≥1 marker.
 Dedup rule: whoever pins an entry pins every occurrence across that task's
 review files (dedup by `Affects:` target + gist).
+
+A phase is a route target too. Routing a distinct finding onto a phase adds one to
+that phase's touch count, a `**Touches:** N` line kept in the phase note, or in the
+phase's preamble while the phase has no note; a count of one is not written, so the
+line first appears at two. The count is one per distinct finding, not per occurrence
+the dedup rule pins. It is a hint for sorting the roadmap and never a rule; a missed
+count costs nothing.
 
 **Legacy markers** `[promoted → <path>]`, `[audit-corroborated]`, `[audit-dismissed]`,
 `[unrouted-reported]` are retired from the active vocabulary; encountered in old
