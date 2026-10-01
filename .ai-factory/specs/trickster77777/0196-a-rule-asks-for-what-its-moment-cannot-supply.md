@@ -1,0 +1,9 @@
+# Phase 72 — a rule is stated in terms of what is available when it runs
+
+**Touches:** 2
+
+Two rules are stated in terms of evidence that does not exist when they run. No document governs either, and each needs a word in the file that states it.
+
+**`polymorphism-philosophy`'s time entry.** § "The two entries" says the time entry "takes what a change just brought: does this change bring a second member to a kind, and was a seam cut at that arrival or not — its evidence is the diff", and that "A consumer skill reaches this unit through the time entry". Its only consumer, `roadmap-decompose-skeleton` Lens 1, runs over open `[ ]` tasks before any change exists. It decides whether to cut the seam, with the task text and the current code as its evidence and no diff anywhere. The question transfers intact; the evidence clause does not, and a run that loads the unit from Lens 1 will look for a diff it cannot have. The repair belongs in the unit's body: the time entry's evidence widens to a described change as well as a landed one, or the entries gain a reading for a consumer that runs before the change.
+
+**`command-pin-gaps`' blast-radius floor.** The Blast-radius holes repair asks for a recorded finding "naming at minimum the task's own target among what it finds, so a reader can tell a genuinely narrow set from a broken pattern". That floor is met only when the sweep searches for the string a change introduces. A deprecation sweep searches for the old wording the task is removing, so the task's own targets stop being returned by construction, and no wording of the finding can name them as results the sweep must return. A task that met this anchored on a third file pinned to keep the old wording, which the clause does not name as the way out. [what-a-task-carries](../../../docs/what-a-task-carries.md) § "Blast radius: the rule, not the snapshot" says what a spec records of a blast radius and says nothing of a sweep for removed wording.

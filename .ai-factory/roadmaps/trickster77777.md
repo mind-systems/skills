@@ -162,11 +162,23 @@ Governing spec: `docs/reference-by-name.md`
 
 A session cited a governing document's section by number, consistently and wrongly — the rule it pointed at lived one section over — and the mis-citation propagated into contract lines, task specs, a handoff, and a shared buffer before a fresh read against the document caught it. Nothing had been renumbered; the number simply resolved to the wrong place. Phase note: [the number resolves, and resolves wrongly](.ai-factory/specs/trickster77777/136-a-number-is-not-the-name-beside-it.md)
 
+## Skill bodies cite a path that exists in one repository
+
+### Phase 71 — a skill's reference to this repository's docs resolves where the skill is loaded
+
+Skills cite this repository's docs by a bare repo-root path that resolves nowhere in the other projects that load them, and the seed's `## Team` placeholder copies one such reference into every new buffer. Phase note: [a path that exists in one repository](.ai-factory/specs/trickster77777/0195-a-skill-cites-a-path-that-exists-in-one-repository.md)
+
 ## The pass answers for one task and is pointed at a roadmap
 
 ### Phase 43 — the gap pass runs on one task, and finding nothing is an outcome
 
 `command-pin-gaps` walks one task at a time — its deciding question asks whether the run, holding this task and nothing else, would have to invent — yet its own targeting permits a phase or the whole open roadmap as one invocation, with nothing saying whether the walk repeats per task or runs once over all of them. A hole one task's context closes goes unseen when several are read together, and the file never says so. Phase note: [the unit is fixed for the walk and open for the call](.ai-factory/specs/trickster77777/137-the-unit-is-fixed-for-the-walk-and-open-for-the-call.md)
+
+## A rule asks for what its moment cannot supply
+
+### Phase 72 — a rule is stated in terms of what is available when it runs
+
+A rule asks for what its moment cannot supply: `polymorphism-philosophy`'s time entry takes the diff as evidence where the skeleton runs before any diff, and `command-pin-gaps`' blast-radius floor cannot be met by a sweep for wording the task removes. Phase note: [what a rule's moment cannot supply](.ai-factory/specs/trickster77777/0196-a-rule-asks-for-what-its-moment-cannot-supply.md)
 
 ## Every question in the chain looks for what is missing
 
@@ -187,6 +199,18 @@ This phase is blocked on two rulings, not one: whether a task claiming more than
 Governing spec: `docs/paired-loop.md`
 
 `agent-architect` says a report on the head's own delegated legwork "carries no second opinion", however much of the ground the head walked itself. What decides an echo is whether a second, independently produced reading exists, and `docs/paired-loop.md` § "Where the split falls" already says so; only the skill's sentence remains. Phase note: [whether a second reading exists at all](.ai-factory/specs/trickster77777/142-two-readings-or-one.md)
+
+## The architect's start leaves two failure edges open
+
+### Phase 69 — a failed probe and a dead hand holding a relay have a defined outcome
+
+A failed session probe at founding leaves a folder no later start finds, and a resumed head whose probe fails once founds a new folder and orphans its own; the dead-editor paragraph says nothing of a user's `::` payload the head holds unforwarded. Both need the user's ruling. Phase note: [the start's two open outcomes](.ai-factory/specs/trickster77777/0193-the-architects-start-leaves-two-failure-edges-open.md)
+
+## The engine and the seed do not yet say what a buffer holds
+
+### Phase 70 — the buffer's contents and its copying are stated where the buffer is defined
+
+The engine's sentence on what the memory holds names no editor handle, though the skill writes one into the buffer and the seed has no place for it; the engine uses "seed" and "standing entry", which only the skill and the seed define; and the seed is "copied whole", title and guidance lines included. Phase note: [what a buffer holds and how it is copied](.ai-factory/specs/trickster77777/0194-the-engine-and-the-seed-do-not-say-what-a-buffer-holds.md)
 
 ## The docs describe skills that have since moved
 

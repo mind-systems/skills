@@ -1,0 +1,7 @@
+# Phase 71 — a skill's reference to this repository's docs resolves where the skill is loaded
+
+[reference-by-name](../../../docs/reference-by-name.md) says "Where a reference crosses a repository boundary, the path names the repository and resolves from the family root; a bare path silently means "this repository" to every reader". The skills carry bare paths into this repository's docs, and they are loaded elsewhere.
+
+**Where it holds.** `agent-architect` § "Spawn once, message thereafter" cites "`docs/paired-loop.md` § "How the memory begins, and how it survives"", and `command-handoff` cites the same document in the paragraph that separates its genre from the architect's snapshot. The seed's `## Team` placeholder in `templates/buffer-seed.md` reads "as `docs/paired-loop.md` § "The team" has it", and the seed is copied into every buffer a head founds, in whatever repository it works. This repository's `CLAUDE.md` states that skills are available globally through `~/.claude/skills` to every project, where `docs/` is that project's own documentation directory and `docs/paired-loop.md` does not exist. The pointer resolves to nothing there and fails as a miss, not as a wrong file.
+
+**What no document says.** The root `CLAUDE.md` § "Cross-repo references" fixes the layout for a reader standing at the family root, which a skill loaded in another project is not. No skill body names this repository when it cites a document of it, and no document says which form a skill's citation of its own home's docs should take.

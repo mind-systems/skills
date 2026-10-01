@@ -52,6 +52,6 @@ None.
 
 ## Deferred observations
 
-- Affects: `.ai-factory/specs/trickster77777/177-agent-architect-drops-the-roles-and-gains-the-peer-account.md` — The spec's § "What breaks on contact" § "Finding" says the in-skill sweep "also reaches 'the paired loop' in the description and the title line, and 'each half' in the passage on the handle's address". That is not true: the pattern matches neither phrase, and after this task the sweep returns nothing. A future re-run reads the empty result correctly only if the spec states that empty is the expected outcome. The fix belongs to the spec, not to this task's file.
+- Affects: `.ai-factory/specs/trickster77777/177-agent-architect-drops-the-roles-and-gains-the-peer-account.md` — The spec's § "What breaks on contact" § "Finding" says the in-skill sweep "also reaches 'the paired loop' in the description and the title line, and 'each half' in the passage on the handle's address". That is not true: the pattern matches neither phrase, and after this task the sweep returns nothing. A future re-run reads the empty result correctly only if the spec states that empty is the expected outcome. The fix belongs to the spec, not to this task's file. [dismissed]
 
 REVIEW_PASS

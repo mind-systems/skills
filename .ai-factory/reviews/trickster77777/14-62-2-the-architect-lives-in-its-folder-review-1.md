@@ -50,6 +50,6 @@ None.
   - The probe paragraph says every character that is not a letter or a digit is replaced by a hyphen. This matches the directory Claude Code actually uses.
   - The handle-recovery `meta.json` fallback says only separators are replaced by hyphens. That definition resolves the wrong directory for a working directory whose path contains `_` or `.`.
 
-  The spec gives removal of that fallback to 63.1. If 63.1 keeps any part of it, it should point at the probe paragraph's definition rather than keep the separators-only wording.
+  The spec gives removal of that fallback to 63.1. If 63.1 keeps any part of it, it should point at the probe paragraph's definition rather than keep the separators-only wording. [dismissed]
 
 REVIEW_PASS

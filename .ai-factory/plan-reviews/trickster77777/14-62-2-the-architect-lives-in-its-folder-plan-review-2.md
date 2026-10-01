@@ -60,6 +60,6 @@ None.
   - The new probe paragraph says every character that is not a letter or a digit is replaced by a hyphen. This matches the transcript directory Claude Code actually uses.
   - The handle-recovery fallback says only separators are replaced. That gives the wrong directory for any path containing `_` or `.`.
 
-  The spec assigns removal of that fallback to 63.1. If 63.1 keeps any part of it, it should adopt or point at the probe paragraph's definition.
+  The spec assigns removal of that fallback to 63.1. If 63.1 keeps any part of it, it should adopt or point at the probe paragraph's definition. [dismissed]
 
 PLAN_REVIEW_PASS
