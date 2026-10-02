@@ -195,7 +195,7 @@ diff -rq src/skills/aif-architecture upstream/ai-factory/aif-architecture
 diff -rq src/skills/aif-docs upstream/ai-factory/aif-docs
 ```
 
-**Everything else in `src/skills/` is ours** — no upstream counterpart to reconcile, sync never touches it: `detangle`, `task-rescue`, `task-rescue-audit`, `roadmap-outline`, `roadmap-outline-deep`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `test-philosophy`, `polymorphism-philosophy`, `observe-logs`, `ui-ux-pro-max`, `agent-architect`, `architect-editor-engine`. The same holds for `src/agents/` — the `editor` agent definition has no upstream counterpart; a re-sync must never overwrite it.
+**Everything else in `src/skills/` is ours** — no upstream counterpart to reconcile, sync never touches it: `detangle`, `task-rescue`, `task-rescue-audit`, `roadmap-outline`, `roadmap-outline-deep`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `test-philosophy`, `polymorphism-philosophy`, `observe-logs`, `ui-ux-pro-max`, `orchestrator-artifacts`, `agent-architect`, `architect-editor-engine`. The same holds for `src/agents/` — the `editor` agent definition has no upstream counterpart; a re-sync must never overwrite it.
 
 **`src/commands/`** — all ours, no upstream source, never synced.
 

@@ -62,6 +62,8 @@ A buffer founded from the seed opens with the seed's title and its paragraph abo
 
 Docs lag the skills: `skill-graph.md` names one direct caller of `note`; `skill-cycle.md` omits phase notes from what prune deletes and says the gap pass "closes", as does `skill-description-field.md`; `multiuser-roadmaps.md` knows one way into the specs directory; two CLAUDE.md lists omit `roadmap-outline-deep` and `orchestrator-artifacts`. Phase note: [the documentation catches up with what the skills now do](.ai-factory/specs/trickster77777/144-the-docs-catch-up-with-the-skills.md)
 
+- [x] **50.1 — the docs say what the skills now do** — The funnel names both direct callers of `note`, the domains section no longer counts trunks, the cycle doc describes the blast-radius repair as a rule, a sweep and a record of what the sweep reaches and prune as deleting the notes of emptied phases, the global planning chain names `roadmap-outline-deep`, and the skills list in `CLAUDE.md` includes `orchestrator-artifacts`.
+
 ## The rescue path carries its own unrepaired defects
 
 ### Phase 51 — task-rescue and the artifact protocol close their own gaps
