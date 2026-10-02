@@ -30,13 +30,15 @@ The user asks the gap pass over every open task one at a time, without stopping,
 
 - [x] **43.1 — the gap pass has one mode: every task walked alone, one report at the end** — `src/commands/command-pin-gaps.md` fixes the unit of its walk in one task, "holding this task and nothing else", while its targeting accepts a task, a phase or all open tasks above the stop as one invocation and says nothing of the unit between them; it keeps a scan mode beside the default one, and its default edits "the file" and ends on one report line with no place for many tasks' blockers. The user wants one mode, the range he names. Change: the targeting says each task is walked alone, in order, finished before the next, without stopping; one paragraph gives the per-task work and the single report, blockers gathered, owners named; the scan mode, its trigger words, list format and argument hint, and "a plan" in the description leave; texts pinned verbatim in the spec. Spec: `.ai-factory/specs/trickster77777/0199-the-gap-pass-walks-every-task-alone-and-reports-once.md`. [3m 57s]
 
+## The time entry's evidence exists only once a change has landed
+
+### Phase 72 — the time entry's evidence is the change, a diff where it has landed and the task where it has not
+
+`polymorphism-philosophy`'s time entry says its evidence is the diff, but its consumer, the skeleton's Lens 1, runs over open tasks before any diff exists, while a direct call on closed tasks or a code area has one. The evidence is the change: the diff where it has landed, the task that describes it where it has not. Phase note: [what a rule's moment cannot supply](.ai-factory/specs/trickster77777/0196-a-rule-asks-for-what-its-moment-cannot-supply.md)
+
+- [x] **72.1 — the time entry's evidence is the change, not only the diff** — `src/skills/polymorphism-philosophy/SKILL.md` § "The two entries" says the time entry's "evidence is the diff", though the unit is read two ways: invoked directly on a code area or on closed tasks it has a diff, and `roadmap-decompose-skeleton` Lens 1 runs over open tasks before any diff exists, with the task text and the current code as its evidence. Change: the sentence names the change as the evidence, the diff where it has landed and the task that describes it where it has not, keeping both readers; pinned verbatim in the spec. Lens 1 states no evidence of its own and reads the new clause at run time. Spec: `.ai-factory/specs/trickster77777/0200-the-time-entrys-evidence-is-the-change-not-only-the-diff.md`. [2m 59s]
+
 ---STOP---
-
-## A rule asks for what its moment cannot supply
-
-### Phase 72 — a rule is stated in terms of what is available when it runs
-
-A rule asks for what its moment cannot supply: `polymorphism-philosophy`'s time entry takes the diff as evidence where the skeleton runs before any diff, and `command-pin-gaps`' blast-radius floor cannot be met by a sweep for wording the task removes. Phase note: [what a rule's moment cannot supply](.ai-factory/specs/trickster77777/0196-a-rule-asks-for-what-its-moment-cannot-supply.md)
 
 ## Every question in the chain looks for what is missing
 

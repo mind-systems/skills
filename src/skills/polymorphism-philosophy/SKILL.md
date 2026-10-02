@@ -35,13 +35,15 @@ suggest.
 ## The two entries
 
 One question, reached two ways. The **time** entry takes what a change just
-brought: does this change bring a second member to a kind, and was a seam cut
-at that arrival or not — its evidence is the diff. The **space** entry takes a
-named region with no change to trigger it — a module, a directory, a class —
-and inventories the kinds declared there (a union of two or more members, an
-enum, a boolean field naming a mode, a set of subclasses), asking the same
-question of each. A consumer skill reaches this unit through the time entry; a
-direct invocation, naming a region, reaches it through the space entry.
+brought: does this change bring a second member to a kind, and does it cut a
+seam at that arrival or not — its evidence is the change, the diff where it
+has landed and the task that describes it where it has not. The **space**
+entry takes a named region with no change to trigger it — a module, a
+directory, a class — and inventories the kinds declared there (a union of two
+or more members, an enum, a boolean field naming a mode, a set of subclasses),
+asking the same question of each. A consumer skill reaches this unit through
+the time entry; a direct invocation, naming a region, reaches it through the
+space entry.
 
 ## The trigger
 
