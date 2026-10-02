@@ -22,13 +22,15 @@ A skill is its own documentation; docs describe the skills, never the reverse, a
 
 - [x] **71.1 — a skill carries what it needs from a doc, and cites none** — `agent-architect`'s snapshot paragraph, `src/commands/command-handoff.md` and the `## Team` placeholder in `templates/buffer-seed.md` each cite `docs/paired-loop.md`, though a skill is its own documentation. In the first two the sentence before the citation already draws the line by who reads and what it is about; the placeholder cites the doc for a model it does not state, and uses "liaison", which no skill defines. Change: the citations leave; the placeholder carries its own links, the liaison's meaning and the compact in its own words; each file's after-text is pinned verbatim in the spec. Heads already founded keep their own `## Team` text. Spec: `.ai-factory/specs/trickster77777/0198-a-skill-carries-what-it-needs-from-a-doc-and-cites-none.md`. [4m 35s]
 
+## The user restates the gap pass's unit every time he runs it
+
+### Phase 43 — the gap pass walks every task alone and reports once at the end
+
+The user asks the gap pass over every open task one at a time, without stopping, report at the end, each time by hand. Its targeting accepts a task, a phase or every open task and leaves the unit unsaid; it comes to walk each task alone, holding that task and nothing else, finish it before the next, and report once, blockers gathered. Phase note: [the unit is fixed for the walk and open for the call](.ai-factory/specs/trickster77777/137-the-unit-is-fixed-for-the-walk-and-open-for-the-call.md)
+
+- [x] **43.1 — the gap pass has one mode: every task walked alone, one report at the end** — `src/commands/command-pin-gaps.md` fixes the unit of its walk in one task, "holding this task and nothing else", while its targeting accepts a task, a phase or all open tasks above the stop as one invocation and says nothing of the unit between them; it keeps a scan mode beside the default one, and its default edits "the file" and ends on one report line with no place for many tasks' blockers. The user wants one mode, the range he names. Change: the targeting says each task is walked alone, in order, finished before the next, without stopping; one paragraph gives the per-task work and the single report, blockers gathered, owners named; the scan mode, its trigger words, list format and argument hint, and "a plan" in the description leave; texts pinned verbatim in the spec. Spec: `.ai-factory/specs/trickster77777/0199-the-gap-pass-walks-every-task-alone-and-reports-once.md`. [3m 57s]
+
 ---STOP---
-
-## The pass answers for one task and is pointed at a roadmap
-
-### Phase 43 — the gap pass runs on one task, and finding nothing is an outcome
-
-`command-pin-gaps` walks one task at a time — its deciding question asks whether the run, holding this task and nothing else, would have to invent — yet its own targeting permits a phase or the whole open roadmap as one invocation, with nothing saying whether the walk repeats per task or runs once over all of them. A hole one task's context closes goes unseen when several are read together, and the file never says so. Phase note: [the unit is fixed for the walk and open for the call](.ai-factory/specs/trickster77777/137-the-unit-is-fixed-for-the-walk-and-open-for-the-call.md)
 
 ## A rule asks for what its moment cannot supply
 

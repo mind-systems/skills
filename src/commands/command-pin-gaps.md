@@ -1,6 +1,6 @@
 ---
 description: >-
-  Scan a plan, task, phase, or task spec for where the implementing agent
+  Scan a task, a phase, or a task spec for where the implementing agent
   would have to guess: read the task, its task spec, and the code it lands
   in, walking the task's transformation into the code along named
   references to the leaf, then reason the way the orchestrator would plan
@@ -8,8 +8,8 @@ description: >-
   value from the code), meaning holes (an undefined edge, or a constraint
   no document states, routed to its owner), and blast-radius holes (what
   the change breaks elsewhere in the repository). Closes what it can in
-  place. Pass "scan" to only list findings without editing.
-argument-hint: "[path | scan]"
+  place.
+argument-hint: "[path]"
 allowed-tools: Read Edit Grep Glob Bash(ls *) Bash(rg *) Bash(git *) Skill
 loads: roadmap-engine
 ---
@@ -17,7 +17,7 @@ loads: roadmap-engine
 Ensure `roadmap-engine` is loaded once this chat (via the Skill tool, only if not
 already loaded) — it defines the named-roadmap resolution referenced below.
 
-Target, in priority order: the file(s) in `$ARGUMENTS`, if given — else the scope under discussion in chat (a named task, phase, or task spec) — else all open `- [ ]` tasks of the roadmap in play per `roadmap-engine`'s named-roadmap resolution order (explicit argument → "my roadmap" → default `.ai-factory/ROADMAP.md`; see the engine's "Named roadmaps" section for the slug/owner mechanics) above `---STOP---`, scanning each contract line and its `Spec:`-tagged task spec.
+Target, in priority order: the file(s) in `$ARGUMENTS`, if given — else the scope under discussion in chat (a named task, phase, or task spec) — else all open `- [ ]` tasks of the roadmap in play per `roadmap-engine`'s named-roadmap resolution order (explicit argument → "my roadmap" → default `.ai-factory/ROADMAP.md`; see the engine's "Named roadmaps" section for the slug/owner mechanics) above `---STOP---`. Each task the target names is walked alone, in roadmap order: the command reads that task's contract line and its `Spec:`-tagged task spec, holds that task and nothing else, finishes that task's findings before the next is opened, and does not stop between tasks.
 
 Any question that would need an answer *during implementation* is space for the agent to fantasize. Close all of it now.
 
@@ -29,7 +29,7 @@ The pass does not locate the phase, does not read the pointers on its header, an
 
 A task states how the docs currently differ from the code and what it will change; a hole is wherever that statement fails to connect. **Toward the code:** desired behavior with no landing — no file named, no call site, an existing shape it must fit that nobody looked at, work already half-done, something that breaks on contact. This end is the one no other skill owns. **Toward the docs:** behavior the task assumes that no document states, because it surfaced during decomposition rather than during specification — the hole is then in the governing spec, not in the task, and the command points there.
 
-The two ends are not classes: every finding carries exactly one of three, and the end shows only in how it closes — in place, or `owner: <skill>` in the scan line's `fix` token. A missing file or call site is a value hole; an existing shape nobody looked at, or work already half-done, is a meaning hole; something that breaks on contact is a blast-radius hole.
+The two ends are not classes: every finding carries exactly one of three, and the end shows only in how it closes — in place, or `owner: <skill>` in the report. A missing file or call site is a value hole; an existing shape nobody looked at, or work already half-done, is a meaning hole; something that breaks on contact is a blast-radius hole.
 
 A task spec that repeats a paragraph from a document instead of linking to it is not a finding. An agent does not reliably walk to the leaf — it guesses a file's content from its name — so the copy earns its place; it goes stale, and that is proper to this tier, because the roadmap is the perishable seam between the documentation and the code, pruned as it closes, unlike the two surfaces it sits between.
 
@@ -43,7 +43,6 @@ A task spec that repeats a paragraph from a document instead of linking to it is
 
 **Blast-radius holes:** what the repository already contains that this change breaks — a caller, a format, an assumption elsewhere in the code that the change invalidates on contact. Repair: the **rule** that defines the affected set, the literal `Grep`/`rg` **sweep** that finds it on demand, and the **invariant** — a recorded finding of what the sweep, run now, reaches and how each match reads against the rule, naming at minimum the task's own target among what it finds, so a reader can tell a genuinely narrow set from a broken pattern — never an instruction for a later run to confirm, never the sweep's own enumeration of what it found. A contradiction that resolves against the code is closed in place; a fundamental conflict, or code that does not come apart, is raised as an explicit blocker instead of being quietly repaired. A sweep too large to enumerate is itself a finding: report the search, with owner `roadmap-decompose`, never filed under `## Blocking decisions`.
 
-A task that cannot be planned coherently belongs to `roadmap-decompose` or `roadmap-decompose-skeleton`; behavior no document describes belongs to `aif-docs`; a surface that fails silently, by `test-philosophy`'s discriminator, owes a test. The command names which one and performs none: it does not decompose, does not write documentation, does not author tests, and loads none of the four. A hole it can close in place it closes, exactly as today; a hole whose repair belongs elsewhere is reported, in both modes. Judging a task too large, and judging a behavior undocumented, are comparative — from inside one task every task looks normal-sized; both are made where the whole roadmap is readable, which is where this command runs.
+A task that cannot be planned coherently belongs to `roadmap-decompose` or `roadmap-decompose-skeleton`; behavior no document describes belongs to `aif-docs`; a surface that fails silently, by `test-philosophy`'s discriminator, owes a test. The command names which one and performs none: it does not decompose, does not write documentation, does not author tests, and loads none of the four. A hole it can close in place it closes, exactly as today; a hole whose repair belongs elsewhere is reported. Judging a task too large, and judging a behavior undocumented, are comparative — from inside one task every task looks normal-sized; both are made where the whole roadmap is readable, which is where this command runs.
 
-**scan mode** (`$ARGUMENTS` contains `scan`/`report`/`только скан`): list findings as `[file:line|spec-location] → value|meaning|blast-radius → what's missing → fix`, where `fix` reads `owner: <skill>` for a hole whose repair belongs elsewhere, and stop.
-**default:** edit the file in place — replace each vague spot with the concrete value, spec clause, or rule-sweep-invariant — then report `N closed from source · M blocking · K owned elsewhere`.
+For each task in turn the command edits its file in place — replacing each vague spot with the concrete value, spec clause, or rule-sweep-invariant — and moves on to the next task. One report comes at the end, `N closed from source · M blocking · K owned elsewhere`, with the blockers of every task gathered under it, each naming its task, and each hole owned elsewhere naming its owner as `owner: <skill>`.
