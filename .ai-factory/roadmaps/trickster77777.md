@@ -14,13 +14,15 @@ A session cited a governing document's section by number, consistently and wrong
 
 - [x] **42.1 — the always-loaded rule separates a number assigned once from a heading's ordinal** — `src/global/CLAUDE.md` § "Grounding claims" says "A heading, a bolded rule, a symbol, a numbered item survives every insertion above it", with nothing to tell a number assigned once and split, like a task's `N.M` or a skill's step, from a heading's ordinal, which shifts like a line number, though `docs/reference-by-name.md` § "Granularity, not size" now draws the line. The global file reaches every session of every project through the link chain from `~/.claude/CLAUDE.md`. Change: the sentence names a number assigned once and split rather than shifted among what survives, and says a document's section is cited by its heading's text; pinned verbatim in the spec. Spec: `.ai-factory/specs/trickster77777/0197-the-always-loaded-rule-separates-a-number-from-a-heading-ordinal.md`. [3m 17s]
 
+## A skill cites a doc, though a skill is its own documentation
+
+### Phase 71 — a skill carries what it needs from a doc in its own text
+
+A skill is its own documentation; docs describe the skills, never the reverse, and what a skill needs from a doc is part of its own text. Three carriers cite `docs/paired-loop.md` instead: `agent-architect`'s snapshot paragraph, `command-handoff`, and the seed's `## Team` placeholder. No doc states the rule; it lives in the architect's buffer. Phase note: [a path that exists in one repository](.ai-factory/specs/trickster77777/0195-a-skill-cites-a-path-that-exists-in-one-repository.md)
+
+- [x] **71.1 — a skill carries what it needs from a doc, and cites none** — `agent-architect`'s snapshot paragraph, `src/commands/command-handoff.md` and the `## Team` placeholder in `templates/buffer-seed.md` each cite `docs/paired-loop.md`, though a skill is its own documentation. In the first two the sentence before the citation already draws the line by who reads and what it is about; the placeholder cites the doc for a model it does not state, and uses "liaison", which no skill defines. Change: the citations leave; the placeholder carries its own links, the liaison's meaning and the compact in its own words; each file's after-text is pinned verbatim in the spec. Heads already founded keep their own `## Team` text. Spec: `.ai-factory/specs/trickster77777/0198-a-skill-carries-what-it-needs-from-a-doc-and-cites-none.md`. [4m 35s]
+
 ---STOP---
-
-## Skill bodies cite a path that exists in one repository
-
-### Phase 71 — a skill's reference to this repository's docs resolves where the skill is loaded
-
-Skills cite this repository's docs by a bare repo-root path that resolves nowhere in the other projects that load them, and the seed's `## Team` placeholder copies one such reference into every new buffer. Phase note: [a path that exists in one repository](.ai-factory/specs/trickster77777/0195-a-skill-cites-a-path-that-exists-in-one-repository.md)
 
 ## The pass answers for one task and is pointed at a roadmap
 

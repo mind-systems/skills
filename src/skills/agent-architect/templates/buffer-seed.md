@@ -10,10 +10,11 @@ headings below are filled over the session, not left as placeholder prose.
 
 ## Team
 
-<Where this head sits in a team, as `docs/paired-loop.md` § "The team" has
-it: the goal it serves, linked to where it is written; its liaison above;
-those it leads below — each by repository and folder number, never by
-session name.>
+<Where this head sits in a team, by its own links and not the whole
+network's: the goal it serves, linked to where it is written; its liaison
+above, the head that another repository's work reaches through; and those it
+leads below — each by repository and folder number, never by session name.
+After a compact this is how the head knows its place.>
 
 ## Where things stand
 

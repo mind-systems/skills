@@ -97,11 +97,10 @@ request that means continuing this same head past a break reaches this
 capability even when it is phrased as asking for a handoff; a request
 meant for whoever comes next, on the project rather than on this
 conversation, is the different genre `command-handoff` writes, and does
-not reach here (`docs/paired-loop.md` § "How the memory begins, and how
-it survives" draws the line by reader, subject, and lifetime). The
-on-request one is the architect's own capability, reached by a request
-rather than a command: no command is invoked and no template is
-consulted. Either occasion writes the snapshot into your own folder —
+not reach here. The on-request one is the architect's own capability,
+reached by a request rather than a command: no command is invoked and
+no template is consulted. Either occasion writes the snapshot into your
+own folder —
 numbered as `architect-editor-engine` defines — with a digest of what
 the editor has accumulated; the digest is your own recovery note and is
 never sent to the editor, and for the same reason the snapshot itself
