@@ -21,6 +21,8 @@ Editor: `ad674212d411e34f2` (named `editor-08`), spawned 2026-10-01 on the APPLY
 
 Head 08, no team. The prune of `roadmaps/trickster77777.md` up to the first `---STOP---` ran after architect 07 cleared the gate: every closed phase above the stop is gone, the roadmap opens on the stop line and holds only outlined phases below it, Features and the drop-history ledger are written. All of it is committed as `Roadmap prune` (parent `cd341bb`), together with the handoff and notes cleanup; snapshot `01` carries the session's reasoning. Of the four candidates recovered from the dead heads' buffers, the user kept one — the side-effect rule — now a finding in Phase 50's note; the other three are ruled settled as they stand.
 
+Since that prune the roadmap has moved without this head: 42, 71, 43, 72 and 69 were decomposed (one task each) and run by the orchestrator, all `[x]`, and the first `---STOP---` now sits after Phase 69. Below it stay outlined 70, 50, 51, 52, 53. Phases 41, 46, 47 and 48 no longer appear as headers; how they left (a `Roadmap update` commit) is not read yet and is not to be inferred. Snapshot `01`'s "nothing is decomposed" is superseded by this.
+
 ## Rulings in force
 
 <Rulings the user has made about how the pair works, in the user's own words.>

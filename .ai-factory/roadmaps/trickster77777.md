@@ -46,13 +46,15 @@ The user asks the gap pass over every open task one at a time, without stopping,
 
 - [x] **69.1 — the session probe prints its nonce in one command and searches for it in the next** — `src/skills/agent-architect/SKILL.md` § "Spawn once, message thereafter" has the head read its session id by "running a command that prints a random nonce, then searching the project's transcripts", without saying the two are separate commands; one command that both prints and searches finds nothing, since its output reaches the transcript only when it returns, and a resumed head that does so founds a second folder and leaves its memory in the first, silently. Change: the probe's sentence names two commands, the first printing the nonce and ending, the next searching for it; pinned verbatim in the spec. The zero-match policy stays: never ask, never stop. Spec: `.ai-factory/specs/trickster77777/0201-the-session-probe-prints-its-nonce-in-one-command-and-searches-in-the-next.md`. [17m 16s]
 
+## A founded buffer opens as a seed
+
+### Phase 70 — a founded buffer opens under its own title, not the seed's
+
+A buffer founded from the seed opens with the seed's title and its paragraph about being a seed, because the step copies it "whole": the buffer misnames itself, though its opening must still say its standing entries come from the seed. It should open under its own title by folder number, the seed's description of itself staying in the seed. Phase note: [what a buffer holds and how it is copied](.ai-factory/specs/trickster77777/0194-the-engine-and-the-seed-do-not-say-what-a-buffer-holds.md)
+
+- [x] **70.1 — a founded buffer opens under its own title** — `src/skills/agent-architect/templates/buffer-seed.md` opens with the title "# Buffer seed — the architect's memory at founding" and a paragraph about being a seed, and the founding passage of `agent-architect` has the seed "copied whole", so a founded buffer opens with both and misnames itself; the paragraph also defines "standing entry" for the head that reads it. Change: the seed carries its own title and description, then a `# Architect buffer — <this folder's number>` heading with an opening that speaks of this buffer and its standing entries; the founding passage copies from that heading down, the folder's number filling the title; pinned verbatim in the spec. Founded buffers keep their opening; the refresh matches bold lead-ins and is unaffected. Spec: `.ai-factory/specs/trickster77777/0202-a-founded-buffer-opens-under-its-own-title.md`. [6m 25s]
+
 ---STOP---
-
-## The engine and the seed do not yet say what a buffer holds
-
-### Phase 70 — the buffer's contents and its copying are stated where the buffer is defined
-
-The engine's sentence on what the memory holds names no editor handle, though the skill writes one into the buffer and the seed has no place for it; the engine uses "seed" and "standing entry", which only the skill and the seed define; and the seed is "copied whole", title and guidance lines included. Phase note: [what a buffer holds and how it is copied](.ai-factory/specs/trickster77777/0194-the-engine-and-the-seed-do-not-say-what-a-buffer-holds.md)
 
 ## The docs describe skills that have since moved
 

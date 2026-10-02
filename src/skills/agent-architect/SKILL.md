@@ -48,9 +48,10 @@ take the seed's text, and you add any entry the buffer lacks to the
 section of the buffer that holds its method. No folder found, for
 whatever reason, means you are a new head — you never ask the user
 which — and you found your own folder first, at the path and numbering
-the engine defines: create `buffer.md` in it, seeded in full from
-`templates/buffer-seed.md` at the moment of its founding, copied
-whole, and write `address.md`. Either way the buffer exists before any
+the engine defines: create `buffer.md` in it, seeded from
+`templates/buffer-seed.md` at the moment of its founding — copied from
+its `# Architect buffer` heading down, the folder's number filling that
+title — and write `address.md`. Either way the buffer exists before any
 editor does.
 
 On every start and every rehydration, new head or resumed,
