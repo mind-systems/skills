@@ -38,33 +38,15 @@ The user asks the gap pass over every open task one at a time, without stopping,
 
 - [x] **72.1 — the time entry's evidence is the change, not only the diff** — `src/skills/polymorphism-philosophy/SKILL.md` § "The two entries" says the time entry's "evidence is the diff", though the unit is read two ways: invoked directly on a code area or on closed tasks it has a diff, and `roadmap-decompose-skeleton` Lens 1 runs over open tasks before any diff exists, with the task text and the current code as its evidence. Change: the sentence names the change as the evidence, the diff where it has landed and the task that describes it where it has not, keeping both readers; pinned verbatim in the spec. Lens 1 states no evidence of its own and reads the new clause at run time. Spec: `.ai-factory/specs/trickster77777/0200-the-time-entrys-evidence-is-the-change-not-only-the-diff.md`. [2m 59s]
 
+## A resumed head that runs the probe's two steps as one founds a second folder
+
+### Phase 69 — the session probe prints its nonce in one command and searches for it in the next
+
+`agent-architect`'s session probe has the head run "a command that prints a random nonce" and then search the transcripts for it. One command doing both finds nothing, as its output is not in the transcript until it returns, and a resumed head that does so founds a second folder silently. The nonce is printed by one command and searched by the next. Phase note: [the start's two open outcomes](.ai-factory/specs/trickster77777/0193-the-architects-start-leaves-two-failure-edges-open.md)
+
+- [ ] **69.1 — the session probe prints its nonce in one command and searches for it in the next** — `src/skills/agent-architect/SKILL.md` § "Spawn once, message thereafter" has the head read its session id by "running a command that prints a random nonce, then searching the project's transcripts", without saying the two are separate commands; one command that both prints and searches finds nothing, since its output reaches the transcript only when it returns, and a resumed head that does so founds a second folder and leaves its memory in the first, silently. Change: the probe's sentence names two commands, the first printing the nonce and ending, the next searching for it; pinned verbatim in the spec. The zero-match policy stays: never ask, never stop. Spec: `.ai-factory/specs/trickster77777/0201-the-session-probe-prints-its-nonce-in-one-command-and-searches-in-the-next.md`.
+
 ---STOP---
-
-## Every question in the chain looks for what is missing
-
-### Phase 46 — something asks whether a task claims more than its defect requires
-
-This phase is blocked on two rulings, not one: whether a task claiming more than its defect needs a new rule at all, and whose it is; and where a spec's re-decided, already-ratified answer gets caught, given that no independent reader between drafting and the orchestrator is guaranteed to hold the governing document. If the two answers name different homes, this is two phases. Phase note: [two subtractions that arrived together](.ai-factory/specs/trickster77777/140-two-subtractions-that-arrived-together.md)
-
-## The phase-note skill leaves its budget, grounding and engine use open
-
-### Phase 47 — the phase-note skill decides what its budget counts, what grounds a note and how it uses the engine
-
-`roadmap-outline-deep` leaves unsettled whether the pointer counts toward the preamble budget, whether a note can be grounded in the code alone when its verbosity directive asks for "docs and code", and whether it should run the engine's maintenance flow, given that it rewrites preambles with no confirmation step. Phase note: [what the note describes, and what the skill presupposes](.ai-factory/specs/trickster77777/141-what-the-note-describes-and-what-the-skill-presupposes.md)
-
-## `agent-architect` keys the echo on who asked
-
-### Phase 48 — an echo is about whether a second reading exists, not about who delegated
-
-Governing spec: `docs/paired-loop.md`
-
-`agent-architect` says a report on the head's own delegated legwork "carries no second opinion", however much of the ground the head walked itself. What decides an echo is whether a second, independently produced reading exists, and `docs/paired-loop.md` § "Where the split falls" already says so; only the skill's sentence remains. Phase note: [whether a second reading exists at all](.ai-factory/specs/trickster77777/142-two-readings-or-one.md)
-
-## The architect's start leaves two failure edges open
-
-### Phase 69 — a failed probe and a dead hand holding a relay have a defined outcome
-
-A failed session probe at founding leaves a folder no later start finds, and a resumed head whose probe fails once founds a new folder and orphans its own; the dead-editor paragraph says nothing of a user's `::` payload the head holds unforwarded. Both need the user's ruling. Phase note: [the start's two open outcomes](.ai-factory/specs/trickster77777/0193-the-architects-start-leaves-two-failure-edges-open.md)
 
 ## The engine and the seed do not yet say what a buffer holds
 
