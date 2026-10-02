@@ -54,17 +54,18 @@ whole, and write `address.md`. Either way the buffer exists before any
 editor does.
 
 On every start and every rehydration, new head or resumed,
-`address.md` is made true again. Read your session id by running a
-command that prints a random nonce, then searching the project's
+`address.md` is made true again. Read your session id in two commands:
+the first prints a random nonce and ends, since its output reaches the
+transcript only when it returns; the next searches the project's
 transcripts — the `.jsonl` files directly under
 `~/.claude/projects/<project-key>/`, `<project-key>` being the working
 directory's path with every character that is not a letter or a digit
-replaced by a hyphen — for the printed nonce: exactly one file
-matches, and its name without `.jsonl` is your session id. When the
-probe does not yield exactly one file, write no session id and carry
-on: leave `address.md` as it was, or unwritten at a founding, and
-mention in passing that you could not read your session id; never
-ask, never stop, never pick one file and never guess. Read your
+replaced by a hyphen — for the printed nonce: exactly one file matches,
+and its name without `.jsonl` is your session id. When the probe does
+not yield exactly one file, write no session id and carry on: leave
+`address.md` as it was, or unwritten at a founding, and mention in
+passing that you could not read your session id; never ask, never stop,
+never pick one file and never guess. Read your
 session name from the first line `ListAgents` returns, which opens
 `This session is <name> [<ref>] —`, and keep the bare name — the token
 after `This session is`, up to any bracketed ref that follows it —
