@@ -6,7 +6,7 @@ This repo produces skills. A skill is a directory with a `SKILL.md` at its root.
 
 ```
 <skill-name>/
-├── SKILL.md          # required — frontmatter + instructions (≤ 500 lines)
+├── SKILL.md          # required — frontmatter + instructions (≤ 500 lines: every loaded line costs context on every run)
 ├── references/       # long-form docs referenced from SKILL.md
 ├── scripts/          # executable helpers (Python, Bash)
 └── templates/        # output templates used during skill execution

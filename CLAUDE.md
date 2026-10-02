@@ -132,7 +132,7 @@ allowed-tools: Read Write  # pre-approved tools
 
 - `name` must match the directory name exactly
 - `argument-hint` values containing `[...]` **must** be quoted (single or double quotes)
-- Body ≤ 500 lines — move details to `references/`
+- Body ≤ 500 lines — a loaded line costs context on every run, so move to `references/` what only some runs read; a body used whole on every run gains nothing from a split
 - All file references within a skill use relative paths
 
 ### Security scanning

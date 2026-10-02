@@ -54,8 +54,6 @@ A buffer founded from the seed opens with the seed's title and its paragraph abo
 
 - [x] **70.1 — a founded buffer opens under its own title** — `src/skills/agent-architect/templates/buffer-seed.md` opens with the title "# Buffer seed — the architect's memory at founding" and a paragraph about being a seed, and the founding passage of `agent-architect` has the seed "copied whole", so a founded buffer opens with both and misnames itself; the paragraph also defines "standing entry" for the head that reads it. Change: the seed carries its own title and description, then a `# Architect buffer — <this folder's number>` heading with an opening that speaks of this buffer and its standing entries; the founding passage copies from that heading down, the folder's number filling the title; pinned verbatim in the spec. Founded buffers keep their opening; the refresh matches bold lead-ins and is unaffected. Spec: `.ai-factory/specs/trickster77777/0202-a-founded-buffer-opens-under-its-own-title.md`. [6m 25s]
 
----STOP---
-
 ## The docs describe skills that have since moved
 
 ### Phase 50 — the documentation catches up with what the skills now do
@@ -64,24 +62,30 @@ Docs lag the skills: `skill-graph.md` names one direct caller of `note`; `skill-
 
 - [x] **50.1 — the docs say what the skills now do** — The funnel names both direct callers of `note`, the domains section no longer counts trunks, the cycle doc describes the blast-radius repair as a rule, a sweep and a record of what the sweep reaches and prune as deleting the notes of emptied phases, the global planning chain names `roadmap-outline-deep`, and the skills list in `CLAUDE.md` includes `orchestrator-artifacts`.
 
-## The rescue path carries its own unrepaired defects
+## A rescue on a named roadmap rolls back a sidecar nobody reads
 
-### Phase 51 — task-rescue and the artifact protocol close their own gaps
+### Phase 51 — task-rescue writes the sidecar where the orchestrator reads it
 
-`task-rescue` still writes its rollback to the flat sidecar path, wrong for a named roadmap, and its body is far over the line bound. The marker grammar names one writer where `task-rescue` is another, and Step 5.6 has no `[fixed]` branch; the mirror source has a short path, and the durable report lacks the ban on hand-composing. Phase note: [task-rescue and the artifact protocol close their own gaps](.ai-factory/specs/trickster77777/145-task-rescue-and-the-artifact-protocol.md)
+`task-rescue` reads the sidecar by `orchestrator-artifacts`' layout, a named roadmap's under `plans/<stem>/`, but its two rollback writes in Step 5 use the flat path. On a named roadmap the rollback lands where the orchestrator does not read, and the run resumes from the old step, silently. Both write sites take the locator the read site uses. Phase note: [task-rescue and the artifact protocol close their own gaps](.ai-factory/specs/trickster77777/145-task-rescue-and-the-artifact-protocol.md)
 
-## The coverage note's title and its writing agent were left as they were
+- [ ] **51.1 — task-rescue writes the sidecar where the orchestrator reads it** — `src/skills/task-rescue/SKILL.md` Step 1 locates the sidecar by `orchestrator-artifacts` § 1, a named roadmap's under `plans/<stem>/`, but its two rollback write sites in Step 5, "Depth: spec + plan" and "Depth: plan ratified, implementation absent", say "Locate the sidecar at `.ai-factory/plans/{seq}-{slug}.json`", the flat path, and the depth "spec + plan + code" takes the same procedure by reference; on a named roadmap the rollback lands where the orchestrator does not read, and the run resumes from the old step, silently. Change: both sites take the read site's locator, the flat path for the default pair and `plans/<stem>/` for a named roadmap; pinned verbatim in the spec. Spec: `.ai-factory/specs/trickster77777/0203-task-rescue-writes-the-sidecar-where-the-orchestrator-reads-it.md`.
 
-### Phase 52 — the test-plan note's title follows its slug, and its writer can write
+## Research agents that cannot write are asked to write, and the note is titled before its research
+
+### Phase 52 — the researcher can write, and the note's title is the name research chose
 
 Governing spec: `docs/test-coverage-pass.md`
 
-`roadmap-test-coverage`'s Layer 4 titles each test-plan note by the area's name before research, while the agent picks its slug after reading the source, and has an `Explore` agent write the file, an agent type that can be read-only. Phase note: [roadmap-test-coverage's remaining observations](.ai-factory/specs/trickster77777/146-roadmap-test-coverage-leftovers.md)
+`roadmap-test-coverage` Layer 4 launches an `Explore` agent per area and has it "write the file yourself", though `Explore` is read-only and the user has watched researchers refuse to write. The note's title is the pre-research area name while its slug is chosen after research. The writer becomes an agent that can write, and the title takes the researched name. Phase note: [roadmap-test-coverage's remaining observations](.ai-factory/specs/trickster77777/146-roadmap-test-coverage-leftovers.md)
+
+- [ ] **52.1 — the coverage researcher can write, and the note takes the researched name** — `src/skills/roadmap-test-coverage/SKILL.md` § "Layer 4 — Deep Research (parallel agents)" launches "one `Explore` agent per area" and tells it to write the note itself, though `Explore` lacks `Edit`, `Write` and `NotebookEdit`; the user has seen researchers refuse to write while the main agent writes for them. Its template also opens `# <Area Name> — Test Plan` while the slug is chosen after research, "not for the Area label above". Change: the launch names a `general-purpose` agent, and the prompt and the template give the title the same researched name the slug takes; the three texts are pinned verbatim in the spec. Spec: `.ai-factory/specs/trickster77777/0204-the-coverage-researcher-can-write-and-the-note-takes-the-researched-name.md`.
 
 ## Sentences in the skills still describe what earlier phases retired
 
 ### Phase 53 — the skill bodies stop describing retired shapes
 
-Skill bodies still describe retired shapes: the link grant is paraphrased loosely and `roadmap-prune`'s safety reason leans on it with no matching sentence in `roadmap-outline`; "Decompose existing" asks for guards and how to verify against "nothing else"; `editor.md` still says "relayed"; the engine's description omits the ride-alongside bound. Phase note: [the skill bodies stop describing retired shapes](.ai-factory/specs/trickster77777/147-sentences-that-outlived-their-shape.md)
+Three skill sentences outlived the shape they describe: "Decompose existing" still asks a spec for "how to verify", a check `roadmap-engine` excludes; `command-pin-gaps` still says it "enumerates" breakage where its own repair records what the sweep reaches; the skeleton's "Load-once / dependencies" omits `polymorphism-philosophy`. Phase note: [the skill bodies stop describing retired shapes](.ai-factory/specs/trickster77777/147-sentences-that-outlived-their-shape.md)
+
+- [ ] **53.1 — three skill sentences agree with the shape they describe** — `roadmap-decompose` hook (d) "Decompose existing" asks for a spec with "how to verify", a check `roadmap-engine`'s "What a task spec holds" excludes; `command-pin-gaps` says in "The shape it repairs toward" and "What the pass never writes" that it "enumerates" a blast radius or breakage, where its own repair records what the sweep reaches now; and `roadmap-decompose-skeleton` § "Load-once / dependencies" lists two loaded skills of the three its `loads:` field names. Change: "how to verify" leaves the parenthesis, with "guards" kept by the user's word; the two sentences say "recording" and "records"; the list gains `polymorphism-philosophy`; the after-texts are pinned verbatim in the spec. Spec: `.ai-factory/specs/trickster77777/0205-three-skill-sentences-agree-with-the-shape-they-describe.md`.
 
 ---STOP---
