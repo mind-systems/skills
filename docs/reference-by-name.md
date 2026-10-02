@@ -12,7 +12,7 @@ Path rot compounds it. Splitting a document into a folder leaves every reference
 
 A document is not hard to reference because it is long. It is hard to reference when **the level at which it is named is coarser than the level at which it is used**. `note` carries a heading roughly every nine lines and is still addressed by line, because what a caller needs is one hook out of three, and the three are unnamed bullets under a named heading. `command-pin-gaps` carries no headings at all, and its three finding classes are cited by name everywhere, because each opens with a bold lead-in that names it.
 
-So the unit of naming is not the section. It is **anything that will be depended on** — a heading, a bold lead-in, a numbered item, a named clause.
+So the unit of naming is not the section. It is **anything that will be depended on** — a heading, a bold lead-in, a named clause, a number assigned once. A number holds only where it is assigned once and split, never shifted, when something is inserted: a task's `N.M`, a skill's step, which splits like a task number. A heading's ordinal is a position, like a line number, so a section of a document is cited by its heading's text.
 
 ## In code the names already exist
 
@@ -30,7 +30,7 @@ The rule governs what is written, not a campaign over what already exists: a pos
 
 A second form of the same defect carries no marker that invites suspicion. A definite article or a demonstrative standing where a name belongs — "the engine", "that engine", "the same section", "the file above" — resolves by proximity to whatever was named last, and proximity is position wearing ordinary grammar. It survives exactly as long as its neighbouring sentence does, and nothing reports it when that neighbour is rewritten. It escapes notice where a `file:line` does not: a `file:line` looks like an address and invites the question of whether it still resolves; an article reads as ordinary English and invites no question at all. That is the whole of its danger.
 
-The test that separates the two forms: ask whether the reference would still resolve if the sentence beside it were replaced. A name survives that question undisturbed; an article survives neither that question nor a move. Replacing a single clause in one roadmap line left two such references pointing at nothing in the same stroke, because the replaced clause held the only naming of the thing both reached for — the first was caught reading the line whole, the second only on a second reading of the same line.
+The test that separates the two forms: ask whether the reference would still resolve if the sentence beside it were replaced. A name survives that question undisturbed; an article survives neither that question nor a move. The question tests proximity only: a heading's ordinal passes it and still shifts when a section is inserted above, so it is a position and the heading's text is its name. Replacing a single clause in one roadmap line left two such references pointing at nothing in the same stroke, because the replaced clause held the only naming of the thing both reached for — the first was caught reading the line whole, the second only on a second reading of the same line.
 
 ## Where things are normed
 

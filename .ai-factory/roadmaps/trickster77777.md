@@ -4,14 +4,6 @@
 
 > Generic AI Factory skills — reusable slash-command packages for Claude Code.
 
----STOP---
-
-## A number written into a folder that never used one
-
-### Phase 41 — the width `note` writes follows the folder it writes into
-
-`note` writes a fixed four-digit width into every destination regardless of what it already holds, and every destination on disk today is narrower and unpadded. This is the gate for phase 47: `roadmap-outline-deep`'s "Invoke `note` only for a phase that has no pointer yet" cannot be followed for a first note without corrupting the folder it lands in. Phase note: [the width is fixed where the folders are not](.ai-factory/specs/trickster77777/135-note-width-against-its-destinations.md)
-
 ## A wrong number reads exactly like a right one
 
 ### Phase 42 — the always-loaded rule names a section number as a position address
@@ -19,6 +11,10 @@
 Governing spec: `docs/reference-by-name.md`
 
 A session cited a governing document's section by number, consistently and wrongly — the rule it pointed at lived one section over — and the mis-citation propagated into contract lines, task specs, a handoff, and a shared buffer before a fresh read against the document caught it. Nothing had been renumbered; the number simply resolved to the wrong place. Phase note: [the number resolves, and resolves wrongly](.ai-factory/specs/trickster77777/136-a-number-is-not-the-name-beside-it.md)
+
+- [ ] **42.1 — the always-loaded rule separates a number assigned once from a heading's ordinal** — `src/global/CLAUDE.md` § "Grounding claims" says "A heading, a bolded rule, a symbol, a numbered item survives every insertion above it", with nothing to tell a number assigned once and split, like a task's `N.M` or a skill's step, from a heading's ordinal, which shifts like a line number, though `docs/reference-by-name.md` § "Granularity, not size" now draws the line. The global file reaches every session of every project through the link chain from `~/.claude/CLAUDE.md`. Change: the sentence names a number assigned once and split rather than shifted among what survives, and says a document's section is cited by its heading's text; pinned verbatim in the spec. Spec: `.ai-factory/specs/trickster77777/0197-the-always-loaded-rule-separates-a-number-from-a-heading-ordinal.md`.
+
+---STOP---
 
 ## Skill bodies cite a path that exists in one repository
 
