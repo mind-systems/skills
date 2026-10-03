@@ -14,7 +14,7 @@ The pipeline's agents are sessions too, and they could ask an architect. A task,
 
 Read in `orchestrator/orchestrator/agents.py`:
 
-- Each agent is a headless `claude -p` run with a fixed list of allowed tools, and neither `SendMessage` nor `ListAgents` is on it.
+- Each agent is a headless `claude -p` run with permissions skipped, so its allowed-tools list restricts nothing and only the disallowed list removes tools. A pipeline agent therefore already has `ListAgents`, reaches `SendMessage` through `ToolSearch`, and a message it sends arrives in an architect's session.
 - A headless run is a single turn. A reply from another session reaches it only while it is working, at its next tool call, and the tools that would let it wait — a monitor, a scheduled wakeup, a cron job — are explicitly disallowed, with background tasks switched off.
 - Whether a pipeline run's session can be reached first is not yet seen: no listing has been taken while one was live. The design does not depend on it, because the agent is the one that asks.
 - A notification never says where to find a thing: `orchestrator/docs/concepts/fault-handling.md` makes it a signal and not the account. A doorbell that points at an artifact would first have to be declared a peer message and not an operator notification.
@@ -28,7 +28,7 @@ A task is worked by a planner, a plan reviewer, an implementer and a code review
 
 The pipeline already has an asynchronous way to ask. An agent that cannot do its work honestly without a decision writes the question into its own artifact and ends with `ESCALATION`, and the run stops. `task-rescue` then puts the missing decision to the user, records it in the spec, and resets the task so that it plans afresh; the cycle is laid out in [skill-cycle](../sakshi-harness/skill-cycle.md).
 
-The doorbell adds one thing. At escalation, the agent sends the contact architect a line naming the task and where the question sits. It does not wait for an answer, and the script is unchanged except that `SendMessage` is allowed for that act. The line is a pointer to an artifact and carries no content; the architect reads the artifact where the question sits, as it reads any file a neighbour has left.
+The doorbell adds one thing. At escalation, the agent sends the contact architect a line naming the task and where the question sits. It does not wait for an answer, and the script is unchanged: the run already reaches `SendMessage`, so the act asks only that the agent be told to use it. The line is a pointer to an artifact and carries no content; the architect reads the artifact where the question sits, as it reads any file a neighbour has left.
 
 ## The boundary
 
