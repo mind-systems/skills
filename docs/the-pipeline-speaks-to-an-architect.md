@@ -1,10 +1,10 @@
-# The pipeline asks an architect
+# The pipeline speaks to an architect
 
-A design for some day, with nothing queued against it: the orchestrator's agents reach an architect directly, the way architects already reach each other. The pipeline stops being something that is started and read afterwards, and becomes something that can ask a question while it works.
+The orchestrator's agents reach an architect directly, the way architects already reach each other. One form of it runs, a handoff at a gate; a doorbell on escalation is an undetermined possible future. The pipeline stops being something that is started and read afterwards, and becomes something that can speak to an architect while it works.
 
 ## What is already true
 
-Every chat on the machine is a Claude Code session. `ListAgents` lists the live ones by name, and `SendMessage` reaches one directly. Architects already talk this way, with no roles; how they reach each other, and the team they form, are laid out in [paired-loop](../paired-loop.md), and this document holds only the pipeline side.
+Every chat on the machine is a Claude Code session. `ListAgents` lists the live ones by name, and `SendMessage` reaches one directly. Architects already talk this way, with no roles; how they reach each other, and the team they form, are laid out in [paired-loop](paired-loop.md), and this document holds only the pipeline side.
 
 ## The observation
 
@@ -24,9 +24,21 @@ Read in `orchestrator/orchestrator/agents.py`:
 
 A task is worked by a planner, a plan reviewer, an implementer and a code reviewer. The planner's session also serves the code review, since the reviewer there holds the planner's context, and that session and the implementer's resume across rounds; the plan reviewer starts fresh each time. Nearly every failure happens before any code, at planning, so the agent that would ask is almost always the planner.
 
-## The first form: a doorbell on escalation
+## The first form: a handoff at the gate
 
-The pipeline already has an asynchronous way to ask. An agent that cannot do its work honestly without a decision writes the question into its own artifact and ends with `ESCALATION`, and the run stops. `task-rescue` then puts the missing decision to the user, records it in the spec, and resets the task so that it plans afresh; the cycle is laid out in [skill-cycle](../sakshi-harness/skill-cycle.md).
+A task that lifts a gate another repository waits on carries, as one of its own steps, a one-way message to that repository's liaison architect. This is the form that runs.
+
+- **Only the reviewer sends, and only on the round it passes the task**, just before its pass signal. The implementer cannot know whether its work passes, and a handoff is given only when the task is ready, which is when the reviewer is ready to stamp it. A round that does not pass sends nothing.
+- **A short message rides the last implementation task, the one that lifts the gate.** A task of its own just to send it would run the whole pipeline only so that one agent could speak to another. Where much has to be passed, a task at the phase's end writes a handoff file instead; the user chooses which.
+- **The address is a folder number.** The session name is read from that folder's `address.md` at send time and is never written into the spec.
+- **One way.** The message says that no reply is expected, and it asks nothing.
+- **A failed send never blocks.** The review records the tool's result verbatim and the task still passes; "queued" is what the tool confirms, not delivery.
+
+## A possible future: a doorbell on escalation
+
+This form is an undetermined possible future: nothing runs it and nothing is planned.
+
+The pipeline already has an asynchronous way to ask. An agent that cannot do its work honestly without a decision writes the question into its own artifact and ends with `ESCALATION`, and the run stops. `task-rescue` then puts the missing decision to the user, records it in the spec, and resets the task so that it plans afresh; the cycle is laid out in [skill-cycle](sakshi-harness/skill-cycle.md).
 
 The doorbell adds one thing. At escalation, the agent sends the contact architect a line naming the task and where the question sits. It does not wait for an answer, and the script is unchanged: the run already reaches `SendMessage`, so the act asks only that the agent be told to use it. The line is a pointer to an artifact and carries no content; the architect reads the artifact where the question sits, as it reads any file a neighbour has left.
 
@@ -45,6 +57,6 @@ Whether the same pipeline agents could be kept per repository, compacted like an
 ## Invariants
 
 1. **An architect is reached through its folder.** The session name in `address.md` is read at the moment of sending and never stored anywhere else.
-2. **A pipeline agent asks and does not wait.** Its question lives in its own artifact, and the line it sends points there.
+2. **A pipeline agent sends and does not wait.** A handoff asks nothing; were the doorbell ever built, a question would live in the agent's own artifact and the line it sends would point there.
 3. **A decision does not travel through the channel.** What an architect decides for a task goes through the user into the spec.
 4. **Autonomy grows only after something removes work as readily as the chain adds it.**
