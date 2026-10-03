@@ -86,7 +86,7 @@ engine's "Test sibling" rule (`.ai-factory/roadmaps/<slug>-tests.md`).
 ### (d) Extra update action — "Decompose existing"
 
 Register an added update-menu action: expand a vague task into a full spec (what
-exists today, the exact change, files/types/methods to touch, guards, how to verify).
+exists today, the exact change, files/types/methods to touch, guards).
 
 Task-spec-handling rule:
 - Existing `Spec:` tag → update the named task spec in place with `Write`; the tag stays

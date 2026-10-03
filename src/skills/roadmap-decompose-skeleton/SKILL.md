@@ -35,6 +35,8 @@ never re-invoked per task:
   that every lens renders its output through.
 - `test-philosophy` — the silent-failure discriminator the TDD lens applies to decide
   what gets a test.
+- `polymorphism-philosophy` — the question Lens 1 puts to each task: to add a third
+  kind, how many places must change, fired only when a kind gains its second member.
 
 This skill does **not** call `roadmap-decompose` at runtime — the atomic task list it
 operates on already exists; this is a second pass over it, not a re-decomposition. It
