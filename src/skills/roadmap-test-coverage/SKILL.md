@@ -141,7 +141,7 @@ naming the destination, in the form
 written.` `$NEXT_NOTE_NUM` is computed once, before the parallel launch
 below, so no agent is ever spawned part-way.
 
-Launch one `Explore` agent per area in a **single message** (parallel).
+Launch one `general-purpose` agent per area in a **single message** (parallel).
 Each agent writes its note to disk and returns one line to the orchestrator.
 
 **Agent prompt template:**
@@ -157,7 +157,7 @@ Note directory: .ai-factory/specs/
 
 Choose the note's slug yourself, only after you have read the source below —
 short, lowercase, hyphens, named for what the area actually turns out to be,
-not for the Area label above.
+not for the Area label above. The note's title carries that same name, in words.
 
 Your task:
 1. Read the source file(s) in full — every public method, constructor args,
@@ -176,7 +176,7 @@ Write the document below to <Note directory><NN>-<slug>.md — the note
 number handed in above and the slug you chose from reading the source. You
 write the file yourself, at the path you just chose, in the same act:
 
-# <Area Name> — Test Plan
+# <the name you chose, in words> — Test Plan
 
 **Date:** <YYYY-MM-DD>
 **Source:** roadmap-test-coverage agent
