@@ -404,8 +404,10 @@ Emit: `Sidecar deleted (full reset).`
 2. Edit the plan `.md` to fold in the root-cause fix.
 3. Delete: all plan-review files, all review files for this slug.
    Keep the plan `.md` and sidecar.
-4. Locate the sidecar at `.ai-factory/plans/{seq}-{slug}.json`. Read it if present;
-   start from `{}` if absent. Set the `step` key to `"planned:1"` and **delete** the
+4. Locate the sidecar where Step 1 does — `.ai-factory/plans/{seq}-{slug}.json` for
+   the default roadmap pair, `.ai-factory/plans/<stem>/{seq}-{slug}.json` for a named
+   roadmap, `<stem>` being the stem of `$TARGET_FILE`. Read it if present; start from
+   `{}` if absent. Set the `step` key to `"planned:1"` and **delete** the
    `implementer` key — it names the session whose implementation was just discarded, so
    its memory no longer describes anything on disk. Also delete the `escalation` key
    if present — defensive, for a stray `escalation` field left by an earlier,
@@ -441,8 +443,10 @@ plan-review(s) stand; only the (missing) implementation is discarded; roll back 
    was ratified and needs no repair.
 2. Delete: all review files for this slug — there is no
    implementation for them to describe.
-3. Locate the sidecar at `.ai-factory/plans/{seq}-{slug}.json`. Read it if present;
-   start from `{}` if absent. Set the `step` key to `"plan_reviewed"` and **delete** the
+3. Locate the sidecar where Step 1 does — `.ai-factory/plans/{seq}-{slug}.json` for
+   the default roadmap pair, `.ai-factory/plans/<stem>/{seq}-{slug}.json` for a named
+   roadmap, `<stem>` being the stem of `$TARGET_FILE`. Read it if present; start from
+   `{}` if absent. Set the `step` key to `"plan_reviewed"` and **delete** the
    `implementer` key — the session it names never produced the implementation, so its
    memory would only mislead the next implement attempt. Also delete the `escalation`
    key if present — defensive, for a stray `escalation` field left by an earlier,
