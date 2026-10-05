@@ -21,11 +21,11 @@ This repo produces skills. A skill is a directory with a `SKILL.md` at its root.
 
 The repo also hosts slash commands under `src/commands/` (e.g. `command-handoff`), and an agent-definitions category under `src/agents/` (the `editor` paired-loop subagent; its architect counterpart is the `agent-architect` skill living in `src/skills/`) — parallel to `src/skills/` and `src/commands/`.
 
-Three zones keep provenance clean: `src/` holds skills, commands, and agent skills we authored or reworked; `upstream/ai-factory/` is a pristine mirror of `lee-to/ai-factory` (refreshed by `scripts/sync-upstream.sh`, never hand-edited); `active/` is the curated working set — per-item symlinks into `src/` or `upstream/` — and is the only layer `~/.claude/skills`, `~/.claude/commands`, and `~/.claude/agents` point at.
+Two zones keep provenance clean: `src/` holds skills, commands, and agent skills we authored or reworked; `active/` is the curated working set — per-item symlinks into `src/` — and is the only layer `~/.claude/skills`, `~/.claude/commands`, and `~/.claude/agents` point at. Other people's repositories are sources we compare against, never committed: each is recorded by one file under `upstream/`, with its git-ignored clone beside it.
 
 ## Dependency model
 
-Skills invoke other skills by name (`/aif-skill-generator`, `/aif-architecture`). There is no import graph — invocations are runtime text instructions, not code dependencies. Keep coupling minimal and explicit.
+Skills invoke other skills by name (`/aif-architecture`). There is no import graph — invocations are runtime text instructions, not code dependencies. Keep coupling minimal and explicit.
 
 ## Composition: mechanism vs policy
 
@@ -42,9 +42,9 @@ Above both sits the always-loaded layer — the skill-description-field and the 
 
 ## Key constraints
 
-- `name` in frontmatter = directory name (enforced by validator)
+- `name` in frontmatter = directory name
 - `argument-hint` values with `[...]` must be quoted in YAML
-- External skills are scanned before use; built-in `aif*` skills are not
+- An external skill is read whole before use
 
 ## Features (roadmap-prune v2)
 

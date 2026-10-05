@@ -2,10 +2,9 @@
 
 This repo (`~/projects/skills`) is the **source of truth for generic AI Factory skills** shared across all of Max's projects.
 
-The repo keeps three concerns physically apart:
+The repo keeps two concerns physically apart:
 - **`src/`** — skills and commands **authored or reworked by us** (the real product).
-- **`upstream/ai-factory/`** — a **pristine mirror** of `lee-to/ai-factory`'s `skills/`, refreshed by `scripts/sync-upstream.sh` and never hand-edited.
-- **`active/`** — the **curated working set**: `active/skills/`, `active/commands/`, and `active/agents/` hold per-item symlinks into either `src/` (ours) or `upstream/ai-factory/` (the few upstream originals we actually use). This is the only layer `~/.claude` points at, and it lists **only skills actually in use** — not every skill that exists.
+- **`active/`** — the **curated working set**: `active/skills/`, `active/commands/`, and `active/agents/` hold per-item symlinks into `src/`. This is the only layer `~/.claude` points at, and it lists **only skills actually in use** — not every skill that exists.
 
 Skills are available globally via `~/.claude/skills` → `~/projects/skills/active/skills`, `~/.claude/commands` → `~/projects/skills/active/commands`, and `~/.claude/agents` → `~/projects/skills/active/agents` (personal scope in Claude Code).
 
@@ -37,7 +36,7 @@ The whole package is written in one semantic vocabulary — the tech stack every
 | [Context tree](docs/philosophy/context-tree.md) | The project's knowledge as one tree — CLAUDE.md the trunk, docs the crown, code the root system, links the edges, the roadmap the time axis (the `[x]`/`[ ]` seam as the entry aim, `[x]` lines as strata with supersession); how a session raises the map at entry and walks a branch to the leaf at the moment of action, why held context decays, and why one-home-per-fact links are the walked edges. Narrative explainer (Russian); the normative rule lives in the global CLAUDE.md § "Grounding claims". |
 | [Context grove](docs/philosophy/context-grove.md) | The multi-repo family layer over the context tree — separate git repos under a coordination root (tradeoxy, mind); the trunk delivered mechanically by harness parent-traversal, the root-README § Setup layout guarantee as hoist's precondition (hoist leaves no pointers behind), why leaves never write upward edges and roots never enumerate consumers. Narrative explainer (Russian); the per-family entry checks live in the alignment-task specs (24/39). |
 | [Multiuser roadmaps](docs/philosophy/multiuser-roadmaps.md) | Named per-developer roadmaps — `.ai-factory/roadmaps/<slug>.md` with the name derived from git `user.email`, the `> Owner:` first line as the loud collision stop, the single-writer invariant, the family's target-file resolution order, integration-branch prune/Features, per-roadmap spec and artifact subdirectories keyed by the roadmap file stem (default pair flat). Governing spec (Russian); the default single-`ROADMAP.md` layout stays valid unchanged. |
-| [Paired loop](docs/paired-loop.md) | The architect↔editor pair as one working memory with three faculties — the head the only writer, the hand reading it whole; why the snapshot is the head's to write, and why no architect reads another's — encapsulation, not role-splitting; the behaviour both halves must keep living in the buffer, seeded as standing entries and refreshed from the seed at rehydration, its drain going to an artifact or, for base behaviour, to the seed, what was said or failed twice a debt; each architect's own folder under `.ai-factory/architects/` holding its buffer, its snapshots, and one address file — the session id that finds the folder, the session name a peer reaches it by — rehydrating on a bare invocation, a new chat never adopting a folder; working with another architect by folder number with no roles, holding a reading until the other's exists then reconciling, verified against the files; a team as a network of heads, each holding its own links — goal, liaison above, those below, by folder number — with behaviour tried through a liaison before it lands in a skill; an unfamiliar handoff noted and surfaced at a stopping point, an outgoing one followed through only on request with the mark a shortcut for the check; and the split between a factual question (one reader) and a judgment question (two independent readings reconciled). Governing spec (English). |
+| [Paired loop](docs/paired-loop.md) | The architect↔editor pair as one working memory with three faculties — the head the only writer, the hand reading it whole; why the snapshot is the head's to write, and why no architect reads another's — encapsulation, not role-splitting; the behaviour both halves must keep living in the buffer, seeded as standing entries and refreshed from the seed at rehydration, its drain going to an artifact or, for base behaviour, to the seed, what was said or failed twice a debt; each architect's own folder, `.ai-factory/architects/<slug>/<NN>/`, inside its user's folder, holding its buffer, its snapshots, and one address file — the session id that finds the folder, the session name a peer reaches it by — rehydrating on a bare invocation, a new chat never adopting a folder; working with another architect by folder number, with the owner's slug for another user's, with no roles, holding a reading until the other's exists then reconciling, verified against the files; a team as a network of heads, each holding its own links — goal, liaison above, those below, by repository, owner's slug and folder number — with behaviour tried through a liaison before it lands in a skill; an unfamiliar handoff noted and surfaced at a stopping point, an outgoing one followed through only on request with the mark a shortcut for the check; and the split between a factual question (one reader) and a judgment question (two independent readings reconciled). Governing spec (English). |
 | [Test-coverage pass](docs/test-coverage-pass.md) | Where `roadmap-test-coverage`'s own design and its gaps read as identical from the skill body alone, and why they aren't: the operator vets scope before research spends anything and is the only one who can answer the question the pass ends on, feature-life grouping stays unpinned to the operator's own judgment, research fans into disposable single-use agents rather than a persistent hand (so the pass itself can't run as a subagent), the pass produces planning and never a test file, a found production defect is routed home through the operator rather than automatically, every drop carries its reason, one note per area phrased as a behavior under a condition, and a number is fixed before research while a name is fixed after. Governing spec (English). |
 | [What a task carries](docs/what-a-task-carries.md) | The division of labour behind a task spec — a planner and a reviewer read it, an implementer works from the plan alone; what the three-part shape holds and excludes, since checking is the review's own step and not the spec's; scope stated positively, as what changes, never fenced off neighbour by neighbour; blast radius as the rule the planner cannot re-derive from the code alone, never a snapshot of what a search returned; the boundary that being light on how never means being light on what must be true; a task's source — a document's promise, the user's ruling or a goal's path, a find with none going to the user, a source field that only looks answered worse than none; the measured cost of getting this wrong. Governing spec (English). |
 | [Instruction in data](docs/instruction-in-data.md) | Why a rule written into the artifact it governs does not execute — the reader takes a file's text as content, not as a command — and where the obligation has to live instead: in the skill step that touches the artifact |
@@ -64,15 +63,14 @@ skills/
 │   ├── commands/                 #   slash commands (all ours)
 │   ├── agents/                   #   agent definitions (editor — the paired-loop subagent)
 │   └── global/                   #   global CLAUDE.md — user-level instructions, symlinked from ~/.claude
-├── upstream/
-│   └── ai-factory/               # PRISTINE mirror of lee-to/ai-factory skills/ (sync script; never hand-edited)
 ├── active/                       # CURATED working set — the only layer ~/.claude points at
-│   ├── skills/                   #   per-skill symlinks → src/skills/* or upstream/ai-factory/*
+│   ├── skills/                   #   per-skill symlinks → src/skills/*
 │   ├── commands/                 #   per-command symlinks → src/commands/*
 │   ├── agents/                   #   per-item symlinks → src/agents/* (e.g. editor.md)
 │   └── CLAUDE.md                 #   symlink → ../src/global/CLAUDE.md (target of ~/.claude/CLAUDE.md)
+├── upstream/                     # the sources we follow, one tracked file each; their local clones beside them, git-ignored
 ├── scripts/
-│   └── sync-upstream.sh          # refresh upstream/ai-factory from lee-to/ai-factory
+│   └── compare-sources.sh        # fetch the sources we follow and diff our counterparts against them; writes nothing tracked
 ├── .claude/                      # Claude Code project config (.mcp.json, settings.local.json)
 ├── .ai-factory/                  # Roadmap, specs, notes, handoffs, architect folders, architecture, plans
 ├── CLAUDE.md
@@ -80,12 +78,12 @@ skills/
 └── README.md
 ```
 
-**The active set** (what `~/.claude` actually loads): our skills — `detangle`, `task-rescue`, `task-rescue-audit`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `aif`, `aif-architecture`, `aif-docs`, `test-philosophy`, `polymorphism-philosophy`, `roadmap-outline`, `roadmap-outline-deep`, `observe-logs`, `orchestrator-artifacts`, `agent-architect`, `architect-editor-engine` — plus one upstream original we use as-is: `aif-skill-generator`. Everything else (our `aif-plan`, `ui-ux-pro-max`; all other upstream skills) is stored but **not** symlinked into `active/`. Adding a skill to the working set = create a symlink under `active/skills/`.
+**The active set** (what `~/.claude` actually loads): our skills — `detangle`, `task-rescue`, `task-rescue-audit`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `aif`, `aif-architecture`, `aif-docs`, `test-philosophy`, `polymorphism-philosophy`, `roadmap-outline`, `roadmap-outline-deep`, `observe-logs`, `orchestrator-artifacts`, `agent-architect`, `architect-editor-engine`. Everything else (our `aif-plan`, `ui-ux-pro-max`) is stored but **not** symlinked into `active/`. Adding a skill to the working set = create a symlink under `active/skills/`.
 
 Each skill directory contains:
 - `SKILL.md` — required, main instructions (frontmatter + body ≤ 500 lines)
 - `references/` — optional detailed docs referenced from SKILL.md
-- `scripts/` — optional executable helpers (e.g. `security-scan.py`)
+- `scripts/` — optional executable helpers (e.g. `design_system.py`)
 - `templates/` — optional output templates
 
 ## Skill Authoring
@@ -137,24 +135,11 @@ allowed-tools: Read Write  # pre-approved tools
 
 ### Security scanning
 
-Every external skill (from skills.sh, GitHub, any URL) must pass a two-level scan before use:
-
-```bash
-# Level 1 — automated
-python3 ~/.claude/skills/aif-skill-generator/scripts/security-scan.py <skill-path>
-# Exit 0 = clean, Exit 1 = BLOCKED (delete it), Exit 2 = warnings (proceed to Level 2)
-
-# Level 2 — read SKILL.md and all files yourself; block if any instruction doesn't serve the stated purpose
-```
-
-Built-in `aif*` skills are never scanned at install time — only external skills are.
+An external skill is read whole before use, and an instruction that does not serve its stated purpose blocks it.
 
 ## Workflow for Skill Development
 
-1. **Authoring a new skill** — use `/aif-skill-generator <name>` or Learn Mode (`/aif-skill-generator <url>`)
-2. **Validate** — `/aif-skill-generator validate <path>` (structure + security)
-3. **Scan only** — `/aif-skill-generator scan <path>`
-4. **Publishing** — `npx skills publish <path>` to skills.sh
+1. **Authoring a new skill** — write `src/skills/<name>/SKILL.md` to the constraints above
 
 ## How Skills Are Used in Projects
 
@@ -164,39 +149,15 @@ Skills from this repo are available globally to all projects via Claude Code's p
 
 - `/aif` → sets up project context (skills + MCP + AGENTS.md + architecture doc)
 - `/aif-architecture` → generates `.ai-factory/ARCHITECTURE.md`
-- `/aif-skill-generator` → creates or validates skills
 
 **Planning chain:** `/roadmap-outline` (strategic phases) → `/roadmap-decompose` (atomic, implementation-ready tasks) → `/roadmap-decompose-skeleton` (optional second pass: skeleton/TDD/concurrency splits on heavy tasks). Each writes two-tier artifacts (contract line + task spec) via `roadmap-engine`.
 
-New task specs land in `.ai-factory/specs/`; older ones still sit in `.ai-factory/notes/` and stay valid — every reader resolves the task spec through the contract line's `Spec:` tag, never a hardcoded directory. `.ai-factory/handoffs/` holds session handoffs, a separate genre; `.ai-factory/architects/` holds one folder per architect, each with its buffer, its snapshots and its address file.
+New task specs land in `.ai-factory/specs/`; older ones still sit in `.ai-factory/notes/` and stay valid — every reader resolves the task spec through the contract line's `Spec:` tag, never a hardcoded directory. `.ai-factory/handoffs/` holds session handoffs, a separate genre; `.ai-factory/architects/<slug>/` holds one folder per architect of that user, `<NN>`, each with its buffer, its snapshots and its address file.
 
 Planning and implementation are separate processes: this chat produces the roadmap and spec artifacts; the **orchestrator** (a separate run) implements them — never in the planning session. This is a hard constraint (see global CLAUDE.md).
 
-## Upstream Sync
+## Sources We Follow
 
-Upstream source: `https://github.com/lee-to/ai-factory` (skills live in the `skills/` subdirectory), mirrored into `upstream/ai-factory/`.
+Other people's repositories are sources we compare against, never code we commit. The sources we follow and their check history live in `upstream/`, one file per source: its `URL:`, why we follow it, the skills of ours that share an origin with it (`Counterparts:`), and dated entries, each with a `Last seen:` commit. The clone sits beside its file as `upstream/<repo-name>/`, which git ignores. `scripts/compare-sources.sh` reads those files, clones a source on first use and fetches it after, diffs our counterparts against theirs and prints what moved. It writes nothing tracked, and no source is mirrored.
 
-The three-way split makes syncing **conflict-free**: every skill we modified is moved out to `src/skills/`, so `upstream/ai-factory/` stays byte-pristine and refreshing it is an unconditional overwrite — no merge, no conflicts, nothing of ours to protect.
-
-**Refresh the mirror:**
-```bash
-scripts/sync-upstream.sh      # clones upstream, rsyncs skills/ → upstream/ai-factory/ (--delete)
-```
-
-**Reconcile reworked skills (opt-in, manual).** A few of our skills were reworked from an upstream original and still have a counterpart to diff after a refresh — our copy is authoritative and is never auto-overwritten:
-- `aif` ↔ `upstream/ai-factory/aif`
-- `aif-architecture` ↔ `upstream/ai-factory/aif-architecture`
-- `aif-docs` ↔ `upstream/ai-factory/aif-docs`
-- `aif-plan` ↔ `upstream/ai-factory/aif-plan`
-
-```bash
-diff -rq src/skills/aif upstream/ai-factory/aif             # port upstream changes by hand if wanted
-diff -rq src/skills/aif-architecture upstream/ai-factory/aif-architecture
-diff -rq src/skills/aif-docs upstream/ai-factory/aif-docs
-```
-
-**Everything else in `src/skills/` is ours** — no upstream counterpart to reconcile, sync never touches it: `detangle`, `task-rescue`, `task-rescue-audit`, `roadmap-outline`, `roadmap-outline-deep`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `test-philosophy`, `polymorphism-philosophy`, `observe-logs`, `ui-ux-pro-max`, `orchestrator-artifacts`, `agent-architect`, `architect-editor-engine`. The same holds for `src/agents/` — the `editor` agent definition has no upstream counterpart; a re-sync must never overwrite it.
-
-**`src/commands/`** — all ours, no upstream source, never synced.
-
-**Adopting a new upstream skill into the active set:** after a refresh, symlink it — `ln -sfn ../../upstream/ai-factory/<name> active/skills/<name>`. To rework one into ours, copy it into `src/skills/` and repoint its `active/` symlink there.
+**Everything else in `src/skills/` is ours** — no counterpart in any source: `detangle`, `task-rescue`, `task-rescue-audit`, `roadmap-outline`, `roadmap-outline-deep`, `roadmap-decompose`, `roadmap-decompose-skeleton`, `roadmap-engine`, `roadmap-prune`, `roadmap-test-coverage`, `temporal-tree`, `note`, `test-philosophy`, `polymorphism-philosophy`, `observe-logs`, `ui-ux-pro-max`, `orchestrator-artifacts`, `agent-architect`, `architect-editor-engine`. The same holds for `src/agents/` (the `editor` agent definition) and `src/commands/`.

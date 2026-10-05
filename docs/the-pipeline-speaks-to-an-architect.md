@@ -8,7 +8,7 @@ Every chat on the machine is a Claude Code session. `ListAgents` lists the live 
 
 ## The observation
 
-The pipeline's agents are sessions too, and they could ask an architect. A task, or the phase it belongs to, names a contact architect by folder number, and an agent that needs one finds that architect's live session through the folder's `address.md`, exactly as a peer architect does. Until now nobody imagined that the pipeline could be talked to at all.
+The pipeline's agents are sessions too, and they could ask an architect. A task, or the phase it belongs to, names a contact architect by its owner's slug and folder number ([paired-loop](paired-loop.md)), and an agent that needs one finds that architect's live session through the folder's `address.md`, exactly as a peer architect does. Until now nobody imagined that the pipeline could be talked to at all.
 
 ## What stands in the way today
 
@@ -30,7 +30,7 @@ A task that lifts a gate another repository waits on carries, as one of its own 
 
 - **Only the reviewer sends, and only on the round it passes the task**, just before its pass signal. The implementer cannot know whether its work passes, and a handoff is given only when the task is ready, which is when the reviewer is ready to stamp it. A round that does not pass sends nothing.
 - **A short message rides the last implementation task, the one that lifts the gate.** A task of its own just to send it would run the whole pipeline only so that one agent could speak to another. Where much has to be passed, a task at the phase's end writes a handoff file instead; the user chooses which.
-- **The address is a folder number.** The session name is read from that folder's `address.md` at send time and is never written into the spec.
+- **The address is an owner's slug and a folder number.** The session name is read from that folder's `address.md` at send time and is never written into the spec.
 - **One way.** The message says that no reply is expected, and it asks nothing.
 - **A failed send never blocks.** The review records the tool's result verbatim and the task still passes; "queued" is what the tool confirms, not delivery.
 

@@ -18,11 +18,11 @@ The drain has two destinations. A ruling about the project or its skills drains 
 
 ## Where the memory lives
 
-Each architect keeps one folder under `.ai-factory/architects/`, holding three things: its buffer, its own snapshots, and one keeper of its address. Project handoffs stay apart, in the handoff folder — an inbound one from another repository, or a common catch-up for whoever comes next.
+Each architect keeps one folder, `.ai-factory/architects/<slug>/<NN>/`, inside its user's own folder — the slug is the user's, derived from git identity as for a named roadmap ([multiuser-roadmaps](philosophy/multiuser-roadmaps.md)) — holding three things: its buffer, its own snapshots, and one keeper of its address. Project handoffs stay apart, in the handoff folder — an inbound one from another repository, or a common catch-up for whoever comes next.
 
-The folder's number is the head's identity. The keeper is a single file carrying two facts — the session id, by which the head recognises its folder, and the session name, by which a peer reaches it — and the head rewrites it on every start. The id is the key: it holds across a compact and a reopened chat. The name is only the address: it holds across a compact and changes when the chat is reopened. A peer reads the keeper, never the buffer.
+The folder's number, counted within its user's folder, is the head's identity there. The keeper is a single file carrying two facts — the session id, by which the head recognises its folder, and the session name, by which a peer reaches it — and the head rewrites it on every start. The id is the key: it holds across a compact and a reopened chat. The name is only the address: it holds across a compact and changes when the chat is reopened. A peer reads the keeper, never the buffer.
 
-Invoking the architect with no argument is enough: the head reads its own session id, finds the folder that holds it, and rehydrates from the latest snapshot there. A session no folder claims is a new head, which founds its own folder, seeds its buffer, and writes its keeper; a brand-new chat never adopts an existing folder, however it is asked or whatever it is handed. Any text the user adds is the work, never the way home.
+Invoking the architect with no argument is enough: the head reads its own session id, finds, in its user's folder, the folder that holds it, and rehydrates from the latest snapshot there. A session no folder claims is a new head, which founds its own folder, seeds its buffer, and writes its keeper; a brand-new chat never adopts an existing folder, however it is asked or whatever it is handed. Any text the user adds is the work, never the way home.
 
 ## How the memory begins, and how it survives
 
@@ -30,7 +30,7 @@ Two genres share the occasion and nothing else. A memory snapshot is a head cont
 
 ## Working with another architect
 
-The user names the peers a stretch of work needs, by folder number, in this repository or a neighbour's — a peer reached directly, at its folder's address.
+The user names the peers a stretch of work needs, by folder number, with the owner's slug when the peer is another user's, in this repository or a neighbour's — a peer reached directly, at its folder's address.
 
 Approval stays in each chat: a peer's message is a colleague's request, never the user's go. Each head holds its reading until the other's exists, then reconciles — conceding where the other is sharper, holding where the principle says so, with a reason either way. What a peer reports is verified against the files.
 
@@ -38,7 +38,7 @@ A head asks rather than reads another's memory, and none speaks as another. Each
 
 ## The team
 
-Architects form a network, and each node holds its own links, not the whole network; the team's shape is the union of everyone's links. A head keeps its links in its own buffer: the goal it serves, linked to where that goal is written; its liaison above; and those it leads below, each named by repository and folder number and never by session name, since a folder number resolves through the keeper. After a compact the head knows its place from its own buffer, and each link has one writer, the head whose buffer holds it.
+Architects form a network, and each node holds its own links, not the whole network; the team's shape is the union of everyone's links. A head keeps its links in its own buffer: the goal it serves, linked to where that goal is written; its liaison above; and those it leads below, each named by repository, owner's slug and folder number and never by session name, since the folder resolves through the keeper. After a compact the head knows its place from its own buffer, and each link has one writer, the head whose buffer holds it.
 
 A liaison is the head that another repository's work reaches through. Behaviour is handed to a liaison and tried there before it is written into a skill.
 

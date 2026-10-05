@@ -28,7 +28,7 @@ For each surface, detect its current state (`readlink`/`test`) and act:
 
 The whole flow is idempotent (a second run is all-skips) and reversible (our links resolve back into this repo; a replaced original sits beside its symlink as `*.pre-sakshi.bak`).
 
-`~/.claude` points at `active/` — the curated working set: `active/skills/`, `active/commands/`, and `active/agents/` hold per-item symlinks into `src/` (ours) or `upstream/ai-factory/` (upstream originals we use), so only skills actually in use are loaded, not every skill that exists.
+`~/.claude` points at `active/` — the curated working set: `active/skills/`, `active/commands/`, and `active/agents/` hold per-item symlinks into `src/`, so only skills actually in use are loaded, not every skill that exists.
 
 ## Project-specific skills
 
@@ -40,24 +40,12 @@ If a project needs custom skills alongside the generic ones, place them in `.cla
 /aif                 — set up AI context for a project
 /roadmap-outline     — strategic roadmap (high-level milestones)
 /roadmap-decompose   — break milestones into atomic, spec'd tasks
-/aif-skill-generator — create or validate skills
 ```
 
 ## Structure
 
-Our skills live under `src/skills/` (commands under `src/commands/`, agent definitions under `src/agents/`); a pristine mirror of upstream `lee-to/ai-factory` lives under `upstream/ai-factory/` (refresh with `scripts/sync-upstream.sh`); `active/` symlinks the curated working set. Each skill is a directory containing a `SKILL.md` (frontmatter + instructions) and optional `references/`, `scripts/`, and `templates/` subdirectories.
+Our skills live under `src/skills/` (commands under `src/commands/`, agent definitions under `src/agents/`); `active/` symlinks the curated working set. Each skill is a directory containing a `SKILL.md` (frontmatter + instructions) and optional `references/`, `scripts/`, and `templates/` subdirectories.
 
 ## Adding Skills
 
-```bash
-# Generate a new skill interactively
-/aif-skill-generator <name>
-
-# Generate from documentation URLs (Learn Mode)
-/aif-skill-generator <url1> [url2]
-
-# Validate an existing skill
-/aif-skill-generator validate src/skills/<name>
-```
-
-External skills from [skills.sh](https://skills.sh) must pass a two-level security scan before use. See `upstream/ai-factory/aif-skill-generator/SKILL.md` for details.
+A new skill is a directory under `src/skills/` with a `SKILL.md`; it joins the working set by a symlink under `active/skills/`. An external skill is read whole before use, and an instruction that does not serve its stated purpose blocks it.
