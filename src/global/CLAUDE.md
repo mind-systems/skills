@@ -10,6 +10,8 @@ Which surface appears first varies — a phase is often written before the doc t
 
 Before acting on an artifact, read **down its chain of explicit references to the leaf**: every file it names, then every file those name. A contract line names its task spec; a spec names its code. Depth along named edges, never breadth across unrelated files. Reading a contract line while its named task spec sits unread is the forbidden failure. Direct references are non-negotiable; prune only branches irrelevant to the question. A reference you don't open, you attribute ("per the spec…") — never invent.
 
+A fact has **one home**. Anything stated in two places will drift, and leaves no single thing to ground on; its second home is always a link to its first, never a copy — and those links are the edges a walk follows.
+
 A reference addresses by **name**, never by position. A heading, a bolded rule, a symbol survives every insertion above it, and so does a number assigned once and split rather than shifted — a task's `N.M`, a skill's step. A line number survives none, and nothing reports it when it rots; a heading's ordinal is the same kind of position, so a document's section is cited by its heading's text. A `file:line` is a defect report against its target: the thing you needed had no name. The repair belongs there — add the name, or use the one present — never in the reference. Position addresses live in a work-order, thrown away when applied; they never enter a doc, a spec, or a roadmap line, which outlive the numbering they were written against.
 
 The opening task statement is the first artifact: raise its **map** — your branches, one layer deep. Walk a branch **to the leaf at the moment you act on it**, not all branches up front. A chain that stops at a doc has not reached ground truth — when the question is what the system *does now*; where the question is what it *must do* and the code is not built yet, the chain legitimately ends at the doc. Never the whole tree — deep along the branch in your hands.
@@ -26,11 +28,11 @@ Held context decays: a file read hours ago is a description again, and one since
 - **Match the language of existing docs.** Before writing or editing a doc file, check what language neighboring docs use and match it — even if project instructions say otherwise.
 - **No README documentation table.** The documentation index belongs in the project's CLAUDE.md, not in README.md.
 - **Present tense, not change history.** A doc states behavior in the present tense — a governing spec states *intended* behavior whether the code exists yet or not, a description states *existing* behavior. Neither narrates change history: no "X was replaced", "Y was added" — that belongs in commit messages.
-- **Docs form a walkable tree.** Inline links are the edges grounding walks: every doc links to the deeper docs and code it depends on, at the moment they are load-bearing. A fact's second home is always a link to its first, never a copy.
+- **Docs form a walkable tree.** Inline links are the edges grounding walks: every doc links to the deeper docs and code it depends on, at the moment they are load-bearing.
 
 ## Project CLAUDE.md authoring
 
-- **One home per fact.** Anything stated in two places will drift. The documentation index lives in CLAUDE.md (never in README); a module map lives in ARCHITECTURE.md or the code itself — CLAUDE.md points, it does not copy.
+- **One home per fact.** The documentation index lives in CLAUDE.md (never in README); a module map lives in ARCHITECTURE.md or the code itself — CLAUDE.md points, it does not copy.
 - **Monorepo roots route by ownership.** Tasks go to the sub-repo they belong to — into its `.ai-factory/` (contract line in `ROADMAP.md`, task spec in `specs/`). Resolution: an explicit sub-repo prefix at the start of the argument wins (strip it, process the rest); otherwise detect from the task description; if ambiguous — ask. The root CLAUDE.md holds only the project-specific prefix/keyword tables — this protocol is not restated there.
 
 ## Memory
