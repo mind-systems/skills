@@ -189,8 +189,7 @@ in complete sentences. One short paragraph per review round is the natural shape
 single-round failure may be a single paragraph. Length scales with the number of
 rounds — never compress a multi-round chain to fit a sentence budget. Weave reviewer
 findings from the recurring rounds (2+) into the narrative as quotes or paraphrases, as
-evidence. This narrative register is shared with `task-rescue-audit`'s output —
-change it in both files or neither.
+evidence.
 
 No tables, no fragment-style bullet lists inside the Diagnosis Report — the causal
 story is read top to bottom, not reconstructed from a grid.
