@@ -40,6 +40,16 @@ A port that exists only so a test can substitute a fake is a test seam, not an a
 
 Variation is an axis of its own beside the packaging patterns below, not a property of any one of them: every packaging pattern can hold a system with such axes. Describing the architecture of existing code starts here — which interfaces have several implementations, where, and by what key one is chosen — and packaging is named second.
 
+## The Dependency Rule at Every Scale
+
+One rule — details depend on abstractions the core owns, never the reverse — holds at each scale at which a system has a core with details around it. The scales nest; the rule does not change.
+
+- **The system's edge** — Ports and Adapters. The domain core owns the ports; storage, network and providers are adapters; the composition root assembles them.
+- **A feature module** — three responsibilities, a loose likeness of VIPER and no letter-for-letter mapping of it: the data the module owns, the layer that decides, and presentation. Presentation depends on what the deciding layer exposes, and the deciding layer on what the data exposes, never the reverse; modules nest, each owning the abstractions its parts depend on.
+- **The inside of presentation** — MVVM. The view depends on its view-model, and the view-model on the deciding layer's abstractions.
+
+This is Clean Architecture's dependency rule seen at each scale, not a different architecture at each. How strictly a packaging pattern enforces it is the matrix's "Domain purity" row. At every scale there are the same two things to look for: where the variations live and which way the dependencies point; the folders that follow from them are packaging, named second.
+
 ## Terminology
 
 All folder structures in this document use consistent placeholder names:
