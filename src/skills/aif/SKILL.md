@@ -184,7 +184,7 @@ After CLAUDE.md, AGENTS.md, and MCP are configured, **generate the architecture 
 
 **Final step: Generate Architecture Document**
 
-Invoke `/aif-architecture` to define project architecture. This creates `.ai-factory/ARCHITECTURE.md` with architecture pattern, folder structure, dependency rules, and code examples tailored to the project.
+Invoke `/aif-architecture` to define project architecture. This creates `.ai-factory/ARCHITECTURE.md` with the architecture pattern, what varies and where it is chosen, folder structure, dependency rules, and links to the documents that govern the invariants, tailored to the project.
 
 Present the completion summary and next-step recommendations in the ambient language. Cover:
 
