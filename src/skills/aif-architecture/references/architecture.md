@@ -22,6 +22,24 @@ Reference material for architecture evaluation and generation. This content info
 
 **Note on subvariants:** Each pattern offers multiple folder organization variants (e.g., *by technical layer*, *by vertical slice*). The matrix evaluates the architectural pattern — organization variants within the same pattern generally share the same scores because they differ in internal folder layout, not in architectural characteristics. When a variant affects feature independence (e.g., Explicit Architecture (Vertical Slices By Entity) scores higher than with Technical Layers), the matrix uses a separate column for that variant rather than showing ranges. The organization variant is chosen separately based on module/context size and feature independence needs.
 
+**Note on what the matrix measures:** the matrix scores packaging fit only — how files are arranged and who imports whom. It does not score how many places the system varies or how many rules it must keep, and a low score on team size or domain complexity is not a finding that the system has none; a system with few lines can still have several implementations of one thing. Where the system varies is a separate question, answered in "Where the System Varies — Ports and Adapters" below.
+
+## Where the System Varies — Ports and Adapters
+
+Ports and Adapters, also called hexagonal architecture (Alistair Cockburn), is the pattern that answers where a system varies; the place where its adapters are assembled is the composition root (Mark Seemann).
+
+Packaging patterns answer where files lie and who imports whom. A second question is independent of them: where the system's variations live — modes, environments, providers, roles — and where each one is resolved.
+
+A **variation axis** is a kind of thing the system has several implementations of. Each axis has a **port**, the interface the logic calls; an **adapter** for each value of the axis, implementing the port; and one **composition root**, the only place that knows which adapter runs, which picks it by a key it is handed — a mode, an environment name, a provider.
+
+A port is therefore not only an interface to an external system: a port can have an adapter per mode, for instance one source of time that reads the clock and another that a replayed run advances itself. The logic is one flow for every value of the axis and never asks which value it runs under.
+
+The rule that follows: a difference between values is a new adapter chosen at the composition root, never a branch on the key at the point where the logic calls it. A junction that must know the key means a port is missing.
+
+A port that exists only so a test can substitute a fake is a test seam, not an axis, and is named as one.
+
+Variation is an axis of its own beside the packaging patterns below, not a property of any one of them: every packaging pattern can hold a system with such axes. Describing the architecture of existing code starts here — which interfaces have several implementations, where, and by what key one is chosen — and packaging is named second.
+
 ## Terminology
 
 All folder structures in this document use consistent placeholder names:
@@ -44,6 +62,8 @@ All folder structures in this document use consistent placeholder names:
 Choose uniformly within a slice — don't mix unified Controllers with granular Services.
 
 ## Quick Decision Guide
+
+Each line below picks packaging only; none says anything about where the system varies.
 
 ```text
 New project, small team, simple domain? → Layered
