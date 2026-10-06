@@ -24,3 +24,6 @@ active/skills/synced/
 
 # Trash left behind by tooling, anywhere in the tree
 **/.trash/
+
+# Local clones of the sources we follow — fetched, never committed
+upstream/*/
