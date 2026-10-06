@@ -23,9 +23,11 @@ Read the project's `CLAUDE.md` if it exists to understand:
 - Tech stack (language, framework, database, ORM)
 - Conventions already documented
 
-**Also run a light codebase scan** to infer project size and complexity:
+**Also run a light codebase scan** to see the stack and the layout:
 - Package-manager files (`package.json`, `composer.json`, `requirements.txt`/`pyproject.toml`, `go.mod`, `Cargo.toml`, etc.)
 - `src/` (or equivalent) directory layout
+
+**For existing code, then read the built design.** Find the interfaces that have several implementations, where each implementation lives, and where and by what key one is chosen — a factory, a registry, the composition root. That is the variation the system already has: what varies (mode, environment, provider, role), its ports, its adapters and the root that assembles them. Step 1 describes and names it first; the packaging comes after.
 
 **If `CLAUDE.md` does not exist and the codebase scan finds nothing:**
 ```
@@ -42,7 +44,11 @@ Allow standalone usage — if user provides manual input, use that instead.
 
 ### Step 1: Recommend Architecture
 
-Based on project context, evaluate against the decision matrix and recommend an architecture:
+Variation comes first, packaging second.
+
+**Where the system varies.** For existing code, describe and name the built design read in Step 0 before any menu: code whose axes have ports with an adapter per value, chosen at a composition root, is Ports and Adapters, and the document names it so. The architecture to recommend is the one the code already has, and the menu below only answers how it is packaged. For a new project, ask before the menu, via `AskUserQuestion`: "Where will this system vary — modes (live and test, for instance), environments, providers, roles — and which of those must be swappable without touching the logic?" Record the answer as the architecture's variation axes. A packaging named in `$ARGUMENTS` fixes only the packaging; the variation is still read or asked.
+
+**Packaging.** Based on project context, evaluate against the decision matrix, which scores packaging fit only, and recommend how the system is packaged:
 
 **If `$ARGUMENTS` specifies an architecture** (e.g., `/aif-architecture explicit`):
 - **Direct mapping** (no suffix needed):
@@ -98,18 +104,18 @@ Architecture options:
 
 ### Step 1.5: Codebase Alignment Check
 
-**CRITICAL:** Before generating the document, compare the chosen architecture's ideal folder structure (from `references/architecture.md`) against the actual existing codebase structure.
+**CRITICAL:** Before generating the document, compare the chosen packaging's ideal folder structure (from `references/architecture.md`) against the actual existing folder structure. The built design read in Step 0 is not part of this comparison; it is documented as it is.
 
 - If the project is empty or mostly matches: proceed to Step 2.
-- **If there are significant discrepancies:** DO NOT silently merge the ideal architecture with the messy reality. You MUST stop and ask the user how to proceed via `AskUserQuestion`:
+- **If there are significant discrepancies:** DO NOT silently merge the ideal packaging with the messy reality, and do not offer a migration target as the default. You MUST stop and ask the user how to proceed via `AskUserQuestion`:
 
 ```
-The current project structure differs significantly from the ideal [Pattern Name] architecture.
+The current project structure differs significantly from the ideal [Pattern Name] packaging.
 [Briefly list 1-2 major differences]
 
 How should we generate the ARCHITECTURE.md?
-1. Adapt the guidelines to fit the existing application structure (document reality).
-2. Generate the pure, strict architecture guidelines (requires refactoring the application later to match).
+1. Document the existing structure as it is (the default).
+2. Also write a migration target: strict guidelines the application must be refactored toward later. Only on your explicit choice.
 ```
 Wait for their decision before proceeding to Step 2.
 
@@ -132,7 +138,7 @@ Ensure the project's `CLAUDE.md` carries one `## Architecture` pointer line at `
 
 ```markdown
 ## Architecture
-See `.ai-factory/ARCHITECTURE.md` for module boundaries, folder structure, and dependency rules.
+See `.ai-factory/ARCHITECTURE.md` for what varies and where it is chosen, the composition root, module boundaries, folder structure, and dependency rules.
 ```
 
 ### Step 4: Confirm
