@@ -6,9 +6,13 @@ The pair's shared memory for architect 05. The head writes it; the hand reads it
 
 *2026-10-01 — rewritten at the migration into this folder.*
 
+*2026-10-07, after a compact:* rehydrated from this buffer and snapshot 13. The probe matched one transcript, so `address.md` is unchanged. The counts standing entry was refreshed from the seed's text.
+
+*2026-10-07:* at 07's request, this head gave an independent review of phase 77 and reported to 07 without writing anything; see § "Current thread".
+
 **This head was idle from 2026-09-09 to 2026-10-01** and holds no live round. It was woken by the user to move its memory into `.ai-factory/architects/05/` and bring the buffer current.
 
-**The migration, done by hand and not committed:** the buffer moved from `.ai-factory/notes/05-architect-buffer.md` to this file; the one memory snapshot this head wrote, `12-phase-note-and-the-transformation-walk.md`, moved in beside it, its pointer to the buffer repointed here; `address.md` written — `session-id: e0bf20a8-9c9c-4e92-bd30-aa6568e01ab9`, `session-name: skills-eb`, the id read by probe (exactly one transcript matched). Handoffs 09, 10, 11, 13 also name the old buffer path but stayed in `.ai-factory/handoffs/`: 09, 10 and 13 were written by other heads and mention it only from outside; 11 was written by this head but is a project handoff for a reviewer, not a memory snapshot.
+**The migration, done by hand and committed by the user in `7b375e1`:** the buffer moved from `.ai-factory/notes/05-architect-buffer.md` to this file; the one memory snapshot this head wrote, `12-phase-note-and-the-transformation-walk.md`, moved in beside it, its pointer to the buffer repointed here; `address.md` written — `session-id: e0bf20a8-9c9c-4e92-bd30-aa6568e01ab9`, `session-name: skills-eb`, the id read by probe (exactly one transcript matched). Handoffs 09, 10, 11, 13 also name the old buffer path but stayed in `.ai-factory/handoffs/`: 09, 10 and 13 were written by other heads and mention it only from outside; 11 was written by this head but is a project handoff for a reviewer, not a memory snapshot.
 
 **`skills`** — everything this head planned is committed and pruned from the roadmap: 28.1 `e264805`, 28.2 `01ec355`, 29.1 `0762ab8`, 35.1 `5db3995`. What is open now is read off the seam of `.ai-factory/roadmaps/trickster77777.md`, not from here; none of it is this head's.
 
@@ -30,21 +34,30 @@ Only rulings not yet held by an artifact. Each is a debt; it leaves when an arti
 
 **The governing spec is final when a task runs; a run that would have to change it escalates.** The user: «если оркестратору приходится править тз — это скорей момент для эскалации, чем нормальное поведение. Тз к моменту исполнения таска обязано быть в финальном состоянии». The boundary that goes with it: escalation answers a spec that contradicts or fails to cover the behaviour a task names, never the mere absence of a pointer. Not yet in `orchestrator/orchestrator/prompts/escalation.md` — see the ledger entry on escalation.
 
+**A task's "what is true now" is the code as every open task above it leaves it.** The user, through 07: «да не только в фазе! роадмап в принципе так устроен. У меня в голове не укладывается, что это надо объяснять!» What a predecessor rewrites is never quoted into a later task. Drains into the seed as a standing entry when phase 77's task "a task's now" lands; `docs/what-a-task-carries.md` § "What a spec holds" already says it.
+
+**The hand is replaced quietly, inside a window.** The user, through 07: the window runs from half the hand's context, a firm floor, to four fifths, a soft mark, and the head picks the seam between them, «без фанатизма»; the replacement is named in one line in passing, never with token counts, forecasts or a question — «архитектор начнёт ебать мне мозги компактом редактора» is what to avoid. The hand writes its own snapshot and a new hand starts from the buffer plus that snapshot. Drains when phase 78 (note `.ai-factory/specs/trickster77777/0215-…`) lands in the skills.
+
+**The head's and the hand's snapshots live apart.** The user, through 07: separate folders `architect/` and `editor/` inside the head's folder, «что б память не смешивалась». Not yet the engine's layout — `architect-editor-engine` still keeps snapshots at the folder's root — so this folder's snapshot stays where it is until phase 78 lands.
+
 ## Method
 
 A mistake as the pattern behind it and the reason it holds.
 
-**Standing entry — the counts rule.** A number someone decided is written:
-it stays true however the tree grows. A measurement of the current tree is
-not written, dated or not — write what produces it, the rule or the search
-that gives it fresh each time. A spec least of all carries a number
-measuring the tree: tasks run one after another, and each one changes the
-tree the next was written against, so such a number in a queued spec is
-false before the orchestrator reaches it, and the orchestrator cannot
-execute a spec whose facts no longer hold. A number met in a spec, a plan or
-a report is read as an order of magnitude; one that has gone stale is not a
-defect to correct, count again or stop on. Two counts that disagree are not
-reconciled against each other; ask which member is missing.
+**Standing entry — the counts rule.** It governs what is read later by
+someone who cannot ask back — a spec, a plan, a roadmap line, this buffer
+after a compact; in conversation a number or a position is fine, since a
+wrong one costs one reply. A number someone decided is written: it stays
+true however the tree grows. A measurement of the current tree is not
+written, dated or not — write what produces it, the rule or the search that
+gives it fresh each time. A spec least of all carries a number measuring the
+tree: tasks run one after another, and each one changes the tree the next
+was written against, so such a number in a queued spec is false before the
+orchestrator reaches it, and the orchestrator cannot execute a spec whose
+facts no longer hold. A number met in a spec, a plan or a report is read as
+an order of magnitude; one that has gone stale is not a defect to correct,
+count again or stop on. Two counts that disagree are not reconciled against
+each other; ask which member is missing.
 
 **Standing entry — what a spec holds.** A spec states what is true now,
 what must be true after and what breaks on contact, and nothing else. It
@@ -78,11 +91,15 @@ lands inside a task's commit.
 
 **A value I produced, and a check I received ready-made, get no exemption from measurement.** Both errors trust a thing for where it came from instead of what it says.
 
+**A hand that has compacted holds the order only in substance.** It knows it was compacted — its turn opens "This session is being continued from a previous conversation that ran out of context" — and files it had read survive verbatim, but the order survives only as the summary's gloss, so a text pinned verbatim in the order is lost and the hand composes its own in its place; and it trusts the summary's claim that it re-read the buffer. So after a hand's compact, re-send what the order pinned verbatim and verify the result on the file, never on the report. Observed on a peer's editor; the record is phase 78's note.
+
 ## Orientation
 
 **This buffer's history before the folder** is not here; it is `git show 96ffb4c:.ai-factory/notes/05-architect-buffer.md` — the round-by-round record of 2026-09-04 to 09-09. Two heads wrote into that file under the same number: the session that founded it, and a later continuation that rehydrated from it. The pairing roles both of them recorded are gone: `architect-pairing-engine` no longer exists in `src/` or `active/`, and `docs/paired-loop.md` § "Working with another architect" states there are no roles.
 
 **Editor.** No editor is live for this head now. The old record names two handles, `ab8b2f1a1b98a601b` and `aa73188f9b856545e`; the next channel-message is the only liveness probe, and whichever hand receives it must be told this buffer's new path, `.ai-factory/architects/05/buffer.md`, in that same message.
+
+**This folder's path lags its governing spec on purpose.** `docs/paired-loop.md` already puts a head's folder at `.ai-factory/architects/<slug>/<NN>/`; `architect-editor-engine` still defines the flat `.ai-factory/architects/<NN>/` until phase 76 lands. The engine is what this head runs on, so the folder stays flat until then. The phase's note says the user moves existing heads by hand, as with the first migration; a head never moves its own folder on its own initiative.
 
 **The phase note is the architect's, not the orchestrator's — by design.** In `skills` the `Phase note:` pointer is emitted by `roadmap-outline-deep`, read by `roadmap-decompose` and `task-rescue`, and captured by `roadmap-prune`. No orchestrator prompt reads the pointer on a phase header, and that is intended: per 07, the user ruled on 2026-09-24 that a task is complete and self-sufficient and the phase note is for the architect; a spec that names the note gets it read through the planner's walk along named edges. A reader who assumes the run sees the header pointer is wrong.
 
@@ -98,8 +115,8 @@ lands inside a task's commit.
 
 ## Candidates — not tasks
 
-None at the moment.
+**`roadmap-decompose` hook (d) asks a spec for "guards".** Its list — what exists, the exact change, files/types/methods to touch, guards — asks for a fence the seed's "what a spec holds" excludes and that `docs/names-and-reasons-not-laws.md` names as a failure. Outside phase 77's sources by agreement with 07. Promoted only on the user's word.
 
 ## Current thread
 
-None. This head is between threads.
+**Phase 77, reviewed as 07's second reader — reconciled, verdict carried by 07.** 07 conceded the sweep "run now" (put to the user as his ruling, since its repair reaches every spec's Finding paragraph), the work-order sentence's overreach, both chain breaks, the phase stating half its sources, and "Sequenced after". I conceded that "…pinned verbatim in the spec" has a job: it tells the planner the text is contract text. Left to the user: the engine's "implementer" against the doc's "planner". Raised late and agreed: in pin-gaps the value-hole repair should lean on the walk sentence rather than restate the now-clause with an unanchored "it". If the user's ruling changes what the blast-radius task does, the pin-gaps walk task's now is rebuilt from the new after, not patched. Nothing of mine to apply; the order is 07's.

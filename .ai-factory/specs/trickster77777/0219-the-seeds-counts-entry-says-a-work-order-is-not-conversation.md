@@ -1,4 +1,4 @@
-# 77.5 — the seed's counts entry says a work-order is not conversation
+# 77.5 — the seed's counts entry holds a count in a work-order to the rule
 
 ## What is true now
 
@@ -10,7 +10,7 @@ The entry is refreshed into every buffer from the seed's text: at each rehydrati
 
 The entry's first sentence and the sentence after it read:
 
-"It governs what is read later by someone who cannot ask back — a spec, a plan, a roadmap line, this buffer after a compact; in conversation a number or a position is fine, since a wrong one costs one reply. A work-order is not conversation in this sense, because the spec is composed from it: a count in an order becomes a count in the spec."
+"It governs what is read later by someone who cannot ask back — a spec, a plan, a roadmap line, this buffer after a compact; in conversation a number or a position is fine, since a wrong one costs one reply. A count in a work-order is held to the same rule: the spec is composed from the order, and a count in it becomes a count in the spec."
 
 The rest of the entry, from "A number someone decided is written:", is unchanged.
 

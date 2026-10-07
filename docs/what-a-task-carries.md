@@ -13,16 +13,16 @@ the implementer only if the planner chose to carry it into the plan.
 
 ## What a spec holds
 
-What a spec holds follows from who reads it: what is true now, read from the code with
-exact values — the code's own values, a literal, a symbol, a type, a path — so the
-planner does not re-derive it; what must be true after, in the code's own terms — which
-file, which text, which value; and what breaks on contact. Three parts, and none of them
-is a check. The reviewer already holds the spec and already does the checking; a spec
-that also says how to verify hands the implementer a job that was never the
-implementer's, and a planner turns each such passage into a task in the plan — checking
-work, written twice, carried out by the wrong reader the first time. A measurement of
-the tree is not held either: a count is false before the task is reached
-([counts-go-stale](counts-go-stale.md)).
+What a spec holds follows from who reads it: what is true now, read from the code as
+every open task above it leaves it, with exact values — the code's own values, a
+literal, a symbol, a type, a path — so the planner does not re-derive it; what must be
+true after, in the code's own terms — which file, which text, which value; and what
+breaks on contact. Three parts, and none of them is a check. The reviewer already holds
+the spec and already does the checking; a spec that also says how to verify hands the
+implementer a job that was never the implementer's, and a planner turns each such
+passage into a task in the plan — checking work, written twice, carried out by the wrong
+reader the first time. A measurement of the tree is not held either: a count is false
+before the task is reached ([counts-go-stale](counts-go-stale.md)).
 
 ## Scope, stated positively
 
