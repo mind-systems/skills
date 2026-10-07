@@ -115,6 +115,27 @@ A mirror of `lee-to/ai-factory` and its `aif-skill-generator` ride in our tree a
 
 - [x] **75.1 — the tracked mirror goes and the sync script becomes a fetching comparison** — `upstream/ai-factory/` is a tracked mirror that `scripts/sync-upstream.sh` overwrites with `rsync -a --delete`, `active/skills/aif-skill-generator` links into it, and `upstream/` already holds one tracked file per source, with the docs describing the end state. Change, in this order: `git rm -r upstream/ai-factory` and the symlink go; `.gitignore` gains `upstream/*/`; the script is renamed `scripts/compare-sources.sh`, reads each `upstream/*.md` for its URL, counterpart skills and newest `Last seen:` commit, keeps the clone beside it, cloned on first use and fetched after, prints the head and the commit subjects since that commit, diffs our counterparts against the clone, and writes nothing tracked; its text is pinned verbatim in the spec. Spec: `.ai-factory/specs/trickster77777/0212-upstream-is-a-list-of-sources-and-the-mirror-and-the-generator-go.md`. [4m 34s]
 
+## The counts reach the specs through the steps that write them
+
+### Phase 77 — a spec holds no measurement of the tree
+
+Governing spec: `docs/counts-go-stale.md`
+
+Specs written by `roadmap-decompose` carry count words beside the members they name — "these seven logic models", "exactly the two sites". Count words reach them because the steps that write a spec pull toward a count and do not carry the counts rule. Phase note: [a spec holds no measurement of the tree](.ai-factory/specs/trickster77777/0214-a-spec-names-the-members-and-does-not-count-them.md)
+
+- [ ] **77.2 — the doc that governs a spec's shape says what exact values are and leaves out the measurement** — `docs/what-a-task-carries.md` § "What a spec holds" says what is true now is read from the code "with exact values" and that none of the parts is a check, but not what a value is or that a measurement of the tree is not held either. Change: "exact values" is said to mean the code's own values (a literal, a symbol, a type, a path), and the measurement joins what a spec does not hold, with its reason: tasks run one after another, so a count of the tree is false before the task is reached; the paragraph is pinned verbatim in the spec, in agreement with the engine's. Spec: `.ai-factory/specs/trickster77777/0220-the-doc-that-governs-a-specs-shape-names-its-sets-and-leaves-out-the-measurement.md`.
+- [ ] **77.3 — a spec's exact values are the code's own and it does not measure the tree** — `roadmap-engine` § "What a task spec holds" asks for what is true now "with exact values" without saying what a value is, and its "Nothing else means" list holds checks, positions and fences but no measurement, so a writer follows the paragraph into a count. Change: "exact values" is said to mean the code's own values (a literal, a symbol, a type, a path), and the list gains the measurement with its reason in a clause: a tasks queue runs one after another, so a count of the tree is false before the task is reached; the paragraph is pinned verbatim in the spec. Sequenced after 77.2. Spec: `.ai-factory/specs/trickster77777/0217-a-spec-names-its-sets-and-does-not-measure-the-tree.md`.
+- [ ] **77.4 — the blast-radius invariant asks for no size** — `command-pin-gaps` paragraph "Blast-radius holes" has the invariant "a recorded finding of what the sweep, run now, reaches … so a reader can tell a genuinely narrow set from a broken pattern", whose purpose clause judges size and so draws a count into the spec, while `docs/counts-go-stale.md` names "how many files a sweep reaches" as a measurement. Change: the purpose clause reads "so a reader can tell a working pattern from a broken one"; "A sweep too large to enumerate is itself a finding" stays, being a judgement about a task's shape and not a count written into a spec; the changed sentence is pinned verbatim in the spec. Spec: `.ai-factory/specs/trickster77777/0218-the-blast-radius-invariant-asks-for-no-size.md`.
+- [ ] **77.5 — the seed's counts entry says a work-order is not conversation** — the counts standing entry in `agent-architect/templates/buffer-seed.md` says "in conversation a number or a position is fine", and a work-order sits on that side by its wording, though it is thrown away once applied and the spec is composed from it, so its counts reach the spec. Change: after that clause the entry says a work-order is not conversation in this sense, because the spec is composed from it, and a count in an order becomes a count in the spec; the entry is refreshed into every buffer from this text, so the addition stays short; the sentence is pinned verbatim in the spec. Spec: `.ai-factory/specs/trickster77777/0219-the-seeds-counts-entry-says-a-work-order-is-not-conversation.md`.
+
+## The lenses are missing from the skill description field
+
+### Phase 79 — the lenses carry their descriptions in the field and the hand can load one
+
+Governing spec: `docs/skill-description-field.md`, `docs/paired-loop.md`
+
+The lenses carry `disable-model-invocation: true`, so the skill description field lacks them. The flag goes from every lens but `roadmap-prune` and `task-rescue`, and `architect-editor-engine` says a skill the work needs is loaded once by whoever does the work, then held. Docs first. Phase note: [the lenses carry their descriptions in the field and the hand can load one](.ai-factory/specs/trickster77777/0221-the-lenses-carry-their-descriptions-in-the-field-and-the-hand-can-load-one.md)
+
 ## Architects are per user, and their folders are not
 
 ### Phase 76 — a head's folder lives under its user's slug
@@ -122,5 +143,13 @@ A mirror of `lee-to/ai-factory` and its `aif-skill-generator` ride in our tree a
 Governing spec: `docs/paired-loop.md`
 
 Architects are per user, as named roadmaps are, but the skills still found a head at a flat `.ai-factory/architects/<NN>/` and find a peer by number alone. The engine's path and numbering, the probe, the peer and team passages and the seed's `## Team` take the user's `<slug>` folder. Phase note: [a head's folder lives under its user's slug](.ai-factory/specs/trickster77777/0213-a-heads-folder-lives-under-its-users-slug.md)
+
+## A long-lived editor loses its working knowledge at a moment nobody chooses
+
+### Phase 78 — the hand writes its own snapshot and a new hand carries on from it
+
+Governing spec: `docs/paired-loop.md`
+
+An editor loses its working context at a moment nobody chooses: the snapshot is the head's alone, and a fresh hand follows only a dead one. The hand writes its own in `editor/`, beside the head's `architect/`, and a new hand starts from it. Decomposed after 76 and the first field trial, run once 77 is decomposed. Phase note: [the hand writes its own snapshot and a new hand carries on from it](.ai-factory/specs/trickster77777/0215-the-hand-writes-its-own-snapshot-and-a-new-hand-carries-on.md)
 
 ---STOP---
