@@ -14,4 +14,4 @@ Where no doc says how it must be:
 
 The phase leaves the doc as it is: its test already catches a measurement, and a work-order's counts are carried by the seed's entry.
 
-The phase also carries the rule that a task's "now" is the code as every open task above it leaves it, which [what-a-task-carries](../../../docs/what-a-task-carries.md) states.
+The rule that a task's "now" is the code as every open task above it leaves it, which [what-a-task-carries](../../../docs/what-a-task-carries.md) states, reaches the seed's entries only; the skills do not restate it, since it is how a roadmap runs.

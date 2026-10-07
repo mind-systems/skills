@@ -1,0 +1,28 @@
+# 79.4 — a census line that contradicted its own latch
+
+**Project:** tradeoxy_core
+**Date:** 2026-10-07
+**Stopped at:** planned:3
+**Elapsed before the rescue:** 1212
+
+The task moves a run's `ORDER_EVENT`/`ORDER_STREAM_DEAD` traffic onto `ReplayRunAssembly`'s own bus and replaces the controller's dead-stream listener with a latch the assembly's own constructor holds — `ended`, a promise a stream's death resolves once, before any acquire, so no registration-order assumption decides whether a verdict is heard. Three plans were written on top of `dd5aee7`; the design itself traced clean through all three. Most of what each round found was the planner's own pinned code left uncompiled or untraced, closed once each. Two findings trace to the governing spec itself.
+
+The first round found a sweep that would fail on two accurate comments the plan never touches, an isolation case whose ack policy could let the run finish before its own revoke lands, and an `.off` call that fails `tsc` because TypeScript cannot tie a listener's truthiness to the `orderSide` local it closes over. It also deferred, without holding it against the plan, a completion-window gap in the spec itself: `settled` only flips on the server call's `'finish'` event, a tick or more after `call.end()`, so a death latched in between still reaches `terminate`.
+
+The second round closed those three, and found a dead local the deleted listener had been the only reader of, and a test-helper accessor (`errored`) left with no caller once the case that used it was rewritten. It also re-raised the same completion-window gap, independently, this time naming the exact fix: key the guard on `call.writableEnded` as well.
+
+The third round closed both of those, and found two defects of its own: a pinned `build` wrapper with an untyped `this` that fails the project's own `tsc` (`TS7006`), and a planned comment that states something false — "nobody subscribes to" the fatal emit, when the assembly's own constructor latch is exactly what receives it and resolves `ended` with it; what nobody observes is `ended` itself, since `build` rejects before any caller reads it. The third round deferred the completion-window gap a second time, now with the grpc-js internals that explain the window's width (`_final` sending `pendingStatus` on a tick `process.nextTick` schedules after every pending write drains).
+
+> The specification's census contradicted its own latch — it said the fatal emit reaches nobody, which the planner turned into a false comment — and it keyed the late-death guard on a flag set a tick after the call is ended, leaving a window both reviewers deferred; the rest were the planner's own pinned code left uncompiled.
+
+**Root-cause category:** specification gap (minor) with planner mechanical errors. **Recurring signal:** pinned TypeScript not compiled (first and third rounds); the completion window deferred (first and third rounds).
+
+## What was done
+
+Repaired at the specification-and-plan depth, reconciled with core 123, who read the chain independently and agreed on both spec-level findings.
+
+Spec `.ai-factory/specs/0299-a-runs-order-events-travel-on-its-own-bus.md`: the census bullet for "a rejected acquire ends the run UNAVAILABLE…" no longer says the fatal emit "reaches nobody" — it now says the emit settles the half-built assembly's own `ended`, which nobody observes, because `build` rejects first. The `ended` handler's no-op is restated: it keys on `signal.aborted || call.writableEnded`, not `finish()`'s own `settled` flag, since `writableEnded` turns true the instant the assemble loop's `call.end()` runs while `settled` only turns true later, on `'finish'` — checked against `replay.controller.ts` on HEAD, where both of `finish()`'s own paths (the `'finish'` event, which follows `call.end()`; the `'close'` event, which follows a cancel that has already set `signal.aborted`) are covered by one of the two keys, confirming the decision is sound to write. The owed settled-guard test is renamed to what it actually guards and restated to the narrower window: a death latched between the loop's own `call.end()` and the server call's `'finish'`.
+
+The plan `.ai-factory/plans/152-79-4-a-run-s-order-events-travel-on-its-own-bus.md`, additive and corrective only: the latch case's `build` wrapper and the isolation case's own wrapper are both pinned with the compiling typed form (`this: ReplayRunAssemblyFactory, sub: UUID, owner: UUID`); the "a rejected acquire…" lead comment is corrected to match the spec's fix; every place the plan wrote the `ended` handler's guard on `settled` now reads `signal.aborted || call.writableEnded`; the settled-guard test is renamed and its explanatory sentence corrected to say plainly what its `closeSpy`-based hook actually reaches. That hook fires from inside `finish()`'s own call to `close()`, which only ever runs after the server call has already reached `'finish'` or `'close'` — after both guard conditions are already true, not inside the narrower end-to-finish window the spec's renamed test asks for. Reaching that window would need a hook earlier than `close()`, which the plan does not pin; per this round's own instruction, no such hook was invented, and the gap is reported rather than papered over.
+
+Rollback: the three new plan-review files were deleted (`git clean -f --`, all three untracked); `152-79-4-a-run-s-order-events-travel-on-its-own-bus.json` was rewritten to `{"planner": "83f8d8fb-1332-453e-a9cd-431f781d5cf2", "step": "planned:1", "elapsed": "1212"}`, returning the plan to its first review attempt with the patched plan.md kept in place.
