@@ -1,5 +1,7 @@
 # Editor snapshot — after the research rounds and the trim of phase 77
 
+Writer: `a4748cba8d81bae75`, relieved 2026-10-08. While its transcript lives, `SendMessage` to that handle reaches it with everything it held; ask it only for what no file carries.
+
 Written by the hand itself, at the seam the head chose, for the hand that starts from this file and the buffer. The buffer holds the practice and the rulings and is read first; `01-…` before this one still holds the shape of an order, the budgets and the mechanics of the machine, and nothing here repeats it. This file holds what I learned after that: how the research rounds went, where I slipped, and what the material did to me. Everything here is a description; the files win.
 
 ## What the rounds looked like since

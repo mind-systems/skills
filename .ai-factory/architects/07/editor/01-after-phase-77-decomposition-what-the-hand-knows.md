@@ -1,5 +1,7 @@
 # Editor snapshot — after phase 77's decomposition
 
+Writer: `acc89e764a95dcebe`, relieved 2026-10-07. While its transcript lives, `SendMessage` to that handle reaches it with everything it held; ask it only for what no file carries.
+
 Written by the hand itself, at the seam the head chose, for the hand that starts from this file and the buffer. The buffer holds the practice and the rulings and is read first; this file holds what only the one who did the work can say: what the material is like, where I was wrong, what is half done. Read the buffer in full, then this, then the files named below fresh — everything here is a description, and the files win.
 
 ## How the work arrives and what the head wants back
