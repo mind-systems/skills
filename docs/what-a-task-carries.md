@@ -11,6 +11,24 @@ written for two readers, not three — the planner, who mines it for what to pla
 the reviewer, who holds it as the standard to judge by. Whatever a spec says reaches
 the implementer only if the planner chose to carry it into the plan.
 
+## The plan reviewer, a head of its own
+
+At the plan's stage the reviewer is a fresh session that holds nothing: each round starts
+without memory of the rounds before it or knowledge of the planner, and the reviewer wrote
+neither the spec nor the plan it reads. Its instruction is short: read the plan and the
+code the plan targets, and look for wrong assumptions about that code. The planner and the
+code reviewer are one session, which holds the reviewer's instructions while it plans.
+That makes the plan reviewer the one reader in the pipeline that sets the plan against
+what the code actually is, written by neither of the two it checks — the two independent
+readings of [paired-loop](paired-loop.md) § "Where the split falls", built into the
+pipeline mechanically instead of kept by discipline.
+
+What makes it strong is not its prompt. Nothing in the prompt has been tuned for it;
+above its short instruction sits only the grounding of the global instructions — walk
+the named references to the leaf, and let the code win over any description of it
+([always-loaded-discipline](always-loaded-discipline.md)). That is why it catches what a
+spec gets wrong: it does not take the spec's word, it goes to the code.
+
 ## What a spec holds
 
 What a spec holds follows from who reads it: what is true now, read from the code as
