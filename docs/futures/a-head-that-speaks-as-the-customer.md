@@ -66,6 +66,17 @@ against the doc.
 It is never asked about a spec's account of what is true now. That is the planner's ground, and
 the planner reads it from the code.
 
+## It reads the compiler's report and judges it
+
+The head reads the report of the documentation compiler
+([a-monthly-analysis-sprint-and-the-service-that-holds-the-environment](a-monthly-analysis-sprint-and-the-service-that-holds-the-environment.md))
+and judges what a script cannot. For each candidate overlap it decides whether the passages are
+one fact, and then where its home is, or two thoughts that sit side by side. It decides which
+architect gets the repair. When the report is clean it spends nothing.
+
+In conversation with the user it asks the same store whether a behaviour is already written
+somewhere before it asks for a new paragraph.
+
 ## It raises no one
 
 Heads are launched by the user. A head raised by another agent has no user its chat can talk to,
