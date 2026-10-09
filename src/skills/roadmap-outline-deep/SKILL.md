@@ -10,7 +10,7 @@ description: >-
   Use when deepening a drafted phase before decomposition. Trigger: "deepen
   phase", "phase note".
 argument-hint: "[phase or slug]"
-disable-model-invocation: true
+disable-model-invocation: false
 allowed-tools: Read Write Edit Glob Grep AskUserQuestion Skill
 loads: roadmap-engine note
 ---

@@ -9,7 +9,7 @@ description: >-
 argument-hint: "[check | task description or requirements]"
 allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion Skill
 loads: roadmap-engine
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # Decompose — Granular Task Planning

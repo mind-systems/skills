@@ -4,7 +4,7 @@ description: Create or update a project roadmap with major phases. Generates .ai
 argument-hint: "[project vision or requirements]"
 allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion Skill
 loads: roadmap-engine
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # Roadmap - Strategic Project Planning

@@ -9,7 +9,7 @@ description: >-
   when a task is heavy/hazardous or shares a type surface and needs splitting
   before implementation. Trigger: "skeleton", "tdd tasks", "concurrency contract".
 argument-hint: "[phase/slug or task description]"
-disable-model-invocation: true
+disable-model-invocation: false
 allowed-tools: Read Write Edit Glob Grep AskUserQuestion Skill
 loads: roadmap-engine test-philosophy polymorphism-philosophy
 ---
