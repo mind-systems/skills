@@ -44,13 +44,15 @@ tasks on screen; the task spec holds the full implementation detail. The char bu
 is guidance, not a hard clamp.
 
 **What a task spec holds:** three parts and nothing else — *what is true now*, read
-from the code with exact values, so the implementer does not re-derive it; *what must
-be true after*, in the code's own terms: which file, which text, which value; and
-*what breaks on contact*, pinned rather than hedged.
+from the code with exact values — the code's own values, a literal, a symbol, a type,
+a path — so the planner does not re-derive it; *what must be true after*, in the
+code's own terms: which file, which text, which value; and *what breaks on contact*,
+pinned rather than hedged.
 Nothing else means, concretely: no clause is a check that the instruction was carried
 out, which belongs to the review the orchestrator already runs; no clause is a
 position in the file — each states what the artifact must hold, never where to write
-it; and no clause fences off a neighbour by name — scope is stated positively, as
+it; no clause is a measurement of the tree — a count is false before the task is
+reached; and no clause fences off a neighbour by name — scope is stated positively, as
 what the task changes, never as a prohibition standing in for it.
 
 **Never write a full spec inline in the roadmap** — the contract line is the header;
