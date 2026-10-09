@@ -30,7 +30,7 @@ Nothing else in the file changes.
 
 **Sweep:**
 ```
-grep -rn "what exists today\|expand a vague task\|Decompose existing" src docs CLAUDE.md --include="*.md"
+grep -rn "exists today\|expand a vague task\|Decompose existing" src docs CLAUDE.md --include="*.md"
 ```
 
-**Finding.** The search reaches the sentence above, the target, the title of hook (d) and the sentence in the same skill that names hook (d) in its update flow, which points at the action and lists nothing of a spec's contents. No document or skill restates the parenthesis.
+**Finding.** The search reaches the parenthesis and the sentence it sits in, the target (the parenthesis breaks across a line between "what" and "exists today", so the search anchors on "exists today"), the title of hook (d) and the sentence in the same skill that names hook (d) in its update flow, which points at the action and lists nothing of a spec's contents. No document or skill restates the parenthesis.

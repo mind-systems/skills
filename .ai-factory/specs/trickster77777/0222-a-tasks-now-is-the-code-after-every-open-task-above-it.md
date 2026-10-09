@@ -27,7 +27,7 @@ Nothing else in the seed changes.
 **Sweep:**
 ```
 grep -rn "Standing entry" src docs CLAUDE.md --include="*.md"
-grep -rn "read from the code" src docs --include="*.md"
+grep -rn "exact values\|read from the code" src docs --include="*.md"
 ```
 
-**Finding.** The first search reaches the seed's own entries, where the new entry lands, and its opening paragraph, which matches an entry by the lead-in "Standing entry —" and so takes the new one in without a change. The buffers of existing heads hold copies of the standing entries and take the seed's text at their next rehydration, adding an entry the seed has that the buffer lacks, as `agent-architect` § "Spawn once, message thereafter" has it. The second search reaches `roadmap-engine`'s "What a task spec holds", which 77.3 leaves saying "read from the code with exact values", and `docs/what-a-task-carries.md` § "What a spec holds", which already carries the meaning.
+**Finding.** The first search reaches the seed's own entries, where the new entry lands, and its opening paragraph, which matches an entry by the lead-in "Standing entry —" and so takes the new one in without a change. The buffers of existing heads hold copies of the standing entries and take the seed's text at their next rehydration, adding an entry the seed has that the buffer lacks, as `agent-architect` § "Spawn once, message thereafter" has it. The second search reaches `roadmap-engine`'s "What a task spec holds", which 77.3 leaves saying "read from the code with exact values", and `docs/what-a-task-carries.md` § "What a spec holds", which already carries the meaning, and nothing else. The engine's sentence breaks across a line between "read" and "from the code", so "read from the code" alone does not find it; "exact values" does, and adds no other text.
