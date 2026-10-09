@@ -56,9 +56,10 @@ Above both sits the always-loaded layer — the skill-description-field and the 
 | Multiuser roadmaps | b2272fe |
 | Governing-spec doctrine in the global CLAUDE.md | 94ad78d 13b677a |
 | AGENTS.md symlink generation | c02c3c0 |
+| Architecture map of the built design | 6f1050c |
 | **Planning chain** | |
 | Phase notes & preambles (`roadmap-outline-deep`) | 01ec355 |
-| Pin-gaps readiness pass | 497510b |
+| Pin-gaps readiness pass | 497510b 59cf80f |
 | Polymorphism lens | d5ab6e4 |
 | **Paired loop** | |
 | Architect↔editor channel protocol engine | 7d0581a |
@@ -74,4 +75,4 @@ Above both sits the always-loaded layer — the skill-description-field and the 
 | **Prune** | |
 | Observations routed onto phases | b5bfbf7 |
 | **Internal** | |
-| Roadmap drop history | 2d2f3f6, 902f7d9, 5348761, 1da6fc2, cd341bb |
+| Roadmap drop history | 2d2f3f6, 902f7d9, 5348761, 1da6fc2, cd341bb, 61a3b51 |
