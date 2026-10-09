@@ -1,6 +1,6 @@
 # always-loaded-discipline — the layer that acts before it is called
 
-The always-loaded layer has two halves, and they differ in kind. One names what exists: the [skill-description-field](skill-description-field.md), every skill's `description:` read as one continuous text — vocabulary, surfaces, the moment to invoke. The other prescribes how to act: the global CLAUDE.md, § "Grounding claims" — change moves docs → roadmap → code, a claim is grounded by walking to the leaf, held context decays back into description, the `[x]`/`[ ]` seam is where a run stands. Both sit in the system prompt every turn. The first is read as knowledge; the second is executed as instruction.
+The always-loaded layer has two halves, and they differ in kind. One names what exists: the [skill-description-field](skill-description-field.md), the `description:` of each skill the agent may call on its own, read as one continuous text — vocabulary, surfaces, the moment to invoke. The other prescribes how to act: the global CLAUDE.md, § "Grounding claims" — change moves docs → roadmap → code, a claim is grounded by walking to the leaf, held context decays back into description, the `[x]`/`[ ]` seam is where a run stands. Both sit in the system prompt every turn. The first is read as knowledge; the second is executed as instruction.
 
 ## The discipline produces behavior with no skill invoked
 
