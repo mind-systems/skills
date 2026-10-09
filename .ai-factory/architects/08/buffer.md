@@ -23,6 +23,8 @@ Head 08, no team. The prune of `roadmaps/trickster77777.md` up to the first `---
 
 Since that prune the roadmap has moved without this head: 42, 71, 43, 72 and 69 were decomposed (one task each) and run by the orchestrator, all `[x]`, and the first `---STOP---` now sits after Phase 69. Below it stay outlined 70, 50, 51, 52, 53. Phases 41, 46, 47 and 48 no longer appear as headers; how they left (a `Roadmap update` commit) is not read yet and is not to be inferred. Snapshot `01`'s "nothing is decomposed" is superseded by this.
 
+2026-10-09: `/roadmap-prune всё сделанное.` stopped at the gate — 11 unpinned entries (7 findings) in the stem's reviews; the handoff went to architect 07 by message (07 is now session `skills-f3`; this head is `skills-7f`). Legal route targets are only the open phases 79, 76, 78 or new ones. Trigger: 07 reports every entry pinned → verify the pins on the files (markers, not quotations; open targets), then re-run the prune only on the user's own word.
+
 ## Rulings in force
 
 <Rulings the user has made about how the pair works, in the user's own words.>

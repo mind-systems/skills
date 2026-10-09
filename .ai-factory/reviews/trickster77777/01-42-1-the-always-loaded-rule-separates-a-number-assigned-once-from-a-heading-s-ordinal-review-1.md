@@ -26,6 +26,6 @@ None.
 - The plan's deviations from stale claims in the task spec (the wrapping claim, and the project `CLAUDE.md` row claim) were checked against the files, and the implementation follows the files.
 
 ## Deferred observations
-- Affects: `.ai-factory/specs/trickster77777/0197-the-always-loaded-rule-separates-a-number-from-a-heading-ordinal.md` — The task spec's § "What is true now" says the global file's text "wraps in the file at a fixed column". The whole paragraph is in fact one physical line. Its § "What breaks on contact" finding says the project `CLAUDE.md` row for `docs/reference-by-name.md` lists "a numbered item", but the row already reads "a number assigned once". Both are stale descriptions in the task spec, outside this task's file boundary. The implementation correctly followed the files.
+- Affects: `.ai-factory/specs/trickster77777/0197-the-always-loaded-rule-separates-a-number-from-a-heading-ordinal.md` — The task spec's § "What is true now" says the global file's text "wraps in the file at a fixed column". The whole paragraph is in fact one physical line. Its § "What breaks on contact" finding says the project `CLAUDE.md` row for `docs/reference-by-name.md` lists "a numbered item", but the row already reads "a number assigned once". Both are stale descriptions in the task spec, outside this task's file boundary. The implementation correctly followed the files. [dismissed]
 
 REVIEW_PASS

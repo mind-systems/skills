@@ -26,6 +26,6 @@ None.
 - The new sentence names Step 1 as the authority instead of copying the layout rule, so the read path and the write paths cannot drift apart again.
 
 ## Deferred observations
-- Affects: Phase 51 phase note `.ai-factory/specs/trickster77777/145-task-rescue-and-the-artifact-protocol.md`. The "Valid sidecar `step` states" table in `src/skills/task-rescue/SKILL.md` lists flat artifact paths: `plan-reviews/{seq}-{slug}-plan-review-N.md`, `reviews/{seq}-{slug}-review-N.md`, and `test-runs/{seq}-{slug}-test-N.txt`. On a named roadmap these paths gain a `<stem>/` segment. The task spec pins the table as unchanged, and the table describes what the orchestrator validates; it is not a write path for the agent. Still, the phase owner may want to decide whether the table should cite the layout the same way Step 1 does.
+- Affects: Phase 51 phase note `.ai-factory/specs/trickster77777/145-task-rescue-and-the-artifact-protocol.md`. The "Valid sidecar `step` states" table in `src/skills/task-rescue/SKILL.md` lists flat artifact paths: `plan-reviews/{seq}-{slug}-plan-review-N.md`, `reviews/{seq}-{slug}-review-N.md`, and `test-runs/{seq}-{slug}-test-N.txt`. On a named roadmap these paths gain a `<stem>/` segment. The task spec pins the table as unchanged, and the table describes what the orchestrator validates; it is not a write path for the agent. Still, the phase owner may want to decide whether the table should cite the layout the same way Step 1 does. [fixed]
 
 REVIEW_PASS

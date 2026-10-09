@@ -77,4 +77,4 @@ Output template for the generated `ARCHITECTURE.md`. Both policy branches and th
 - Link each invariant to the document that governs it and never restate it: a fact kept in two places drifts.
 - Use the project's actual conventions (import paths, naming, etc.)
 - Keep it practical — focus on rules that affect day-to-day development
-- Base the generated folder structure on the user's decision in Step 1.5 (either adapted to reality or strict pure architecture). Do not automatically merge them without user consent.
+- Base the generated folder structure on the user's decision in Step 1.5: the existing structure documented as it is, and a migration target written as well only on the user's explicit choice.

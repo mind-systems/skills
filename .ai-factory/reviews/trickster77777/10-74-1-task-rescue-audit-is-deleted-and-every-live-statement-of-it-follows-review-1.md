@@ -29,6 +29,6 @@ None.
 - The Russian doc stays in Russian, and the rewritten paragraph reads as complete present-tense prose.
 
 ## Deferred observations
-- Affects: unknown (user ruling on `docs/reserved-words.md`) — The registry entry "**prune · rescue · audit**" still registers "audit" as "an outside-view look at a task that looped". No skill now carries that operation. The file declares itself final, and the spec explicitly leaves the entry for the user to rule on, so it falls outside this task's file boundary. Until the user rules, the registry names an operation the system no longer has.
+- Affects: unknown (user ruling on `docs/reserved-words.md`) — The registry entry "**prune · rescue · audit**" still registers "audit" as "an outside-view look at a task that looped". No skill now carries that operation. The file declares itself final, and the spec explicitly leaves the entry for the user to rule on, so it falls outside this task's file boundary. Until the user rules, the registry names an operation the system no longer has. [fixed]
 
 REVIEW_PASS

@@ -33,11 +33,11 @@ None.
 - Step 1.5's option 1 now carries "(the default)", and option 2 is gated on explicit choice. This lines up with `references/architecture-template.md`, which writes "Legacy vs New Code Policy" only when a migration target was explicitly asked for in Step 1.5.
 
 ## Deferred observations
-- Affects: Phase 73 / `.ai-factory/specs/trickster77777/0210-the-template-writes-the-built-design.md` (`src/skills/aif-architecture/references/architecture-template.md`). The template's **Rules for generation** still say "Base the generated folder structure on the user's decision in Step 1.5 (either adapted to reality or strict pure architecture)."
+- Affects: Phase 73 / `.ai-factory/specs/trickster77777/0210-the-template-writes-the-built-design.md` (`src/skills/aif-architecture/references/architecture-template.md`). The template's **Rules for generation** still say "Base the generated folder structure on the user's decision in Step 1.5 (either adapted to reality or strict pure architecture)." [fixed]
   - Option 2 now reads "Also write a migration target …", and Step 1.5 says the built design "is documented as it is". "Strict pure architecture" can therefore be read as replacing the documented structure, not supplementing it.
   - That text is pinned by 73.3 and lies outside this task's one-file boundary.
   - Whoever owns Phase 73 should decide whether to reword it to match the new option 2.
-- Affects: Phase 73 / `.ai-factory/specs/trickster77777/0211-the-skill-reads-the-built-design-before-it-offers-a-menu.md`. The untouched `$ARGUMENTS` branch in Step 1 still ends "Use the resolved architecture directly, skip the recommendation step and proceed to Step 1.5".
+- Affects: Phase 73 / `.ai-factory/specs/trickster77777/0211-the-skill-reads-the-built-design-before-it-offers-a-menu.md`. The untouched `$ARGUMENTS` branch in Step 1 still ends "Use the resolved architecture directly, skip the recommendation step and proceed to Step 1.5". [dismissed]
   - The new "**Where the system varies.**" paragraph sits above it and says the variation "is still read or asked". The order therefore works, but an agent entering through the argument branch could take "skip … and proceed to Step 1.5" as permission to skip the variation question too.
   - The spec pins every other line of the file unchanged, so the wording cannot move within this task.
   - The spec owner should decide whether a later task should reword that bullet (e.g. "skip the packaging recommendation").

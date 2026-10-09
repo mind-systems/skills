@@ -28,6 +28,6 @@ None.
 - The em dash and the backticks around `N.M` are called out explicitly. This matters for a byte-for-byte pin in a file every session loads.
 
 ## Deferred observations
-- Affects: `.ai-factory/specs/trickster77777/0197-the-always-loaded-rule-separates-a-number-from-a-heading-ordinal.md` — The task spec's § "What is true now" claims the text "wraps in the file at a fixed column". Its § "What breaks on contact" finding says the project `CLAUDE.md` row still lists "a numbered item". Both claims are stale against the files. The plan correctly follows the files. The spec text itself sits outside this task's file boundary (`src/global/CLAUDE.md`). It is the planner's to correct if the spec is kept for future readers.
+- Affects: `.ai-factory/specs/trickster77777/0197-the-always-loaded-rule-separates-a-number-from-a-heading-ordinal.md` — The task spec's § "What is true now" claims the text "wraps in the file at a fixed column". Its § "What breaks on contact" finding says the project `CLAUDE.md` row still lists "a numbered item". Both claims are stale against the files. The plan correctly follows the files. The spec text itself sits outside this task's file boundary (`src/global/CLAUDE.md`). It is the planner's to correct if the spec is kept for future readers. [dismissed]
 
 PLAN_REVIEW_PASS

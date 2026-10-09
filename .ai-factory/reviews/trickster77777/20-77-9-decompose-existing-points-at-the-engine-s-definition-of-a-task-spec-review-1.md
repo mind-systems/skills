@@ -21,6 +21,6 @@ None.
 - The fix removes duplicated content by linking to its one home, rather than updating the second copy.
 
 ## Deferred observations
-- Affects: unknown — The skill's own `description:` field says each contract line names "the key files, types, and guards", and `roadmap-engine`'s contract-line template still reads "key files/types/guards involved". These are contract-line wording, not a task spec's contents. The task spec says nothing else in this file changes, and the engine's template is a file this task does not touch. Whether "guards" on the contract line also counts as the neighbour-fencing the engine's "What a task spec holds" refuses is a planning question for a later task, not something this diff introduced.
+- Affects: unknown — The skill's own `description:` field says each contract line names "the key files, types, and guards", and `roadmap-engine`'s contract-line template still reads "key files/types/guards involved". These are contract-line wording, not a task spec's contents. The task spec says nothing else in this file changes, and the engine's template is a file this task does not touch. Whether "guards" on the contract line also counts as the neighbour-fencing the engine's "What a task spec holds" refuses is a planning question for a later task, not something this diff introduced. [dismissed]
 
 REVIEW_PASS

@@ -465,6 +465,9 @@ This is a **closed set** — Step 5 picks one of the six values below, never inv
 one. This table mirrors `_validate_sidecar_step()` / `_detect_task_step()` in
 `orchestrator/resume.py` — if the orchestrator's accepted set changes, update this table;
 do not let them diverge.
+The artifact paths here and in the test-mode line below are the default pair's flat
+layout; for a named roadmap they gain its `<stem>/` segment, per `orchestrator-artifacts`
+§ 1, the way Step 1 locates the sidecar.
 
 | `step` value | Resumes at | Required on disk to validate |
 |---|---|---|
