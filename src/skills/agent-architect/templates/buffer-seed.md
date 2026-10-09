@@ -61,6 +61,12 @@ back as plan steps and review rounds. It names no position in a file, only
 what the artifact must hold. It puts no fence around a neighbour; scope is
 what the task changes.
 
+**Standing entry — a task's now.** The roadmap runs top to bottom, one task
+at a time, so a task's "what is true now" is the code as every open task
+above it leaves it, not the tree on the day of writing. It is built from
+their "after", under their names, and what one of them rewrites is never
+quoted into it.
+
 **Standing entry — state the behaviour and stop.** A rule says what happens
 and ends there: no sentence for each case it excludes, no guard against its
 own misuse. A rule or a fix that needs guards against its own machinery is
