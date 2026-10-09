@@ -4,25 +4,13 @@ The pair's shared memory for architect 05. The head writes it; the hand reads it
 
 ## Where things stand
 
-*2026-10-01 — rewritten at the migration into this folder.*
-
-*2026-10-07, after a compact:* rehydrated from this buffer and snapshot 13. The probe matched one transcript, so `address.md` is unchanged. The counts standing entry was refreshed from the seed's text.
-
-*2026-10-07:* at 07's request, this head gave an independent review of phase 77 and reported to 07 without writing anything; see § "Current thread".
-
-**This head was idle from 2026-09-09 to 2026-10-01** and holds no live round. It was woken by the user to move its memory into `.ai-factory/architects/05/` and bring the buffer current.
-
-**The migration, done by hand and committed by the user in `7b375e1`:** the buffer moved from `.ai-factory/notes/05-architect-buffer.md` to this file; the one memory snapshot this head wrote, `12-phase-note-and-the-transformation-walk.md`, moved in beside it, its pointer to the buffer repointed here; `address.md` written — `session-id: e0bf20a8-9c9c-4e92-bd30-aa6568e01ab9`, `session-name: skills-eb`, the id read by probe (exactly one transcript matched). Handoffs 09, 10, 11, 13 also name the old buffer path but stayed in `.ai-factory/handoffs/`: 09, 10 and 13 were written by other heads and mention it only from outside; 11 was written by this head but is a project handoff for a reviewer, not a memory snapshot.
-
-**`skills`** — everything this head planned is committed and pruned from the roadmap: 28.1 `e264805`, 28.2 `01ec355`, 29.1 `0762ab8`, 35.1 `5db3995`. What is open now is read off the seam of `.ai-factory/roadmaps/trickster77777.md`, not from here; none of it is this head's.
-
-**`orchestrator`** — the phase-note task this head wrote there never landed: no prompt reads `Phase note:`, its spec is gone, and its task numbers there now belong to other work. See the ledger.
+**No open work and no live round.** Everything this head planned in `skills` is committed and pruned. What is open is read off the seam of `.ai-factory/roadmaps/trickster77777.md`, and none of it is this head's. What waits on the user is in the ledger.
 
 ## Team
 
 Each node holds its own links, not the whole network. A folder number resolves to a live address through that folder's `address.md`.
 
-**Above:** `skills`, folder 07 — the liaison. Reach it by `SendMessage` at the name in `.ai-factory/architects/07/address.md`; never read its buffer. This placement reached me through 07's message of 2026-10-01, which said the user put me in its team; the user has not said so in this chat yet.
+**Above:** `skills`, folder 07 — the liaison. Reach it by `SendMessage` at the name in `.ai-factory/architects/07/address.md`; never read its buffer. The placement is 07's report; the user has not confirmed it here.
 
 **Below:** none.
 
@@ -36,7 +24,7 @@ Only rulings not yet held by an artifact. Each is a debt; it leaves when an arti
 
 **A task's "what is true now" is the code as every open task above it leaves it.** The user, through 07: «да не только в фазе! роадмап в принципе так устроен. У меня в голове не укладывается, что это надо объяснять!» What a predecessor rewrites is never quoted into a later task. Drains into the seed as a standing entry when phase 77's task "a task's now" lands; `docs/what-a-task-carries.md` § "What a spec holds" already says it.
 
-**The hand is replaced quietly, inside a window.** The user, through 07: the window runs from half the hand's context, a firm floor, to four fifths, a soft mark, and the head picks the seam between them, «без фанатизма»; the replacement is named in one line in passing, never with token counts, forecasts or a question — «архитектор начнёт ебать мне мозги компактом редактора» is what to avoid. The hand writes its own snapshot and a new hand starts from the buffer plus that snapshot. Drains when phase 78 (note `.ai-factory/specs/trickster77777/0215-…`) lands in the skills.
+**The hand is replaced quietly, inside a window.** The user, through 07: the window runs from half the hand's context, a firm floor, to four fifths, a soft mark, and the head picks the seam between them, «без фанатизма»; the replacement is named in one line in passing, never with token counts, forecasts or a question — «архитектор начнёт ебать мне мозги компактом редактора» is what to avoid. The hand writes its own snapshot and a new hand starts from the buffer plus that snapshot. In force now, before any skill states it. At the seam, the head asks the live hand for its snapshot, which goes into `.ai-factory/architects/05/editor/`. The head then spawns a new hand, giving it the buffer's path and that snapshot's path. Composing the head's own snapshot stays forbidden to the hand. Drains when phase 78 (note `.ai-factory/specs/trickster77777/0215-…`) lands in the skills; `docs/paired-loop.md` does not state it yet either.
 
 **The head's and the hand's snapshots live apart.** The user, through 07: separate folders `architect/` and `editor/` inside the head's folder, «что б память не смешивалась». Not yet the engine's layout — `architect-editor-engine` still keeps snapshots at the folder's root — so this folder's snapshot stays where it is until phase 78 lands.
 
@@ -95,28 +83,22 @@ lands inside a task's commit.
 
 ## Orientation
 
-**This buffer's history before the folder** is not here; it is `git show 96ffb4c:.ai-factory/notes/05-architect-buffer.md` — the round-by-round record of 2026-09-04 to 09-09. Two heads wrote into that file under the same number: the session that founded it, and a later continuation that rehydrated from it. The pairing roles both of them recorded are gone: `architect-pairing-engine` no longer exists in `src/` or `active/`, and `docs/paired-loop.md` § "Working with another architect" states there are no roles.
+**This folder's path lags its governing spec on purpose.** `docs/paired-loop.md` puts a head's folder at `.ai-factory/architects/<slug>/<NN>/`; `architect-editor-engine` still defines the flat `.ai-factory/architects/<NN>/` until phase 76 lands, and the engine is what this head runs on. The user moves existing heads by hand; a head never moves its own folder.
 
-**Editor.** No editor is live for this head now. The old record names two handles, `ab8b2f1a1b98a601b` and `aa73188f9b856545e`; the next channel-message is the only liveness probe, and whichever hand receives it must be told this buffer's new path, `.ai-factory/architects/05/buffer.md`, in that same message.
-
-**This folder's path lags its governing spec on purpose.** `docs/paired-loop.md` already puts a head's folder at `.ai-factory/architects/<slug>/<NN>/`; `architect-editor-engine` still defines the flat `.ai-factory/architects/<NN>/` until phase 76 lands. The engine is what this head runs on, so the folder stays flat until then. The phase's note says the user moves existing heads by hand, as with the first migration; a head never moves its own folder on its own initiative.
-
-**The phase note is the architect's, not the orchestrator's — by design.** In `skills` the `Phase note:` pointer is emitted by `roadmap-outline-deep`, read by `roadmap-decompose` and `task-rescue`, and captured by `roadmap-prune`. No orchestrator prompt reads the pointer on a phase header, and that is intended: per 07, the user ruled on 2026-09-24 that a task is complete and self-sufficient and the phase note is for the architect; a spec that names the note gets it read through the planner's walk along named edges. A reader who assumes the run sees the header pointer is wrong.
+**The phase note is the architect's, not the orchestrator's — by design.** `Phase note:` is emitted by `roadmap-outline-deep`, read by `roadmap-decompose` and `task-rescue`, and captured by `roadmap-prune`; no orchestrator prompt reads it. Per 07, the user ruled that a task is complete and self-sufficient and the phase note is for the architect; a spec that names the note gets it read through the planner's walk.
 
 ## Ledger
 
-**Orchestrator sources cited from shipped skills, by paths that open nothing.** What: `src/skills/task-rescue/SKILL.md`, in the sentence after the closed set of `step` values, cites `orchestrator/resume.py` and two functions in it; `src/skills/orchestrator-artifacts/SKILL.md` § "Mirrors-the-orchestrator invariant" cites `orchestrator/main.py`, `agents.py`, `prompts/reviewer.md`, `prompts/escalation.md`, `resume.py`. Both load into every project. The fix keeps each invariant in behavioural terms and drops the paths — the invariant is real, only the pointer is wrong. Why deferred: paused by the user while pin-gaps work was in flight. Trigger: the user's go; the pin-gaps work it waited on is long done. Confirmed on the files by 07 as well.
+**Orchestrator sources cited from shipped skills, by paths that open nothing.** What: `src/skills/task-rescue/SKILL.md`, in the sentence after the closed set of `step` values, cites `orchestrator/resume.py` and two functions in it; `src/skills/orchestrator-artifacts/SKILL.md` § "Mirrors-the-orchestrator invariant" cites `orchestrator/main.py`, `agents.py`, `prompts/reviewer.md`, `prompts/escalation.md`, `resume.py`. Both load into every project. The fix keeps each invariant in behavioural terms and drops the paths. Why deferred: paused by the user. Trigger: the user's go.
 
-**Escalation does not name a spec that fails to cover the target.** What: `orchestrator/orchestrator/prompts/escalation.md` names "the ratified spec above the current task" as a cause, which covers a fork the spec leaves open but not a spec silent on the behaviour a task names; the user's ruling under § "Rulings in force" needs it, with the boundary that absence of a pointer is never a cause. Why deferred: left to the orchestrator-side head in a handoff there. Trigger: a run escalating on a missing pointer, or the user's go.
+**Escalation does not name a spec that fails to cover the target.** What: `orchestrator/orchestrator/prompts/escalation.md` names "the ratified spec above the current task" as a cause, which covers a fork the spec leaves open but not a spec silent on the behaviour a task names; the ruling under § "Rulings in force" needs it, with the boundary that absence of a pointer is never a cause. Why deferred: left to the orchestrator-side head. Trigger: a run escalating on a missing pointer, or the user's go.
 
 **Pipeline skill descriptions carry neither the docs nor the direction.** What: the `description:` of `roadmap-outline`, `roadmap-decompose`, `task-rescue` and `roadmap-prune` never mention documentation. Why deferred: the user considers the descriptions well written. Trigger: the docs-are-the-ТЗ argument recurring with an agent.
 
-*Closed:* both deferrals against `docs/reserved-words.md` — the file is declared final; the reference-by-name handoff into `tradeoxy_core` — its `RULES.md` carries no position rule now; the orchestrator not reading `Phase note:` — by design, the user's ruling of 2026-09-24 as 07 reports it; copy-or-link for a task spec — drained: `src/commands/command-pin-gaps.md` itself says a task spec repeating a paragraph from a document is not a finding, and the global "never a copy" sits under § "Documentation style", governing docs.
-
 ## Candidates — not tasks
 
-**`roadmap-decompose` hook (d) asks a spec for "guards".** Its list — what exists, the exact change, files/types/methods to touch, guards — asks for a fence the seed's "what a spec holds" excludes and that `docs/names-and-reasons-not-laws.md` names as a failure. Outside phase 77's sources by agreement with 07. Promoted only on the user's word.
+**`roadmap-decompose` hook (d) asks a spec for "guards".** Its list — what exists, the exact change, files/types/methods to touch, guards — asks for a fence the seed's "what a spec holds" excludes and that `docs/names-and-reasons-not-laws.md` names as a failure. Promoted only on the user's word.
 
 ## Current thread
 
-**Phase 77, reviewed as 07's second reader — reconciled, verdict carried by 07.** 07 conceded the sweep "run now" (put to the user as his ruling, since its repair reaches every spec's Finding paragraph), the work-order sentence's overreach, both chain breaks, the phase stating half its sources, and "Sequenced after". I conceded that "…pinned verbatim in the spec" has a job: it tells the planner the text is contract text. Left to the user: the engine's "implementer" against the doc's "planner". Raised late and agreed: in pin-gaps the value-hole repair should lean on the walk sentence rather than restate the now-clause with an unanchored "it". If the user's ruling changes what the blast-radius task does, the pin-gaps walk task's now is rebuilt from the new after, not patched. Nothing of mine to apply; the order is 07's.
+**Phase 79, as 07's second reader.** I read it, we reconciled, and 07 applied the result uncommitted; I checked it on the files. One note is still open with 07. 79.1's contract line says the doc states "while the planning lenses' additive writes are reviewed after", but 0228 does not pin that clause. I proposed moving it out of what the doc states. The verdict and the order are 07's. Pair work with 07 continues at its user's word: «зови 05 на помощь, дальше работай с ним в паре».
