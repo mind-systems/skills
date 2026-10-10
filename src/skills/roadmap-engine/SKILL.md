@@ -65,9 +65,9 @@ wins always; "my roadmap" only when the user asks for it or context names it —
 engine never infers multiuser mode — resolves to `.ai-factory/roadmaps/<user-slug>.md`;
 otherwise the default `.ai-factory/ROADMAP.md`.
 
-**Slug derivation:** the local-part of `git config user.email`, lowercased, every
-non-alphanumeric run collapsed to a single hyphen (`john.doe@example.com` →
-`john-doe`); fallback — slugified `user.name` when email is unset.
+**Slug derivation:** the user's slug is given at session start, as the line
+`The user's slug: <user-slug>`; a session that holds no such line runs
+`scripts/user-slug.sh` and takes its output as the slug.
 
 **Owner line:** the first line of every named roadmap is `> Owner: <full email>`,
 written at creation. Every resolution of "my roadmap" verifies it against the
