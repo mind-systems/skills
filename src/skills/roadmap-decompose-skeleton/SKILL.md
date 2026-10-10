@@ -8,7 +8,7 @@ description: >-
   async I/O + stateful buffer + lifecycle. Use
   when a task is heavy/hazardous or shares a type surface and needs splitting
   before implementation. Trigger: "skeleton", "tdd tasks", "concurrency contract".
-argument-hint: "[phase/slug or task description]"
+argument-hint: "[phase or task description]"
 disable-model-invocation: false
 allowed-tools: Read Write Edit Glob Grep AskUserQuestion Skill
 loads: roadmap-engine test-philosophy polymorphism-philosophy
@@ -44,7 +44,7 @@ never reads or modifies the orchestrator.
 
 ## Targeting
 
-Optional arg — a phase, slug, or single task description. Default: infer the target
+Optional arg — a phase or a single task description. Default: infer the target
 open-`[ ]` task set from conversation context (a named phase, a described task, or the
 current pending set). It can operate on a single task — any task may warrant a
 skeleton, TDD, or concurrency split on its own. Do not over-engineer targeting.

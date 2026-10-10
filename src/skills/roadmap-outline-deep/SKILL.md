@@ -9,7 +9,7 @@ description: >-
   second note. Every drafted phase qualifies — there is no per-phase gate.
   Use when deepening a drafted phase before decomposition. Trigger: "deepen
   phase", "phase note".
-argument-hint: "[phase or slug]"
+argument-hint: "[phase]"
 disable-model-invocation: false
 allowed-tools: Read Write Edit Glob Grep AskUserQuestion Skill
 loads: roadmap-engine note
@@ -37,7 +37,7 @@ It never reads or modifies the orchestrator.
 
 ## Targeting
 
-Optional arg — a phase or slug (matching `argument-hint`). Default: infer the target
+Optional arg — a phase (matching `argument-hint`). Default: infer the target
 phase set from conversation context. Resolve the roadmap in play per
 `roadmap-engine`'s named-roadmap resolution order (explicit argument → "my roadmap" →
 default `.ai-factory/ROADMAP.md`).
