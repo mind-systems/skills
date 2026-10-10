@@ -1,0 +1,68 @@
+# Memory snapshot — the roadmap is the future written down
+
+You are the same architect, in the same work. This supersedes snapshot 40's next action; 40 stays the record of 2026-10-06 and 10-07. This one covers 2026-10-08 to 10-10. It is the first written in the shape the user asked for at its end: beside the reasoning, the **method** of what was measured and the **shape** of what was studied, with pointers to where the detail lives — "качество снапшотов — качество нашей памяти". Where a section below says *Method* or *Shape*, that is the new part; judge after the compact whether it earned its place.
+
+## Read first
+
+`buffer.md` whole — § "Where the work stands" holds the position, § "Candidates" the snapshot rule still to land, § "Rulings" the newest ruling on states. Then this file for why.
+
+## Where you stand
+
+skills `dev` at `29503f3` "Roadmap update", tree clean. Above the stop, in file order, phases 82, 83 and 76 are decomposed, read by architect 05 and committed — the orchestrator can run them. 78, 80, 81 are deepened and have no tasks. The sakshi root `README.md` carries an uncommitted edit (it names "the symlinks and the session hook"); commit it before or with the queue, on the user's word. Phase 77 and 79 landed today; the prune ran (architect 08's chat) after this head cleared its gate.
+
+The hand is `a753c668de7d1b4c4` (`editor-07`), started from `editor/03-…`. Relieved hands write a `Writer:` line into their snapshot and stay reachable while their transcripts live — one of them gave back the scripts no file held.
+
+Architect 05 (`skills-1a`, folder 05) is this head's pair since 2026-10-09: "Одна голова — хорошо, а две — лучше". Every decomposition went to 05 for an independent reading before the user saw it; 05 caught the deepest defects of the stretch (below). 05 went to reading only by itself — the zone rule did it, no text did.
+
+## What happened, and why each turn was taken
+
+**The customer's register, and the CEO it became.** It started from the architect talking in counts ("три класса меняются") where the user talks in behaviour ("одна страница, с неё десять стратегий"). A count of the tree is the planner's instrument; a customer's numbers are decisions. A global output style would have reached the orchestrator's planner too, which must stay an engineer, so the role went to a separate head: a CEO with no hand, keeping the documentation of the whole grove arranged hexagonally (behaviour at the core, contracts between repositories as ports), watching that every spec traces to a doc. The user put it in futures only — "это фантазии какие то пока что… Не засоряй буфер": `docs/futures/a-head-that-speaks-as-the-customer.md`. Why a head is a skill and not an agent: a skill turns the main session into the role, and a subagent cannot spawn its own hand.
+
+**The planner's prompts read at last.** `orchestrator/orchestrator/prompts/planner.md` tells the planner "You are a software architect" and "No gold-plating — only what the task description asks for"; `reviewer.md` judges findings "against this tree" of the spec. So anything in a spec becomes a demand and a criterion — the mechanism behind "a check in a spec comes back as plan steps and review rounds". The plan reviewer is a fresh session holding nothing; the user called it the strongest head, never tuned beyond the global CLAUDE.md. That went into `docs/what-a-task-carries.md` § "The plan reviewer, a head of its own", simplified twice on his word ("сложно да получилось… упрости").
+
+**What `command-pin-gaps` is worth now.** Near nothing as a default: it pins each task to the tree of the day, against the chain rule; it ran on most escalated tasks and missed their causes. The user stopped calling it here; he keeps the skill for now ("пингапс пока не убираем").
+
+**Talking to a surviving planner session.** Rescues at the specification-and-plan depth keep the sidecar and its `planner` session id; core 79.3.2's planner survived two. *Method:* `claude -p --resume <id> --model opus --effort high --tools "Read,Grep,Glob"`, the prompt on stdin (a variadic flag swallows a trailing prompt). Ask about the record — "does this conversation show…, quote the places" — never about inner reasoning: "what you made of…" is stopped by a safety classifier as reasoning extraction, sometimes mid-answer; the partial answer stays in the session's `.jsonl` and can be read back. *What it showed:* it met foreign edits (plan lines it had not written, spec paragraphs added, reviews gone) and silently took the files as truth, building on the rescue's text as its own; the one spec-born finding was a sweep the rescue had pinned; what helped were decisions with their reasons. Recorded with the method in `.ai-factory/rescue-analysis/checkpoints.md` (2026-10-08 entry), `method.md` and `drafts/`. The user's reading: the planner is right to treat the task as everything.
+
+**The rescue analysis kept as a checkpoint.** The 10-07 analysis's scripts had lived in `/tmp`; the relieved hand `a4748cba8d81bae75` still held them and wrote `rescue-analysis/` itself: checkpoints with coverage boundaries per repository, the method per question, the clocks (transcripts UTC, commits +06, "Roadmap update" amends), and draft scripts marked DRAFT. The relieved hand's own corrections: the PASS flags were noise; the rescue overlay was hand-typed and missed core 77.1.
+
+**Compmaster, the friend's project.** *Shape:* `~/projects/compmaster` holds the user's root (`CLAUDE.md`, a findings register, a `config-extraction` branch he planned and never ran) over sub-repositories: `platrom-lose-or.win` (FastAPI backend: RemOnline CRM wiring — webhooks with HMAC, the v2 API, a durable RO write queue — Whisper calls, call analysis as a one-shot LLM JSON, the lead state machine), `openclaw` (a Python orchestrator around a third-party OpenClaw gateway running Claude CLI agents by role — lead-manager, coordinator, follow-up, analyst, assistant, staff, classifier, audit), `saas-frontend`, `win-or-lose-hub` (a playbook for parallel agents in weekly waves with lock files, task files as Russian prose ТЗ). The boundary: code decides whether and when to ask an agent, the agent decides the text, code decides whether it goes out (`safe_send` layers, each born of a dated incident). Memory is the database, rebuilt into every call; the agent writes nothing durable but markers code persists; sessions rotate daily and by size. The cost upgrade moved deterministic checks out of the agent: classifiers to a cheap model in throwaway sessions, the eternal cron session cut at a threshold, a watcher's checklist replaced by one SQL endpoint answering "all clear" — "платим… за число ходов внутри прогона". *Method:* read through git objects only — `git fetch`, then `git show <ref>:<path>` and `git log <ref>` on the newest refs (`openclaw` `origin/local/deploy`, backend `origin/feat/followup-stack-2026-04-23`); never a checkout, the working trees stay on `config-extraction`. Prompts and cron tasks live outside git (a host volume, the database).
+
+**Paperclip.** *Shape, from its README:* a long-running Node server that runs a company of agents — org chart with roles, tasks with goals, budgets with auto-pause, approvals, heartbeats that wake an agent on a schedule; multi-tenant; memory still in progress. "If OpenClaw is an employee, Paperclip is the company." Our reading: Paperclip is a regulator, the herald a sensor; its heartbeat is the agent-walks-a-checklist pattern the friend killed for cost.
+
+**The herald joined sakshi.** `repo-stats-herald` moved to `~/projects/sakshi/repo-stats-herald` (the user: "заберём его под крышу сакши… и перенеси проект"); the root registers it as the third sub-repository (`aa904b8`). *Shape, from its docs* (`docs/behavior-overview.md`, `docs/behavior/understanding.md`, `docs/behavior/conversation.md`): ingestion of pushes through a GitHub App, a repo mirror, an episodic log and a per-project retrieval store over curated sources (`CLAUDE.md`, `ARCHITECTURE.md`, `docs/`, `ROADMAP.md` by default, configurable per project), a reasoner, narration, reports. Specified but unbuilt: the conversational surface, historical replay, multi-tenancy. What clicked for the user: the herald as RAG memory of an agent's life, narrowed to the sakshi artifact layer, which makes it tractable ("сужает как будто и упрощает задачу"). Its backlog now carries phases 23–29 in directions (`2329a57`): read a sakshi project's artifact layer; the task ledger — a structured record per task, buildable and testable now on our roadmap history; replay of the pruned past; a head's life as a memory slice found by `address.md`; a head asks the herald; the monthly analysis across every project (transcripts live on the user's machine); the documentation compiler. The ideas sit in `docs/futures/a-monthly-analysis-sprint-and-the-service-that-holds-the-environment.md`.
+
+**The user's experiment, named by him at the end.** Phases are the future written down — "роадмап может прописываться вперёд вплоть до запуска в космос" — so an agent sees the architecture to build, as he saw the broker in his head. The chain rule makes it readable; the monthly sprint lets a phase simply not be taken.
+
+**The prune gate.** Architect 08 handed this head the gate. Eleven entries, seven findings; dispositions on the user's word: three fixes (the rescue table's paths, `audit` out of the registry, the template's Step 1.5 line), the rest dismissed (`61a3b51`).
+
+**Phases 80 and 81.** 80: a rescue phrases every root as a constraint to add; the user refused a list of roots — "ты предлагаешь сделать из скила швейцарский нож, хотя агент сам — швейцарский нож… Где то таск построен правильно, но архитектура не готова к нему" — so the phase removes what presets the answer's form and states the purpose ("the task reflects what the system needs"); governing spec `what-a-task-carries`. 81: a task's source; the `**Source:**` field in tradeoxy specs is filled with a skill's name or a plan location — the field that only looks answered; `note` mines the whole conversation.
+
+**Phase 79 landed.** Planning lenses lost `disable-model-invocation`; `agent-architect`, `roadmap-test-coverage`, `roadmap-prune`, `task-rescue` stay out. No rule that a loaded skill lives the session: the harness already reminds a session not to re-invoke, and a resident copy decays. 05's catch: "acts" as the criterion contradicted the lenses, which act too — the criterion became "work reviewed only before it happens, with the user present". The user accepted the orchestrator seeing the lenses and chose to watch it.
+
+**The `<slug>` saga, and my error in it.** One word meant the user and a file's title. I proposed renaming the file-title placeholder across the family; the user: "ты чё, не можешь развести пути что ли? ну сделай для юзерификации другой шаблон. Это же название переменной… Приведи в порядок имена", and "Вы, два архитектора пляшете с двумя переменными… В чём там такая сложность нерешаемая была??". The fix was to name the new thing, `<user-slug>`, not to rename the old. Then the slug itself: "этот движок — какая то лишняя штука, которую мы всегда в контекст грузим" — so phase 83 moves the derivation into a script, given to every session by a `SessionStart` hook (its stdout reaches context; `sh -c` expands `~`; a non-zero exit only shows a notice, so the hook exits zero). The orchestrator's liaison 01 set the script's contract: bare slug on stdout, exit `2` when no slug is derivable, the identity of the repository it runs in. Then I described the no-slug state to agents in docs and specs; the user: "Не надо пытаться описывать каждое состояние агенту… в оркестраторе это скрипт делает. он детерминирован." All of it was taken out; the orchestrator halts under an explicit `my`, in its own docs. Migration of heads: "прекрати уже париться про миграцию… я сам смигрирую архитекторов". The probe needed no change — a head finds its folder by its unique session id wherever it lies.
+
+**`CLAUDE.md` was retelling every doc.** The doc section shrank from about sixteen thousand characters to about four, one sentence per doc.
+
+## What the hand knows
+
+`editor/03-…` and `editor/02-…` hold the hand side; the current hand read both and the buffer. It knows the `<user-slug>` decisions, the hook's command form, the sweep and wrap traps, and that a contract line's "Change:" must hold only what the spec pins — a tail there becomes text the planner writes.
+
+## What will slip first
+
+- Enumerating cases where a purpose would do — roots of a rescue, states without a slug. A law written ahead.
+- Renaming what exists to make room, instead of naming the new thing.
+- A clause in a contract line's "Change:" that the spec does not pin; "sequenced after"; a neighbour named to fence it.
+- Answering the user's question with a plan before saying what the record shows.
+- Forgetting that the orchestrator's commit takes the whole tree — commit before a queue runs.
+
+## What must not be resolved by inference
+
+- Where the snapshot rule lands (the user: "нам же ещё это надо куда то заимплементить… Сделаем это после компакта").
+- Whether the CEO and the herald's sprint leave futures.
+- Whether `docs/reserved-words.md` goes beside `multiuser-roadmaps` as 82's governing spec (05's light note).
+- When the queue runs, when the root README is committed, when heads move, when the hook is registered — all the user's.
+
+## Next
+
+On the user's word: implement the snapshot rule (the candidate in the buffer names its likely home, `agent-architect` § "Spawn once, message thereafter"); commit the root README; run the queue 82, 83, 76; after 83 lands, tell 01. Commit this snapshot and the buffer only on his word.

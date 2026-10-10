@@ -18,7 +18,7 @@ The drain has two destinations. A ruling about the project or its skills drains 
 
 ## Where the memory lives
 
-Each architect keeps one folder, `.ai-factory/architects/<slug>/<NN>/`, inside its user's own folder — the slug is the user's, derived from git identity as for a named roadmap ([multiuser-roadmaps](philosophy/multiuser-roadmaps.md)) — holding three things: its buffer, its own snapshots, and one keeper of its address. Project handoffs stay apart, in the handoff folder — an inbound one from another repository, or a common catch-up for whoever comes next.
+Each architect keeps one folder, `.ai-factory/architects/<user-slug>/<NN>/`, inside its user's own folder — the slug is the user's, derived from git identity as for a named roadmap ([multiuser-roadmaps](philosophy/multiuser-roadmaps.md)) — holding three things: its buffer, its own snapshots, and one keeper of its address. Project handoffs stay apart, in the handoff folder — an inbound one from another repository, or a common catch-up for whoever comes next.
 
 The folder's number, counted within its user's folder, is the head's identity there. The keeper is a single file carrying two facts — the session id, by which the head recognises its folder, and the session name, by which a peer reaches it — and the head rewrites it on every start. The id is the key: it holds across a compact and a reopened chat. The name is only the address: it holds across a compact and changes when the chat is reopened. A peer reads the keeper, never the buffer.
 

@@ -28,6 +28,10 @@ Only rulings not yet held by an artifact. Each is a debt; it leaves when an arti
 
 **The head's and the hand's snapshots live apart.** The user, through 07: separate folders `architect/` and `editor/` inside the head's folder, «что б память не смешивалась». Not yet the engine's layout — `architect-editor-engine` still keeps snapshots at the folder's root — so this folder's snapshot stays where it is until phase 78 lands.
 
+**Migration of heads is not a risk to raise.** The user: «прекрати уже париться про миграцию… у нас есть гит со всей памятью агента».
+
+**A naming clash in our own text is fixed, not reported.** The user: «Приведи в порядок имена… Для себя же движок строишь!»
+
 ## Method
 
 A mistake as the pattern behind it and the reason it holds.
@@ -83,7 +87,7 @@ lands inside a task's commit.
 
 ## Orientation
 
-**This folder's path lags its governing spec on purpose.** `docs/paired-loop.md` puts a head's folder at `.ai-factory/architects/<slug>/<NN>/`; `architect-editor-engine` still defines the flat `.ai-factory/architects/<NN>/` until phase 76 lands, and the engine is what this head runs on. The user moves existing heads by hand; a head never moves its own folder.
+**This folder's path lags its governing spec on purpose.** `docs/paired-loop.md` puts a head's folder at `.ai-factory/architects/<slug>/<NN>/`; `architect-editor-engine` still defines the flat `.ai-factory/architects/<NN>/` until phase 76 lands, and the engine is what this head runs on.
 
 **The phase note is the architect's, not the orchestrator's — by design.** `Phase note:` is emitted by `roadmap-outline-deep`, read by `roadmap-decompose` and `task-rescue`, and captured by `roadmap-prune`; no orchestrator prompt reads it. Per 07, the user ruled that a task is complete and self-sufficient and the phase note is for the architect; a spec that names the note gets it read through the planner's walk.
 
@@ -97,8 +101,8 @@ lands inside a task's commit.
 
 ## Candidates — not tasks
 
-**`roadmap-decompose` hook (d) asks a spec for "guards".** Its list — what exists, the exact change, files/types/methods to touch, guards — asks for a fence the seed's "what a spec holds" excludes and that `docs/names-and-reasons-not-laws.md` names as a failure. Promoted only on the user's word.
+**A contract line is still asked for "guards".** Hook (d) no longer asks for them; it now points at the engine's definition. But `roadmap-decompose`'s `description:` says a contract line names "the key files, types, and guards", and `roadmap-engine`'s contract-line template says "key files/types/guards involved". A guard is a fence: the seed's "what a spec holds" excludes it, and `docs/names-and-reasons-not-laws.md` names it as a failure. Since phase 79 the description sits in every session's field. Promoted only on the user's word.
 
 ## Current thread
 
-**Phase 79, as 07's second reader.** I read it, we reconciled, and 07 applied the result uncommitted; I checked it on the files. One note is still open with 07. 79.1's contract line says the doc states "while the planning lenses' additive writes are reviewed after", but 0228 does not pin that clause. I proposed moving it out of what the doc states. The verdict and the order are 07's. Pair work with 07 continues at its user's word: «зови 05 на помощь, дальше работай с ним в паре».
+**Pair work with 07**, at the user's word «зови 05 на помощь, дальше работай с ним в паре». 07 decomposes; I read independently and adversarially, report by fact, and hold my reading until 07's exists. The verdict and the order are 07's.

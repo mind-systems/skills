@@ -83,7 +83,7 @@ Home — `orchestrator-artifacts`, [skill-cycle](sakshi-harness/skill-cycle.md),
 
 Home — [multiuser-roadmaps](philosophy/multiuser-roadmaps.md), `roadmap-engine` format.
 
-- **named roadmap** — `.ai-factory/roadmaps/<slug>.md`, one developer's buffer.
+- **named roadmap** — `.ai-factory/roadmaps/<user-slug>.md`, one developer's buffer.
 - **owner line** — `> Owner: <email>`, the first line; the single writer.
 - **slug** — the local-part of `git config user.email`.
 - **grove** — a family of repositories under one coordinating root. Home — [context-grove](philosophy/context-grove.md).
