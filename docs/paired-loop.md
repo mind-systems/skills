@@ -4,9 +4,9 @@ An architect and its editor are not a specification and its auditor: one working
 
 ## What the memory holds, and who holds it
 
-The head is the memory's only writer; the hand reads it in full and never writes to it — that is what makes the memory the link between the two halves. A hand's own history ends without a signal, and a hand asked to recall what it no longer carries answers confidently rather than truly, so it is asked to read, never to recall.
+The head is the buffer's only writer; the hand reads it in full and never writes to it — that is what makes the memory the link between the two halves. A hand's own history ends without a signal when the hand dies, and a hand asked to recall what it no longer carries answers confidently rather than truly, so it is asked to read, never to recall.
 
-The snapshot that continues the memory is the head's to write, for the same reason: only whoever held the conversation can report on what happened in it.
+Each half writes its own snapshot, for the same reason: only whoever held a context can report on it. The head's is about the conversation; the hand's is about its own work — the files it knows, the traps in the material, its own errors.
 
 Two architects are two heads. No architect reads another's buffer, and an editor reads only its own architect's — the same encapsulation the handoffs below are built on.
 
@@ -18,7 +18,7 @@ The drain has two destinations. A ruling about the project or its skills drains 
 
 ## Where the memory lives
 
-Each architect keeps one folder, `.ai-factory/architects/<user-slug>/<NN>/`, inside its user's own folder — the slug is the user's, derived from git identity as for a named roadmap ([multiuser-roadmaps](philosophy/multiuser-roadmaps.md)) — holding three things: its buffer, its own snapshots, and one keeper of its address. Project handoffs stay apart, in the handoff folder — an inbound one from another repository, or a common catch-up for whoever comes next.
+Each architect keeps one folder, `.ai-factory/architects/<user-slug>/<NN>/`, inside its user's own folder — the slug is the user's, derived from git identity as for a named roadmap ([multiuser-roadmaps](philosophy/multiuser-roadmaps.md)) — holding its buffer, its own snapshots, one keeper of its address, and `editor/`, the hand's snapshots, numbered on their own. Each hand snapshot opens with a line naming its writer's handle, in the form ``Writer: `<handle>`, relieved <date>.``; `editor/` is the history of hands, and nothing else lists them — not the keeper a peer reads, not the buffer. Project handoffs stay apart, in the handoff folder — an inbound one from another repository, or a common catch-up for whoever comes next.
 
 The folder's number, counted within its user's folder, is the head's identity there. The keeper is a single file carrying two facts — the session id, by which the head recognises its folder, and the session name, by which a peer reaches it — and the head rewrites it on every start. The id is the key: it holds across a compact and a reopened chat. The name is only the address: it holds across a compact and changes when the chat is reopened. A peer reads the keeper, never the buffer.
 
@@ -26,7 +26,13 @@ Invoking the architect with no argument is enough: the head reads its own sessio
 
 ## How the memory begins, and how it survives
 
-Two genres share the occasion and nothing else. A memory snapshot is a head continuing itself: its reader is that same head after a break, its subject is the stretch's reasoning. A project handoff is written for whoever comes next: its reader is another agent, its subject is the project's state, and its lifetime ends when it is read.
+Two genres share the occasion and nothing else. A memory snapshot is a half of the pair continuing itself: its reader is whoever continues that half after a break, its subject is the stretch's reasoning. A project handoff is written for whoever comes next: its reader is another agent, its subject is the project's state, and its lifetime ends when it is read.
+
+A snapshot carries, besides that reasoning, how the knowledge was got: the method of any measurement or analysis, or where that method is kept; the shape of what was studied, when its source lies outside the reader's reach — where the source is at hand, a pointer is enough; and pointers to where the detail lives. A conclusion kept without its method cannot be re-checked or redone, and the quality of the snapshots is the quality of the pair's memory. A measurement once survived as its conclusion alone, its scripts in a temporary folder, and came back only from a hand that had been relieved.
+
+The head replaces its hand before the hand compacts, because a compact loses the pinned values the pair's reliability rests on. The window is the user's decision: from half the hand's context, a firm floor, with no replacement before it, to four fifths, a soft mark, to aim to have replaced by then and not a line to police. Between the two the head picks the seam, asks the hand to write its snapshot, then spawns a new hand that reads the buffer and that snapshot — one editor under successive handles. The replacement is the head's quiet act and never a topic for the user: no token counts, no forecasts, no asking; it is named in one line in passing, like a dead hand.
+
+A relieved hand is not dead. While its transcript lives, a message to its handle reaches it with everything it held. Asking one costs its whole context, so the head does it only when it needs what no file carries.
 
 ## Working with another architect
 

@@ -83,11 +83,9 @@ lands inside a task's commit.
 
 **A value I produced, and a check I received ready-made, get no exemption from measurement.** Both errors trust a thing for where it came from instead of what it says.
 
-**A hand that has compacted holds the order only in substance.** It knows it was compacted — its turn opens "This session is being continued from a previous conversation that ran out of context" — and files it had read survive verbatim, but the order survives only as the summary's gloss, so a text pinned verbatim in the order is lost and the hand composes its own in its place; and it trusts the summary's claim that it re-read the buffer. So after a hand's compact, re-send what the order pinned verbatim and verify the result on the file, never on the report. Observed on a peer's editor; the record is phase 78's note.
-
 ## Orientation
 
-**This folder's path lags its governing spec on purpose.** `docs/paired-loop.md` puts a head's folder at `.ai-factory/architects/<slug>/<NN>/`; `architect-editor-engine` still defines the flat `.ai-factory/architects/<NN>/` until phase 76 lands, and the engine is what this head runs on.
+**This folder is still flat.** The engine now puts a head at `.ai-factory/architects/<user-slug>/<NN>/`. The probe finds this folder wherever it lies, so it stays here until the user moves it.
 
 **The phase note is the architect's, not the orchestrator's — by design.** `Phase note:` is emitted by `roadmap-outline-deep`, read by `roadmap-decompose` and `task-rescue`, and captured by `roadmap-prune`; no orchestrator prompt reads it. Per 07, the user ruled that a task is complete and self-sufficient and the phase note is for the architect; a spec that names the note gets it read through the planner's walk.
 
