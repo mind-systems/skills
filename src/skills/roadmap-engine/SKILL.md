@@ -27,7 +27,7 @@ must honor their expectations as part of its contract; the reverse graph resolve
 A task-tier entry with a contract line is a two-tier entry: the contract line in the
 roadmap plus a full task spec at `.ai-factory/specs/<NN>-<slug>.md` (`<NN>` scanned
 against the destination in play — `.ai-factory/specs/` default,
-`.ai-factory/specs/<slug>/` named — so it never collides; `<slug>`
+`.ai-factory/specs/<user-slug>/` named — so it never collides; `<slug>`
 lowercase-hyphenated). A
 caller's hook (a) may define entries with no contract line (e.g. a phase header) — the
 task-spec and tag machinery here applies only where a contract line exists. The contract
@@ -36,7 +36,7 @@ line ends with the exact tag `` Spec: `.ai-factory/specs/<NN>-<slug>.md`. ``
 The task spec follows `note`'s format — **load `note` once per chat** (via the Skill
 tool, only if not already loaded), never per task. When invoking `note`, pass
 destination `.ai-factory/specs/` for the default roadmap or
-`.ai-factory/specs/<slug>/` for a named one, via `note`'s destination hook;
+`.ai-factory/specs/<user-slug>/` for a named one, via `note`'s destination hook;
 per-directory numbering happens there.
 
 **Why two tiers:** the contract line lets the user verify intent while fitting 3–4
@@ -62,7 +62,7 @@ the task spec is the implementation.
 
 **Resolution order** for the roadmap in play: explicit argument (path or filename)
 wins always; "my roadmap" only when the user asks for it or context names it — the
-engine never infers multiuser mode — resolves to `.ai-factory/roadmaps/<slug>.md`;
+engine never infers multiuser mode — resolves to `.ai-factory/roadmaps/<user-slug>.md`;
 otherwise the default `.ai-factory/ROADMAP.md`.
 
 **Slug derivation:** the local-part of `git config user.email`, lowercased, every
@@ -75,15 +75,15 @@ current git identity; a mismatch is a hard stop that names the owner and the two
 exits (fix git identity / pass the roadmap name explicitly). No silent fallback.
 
 **Test sibling:** a named roadmap's test roadmap is
-`.ai-factory/roadmaps/<slug>-tests.md` — always derived from the roadmap in play,
+`.ai-factory/roadmaps/<user-slug>-tests.md` — always derived from the roadmap in play,
 never independently from identity; same owner line, same single-writer.
 
 **Spec destination:** a named roadmap's task specs land in
-`.ai-factory/specs/<slug>/`, passed through `note`'s existing destination hook;
+`.ai-factory/specs/<user-slug>/`, passed through `note`'s existing destination hook;
 numbering is per-directory as already built. The default roadmap keeps flat
 `.ai-factory/specs/`. For a named roadmap the contract line's `Spec:` tag carries
-the same `<slug>/` subdirectory — it reflects the exact path `note` returns
-(`.ai-factory/specs/<slug>/<NN>-<slug>.md`), so readers resolving through the tag
+the same `<user-slug>/` subdirectory — it reflects the exact path `note` returns
+(`.ai-factory/specs/<user-slug>/<NN>-<slug>.md`), so readers resolving through the tag
 reach the task spec.
 
 ## Roadmap File Format

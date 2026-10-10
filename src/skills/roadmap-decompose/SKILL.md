@@ -81,7 +81,7 @@ resolution order:
 Test-context keywords (test, tests, spec, testing, тест, тесты) route to the **test
 sibling of the roadmap in play**, not a bare literal: default roadmap →
 `.ai-factory/ROADMAP_TESTS.md` (as today); a named roadmap → its sibling per the
-engine's "Test sibling" rule (`.ai-factory/roadmaps/<slug>-tests.md`).
+engine's "Test sibling" rule (`.ai-factory/roadmaps/<user-slug>-tests.md`).
 
 ### (d) Extra update action — "Decompose existing"
 

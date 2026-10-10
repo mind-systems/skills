@@ -59,7 +59,7 @@ The note is written through `note` with all three of its caller hooks supplied:
 
 - **Destination directory** — the roadmap's own spec directory, the same
   destination and the same per-directory numbering task specs already use:
-  `.ai-factory/specs/<slug>/` for a named roadmap, flat `.ai-factory/specs/` for the
+  `.ai-factory/specs/<user-slug>/` for a named roadmap, flat `.ai-factory/specs/` for the
   default roadmap. This is `roadmap-engine`'s "Named roadmaps" § "Spec destination"
   routed through `note`'s destination hook — do not restate its mechanics here, and
   never introduce a new directory.
@@ -110,7 +110,7 @@ into `roadmap-engine` or `roadmap-outline`.
   `Phase note: [What diverges now](.ai-factory/specs/12-phase-note.md)`.
 - **Path form** — `<path>` is repo-root-relative and begins with `.ai-factory/`, in
   the exact form the `Spec:` tag uses (e.g.
-  `.ai-factory/specs/<slug>/<NN>-<slug>.md`), so `roadmap-prune`'s sweep joins it onto
+  `.ai-factory/specs/<user-slug>/<NN>-<slug>.md`), so `roadmap-prune`'s sweep joins it onto
   the target repo root unchanged. It is a pointer for agents, not an
   editor-resolvable link.
 - **Header order** — where a phase header already carries `Governing spec:`, that

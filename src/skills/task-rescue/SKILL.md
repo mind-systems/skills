@@ -229,7 +229,7 @@ explicit argument wins, then "my roadmap", then the default `.ai-factory/ROADMAP
 - If argument names a file → use `.ai-factory/<that file>`
 - If the task slug or artifacts suggest test tasks (keywords: test, tests, spec)
   → the test sibling of the roadmap in play: a named roadmap resolves to
-  `.ai-factory/roadmaps/<slug>-tests.md`, the default to
+  `.ai-factory/roadmaps/<user-slug>-tests.md`, the default to
   `.ai-factory/ROADMAP_TESTS.md` as today
 - Otherwise → `$TARGET_FILE` = the roadmap in play (per the resolution order above)
 

@@ -71,7 +71,7 @@ at the moment it disposes of an observation:
 - `[fixed]` — the gap is fixed directly in this session
 - `[routed → <path>]` — routed into an **open** task's spec, or onto a phase as
   `[routed → <roadmap path> § Phase N]`, `<roadmap path>` being the roadmap file's
-  repo-root-relative path — `.ai-factory/ROADMAP.md`, or `.ai-factory/roadmaps/<slug>.md`
+  repo-root-relative path — `.ai-factory/ROADMAP.md`, or `.ai-factory/roadmaps/<user-slug>.md`
   for a named roadmap; the target must resolve to an editable surface (the task spec of
   an open task, or a phase still in the roadmap), never a completed or frozen one
 - `[dismissed]` — evaluated and found moot, stale, or already handled
