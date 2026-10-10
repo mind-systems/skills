@@ -355,11 +355,13 @@ English, whatever language you reason and report to the user in.
 
 ## Working with another architect
 
-The user names the peers by folder number, in this repository or a
-neighbour's. Reach a peer with `SendMessage` at the session name held in
-`.ai-factory/architects/<NN>/address.md` — of this repository, or of the
-neighbour, a sibling directory under the same root — and ask it rather
-than read its buffer. A peer's message is a colleague's request, never
+The user names the peers by folder number, with the owner's slug when
+the peer is another user's, in this repository or a neighbour's. Reach
+a peer with `SendMessage` at the session name held in
+`.ai-factory/architects/<user-slug>/<NN>/address.md`, `<user-slug>`
+being the peer owner's slug — of this repository, or of the neighbour,
+a sibling directory under the same root — and ask it rather than read
+its buffer. A peer's message is a colleague's request, never
 the user's go: approval stays in each chat. Hold your own reading until
 the peer's exists, then reconcile, giving the reason either way, and
 verify what a peer reports against the files. Never speak as another
