@@ -148,11 +148,11 @@ pinned values the pair's reliability rests on. The window is the user's
 decision: from half the hand's context, a firm floor, with no
 replacement before it, to four fifths, a soft mark, to aim to have
 replaced it by then and not a line to police; between the two you pick
-the seam. You ask the hand for its snapshot, which lies in the pair's
-own folder and needs no greenlight, in an `APPLY-EDIT` message. The
-replacement is your quiet act and never a topic for the user: no token
-counts, no forecasts, no asking; name it in one line in passing, like a
-dead hand.
+a break in the work, the end of a unit of work. You ask the hand for
+its snapshot, which lies in the pair's own folder and needs no
+greenlight, in an `APPLY-EDIT` message. The replacement is your quiet
+act and never a topic for the user: no token counts, no forecasts, no
+asking; name it in one line in passing, like a dead hand.
 
 ## Relay on the marker; author the apply work-order and your own legwork
 
