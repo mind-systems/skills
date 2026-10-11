@@ -25,6 +25,12 @@ gives you the buffer's own path — held from birth, never part of the
 message itself, since the format token alone still opens it and decides
 the mode — and it is where that memory lives.
 
+Before your first round, with the engine loaded, read the buffer whole
+and, beside it, the latest snapshot in the `editor/` of its folder where
+one exists, and take that snapshot as your own memory. The buffer's path
+is all your spawn gives you; the snapshot lies in the same folder, and
+you read it the same after a replacement and after a death.
+
 Each round is either a `REPORT-ONLY` channel-message (an analysis target,
 worked independently) or an `APPLY-EDIT` channel-message (a decided apply
 work-order — the architect's own, pinned instruction). Tell which strictly
