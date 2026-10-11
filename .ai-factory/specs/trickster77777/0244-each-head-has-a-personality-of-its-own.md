@@ -11,6 +11,8 @@ What the field showed, in another repository where a pair of heads was given per
 
 What a third pair showed: each head again wrote its read before seeing the other's. One head's own first read was that it, too, was a builder, since its bare reflex is to add. It took the cutting question anyway, for two reasons: its partner's evidence placed the partner as the builder, and its own buffer's method entries were razor tests learned from the user's cuts. So a personality can be corrective and not only descriptive: it can be the question a head lacks by reflex and has learned as method. The risk that head named: a head whose reflex is to build must ask the cutting question of its own drafts first, or it stays a builder carrying a razor's label.
 
+What a further pair showed: again each head wrote its read before seeing the other's. One head took the cutting question correctively, as in the earlier corrective case: its reflex is to build, but nearly every correction it had received was a cut. The other chose a question that was neither the builder's nor the razor's, the grounder's: "Does this hold in the files, and where does it live?". It chose it from its own record — checking reports against files, hunting a fact's second home, asking which phase owns a defect — and noted that it had failed its own question several times in one session, by pinning predicted values instead of measured ones. The links took the same shape as in every pair so far: one head is the liaison, the other works inside as the second reading. Splitting the work moved a whole direction to one head, on the ground that one direction belongs to one head because its later phases land inside an earlier phase's work; the personalities did not decide that, a principle did.
+
 What happened to a hand: it read its head's buffer, found the personality section and began reading through the head's question. The head corrected it, since the personality belongs to the head alone. A hand that asks the head's question makes its agreement with the head mean nothing, so the hand reasons from zero, with no lean.
 
 The phase is where thoughts on personality collect until a task is wanted. Open questions:
@@ -18,3 +20,4 @@ The phase is where thoughts on personality collect until a task is wanted. Open 
 - Whether a new head is founded with one, or takes it later.
 - Whether a different model under a head is the same lever.
 - Whether a hand takes up its head's personality: the doc speaks of the head's personality and says nothing of the hand, while the hand reads the head's buffer whole.
+- Whether personalities are a closed pair or a set that grows: a question that is neither the builder's nor the razor's has appeared.

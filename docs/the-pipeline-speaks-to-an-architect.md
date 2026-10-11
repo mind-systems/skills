@@ -12,7 +12,7 @@ The pipeline's agents are sessions too, and they could ask an architect. A task,
 
 ## What stands in the way today
 
-Read in `orchestrator/orchestrator/agents.py`:
+Read in `orchestrator/orchestrator/claude_cli.py`:
 
 - Each agent is a headless `claude -p` run with permissions skipped, so its allowed-tools list restricts nothing and only the disallowed list removes tools. A pipeline agent therefore already has `ListAgents`, reaches `SendMessage` through `ToolSearch`, and a message it sends arrives in an architect's session.
 - A headless run is a single turn. A reply from another session reaches it only while it is working, at its next tool call, and the tools that would let it wait — a monitor, a scheduled wakeup, a cron job — are explicitly disallowed, with background tasks switched off.

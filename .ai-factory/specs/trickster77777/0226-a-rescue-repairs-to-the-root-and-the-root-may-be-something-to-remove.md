@@ -10,3 +10,12 @@ Where `src/skills/task-rescue/SKILL.md` stands:
 - **Step 5.5, "Propagate findings to open tasks".** Each matching open task is offered "+ <proposed clause>", so the addition spreads to the neighbours; the non-convergence branch's third option, "Fold recurring spec-traceable nits into the task spec", likewise proposes "the minimal clause addition".
 
 The phase gives the skill a statement of the rescue's purpose, that the task reflects what the system needs, and removes what presets the form of the root, so that whatever the root is, including a correct task the architecture is not ready for, can be said.
+
+One more reading a rescue can reach, from another repository: a task stopped at plan review on its budget. Every round said nothing was blocking and the risk fell, yet each round found a new class of precision nit and not the same one again. The reviewer was not at fault; its nitpicking is designed. The stall was the signal: the surface the plan had to pin was too large to settle in a few rounds. Where the cause was found, it was one of these: existing code tangled, so that every round found one more thing touching a shared mutable structure that several modules consulted; or one new unit holding two behaviours, so that its one test suite multiplied every case of one behaviour by every case of the other. The repair was a split and not a clause: in the second case a pure classifier moved to its own unit with a flat table suite, and both surfaces became small. Comparable tasks with one behaviour each had passed plan review in one round.
+
+Against `task-rescue`, by heading:
+- **Step 2, "Plan-phase failure".** Such a stall is one — no plan-review file holds the pass signal on its own line — whose "repair depth starts at spec"; Step 3 ends the report on a missing constraint and Step 4's standard depths begin by repairing the spec, so the repair adds one.
+- **Step 2, "Non-convergence".** It reads rounds with only Low or Informational findings the opposite way, "the work is likely done", and holds for the implement phase alone.
+- **Step 3, the categories, and Step 4, "Scope-overload flag".** Scope overload is framed as "too many concerns" and "too many unrelated concerns", and says nothing of a stall in which severity falls.
+
+No reading says that the surface is too large and that a split, or untangling, is the repair.
