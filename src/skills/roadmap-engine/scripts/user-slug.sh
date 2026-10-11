@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # user-slug.sh — print the current user's slug, bare, on one line.
-# Derives the slug the way the pipeline does: the lowercased, hyphen-collapsed
-# local-part of git user.email, falling back to git user.name.
+# Derives the slug: the lowercased, hyphen-collapsed local-part of git
+# user.email, falling back to git user.name.
 # Exit 0 = slug printed; exit 2 = no slug derivable; any other code = failure.
 set -euo pipefail
 
