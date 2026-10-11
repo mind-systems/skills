@@ -83,11 +83,11 @@ The orchestrator moved its modules, so two skills cite files and a function that
 
 ## A rescue can only repair by adding
 
-### Phase 80 — a rescue makes the task reflect what the system needs
+### Phase 80 — the rescue skill keeps the knowledge and the mechanics, and the repair is the agent's
 
-Governing spec: `docs/what-a-task-carries.md`
+Governing spec: `docs/names-and-reasons-not-laws.md`
 
-Every rescue root cause is phrased as a constraint to add, every standard depth edits the spec, and propagation offers the same clause to open tasks, so a rescue only adds. A rescue should make the task reflect what the system needs, whatever that takes. Phase note: [a rescue makes the task reflect what the system needs](.ai-factory/specs/trickster77777/0226-a-rescue-repairs-to-the-root-and-the-root-may-be-something-to-remove.md)
+`task-rescue` keeps what the agent lacks — what the artifacts are, the rollback states it accepts, and how the orchestrator fails, as questions that direct its look and decide nothing — and has grown answers: each class routed to a depth, a preset root sentence, a menu, a neighbour clause. The repair is the agent's. Phase note: [a rescue makes the task reflect what the system needs](.ai-factory/specs/trickster77777/0226-a-rescue-repairs-to-the-root-and-the-root-may-be-something-to-remove.md)
 
 ## A find from the conversation enters a spec as if the system had asked for it
 
