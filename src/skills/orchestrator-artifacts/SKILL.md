@@ -43,11 +43,14 @@ plan-review or review file for the two reviewers.
 
 ## 3. Sidecar fields
 
-`planner`, `implementer` (resumable session ids), `step` (resume point — the closed
-set and its artifact requirements live in `task-rescue`, its only skill-side writer;
-the closed set now includes `escalated`), `elapsed` (seconds, cumulative),
-`escalation` (the escalation record: the role that raised it, the artifact path, and
-a one-line excerpt of the missing decision).
+`planner`, `implementer` (resumable session ids), `plan-reviewer-<N>` (one plan
+reviewer's session id per attempt, kept even when that reviewer wrote no review;
+`<N>` is the round number its `plan-review-<N>` file carries; for reading only, never
+resumed by the run), `step` (resume point — the closed set and its artifact
+requirements live in `task-rescue`, its only skill-side writer; the closed set now
+includes `escalated`), `elapsed` (seconds, cumulative), `escalation` (the escalation
+record: the role that raised it, the artifact path, and a one-line excerpt of the
+missing decision).
 
 ## 4. Committed ⇔ completed
 
