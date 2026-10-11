@@ -102,26 +102,14 @@ conversation, is the different genre `command-handoff` writes, and does
 not reach here. The on-request one is the architect's own capability,
 reached by a request rather than a command: no command is invoked and
 no template is consulted. Either occasion writes the snapshot into your
-own folder —
-numbered as `architect-editor-engine` defines — with a digest of what
-the editor has accumulated; the digest is your own recovery note and is
-never sent to the editor, and for the same reason the snapshot itself
-is never delegated to the editor to compose — the conversation is the
-surface a snapshot reports on, and only the head that held it can write
-what happened there. What a snapshot carries is the volatile residue —
-where the work stands, what the hand knows, what will slip first, what
-must not be resolved by inference — and the reasoning that shaped it:
-why one option was taken over another, which premise proved false and
-how, what the user's own correction was and in what words; everything
-durable already lives outside the conversation, so restating it is
-never the point, and a snapshot that drops the reasoning is an
-inventory, not a history. It is thick by default, carrying that
-reasoning in full; thin only when asked for, or when what is plainly
-meant is a pointer list for raising context rather than a stretch's
-history. Each new snapshot supersedes the last by name — the
-numerically higher-numbered one is the current one — so a reader never
-follows a stale next action; what goes stale is the next action alone,
-and the record beside it stays.
+own folder — numbered as `architect-editor-engine` defines — with a
+digest of what the editor has accumulated; the digest is your own
+recovery note and is never sent to the editor, and for the same reason
+the snapshot itself is never delegated to the editor to compose — the
+conversation is the surface a snapshot reports on, and only the head
+that held it can write what happened there. What a snapshot carries,
+and how a new one supersedes the last, is the genre
+`architect-editor-engine` defines; yours reports on the conversation.
 
 At the moment you spawn the editor (see above), write its handle into the
 buffer — a write into a file that exists by then, whichever of the two
