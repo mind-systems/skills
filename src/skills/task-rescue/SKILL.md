@@ -65,25 +65,32 @@ additive to Step 4's own `$TARGET_FILE` resolution and contract-line locate — 
 not replace it. A named file that does not exist is told to the user here, and
 carried into Step 3's Diagnosis Report as a finding — never skipped silently.
 
-**Capture the report facts.** Record four facts now, at discovery, before anything is
-deleted, and hold them for the report Step 5.7 writes — Step 5 deletes the sidecar at
-some repair depths, and `step`/`elapsed` are unrecoverable once that happens.
+**Capture the report facts.** Record these facts now, at discovery, before anything is
+deleted, and hold them for the report Step 5.7 writes — Step 5 deletes or rewrites the
+sidecar at some repair depths and a re-run overwrites its keys, so `step`, `elapsed` and
+the session ids are unrecoverable once that happens.
 
 - **Project** — the last path segment of `git rev-parse --show-toplevel` run in the
   project being rescued. This fact fills the report's `**Project:**` line only; it is
   not the destination path, which Step 5.7 resolves for itself at write time.
 - **Date** — today's date, ISO form (`YYYY-MM-DD`).
-- **`step` and `elapsed`** — read from the task's sidecar; the two fields worth
-  keeping, per `orchestrator-artifacts` § 3.
+- **`step` and `elapsed`** — read from the task's sidecar, per `orchestrator-artifacts`
+  § 3.
+- **The session ids** — every session id the sidecar holds, each under its key as the
+  sidecar spells it. They are the sessions whose artifacts this rescue reads, and the
+  report names them so that one can be resumed and asked to quote what it saw. The
+  sidecar is the live state of the attempt and is overwritten; the report is the record
+  of this attempt and its diagnosis.
 - **Where the sidecar lives** — located per `orchestrator-artifacts` § 1: the flat
   `plans/<seq>-<slug>.json` layout holds for the default `ROADMAP.md`/`ROADMAP_TESTS.md`
   pair only, while a named roadmap's sidecar sits under a subdirectory keyed by its
   roadmap file stem (`roadmaps/john-doe.md` → `plans/john-doe/<seq>-<slug>.json`).
   `$TARGET_FILE` is already resolved above, so the stem is known here. This is pinned
   because a sidecar missed by reading the wrong path records exactly the same thing as
-  an absent one — both numbers lost, with no signal.
-- **No sidecar on disk** → record both `step` and `elapsed` as **absent**; never guess,
-  never reconstruct a number from anything else. Step 5.7 renders absence as absence.
+  an absent one — everything it holds lost, with no signal.
+- **No sidecar on disk** → record `step`, `elapsed` and the session ids as **absent**;
+  never guess, never reconstruct a number from anything else. Step 5.7 renders absence
+  as absence.
 
 **Read every artifact file found** — all rounds, not just the latest. The pattern of
 failures across rounds matters as much as the final round. A plan-review from round 1
@@ -628,6 +635,7 @@ these hooks.
 **Date:** <the Step 1 date fact, ISO form>
 **Stopped at:** <the Step 1 `step` fact, or "absent">
 **Elapsed before the rescue:** <the Step 1 `elapsed` fact, or "absent">
+**Sessions:** <every session id the Step 1 capture holds, each as `<key>: <id>`, or "absent">
 
 <the diagnosis, exactly as Step 3 wrote it>
 
