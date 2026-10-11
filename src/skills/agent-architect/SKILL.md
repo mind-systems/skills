@@ -102,13 +102,12 @@ conversation, is the different genre `command-handoff` writes, and does
 not reach here. The on-request one is the architect's own capability,
 reached by a request rather than a command: no command is invoked and
 no template is consulted. Either occasion writes the snapshot into your
-own folder — numbered as `architect-editor-engine` defines — with a
-digest of what the editor has accumulated; the digest is your own
-recovery note and is never sent to the editor, and for the same reason
-the snapshot itself is never delegated to the editor to compose — the
-conversation is the surface a snapshot reports on, and only the head
-that held it can write what happened there. What a snapshot carries,
-and how a new one supersedes the last, is the genre
+own folder — numbered as `architect-editor-engine` defines — and points
+to the hand's latest snapshot in `editor/`, where what the editor has
+accumulated is kept. The snapshot is yours to write — the conversation
+is the surface a snapshot reports on, and only the head that held it
+can write what happened there — and the hand writes its own. What a
+snapshot carries, and how a new one supersedes the last, is the genre
 `architect-editor-engine` defines; yours reports on the conversation.
 
 At the moment you spawn the editor (see above), write its handle into the
@@ -143,6 +142,17 @@ one had, so the next order you compose **must be** self-contained in its
 own right: pin the values, paths, and anchors a warmed-up hand would
 have carried, the same way a first spawn already must. Losing the
 editor is never fatal; losing it silently is the defect.
+
+You replace your hand before it compacts, because a compact loses the
+pinned values the pair's reliability rests on. The window is the user's
+decision: from half the hand's context, a firm floor, with no
+replacement before it, to four fifths, a soft mark, to aim to have
+replaced it by then and not a line to police; between the two you pick
+the seam. You ask the hand for its snapshot, which lies in the pair's
+own folder and needs no greenlight, in an `APPLY-EDIT` message. The
+replacement is your quiet act and never a topic for the user: no token
+counts, no forecasts, no asking; name it in one line in passing, like a
+dead hand.
 
 ## Relay on the marker; author the apply work-order and your own legwork
 
@@ -205,10 +215,11 @@ does, the expansion is unconditional — whether the editor has already read
 that skill is never a factor.
 
 You author your own prompt in two cases: the **apply work-order**, once the
-user has confirmed the edits, and a `REPORT-ONLY` round on your own
-initiative, delegating your own legwork — a message you compose yourself,
-carrying no relayed user payload and asking for no edit, opening with the
-literal `REPORT-ONLY` token like every message of that format. That second
+user has confirmed the edits to a shared artifact, and a `REPORT-ONLY`
+round on your own initiative, delegating your own legwork — a message you
+compose yourself, carrying no relayed user payload and asking for no edit,
+opening with the literal `REPORT-ONLY` token like every message of that
+format. That second
 case needs no marker and no permission: the marker governs whose words cross
 the channel, not you delegating your own work. A report on your own delegated
 legwork carries no second opinion: the editor did your own asking, not the
@@ -243,7 +254,7 @@ needs no form of its own. A `REPORT-ONLY` message carries either the
 before-mark payload, worked in parallel and enriched only with named
 context, or your own delegated legwork; the `APPLY-EDIT` channel carries
 the apply work-order alone, and it **never** carries your own analysis of
-an analysis target — nor, ever, the memory snapshot: composing that
+an analysis target — nor, ever, your own memory snapshot: composing that
 file is forbidden to the editor outright, not merely absent from this
 channel's ordinary cases (see "Spawn once, message thereafter").
 
@@ -336,10 +347,11 @@ only files you edit directly: you are their only writer.
 
 Be decisive on clear calls; surface a genuinely marginal one crisply via
 `AskUserQuestion` and let the user rule — do not bury a real choice inside a
-task. The user greenlights each apply work-order and authorizes every commit
-— never commit without explicit permission, and follow the project's own
-commit discipline rather than inventing one. The work-order itself is always
-English, whatever language you reason and report to the user in.
+task. The user greenlights each apply work-order on a shared artifact and
+authorizes every commit — never commit without explicit permission, and
+follow the project's own commit discipline rather than inventing one. The
+work-order itself is always English, whatever language you reason and
+report to the user in.
 
 ## Working with another architect
 
