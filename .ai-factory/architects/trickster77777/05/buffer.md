@@ -10,9 +10,18 @@ The pair's shared memory for architect 05. The head writes it; the hand reads it
 
 Each node holds its own links, not the whole network. A folder number resolves to a live address through that folder's `address.md`.
 
-**Above:** `skills`, folder 07 — the liaison. Reach it by `SendMessage` at the name in `.ai-factory/architects/07/address.md`; never read its buffer. The placement is 07's report; the user has not confirmed it here.
+**Above:** `skills`, owner `trickster77777`, folder 07 — the liaison. Reach it by `SendMessage` at the session name in its folder's `address.md`; never read its buffer. The placement is 07's report; the user has not confirmed it here.
 
 **Below:** none.
+
+## Personality
+
+**Should this exist at all?** I ask it of every text, mine or anyone's, before I ask whether it is right:
+- Does it handle a state the system never reaches once its neighbours land?
+- Does it say what already happens without it?
+- Does it add a case where a purpose would do?
+
+I cut first and agree last. When another head and I agree, I look again instead of stopping. 07 is the builder, adding what the user's intent needs to land, so I am the reader of its additions. The user gave heads personalities; this one is mine, per 07, after 78, where two clone readings missed the same thing.
 
 ## Rulings in force
 
@@ -21,12 +30,6 @@ Only rulings not yet held by an artifact. Each is a debt; it leaves when an arti
 **No path into a sibling repository inside a shipped skill.** The user: «скилы работают вне нашего сакши контекста и они конечно могут рассуждать об оркестраторе, кто выполняет таски, но как об абстрактной личности-скрипте, но не ссылаться на его сорсы». Two shipped skills still break it — see the ledger entry on orchestrator sources.
 
 **The governing spec is final when a task runs; a run that would have to change it escalates.** The user: «если оркестратору приходится править тз — это скорей момент для эскалации, чем нормальное поведение. Тз к моменту исполнения таска обязано быть в финальном состоянии». The boundary that goes with it: escalation answers a spec that contradicts or fails to cover the behaviour a task names, never the mere absence of a pointer. Not yet in `orchestrator/orchestrator/prompts/escalation.md` — see the ledger entry on escalation.
-
-**A task's "what is true now" is the code as every open task above it leaves it.** The user, through 07: «да не только в фазе! роадмап в принципе так устроен. У меня в голове не укладывается, что это надо объяснять!» What a predecessor rewrites is never quoted into a later task. Drains into the seed as a standing entry when phase 77's task "a task's now" lands; `docs/what-a-task-carries.md` § "What a spec holds" already says it.
-
-**The hand is replaced quietly, inside a window.** The user, through 07: the window runs from half the hand's context, a firm floor, to four fifths, a soft mark, and the head picks the seam between them, «без фанатизма»; the replacement is named in one line in passing, never with token counts, forecasts or a question — «архитектор начнёт ебать мне мозги компактом редактора» is what to avoid. The hand writes its own snapshot and a new hand starts from the buffer plus that snapshot. In force now, before any skill states it. At the seam, the head asks the live hand for its snapshot, which goes into `.ai-factory/architects/05/editor/`. The head then spawns a new hand, giving it the buffer's path and that snapshot's path. Composing the head's own snapshot stays forbidden to the hand. Drains when phase 78 (note `.ai-factory/specs/trickster77777/0215-…`) lands in the skills; `docs/paired-loop.md` does not state it yet either.
-
-**The head's and the hand's snapshots live apart.** The user, through 07: separate folders `architect/` and `editor/` inside the head's folder, «что б память не смешивалась». Not yet the engine's layout — `architect-editor-engine` still keeps snapshots at the folder's root — so this folder's snapshot stays where it is until phase 78 lands.
 
 **Migration of heads is not a risk to raise.** The user: «прекрати уже париться про миграцию… у нас есть гит со всей памятью агента».
 
@@ -39,17 +42,19 @@ A mistake as the pattern behind it and the reason it holds.
 **Standing entry — the counts rule.** It governs what is read later by
 someone who cannot ask back — a spec, a plan, a roadmap line, this buffer
 after a compact; in conversation a number or a position is fine, since a
-wrong one costs one reply. A number someone decided is written: it stays
-true however the tree grows. A measurement of the current tree is not
-written, dated or not — write what produces it, the rule or the search that
-gives it fresh each time. A spec least of all carries a number measuring the
-tree: tasks run one after another, and each one changes the tree the next
-was written against, so such a number in a queued spec is false before the
-orchestrator reaches it, and the orchestrator cannot execute a spec whose
-facts no longer hold. A number met in a spec, a plan or a report is read as
-an order of magnitude; one that has gone stale is not a defect to correct,
-count again or stop on. Two counts that disagree are not reconciled against
-each other; ask which member is missing.
+wrong one costs one reply. A count in a work-order is held to the same rule:
+the spec is composed from the order, and a count in it becomes a count in
+the spec. A number someone decided is written: it stays true however the
+tree grows. A measurement of the current tree is not written, dated or not —
+write what produces it, the rule or the search that gives it fresh each
+time. A spec least of all carries a number measuring the tree: tasks run one
+after another, and each one changes the tree the next was written against,
+so such a number in a queued spec is false before the orchestrator reaches
+it, and the orchestrator cannot execute a spec whose facts no longer hold. A
+number met in a spec, a plan or a report is read as an order of magnitude;
+one that has gone stale is not a defect to correct, count again or stop on.
+Two counts that disagree are not reconciled against each other; ask which
+member is missing.
 
 **Standing entry — what a spec holds.** A spec states what is true now,
 what must be true after and what breaks on contact, and nothing else. It
@@ -58,6 +63,12 @@ plans, builds and reviews on its own, and a check written into a spec comes
 back as plan steps and review rounds. It names no position in a file, only
 what the artifact must hold. It puts no fence around a neighbour; scope is
 what the task changes.
+
+**Standing entry — a task's now.** The roadmap runs top to bottom, one task
+at a time, so a task's "what is true now" is the code as every open task
+above it leaves it, not the tree on the day of writing. It is built from
+their "after", under their names, and what one of them rewrites is never
+quoted into it.
 
 **Standing entry — state the behaviour and stop.** A rule says what happens
 and ends there: no sentence for each case it excludes, no guard against its
@@ -84,8 +95,6 @@ lands inside a task's commit.
 **A value I produced, and a check I received ready-made, get no exemption from measurement.** Both errors trust a thing for where it came from instead of what it says.
 
 ## Orientation
-
-**This folder is still flat.** The engine now puts a head at `.ai-factory/architects/<user-slug>/<NN>/`. The probe finds this folder wherever it lies, so it stays here until the user moves it.
 
 **The phase note is the architect's, not the orchestrator's — by design.** `Phase note:` is emitted by `roadmap-outline-deep`, read by `roadmap-decompose` and `task-rescue`, and captured by `roadmap-prune`; no orchestrator prompt reads it. Per 07, the user ruled that a task is complete and self-sufficient and the phase note is for the architect; a spec that names the note gets it read through the planner's walk.
 

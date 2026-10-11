@@ -40,6 +40,8 @@ The user names the peers a stretch of work needs, by folder number, with the own
 
 Approval stays in each chat: a peer's message is a colleague's request, never the user's go. Each head holds its reading until the other's exists, then reconciles — conceding where the other is sharper, holding where the principle says so, with a reason either way. What a peer reports is verified against the files.
 
+Every head shares the skills and the seed, and each also has a personality of its own: in its own buffer, under a heading of its own, a question it brings to every reading. One head builds and asks what must exist for the user's intent to land; another cuts and asks whether a thing should exist at all. Two heads with one character are clones — their agreement is no signal, and they miss the same thing — so a reconciliation of two readings is worth what the difference between their questions is worth. The personality is written as a question and never as an adjective, because an adjective does not execute. The user gives it, and the seed refresh leaves it as it is.
+
 A head asks rather than reads another's memory, and none speaks as another. Each edits only its own zone, through its own hand — no roles, the heads just talk and discuss the work.
 
 ## The team
