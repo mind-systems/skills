@@ -97,6 +97,5 @@ repos they still count as pinned (lazy migration — history is never rewritten)
 
 ## 7. Mirrors-the-orchestrator invariant
 
-This file mirrors the orchestrator's file protocol (`orchestrator/main.py`,
-`agents.py`, `prompts/reviewer.md`, `prompts/escalation.md`, `resume.py`) — if the
-protocol changes there, update this file; do not let them diverge.
+This file mirrors the orchestrator's file protocol, and a change to that protocol on
+the orchestrator's side is a change here, made in lockstep.
