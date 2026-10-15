@@ -1,6 +1,6 @@
 # The pipeline speaks to an architect
 
-The orchestrator's agents reach an architect directly, the way architects already reach each other. One form of it runs, a handoff at a gate; a doorbell on escalation is an undetermined possible future. The pipeline stops being something that is started and read afterwards, and becomes something that can speak to an architect while it works.
+The orchestrator and its agents reach an architect directly, the way architects already reach each other. The forms that run are a handoff at a gate, which the reviewer sends, and a stop notice, which the orchestrator itself sends. The pipeline stops being something that is started and read afterwards, and becomes something that can speak to an architect while it works.
 
 ## What is already true
 
@@ -17,7 +17,7 @@ Read in `orchestrator/orchestrator/claude_cli.py`:
 - Each agent is a headless `claude -p` run with permissions skipped, so its allowed-tools list restricts nothing and only the disallowed list removes tools. A pipeline agent therefore already has `ListAgents`, reaches `SendMessage` through `ToolSearch`, and a message it sends arrives in an architect's session.
 - A headless run is a single turn. A reply from another session reaches it only while it is working, at its next tool call, and the tools that would let it wait — a monitor, a scheduled wakeup, a cron job — are explicitly disallowed, with background tasks switched off.
 - Whether a pipeline run's session can be reached first is not yet seen: no listing has been taken while one was live. The design does not depend on it, because the agent is the one that asks.
-- A notification never says where to find a thing: `orchestrator/docs/concepts/fault-handling.md` makes it a signal and not the account. A doorbell that points at an artifact would first have to be declared a peer message and not an operator notification.
+- A notification never says where to find a thing: `orchestrator/docs/concepts/fault-handling.md` makes it a signal and not the account. The stop notice points at the artifacts, so it has to arrive as a peer message and not as an operator notification.
 - A run's agents start inside the target project, so a path to an architect's folder has to resolve from there and not from the family root.
 
 ## Who would ask
@@ -34,13 +34,14 @@ A task that lifts a gate another repository waits on carries, as one of its own 
 - **One way.** The message says that no reply is expected, and it asks nothing.
 - **A failed send never blocks.** The review records the tool's result verbatim and the task still passes; "queued" is what the tool confirms, not delivery.
 
-## A possible future: a doorbell on escalation
+## The second form: a stop notice from the orchestrator
 
-This form is an undetermined possible future: nothing runs it and nothing is planned.
+When a task stops — a failure, an escalation, a halt — the orchestrator itself, and not one of its agents, sends one message to the task's contact architect. The message says that the task stopped, how, and where its artifacts lie. An escalation is a stop too: an agent that cannot do its work honestly without a decision writes the question into its own artifact and ends it with `ESCALATION`, and the notice points at that artifact; the rescue cycle that follows is laid out in [skill-cycle](sakshi-harness/skill-cycle.md). The orchestrator's code sends it, deterministically, so no agent role has to be taught to send it. Like any line the pipeline sends, it points at the artifacts and is not the account.
 
-The pipeline already has an asynchronous way to ask. An agent that cannot do its work honestly without a decision writes the question into its own artifact and ends with `ESCALATION`, and the run stops. `task-rescue` then puts the missing decision to the user, records it in the spec, and resets the task so that it plans afresh; the cycle is laid out in [skill-cycle](sakshi-harness/skill-cycle.md).
-
-The doorbell adds one thing. At escalation, the agent sends the contact architect a line naming the task and where the question sits. It does not wait for an answer, and the script is unchanged: the run already reaches `SendMessage`, so the act asks only that the agent be told to use it. The line is a pointer to an artifact and carries no content; the architect reads the artifact where the question sits, as it reads any file a neighbour has left.
+- **A colleague's notice, never the user's go.** The architect does not drop the conversation it is in. It finishes its reply, names the stop in one line, and waits for the user's word.
+- **A rescue the user has already allowed.** When the user has said in advance that the architect runs the rescue itself, for instance while the user is away, that is the go for running the rescue skill. The architect runs it, and its output is there for the user. Two things stay with the user: the decision an escalation asks for, which the architect brings back prepared as options with a recommendation, and restarting the orchestrator.
+- **The report travels on.** When the rescue report is written, the architect tells the architect that collects rescue reports for the skills, the skills liaison, that a new report exists.
+- **The record is asked for.** That architect talks to the report's author about the record, as [self-analysis](self-analysis.md) § "Asking the author of a report" lays out.
 
 ## The boundary
 
@@ -57,6 +58,6 @@ Whether the same pipeline agents could be kept per repository, compacted like an
 ## Invariants
 
 1. **An architect is reached through its folder.** The session name in `address.md` is read at the moment of sending and never stored anywhere else.
-2. **A pipeline agent sends and does not wait.** A handoff asks nothing; were the doorbell ever built, a question would live in the agent's own artifact and the line it sends would point there.
+2. **A pipeline agent sends and does not wait.** A handoff asks nothing; a question lives in the agent's own artifact, and the stop notice, which the orchestrator sends, only points there.
 3. **A decision does not travel through the channel.** What an architect decides for a task goes through the user into the spec.
 4. **Autonomy grows only after something removes work as readily as the chain adds it.**

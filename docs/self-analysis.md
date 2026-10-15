@@ -59,3 +59,19 @@ Then ask what else the account implies, and go look. An account that names a mec
 where the mechanism would show up elsewhere, and turns out to be right there too is evidence. One
 that explains only the case in hand is a story, and should be held as one — including every account
 in this document.
+
+## Asking the author of a report
+
+A report an agent wrote is an account of the same kind, set down once, and its author is often
+still alive. A head that receives a rescue report does not stop at it: while the head that wrote
+it is reachable, it talks to that head and asks about the record — which files, which quotes, who
+read what, and when. The conversation reaches what the report left out; an author's answer can
+carry a quote from history that the report never held. It also corrects the report. One author's
+first answer states that nobody opened a piece of code, and its second, asked about a
+contradiction between two of its own answers, shows that a hand and a peer had read it.
+
+The conversation is itself an account, so the same rule holds for it as for any self-account.
+Ask for the record, quote by quote, and not for the author's memory of it, and check what comes
+back against the files and against the report. Where the two diverge, the durable record is what
+the case is written from. The report and the conversation are hypotheses about the case, and the
+files are what tests them.

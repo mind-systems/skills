@@ -106,4 +106,36 @@ Governing spec: `docs/paired-loop.md`
 
 The doc states that each head has a personality of its own, a question it brings to every reading, so that two heads are not clones. The seed has no place for it and `agent-architect` does not speak of it; it is practised in the field. Phase note: [each head has a personality of its own](.ai-factory/specs/trickster77777/0244-each-head-has-a-personality-of-its-own.md)
 
+## A red suite written against a throwing shell has no floor
+
+### Phase 90 — a contract-task pays only for the unit where the lifecycle hazard lives
+
+Governing spec: none written yet.
+
+The concurrency lens of `roadmap-decompose-skeleton` splits a contract-task off a heavy task touching two hazards; in the field it covered a whole mixed surface. A red suite against a throwing shell runs no assertion, so its coverage is judged by imagining wrong implementations, and imagination has no floor. Phase note: [a contract-task pays only for the unit that holds the hazard](.ai-factory/specs/trickster77777/0250-a-contract-task-pays-only-for-the-unit-that-holds-the-hazard.md)
+
 ---STOP---
+
+## The orchestrator reaches a head that is in the middle of its own work
+
+### Phase 87 — the orchestrator talks to two heads, its liaison for every stop and the run's head for a close that leaves deferred observations, found through one file in the user's architects folder
+
+Governing spec: `docs/the-pipeline-speaks-to-an-architect.md`, `docs/paired-loop.md`
+
+The stop notice, as the pipeline doc describes it, goes to the task's contact architect, named by a task or its phase, so a working head can be interrupted by a run it has no part in. The user's idea: the orchestrator talks to two heads, each an ordinary head given a subject in words. The liaison receives every stop and does rescue and nothing else; the run's head receives a task's close when its review left deferred observations. The orchestrator's code finds both through one file in the user's folder among the architects' folders, one line per role naming a folder number, and then reads that folder's `address.md`; the orchestrator only reads the file, and a head of that user writes it, on the user's word. On this side the phase would touch the engine's folder layout in `architect-editor-engine`; `paired-loop` § "The team", including its "no roles" line, since each is a head given a subject, not a new kind of head; and the contact-architect wording in the pipeline doc, in the intro and in the stop-notice section. The orchestrator's own side is a phase in its own repository. The meaning lies in [the futures document](docs/futures/the-run-asks-a-head-when-a-task-leaves-observations.md) for now. The work is wanted and not scheduled: the governing docs are written at the deepening, and the orchestrator's side waits on the user's time.
+
+## A task lands a little differently from its plan, and the specs below it drift
+
+### Phase 88 — the run asks the run's head when a task's review leaves deferred observations, and waits for its poke
+
+Governing spec: `docs/the-pipeline-speaks-to-an-architect.md`
+
+After a task commits, the orchestrator looks at its review: a close with no deferred observations is not pinged and the run goes straight on, and the decision is deterministic, since the code already reads the `## Deferred observations` heading and can see whether it has entries. Otherwise it messages the run's head and waits in memory, with no timeout, until the head pokes it. The reviewer is the filter: a task that landed differently from its plan reaches the head as an observation. The head reads it against the "now" of the open tasks below, fixes the specs that drifted, pins it and pokes; the orchestrator then commits the whole tree as a roadmap update if anything changed, re-reads the roadmap and goes on. This is a live pin-gaps, triggered by a signal. A stop of any kind still goes to the liaison. On this side the phase adds a new form to the pipeline doc, "a task closed", beside the first two. The meaning lies in [the futures document](docs/futures/the-run-asks-a-head-when-a-task-leaves-observations.md) for now. The work is wanted and not scheduled: the governing doc is written at the deepening, and the orchestrator's side waits on the user's time.
+
+## A deferred observation met again is met as if it were new
+
+### Phase 89 — a phase carries a mark that an observation was met again, and the prune gate becomes a safety check
+
+Governing spec: none written yet.
+
+An observation met once is a fact and met twice is a debt, so a deferred observation worth fixing later becomes a phase through the ordinary outline, and where a phase for it already exists it gets a mark on that phase that the observation was met again. Observations are pinned as they appear, so the prune gate stops being where a pile of unpinned ones is dealt with and becomes a safety check. On this side the phase would touch the roadmap format in `roadmap-engine` and the gate in `roadmap-prune`. The meaning lies in [the futures document](docs/futures/the-run-asks-a-head-when-a-task-leaves-observations.md) for now. The work is wanted and not scheduled: the governing doc is written at the deepening.
