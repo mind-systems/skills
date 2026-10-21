@@ -10,7 +10,7 @@ description: >-
 argument-hint: "[path/to/ROADMAP.md | ROADMAP_TESTS.md]"
 allowed-tools: Read Write Edit Glob Grep Bash(git *) Bash(mkdir *) AskUserQuestion Skill
 loads: orchestrator-artifacts roadmap-engine note
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # Task Rescue
