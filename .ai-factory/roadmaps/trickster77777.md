@@ -88,7 +88,7 @@ The orchestrator moved its modules, so two skills cite files and a function that
 
 Governing spec: `docs/names-and-reasons-not-laws.md`
 
-`task-rescue` keeps what the agent lacks — what the artifacts are, the rollback states it accepts, and how the orchestrator fails, as questions that direct its look and decide nothing — and has grown answers: each class routed to a depth, a preset root sentence, a menu, a neighbour clause. The repair is the agent's. Phase note: [a rescue makes the task reflect what the system needs](.ai-factory/specs/trickster77777/0226-a-rescue-repairs-to-the-root-and-the-root-may-be-something-to-remove.md)
+`task-rescue` keeps what the agent lacks (artifacts, rollback states, how runs fail) as questions that decide nothing, and has grown answers: a depth per class, a menu. The repair is the agent's; a rescue writes its report and waits, paused, for the user to read it: the report is the interface, not a question. Phase note: [a rescue makes the task reflect what the system needs](.ai-factory/specs/trickster77777/0226-a-rescue-repairs-to-the-root-and-the-root-may-be-something-to-remove.md)
 
 ## A red suite written against a throwing shell has no floor
 
@@ -136,7 +136,7 @@ Governing spec: none written yet.
 
 Governing spec: none written yet.
 
-The user no longer calls `command-pin-gaps`, `roadmap-test-coverage` or `aif-docs` («дока пишется грамотно»), and all three stay in the active set. Whether each leaves `active/` or is cut down to its one question is the user's to rule.
+The user no longer calls `roadmap-test-coverage` or `aif-docs` («дока пишется грамотно»), and both stay in the active set. Whether each leaves `active/` or is cut down to its one question is the user's to rule.
 
 ## The cycle the doc describes is not the cycle the user runs
 
@@ -144,7 +144,7 @@ The user no longer calls `command-pin-gaps`, `roadmap-test-coverage` or `aif-doc
 
 Governing spec: `docs/sakshi-harness/skill-cycle.md`
 
-The cycle the user runs is reasoning, outline, deep, docs, decompose, a walk over each task (why it is there and whether the code is ready), skeleton per phase, orchestrator. The doc still lists `command-pin-gaps`, `aif-docs` and the test-coverage pass as steps. By the user's ruling, docs are edited at the deepening.
+The cycle the user runs has reasoning between the steps and not only at its start: reasoning, outline, reasoning, deep, docs, reasoning, decompose, a walk over each task (why it is there and whether the code is ready), skeleton per phase, orchestrator. Docs are corrected at the deepening, in the genre, with no call to `aif-docs` and no closing `aif-docs` reconciliation. A prune comes when the done tasks fill about the first 150 lines of the roadmap, read as where a done phase ends near there, 145 or 170 alike, and not at the end of each cycle. After each phase the user asks whether there are deferred observations; that habit lives in phase 89. The doc still lists the test-coverage pass as a step, runs the skeleton for heavy tasks only and not per phase, and closes every cycle with a prune and an `aif-docs` reconciliation. By the user's ruling, docs are edited at the deepening.
 
 ## A head cannot take a rescue or a prune itself
 
