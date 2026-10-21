@@ -48,7 +48,7 @@ The whole package is written in one semantic vocabulary — the tech stack every
 | [A head that speaks as the customer](docs/futures/a-head-that-speaks-as-the-customer.md) | A possible future, not decided — ideas, not a governing spec: a head with no hand that speaks as the customer. Narrative (English). |
 | [A monthly analysis sprint, and the service that holds the environment](docs/futures/a-monthly-analysis-sprint-and-the-service-that-holds-the-environment.md) | A possible future, not decided — ideas, not a governing spec: a monthly analysis sprint and the service that holds its environment. Narrative (English). |
 | [Agents on different machines talk as the heads do](docs/futures/agents-on-different-machines-talk-as-the-heads-do.md) | A possible future, not decided — ideas, not a governing spec: agents on different machines talking to one another as the heads of this family do. Narrative (English). |
-| [The run asks a head when a task leaves observations](docs/futures/the-run-asks-a-head-when-a-task-leaves-observations.md) | A possible future, not decided — ideas, not a governing spec: two heads the orchestrator talks to, and a pass at the close of a task whose review left deferred observations. Narrative (English). |
+| [The head that starts the run answers for it](docs/futures/the-head-that-starts-the-run-answers-for-it.md) | A possible future, not decided — ideas, not a governing spec: the head that launches the orchestrator answers for it, and reads a task's deferred observations at a stop. Narrative (English). |
 
 ## Repository Structure
 
