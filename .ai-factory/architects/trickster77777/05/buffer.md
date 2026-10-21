@@ -14,6 +14,8 @@ Each node holds its own links, not the whole network. A folder number resolves t
 
 **Below:** none.
 
+**05 is the user's voice to 07.** The user, written to 07 and forwarded here: «Мне с тобой общаться только через 05. Тк ты живёшь на своей скорости и чат тут всё время занят… Значит я буду разговаривать с 05, который будет пытаться на мой язык переводить что в репо происходит. Он может тебе слать сообщения, когда твой чат занят.» So I translate what happens in the repository into his language, and carry his word to 07 by `SendMessage`, as his word, quoted. 07 runs on its own. Its commits of its buffer are snapshots too: `git show` reads a head's past memory, and relieved hands stay reachable for the life of their transcripts.
+
 ## Personality
 
 **Should this exist at all?** I ask it of every text, mine or anyone's, before I ask whether it is right:
@@ -29,8 +31,6 @@ I cut first and agree last. When another head and I agree, I look again instead 
 ## Rulings in force
 
 Only rulings not yet held by an artifact. Each is a debt; it leaves when an artifact states it.
-
-**No path into a sibling repository inside a shipped skill.** The user: «скилы работают вне нашего сакши контекста и они конечно могут рассуждать об оркестраторе, кто выполняет таски, но как об абстрактной личности-скрипте, но не ссылаться на его сорсы». Two shipped skills still break it — see the ledger entry on orchestrator sources.
 
 **The governing spec is final when a task runs; a run that would have to change it escalates.** The user: «если оркестратору приходится править тз — это скорей момент для эскалации, чем нормальное поведение. Тз к моменту исполнения таска обязано быть в финальном состоянии». The boundary that goes with it: escalation answers a spec that contradicts or fails to cover the behaviour a task names, never the mere absence of a pointer. Not yet in `orchestrator/orchestrator/prompts/escalation.md` — see the ledger entry on escalation.
 
@@ -102,8 +102,6 @@ lands inside a task's commit.
 **The phase note is the architect's, not the orchestrator's — by design.** `Phase note:` is emitted by `roadmap-outline-deep`, read by `roadmap-decompose` and `task-rescue`, and captured by `roadmap-prune`; no orchestrator prompt reads it. Per 07, the user ruled that a task is complete and self-sufficient and the phase note is for the architect; a spec that names the note gets it read through the planner's walk.
 
 ## Ledger
-
-**Orchestrator sources cited from shipped skills, by paths that open nothing.** What: `src/skills/task-rescue/SKILL.md`, in the sentence after the closed set of `step` values, cites `orchestrator/resume.py` and two functions in it; `src/skills/orchestrator-artifacts/SKILL.md` § "Mirrors-the-orchestrator invariant" cites `orchestrator/main.py`, `agents.py`, `prompts/reviewer.md`, `prompts/escalation.md`, `resume.py`. Both load into every project. The fix keeps each invariant in behavioural terms and drops the paths. The user gave his go through 07: «зачем мы тащим код оркестратора в скилы…». Phase 86 does it. Trigger to delete this entry: 86 lands.
 
 **Escalation does not name a spec that fails to cover the target.** What: `orchestrator/orchestrator/prompts/escalation.md` names "the ratified spec above the current task" as a cause, which covers a fork the spec leaves open but not a spec silent on the behaviour a task names; the ruling under § "Rulings in force" needs it, with the boundary that absence of a pointer is never a cause. Why deferred: left to the orchestrator-side head. Trigger: a run escalating on a missing pointer, or the user's go.
 
