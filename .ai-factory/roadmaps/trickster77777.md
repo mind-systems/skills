@@ -122,14 +122,6 @@ Governing spec: `docs/paired-loop.md`
 
 The doc states that each head has a personality of its own, a question it brings to every reading, so that two heads are not clones. The seed has no place for it and `agent-architect` does not speak of it; it is practised in the field. Phase note: [each head has a personality of its own](.ai-factory/specs/trickster77777/0244-each-head-has-a-personality-of-its-own.md)
 
-## The head that starts the orchestrator answers for the run, and no skill says so
-
-### Phase 93 — `agent-architect` says a head may start the orchestrator in the background and answers for the run
-
-Governing spec: none written yet.
-
-`agent-architect` does not say that a head may launch the orchestrator in the background (`uv run orchestrator implement <project>`, run from the orchestrator's directory), that the harness wakes the head when the run ends so it reads the artifacts and rescues on a stop, or that a `---STOP---` placed after one task lets the head read the deferred observations before the run goes on. The meaning lies in [the futures document](docs/futures/the-head-that-starts-the-run-answers-for-it.md) for now.
-
 ## The active set holds what the cycle no longer uses
 
 ### Phase 94 — the active set holds only what the cycle uses
@@ -162,4 +154,4 @@ The head that launches the orchestrator answers for the run, so it takes a rescu
 
 Governing spec: none written yet.
 
-An observation met once is a fact and met twice is a debt, so a deferred observation worth fixing later becomes a phase through the ordinary outline, and where a phase for it already exists it gets a mark on that phase that the observation was met again. Observations are pinned as they appear, so the prune gate stops being where a pile of unpinned ones is dealt with and becomes a safety check. The user's own habit sits at the same place: after each landed phase he asks «есть отложенные наблюдения?», and it is there that the work digs deeper: «вот тут кроется самый страшный способ зарываться». The observations have surfaced real defects and have spawned work no goal needed. The mark answers it: an observation met once is pinned and parked, and one acts on it now only if it blocks the path to the user's goal or has been met again. On this side the phase would touch the roadmap format in `roadmap-engine` and the gate in `roadmap-prune`. The meaning lies in [the futures document](docs/futures/the-head-that-starts-the-run-answers-for-it.md) for now. The work is wanted and not scheduled: the governing doc is written at the deepening.
+An observation met once is a fact and met twice is a debt, so a deferred observation worth fixing later becomes a phase through the ordinary outline, and where a phase for it already exists it gets a mark on that phase that the observation was met again. Observations are pinned as they appear, so the prune gate stops being where a pile of unpinned ones is dealt with and becomes a safety check. The user's own habit sits at the same place: after each landed phase he asks «есть отложенные наблюдения?», and it is there that the work digs deeper: «вот тут кроется самый страшный способ зарываться». The observations have surfaced real defects and have spawned work no goal needed. The mark answers it: an observation met once is pinned and parked, and one acts on it now only if it blocks the path to the user's goal or has been met again. On this side the phase would touch the roadmap format in `roadmap-engine` and the gate in `roadmap-prune`. The meaning lies in [the futures document](docs/futures/the-run-reaches-the-team-or-a-person-starts-it.md) for now. The work is wanted and not scheduled: the governing doc is written at the deepening.

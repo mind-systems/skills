@@ -33,17 +33,17 @@ Unfamiliar handoffs only: one found in the folder that this head neither wrote n
 
 Rewritten, not appended: the position now. What happened and why lives in the snapshots; landed work in git.
 
-**Direction (2026-10-22): freedom for the agents, and the heads run the work.** «я хочу свободу агентам. Скилы не про заборы, а про то, как система роадмапа работает.» The architects talk; the skills shed their weights — «главное направление в роадмапе». The head that starts the orchestrator answers for the run: «Кто запустил оркестратора — тот и ответственный.» Commits are mine to split by meaning: «сам разбивай мысли на комиты… Живи. Только за расходом следи.»
+**Direction (2026-10-22): freedom for the agents, and the heads talk.** «я хочу свободу агентам. Скилы не про заборы, а про то, как система роадмапа работает.» The architects talk; the skills shed their weights — «главное направление в роадмапе». Commits are mine to split by meaning: «сам разбивай мысли на комиты… Живи. Только за расходом следи.»
 
-**The roadmap.** Open above the stop, in order: 80, 90, 91, 81, 85, 93, 94, 95; 92 landed. Below the stop: 89 (the head that starts the run answers for it, meaning in `docs/futures/the-head-that-starts-the-run-answers-for-it.md`). Landed and not yet pruned: 76, 78, 79, 82, 83, 84, 86, 92.
+**The roadmap.** Open above the stop, in order: 80, 90, 91, 81, 85, 94, 95; 92 landed. Below the stop: 89 (the run reaches the team, or a person starts it; meaning in a futures doc under `docs/futures/`). Landed and not yet pruned: 76, 78, 79, 82, 83, 84, 86, 92.
 - **80** — `task-rescue` keeps the knowledge the agent lacks and the exact mechanics; its classification turns into questions. Cases in note `0226`, to core report `0044`, with the split signal and its exception (never separate tests from their body). A fifteen-task draft exists only in the old conversation; it is too fine, each task pinning the previous one's wording — the cut goes to 05 before anything is written.
 - **90** — the skeleton's concurrency lens, note `0250`: imagination has no floor.
 - **91** — the readiness lens at the deepening, note `0251`.
-- **81**, **85** (personalities, note `0244`), **93–95** — lighter skills: a head may start the orchestrator; the active set holds only what the cycle uses; `skill-cycle.md` describes the user's cycle.
+- **81**, **85** (personalities, note `0244`), **94–95** — lighter skills: the active set holds only what the cycle uses; `skill-cycle.md` describes the user's cycle.
 
-**Next, in order:** phase 80 through 05's razor (after the user lifts «не пиши ни кому»); then I launch the orchestrator on this repo and answer for it. The prune waits for its cadence (see the rulings).
+**Next, in order:** phase 80 through 05's razor (after the user lifts «не пиши ни кому»); then the user runs the orchestrator. The prune waits for its cadence (see the rulings).
 
-**Waiting on the user's word:** dropping orchestrator phases 31–33 (courier, stop notice, wait); `test-coverage` and `aif-docs` leaving `active/` (phase 94); herald phase 31's tasks; reading core report `0043`. `docs/the-pipeline-speaks-to-an-architect.md` § "The second form" conflicts with phase 89 — for its deepening.
+**Waiting on the user's word:** `test-coverage` and `aif-docs` leaving `active/` (phase 94); herald phase 31's tasks; reading core report `0043`.
 
 **The herald** has never been deployed. Phases 30 and 31 (the shared engine on compmaster) are committed there; no architect of its own, so this pair writes there on the user's word.
 
@@ -93,6 +93,7 @@ The split that governs it: a **factual** question (what does this line say, how 
 
 - **A prune comes when the done tasks fill about the first 150 lines of the roadmap** (2026-10-22): «150 строк в роадмапе заняты готовыми тасками. или 145 где там фаза заканчивается готовая. Или 170. понимаешь о чём я? Вроде простая истина.» A number he decided; read it as where a done phase ends near there. Prune is 08's (`skills-3d`) when it comes.
 - **Autonomy has a human gate at the phase, and none below it** (2026-10-22): «Мне придётся подтверждать фазы и каждую фазу спрашивать что она делает. Но таски их рождение и ведение - автоматически работает.» The phase is the unit he confirms and has explained to him; decomposition, the run and its upkeep are the heads'.
+- **A head does not launch or watch the orchestrator** (2026-10-22, withdrawing «Кто запустил оркестратора — тот и ответственный»): «мне не нравится идея, что архитектор запускает оркестратора. это сожрёт его контекст. Все эти аутпуты и тулколы.. бесполезное. Даже редактора ради этого жалко гонять. Это либо самозапускающийся скрипт, который всё же умеет говорить с командой, либо человек его запускает, как сейчас.» A head is called when there is something to read — a rescue, deferred observations. Orchestrator phases 31–33 (courier, stop notice, wait) are the first form's material, no longer to drop. Phase 93 deleted.
 - **A rescue writes its report and waits** (2026-10-22): «рескью, тут я хочу читать отчёты и что б агент на паузе ждал… но не как вопрос, этот интерфейс- бред какой то». The report is the interface; no `AskUserQuestion` menu. Phase 80's matter.
 - **Commits are one of my memories; make them massive** (2026-10-22): «комиты делай помассивней. это одна из твоих памятей и если будет много мелких комитов, это станет шумом… Можно разговаривать через комиты. Только одной строкой комит месага.» One line, no prefixes («эта градация почему то раздражает»). A stretch of work is one commit, not one per file.
 - **`command-pin-gaps` is dead and left alone** (2026-10-22): «пингапс - мёртв и не трогаем его пока, что б не воняло». No phase touches it, not even to remove it.
