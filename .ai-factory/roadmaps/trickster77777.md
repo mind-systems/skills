@@ -90,6 +90,22 @@ Governing spec: `docs/names-and-reasons-not-laws.md`
 
 `task-rescue` keeps what the agent lacks — what the artifacts are, the rollback states it accepts, and how the orchestrator fails, as questions that direct its look and decide nothing — and has grown answers: each class routed to a depth, a preset root sentence, a menu, a neighbour clause. The repair is the agent's. Phase note: [a rescue makes the task reflect what the system needs](.ai-factory/specs/trickster77777/0226-a-rescue-repairs-to-the-root-and-the-root-may-be-something-to-remove.md)
 
+## A red suite written against a throwing shell has no floor
+
+### Phase 90 — a contract-task pays only for the unit where the lifecycle hazard lives
+
+Governing spec: none written yet.
+
+The concurrency lens of `roadmap-decompose-skeleton` splits a contract-task off a heavy task touching two hazards; in the field it covered a whole mixed surface. A red suite against a throwing shell runs no assertion, so its coverage is judged by imagining wrong implementations, and imagination has no floor. Phase note: [a contract-task pays only for the unit that holds the hazard](.ai-factory/specs/trickster77777/0250-a-contract-task-pays-only-for-the-unit-that-holds-the-hazard.md)
+
+## Nobody asks whether the code is ready for the tasks we wrote
+
+### Phase 91 — the deepening asks whether the code is ready for the phase, and a preparatory phase comes first when it is not
+
+Governing spec: `docs/philosophy/principles-at-their-moment.md`
+
+No skill asks what shape the code needs for a phase to land as one change, nor whether it has it; when it has not, the run stops and the user inserts a preparatory phase by hand. The deepening already reads the code, so the question is asked there, and a preparatory phase comes first. Phase note: [the deepening asks whether the code is ready for the phase](.ai-factory/specs/trickster77777/0251-the-deepening-asks-whether-the-code-is-ready-for-the-phase.md)
+
 ## A find from the conversation enters a spec as if the system had asked for it
 
 ### Phase 81 — a task carries its source, and a find without one goes to the user
@@ -106,21 +122,29 @@ Governing spec: `docs/paired-loop.md`
 
 The doc states that each head has a personality of its own, a question it brings to every reading, so that two heads are not clones. The seed has no place for it and `agent-architect` does not speak of it; it is practised in the field. Phase note: [each head has a personality of its own](.ai-factory/specs/trickster77777/0244-each-head-has-a-personality-of-its-own.md)
 
-## A red suite written against a throwing shell has no floor
+## The head that starts the orchestrator answers for the run, and no skill says so
 
-### Phase 90 — a contract-task pays only for the unit where the lifecycle hazard lives
+### Phase 93 — `agent-architect` says a head may start the orchestrator in the background and answers for the run
 
 Governing spec: none written yet.
 
-The concurrency lens of `roadmap-decompose-skeleton` splits a contract-task off a heavy task touching two hazards; in the field it covered a whole mixed surface. A red suite against a throwing shell runs no assertion, so its coverage is judged by imagining wrong implementations, and imagination has no floor. Phase note: [a contract-task pays only for the unit that holds the hazard](.ai-factory/specs/trickster77777/0250-a-contract-task-pays-only-for-the-unit-that-holds-the-hazard.md)
+`agent-architect` does not say that a head may launch the orchestrator in the background (`uv run orchestrator implement <project>`, run from the orchestrator's directory), that the harness wakes the head when the run ends so it reads the artifacts and rescues on a stop, or that a `---STOP---` placed after one task lets the head read the deferred observations before the run goes on. The meaning lies in [the futures document](docs/futures/the-head-that-starts-the-run-answers-for-it.md) for now.
 
-## Nobody asks whether the code is ready for the tasks we wrote
+## The active set holds what the cycle no longer uses
 
-### Phase 91 — the deepening asks whether the code is ready for the phase, and a preparatory phase comes first when it is not
+### Phase 94 — the active set holds only what the cycle uses
 
-Governing spec: `docs/philosophy/principles-at-their-moment.md`
+Governing spec: none written yet.
 
-No skill asks what shape the code needs for a phase to land as one change, nor whether it has it; when it has not, the run stops and the user inserts a preparatory phase by hand. The deepening already reads the code, so the question is asked there, and a preparatory phase comes first. Phase note: [the deepening asks whether the code is ready for the phase](.ai-factory/specs/trickster77777/0251-the-deepening-asks-whether-the-code-is-ready-for-the-phase.md)
+The user no longer calls `command-pin-gaps`, `roadmap-test-coverage` or `aif-docs` («дока пишется грамотно»), and all three stay in the active set. Whether each leaves `active/` or is cut down to its one question is the user's to rule.
+
+## The cycle the doc describes is not the cycle the user runs
+
+### Phase 95 — `skill-cycle.md` describes the cycle the user runs
+
+Governing spec: `docs/sakshi-harness/skill-cycle.md`
+
+The cycle the user runs is reasoning, outline, deep, docs, decompose, a walk over each task (why it is there and whether the code is ready), skeleton per phase, orchestrator. The doc still lists `command-pin-gaps`, `aif-docs` and the test-coverage pass as steps. By the user's ruling, docs are edited at the deepening.
 
 ## A head cannot take a rescue or a prune itself
 
@@ -138,4 +162,4 @@ The head that launches the orchestrator answers for the run, so it takes a rescu
 
 Governing spec: none written yet.
 
-An observation met once is a fact and met twice is a debt, so a deferred observation worth fixing later becomes a phase through the ordinary outline, and where a phase for it already exists it gets a mark on that phase that the observation was met again. Observations are pinned as they appear, so the prune gate stops being where a pile of unpinned ones is dealt with and becomes a safety check. On this side the phase would touch the roadmap format in `roadmap-engine` and the gate in `roadmap-prune`. The meaning lies in [the futures document](docs/futures/the-head-that-starts-the-run-answers-for-it.md) for now. The work is wanted and not scheduled: the governing doc is written at the deepening.
+An observation met once is a fact and met twice is a debt, so a deferred observation worth fixing later becomes a phase through the ordinary outline, and where a phase for it already exists it gets a mark on that phase that the observation was met again. Observations are pinned as they appear, so the prune gate stops being where a pile of unpinned ones is dealt with and becomes a safety check. The user's own habit sits at the same place: after each landed phase he asks «есть отложенные наблюдения?», and it is there that the work digs deeper: «вот тут кроется самый страшный способ зарываться». The observations have surfaced real defects and have spawned work no goal needed. The mark answers it: an observation met once is pinned and parked, and one acts on it now only if it blocks the path to the user's goal or has been met again. On this side the phase would touch the roadmap format in `roadmap-engine` and the gate in `roadmap-prune`. The meaning lies in [the futures document](docs/futures/the-head-that-starts-the-run-answers-for-it.md) for now. The work is wanted and not scheduled: the governing doc is written at the deepening.
