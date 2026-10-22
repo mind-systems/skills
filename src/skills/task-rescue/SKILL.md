@@ -129,8 +129,9 @@ repair depth is at least spec+plan.
 condition holds, AND every review round reports the product file(s) byte-identical to
 HEAD — no round ever produced a real diff, not merely a defective one. This is a
 pipeline-state defect (the implementer session's memory has gone stale), not a spec,
-plan, or code defect — the plan itself needs no repair. Repair depth is the
-plan-ratified rollback (Step 5), not spec/spec+plan/spec+plan+code.
+plan, or code defect — the plan itself needs no repair. Repair depth is Step 4's
+plan-ratified option, rolling back to `plan_reviewed` (Step 5), not
+spec/spec+plan/spec+plan+code.
 
 **Non-convergence (terminal, commit-as-is)** — the implement-phase condition holds AND
 every review contains only Low or Informational findings AND the plan's deliverables
@@ -260,26 +261,24 @@ outside any agent's authority is required before this task can proceed.
 Options:
 1. Decision recorded in this task's spec — reset and re-plan
    Apply the resolved decision to this task's spec + contract line (the normal
-   spec repair), then perform the existing spec-depth full reset (delete the
-   plan, all plan-reviews, all reviews, and the sidecar) — this clears
+   spec repair), then perform the full reset — this clears
    step:"escalated" and the escalation field for free, and the orchestrator
    re-plans clean.
 2. Decision belongs elsewhere (a neighboring task / the governing spec) —
    point there and reset
    Do not edit this task's spec. Report where the decision belongs (the same
    flag-and-point pattern already used for scope overload). Still perform the
-   spec-depth full reset on THIS escalated task's transient state, so it
+   full reset on THIS escalated task's transient state, so it
    re-plans fresh once the owning artifact is resolved.
 3. Not resolved yet — report only, leave the escalated state
    No reset. The escalated sidecar stays exactly as the orchestrator left it;
    the user re-runs this rescue after the decision is made.
 ```
 
-Each option routes to its own labeled procedure under Step 5 (below) — no new
-rollback mechanism, no fifth depth-menu entry: option 1 runs the existing "Depth:
-spec" procedure unmodified (including its spec/contract-line edit); option 2 runs
-only that procedure's deletion steps, never its spec/contract-line edit; option 3
-runs no Step 5 procedure at all. Proceed to Step 5.
+Each option runs a rollback state of Step 5 — no new rollback state, no fifth
+depth-menu entry: option 1 repairs the task spec and contract line with the decision,
+then runs the full reset; option 2 runs the full reset with the spec and contract line
+untouched; option 3 changes no state. Proceed to Step 5.
 
 **When classification is non-convergence** — present via `AskUserQuestion`:
 
@@ -329,18 +328,17 @@ Dominant recurring issue: <one line>
 Choose repair depth:
 
 1. spec — repair task spec + contract line in $TARGET_FILE
-   Rollback: plan, plan-reviews, reviews, and sidecar deleted; orchestrator re-plans
+   Rollback: full reset
 
-2. spec + plan — repair spec + plan .md (keeping passing plan-reviews intact if wanted)
-   Rollback: plan-reviews, reviews deleted; sidecar step → "planned:1"
+2. spec + plan — repair spec + plan .md
+   Rollback: planned:1
 
 3. spec + plan + code — repair spec + plan + code by hand in the working tree
-   Rollback: reviews deleted; sidecar step → "implemented:1"
+   Rollback: implemented:1
 
 4. plan ratified, implementation absent — keep the plan and its passing plan-review(s);
    the implementer session never produced a diff
-   Rollback: reviews deleted; sidecar step → "plan_reviewed"; `implementer`
-   session dropped; orchestrator resumes at implement, iteration 1, with a fresh session
+   Rollback: plan_reviewed
 ```
 
 Offer option 4 only when a passing plan-review is on disk for this slug — the plan was
@@ -351,123 +349,56 @@ user confirms, proceed to Step 5 with the chosen depth.
 
 ## Step 5 — Apply repair and roll back artifacts
 
-Execute the repair and artifact cleanup for the depth chosen in Step 4. Use
-`git status --short -- .ai-factory/` to identify uncommitted files, then delete
-using git-native commands only:
+Step 5 applies the repair Step 4's choice names, then rolls the task back to the state
+that choice names.
+
+**Deleting files.** Use `git status --short -- .ai-factory/` to identify uncommitted
+files, then delete using git-native commands only:
 
 - Files marked `??` (untracked) → `git clean -f -- <path>`
 - Files marked `A ` (staged/added) → `git rm -f -- <path>`
 
-Never delete committed files. Never touch the spec file (wherever its `Spec:` tag
-points) except the deliberate task-spec repair below. Never delete files belonging to
-other task slugs.
+Never delete committed files. Never delete files belonging to other task slugs.
+
+**Writing the sidecar.** Locate the sidecar by the roadmap's stem, as
+`orchestrator-artifacts` § "1. Layout" lays it out, `<stem>` being the stem of
+`$TARGET_FILE`. Read it if present; start from `{}` if absent. Set `step`. Leave
+`planner`, `elapsed` and every key the state does not name as they are. Drop
+`escalation` wherever the sidecar is rewritten. Write it back as JSON with two-space
+indentation.
+
+**Rollback states.** Every deletion is for this slug.
+
+- **Full reset.** The plan `.md`, every plan-review, every review and the sidecar are
+  deleted — nothing of the attempt remains. Requires nothing.
+- **`planned:1`.** The plan stays. Every plan-review and every review is deleted.
+  `step` is `"planned:1"` and `implementer` is dropped. Requires the plan `.md` on disk.
+- **`implemented:1`.** The plan, the passing plan-reviews and the working-tree diff
+  stay. Every review is deleted. `step` is `"implemented:1"` and `implementer` stays.
+  Requires the plan on disk and a non-empty working diff.
+- **`plan_reviewed`.** The plan and every plan-review stay. Every review is deleted.
+  `step` is `"plan_reviewed"` and `implementer` is dropped. Requires a plan-review
+  ending with `PLAN_REVIEW_PASS` on disk for the slug.
 
 ---
 
-**Non-convergence (terminal — no rollback):** the user chose to commit or re-run in Step 4
-(options 1, 2, or 3). Leave all artifacts in place — plans, plan-reviews, reviews,
-and sidecar all describe completed, correct work. Do NOT delete any artifact.
-Do NOT touch the sidecar. Proceed directly to Step 5.5.
+**Non-convergence:** no state changes for any of the three options. Every artifact and
+the sidecar stay as they are. Proceed directly to Step 5.5.
 
 ---
 
-**Escalated — option 1 (decision recorded here):** run the "Depth: spec" procedure
-below exactly as written, steps 1–4 — the spec edit is the point of this option.
+**Escalated — option 1 (decision recorded here):** repair the task spec and contract
+line with the decision, then run the full reset.
 
 ---
 
-**Escalated — option 2 (decision belongs elsewhere):** run only steps 3–4 of the
-"Depth: spec" procedure below (delete the plan, all plan-reviews, all reviews, and
-the sidecar). Do NOT run steps 1–2 — do not edit the task spec or the contract line;
-the decision was reported as belonging elsewhere, not resolved here.
+**Escalated — option 2 (decision belongs elsewhere):** run the full reset with the
+task spec and contract line untouched — the decision belongs elsewhere, not here.
 
 ---
 
-**Escalated — option 3 (not resolved yet):** no Step 5 procedure runs. Leave every
-artifact in place exactly as the orchestrator left it — plan, sidecar, and any
-plan-review/review files. Do NOT delete anything. Do NOT touch the sidecar. Proceed
-directly to Step 5.5.
-
----
-
-**Depth: spec** — repair task spec + contract line; full reset.
-
-1. Edit the task spec (the file the contract line's `Spec:` tag points at) to address
-   the root cause. If a governing spec or phase note was read in Step 1, do not copy
-   its content into the task spec wholesale — quote/restate only the clauses
-   implicated by the findings.
-2. Edit the contract line in `$TARGET_FILE` to match (keep it concise;
-   each constraint is one semicolon-separated clause matching surrounding style).
-3. Delete: plan `.md`, all plan-review files, all review files for
-   this slug — nothing of the discarded attempt should remain.
-4. Delete the `.json` sidecar (tracked/staged → `git rm -f`; untracked → `git clean -f`).
-   The loss of `planner`, `implementer`, and `elapsed` is intentional.
-
-Emit: `Sidecar deleted (full reset).`
-
----
-
-**Depth: spec + plan** — repair spec + plan; roll back to `"planned:1"`.
-
-1. If the requirement itself was implicated, edit the task spec + contract line in
-   `$TARGET_FILE` (same as spec depth above). If the spec is already correct, this
-   step is a no-op — repair only the plan below.
-2. Edit the plan `.md` to fold in the root-cause fix.
-3. Delete: all plan-review files, all review files for this slug.
-   Keep the plan `.md` and sidecar.
-4. Locate the sidecar where Step 1 does — `.ai-factory/plans/{seq}-{slug}.json` for
-   the default roadmap pair, `.ai-factory/plans/<stem>/{seq}-{slug}.json` for a named
-   roadmap, `<stem>` being the stem of `$TARGET_FILE`. Read it if present; start from
-   `{}` if absent. Set the `step` key to `"planned:1"` and **delete** the
-   `implementer` key — it names the session whose implementation was just discarded, so
-   its memory no longer describes anything on disk. Also delete the `escalation` key
-   if present — defensive, for a stray `escalation` field left by an earlier,
-   unrelated escalation on this same sidecar. Preserve every other key —
-   `planner`, `elapsed`, and any others — untouched. Write back as JSON with 2-space
-   indentation.
-
-Emit: `Sidecar updated: step set to "planned:1"; implementer session dropped.`
-
----
-
-**Depth: spec + plan + code** — repair spec + plan + code; roll back to `"implemented:1"`.
-
-1. If the requirement itself was implicated, edit the task spec + contract line in
-   `$TARGET_FILE`. If the spec is already correct, this step is a no-op — repair only
-   the plan/code below.
-2. Edit the plan `.md` if needed (keep passing plan-reviews intact).
-3. Apply the hand-fix directly in the working tree (the diff IS the repair).
-4. Delete: all review files for this slug. Keep the plan `.md`,
-   passing plan-review files, hand-fixed diff, and sidecar.
-5. Update the sidecar `step` to `"implemented:1"` — same read/update/write procedure
-   as the spec+plan depth above, including deleting the `escalation` key if present.
-
-Emit: `Sidecar updated: step set to "implemented:1".`
-
----
-
-**Depth: plan ratified, implementation absent** — the plan and its passing
-plan-review(s) stand; only the (missing) implementation is discarded; roll back to
-`"plan_reviewed"`.
-
-1. Keep the plan `.md` and every plan-review file for this slug untouched — the plan
-   was ratified and needs no repair.
-2. Delete: all review files for this slug — there is no
-   implementation for them to describe.
-3. Locate the sidecar where Step 1 does — `.ai-factory/plans/{seq}-{slug}.json` for
-   the default roadmap pair, `.ai-factory/plans/<stem>/{seq}-{slug}.json` for a named
-   roadmap, `<stem>` being the stem of `$TARGET_FILE`. Read it if present; start from
-   `{}` if absent. Set the `step` key to `"plan_reviewed"` and **delete** the
-   `implementer` key — the session it names never produced the implementation, so its
-   memory would only mislead the next implement attempt. Also delete the `escalation`
-   key if present — defensive, for a stray `escalation` field left by an earlier,
-   unrelated escalation on this same sidecar. Preserve every other key —
-   `planner`, `elapsed`, and any others — untouched. Write back as JSON with 2-space
-   indentation.
-4. Validation contract: only write `"plan_reviewed"` when a plan-review file ending
-   with `PLAN_REVIEW_PASS` is present on disk for this slug — never write it otherwise.
-
-Emit: `Sidecar updated: step set to "plan_reviewed"; implementer session dropped.`
+**Escalated — option 3 (not resolved yet):** no state changes. Every artifact stays as
+the orchestrator left it. Proceed directly to Step 5.5.
 
 ---
 
@@ -489,29 +420,8 @@ layout; for a named roadmap they gain its `<stem>/` segment, per `orchestrator-a
 | `"review_failed:N"` | implement, iter N+1 | `reviews/{seq}-{slug}-review-N.md` |
 | `"escalated"` | re-halts immediately, no retry (until cleared) | none — always valid |
 
-The rescue always writes **N = 1** — both depths delete every plan-review/review file
-from prior rounds, so the next round the orchestrator resumes into is always attempt 1.
-The bare `"planned"` / `"implemented"` forms are retired: the orchestrator no longer
-accepts them.
-
 **Silent failure mode:** the orchestrator clears any `step` value whose required artifact is missing and falls through to the disk heuristic — writing a wrong value silently loses the resume point.
 **Test mode:** `review_failed:N` is replaced by `test_run_failed:N` (artifact: `test-runs/{seq}-{slug}-test-N.txt`).
-**Always-valid guard:** `"planned:N"`, `"implemented:N"`, and `"escalated"` carry no artifact reference and always validate — write `"planned:1"` only when the plan `.md` is present; write `"implemented:1"` only when the plan `.md` is present and a non-empty working diff exists. `task-rescue` never writes `"escalated"` itself (see the closed-set table's closing note) — it is always-valid for the orchestrator to accept, not for this skill to produce.
-
-Note: `"plan_reviewed"` **is** written by this skill — exactly by the plan-ratified
-rollback (Step 5), and only when a plan-review file ending with `PLAN_REVIEW_PASS` is
-present on disk for the slug. Otherwise the flow writes only `"planned:1"` (spec+plan
-depth), `"implemented:1"` (spec+plan+code depth), or deletes the sidecar (spec depth).
-`"plan_review_failed:N"` and `"review_failed:N"` remain not written — reference-only
-values from the orchestrator contract. `"escalated"` is the same: reference-only —
-only the orchestrator writes it, at the moment of detection, before any rescue ever
-runs; `task-rescue` never writes it, only **clears** it, either via the spec-depth
-full reset (the escalation branch's options 1/2 in Step 4) or the defensive
-`escalation`-key drop at the other three rollback depths above.
-
-Restate the Diagnosis Report's conclusion in one paragraph — what was wrong, what was
-repaired, and at which depth — then show the user the list of deleted files and confirm
-the rescue is complete.
 
 ---
 
@@ -551,22 +461,15 @@ If no matches found, or all issues are domain-specific to the failed task, skip 
 
 ## Step 5.6 — Pin disposed observations
 
-When a deferred-observation entry read this session is disposed of, pin it and every
-sibling occurrence across that task's review files, per the engine's grammar and
-dedup rule (`orchestrator-artifacts` §6 — do not redefine the grammar, the pinned
-definition, or the dedup rule). Two disposal branches, each pinned in §6's current
-form:
-
-- **Routed** — a new task + spec written (e.g. via `/roadmap-decompose` in the same
-  chat) or folded into a spec repaired at Step 5 — pin `[routed → <spec path>]`.
-- **Evaluated and found moot / already handled in code** — nothing to route: the fix
-  already exists, or the observation is stale or wrong — pin `[dismissed]`.
+A rescue pins each deferred-observation entry it disposes of this session at the moment
+it disposes of it, together with every sibling occurrence across that task's review
+files. The pin follows the grammar and dedup rule of `orchestrator-artifacts`
+§ "6. Status-marker grammar" — by that pointer, never redefined here.
 
 Scope the pin to review files still present on disk at pin time — Step 5 may already
-have deleted the rescued slug's review files (spec / spec+plan depth delete both
-genres; spec+plan+code and plan-ratified depth delete reviews, keep plan-reviews),
-and a deleted file has nothing to pin and nothing left for `roadmap-prune`'s gate to
-flag. Pin at the moment of the judgment — routing or dismissal — not at session end.
+have deleted the rescued slug's review files, and a deleted file has nothing to pin
+and nothing left for `roadmap-prune`'s gate to flag. Pin at the moment of the judgment
+— routing or dismissal — not at session end.
 
 Rescue disposes only of what it evaluates this session — it does not corroborate a
 finding against a root-cause chain or sweep every unrouted entry across the review
@@ -685,17 +588,6 @@ rescued, never invoke `note` a second time, and never defer the write to a later
   without the note the rescue never sees what the phase already recorded as
   diverging. This read is unconditional whenever the phase names either pointer,
   never suspicion-gated.
-- Do not overwrite `planner` or `elapsed` in the sidecar — these persist untouched at
-  every depth. `implementer` is the one exception: delete it whenever the repair
-  discards the implementation the session produced (spec+plan depth, and the
-  plan-ratified rollback depth), since the key would otherwise name a session whose
-  memory describes a discarded attempt. Do not keep `implementer` around "for the
-  elapsed stats" — those stats live in `elapsed`, which is retained regardless. On a
-  full reset (spec depth) the sidecar is deleted entirely alongside the plan
-- Do not write `"planned:1"` or `"implemented:1"` when the corresponding artifact is
-  absent — both are always-valid states the orchestrator accepts without artifact
-  checks, so writing one after deleting the plan `.md` (or before any working diff
-  exists) silently sends the orchestrator into the wrong phase
 - Do not mark any observation rescue did not actually evaluate this session. Rescue
   pins only what it disposed of this session, in `orchestrator-artifacts` §6's
   current form — an entry it did not evaluate stays unmarked, left for the
@@ -705,5 +597,4 @@ rescued, never invoke `note` a second time, and never defer the write to a later
   file itself, with no plan-review file at all, which otherwise matches Plan-phase
   failure's condition and reports a defect chain that never existed
 - Do not invent a new rollback procedure or a fifth depth-menu entry for
-  escalation — options 1 and 2 of the escalation branch reuse the existing
-  spec-depth full reset verbatim
+  escalation — options 1 and 2 of the escalation branch reuse the full reset
