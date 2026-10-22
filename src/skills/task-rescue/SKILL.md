@@ -158,8 +158,7 @@ options.
 write is made per § "Step 5.7 — Write the durable report", through `note`, with the
 destination, the three hooks and the topic slug that section gives. Keep the path `note`
 returns: every later section of the durable report is appended to that file. This first
-write holds the diagnosis, the section on who found what, and the intended repair and
-rollback.
+write holds the diagnosis and the intended repair and rollback.
 
 **The stop.** The rescue then stops. In the conversation it says where the report lies
 and that it waits for the user's word. The diagnosis lives in the report, not in the
@@ -307,28 +306,12 @@ these hooks.
 
 <the diagnosis, exactly as Step 3 wrote it>
 
-## Who found what
-
-**Root cause found by:** <who>, <when>
-
-- <the finding> — <who>, <when>
-
 ## Intended repair
 
 <the repair the rescue intends, and the rollback state it intends — one of Step 5's
 four, or that the task's state is left as it is; for an escalation, the decision and
 its options; the open tasks below that carry the same gap, each with what it would gain>
 ```
-
-The diagnosis keeps its prose form; the finders live only in `## Who found what`,
-outside it. *Who* is one of: the user; head N, by its number; the editor; the
-plan-reviewer or the reviewer at round R; the implementer or the planner; the rescue
-itself. *When* is one of: before the run; in the run; in the rescue; after the rescue,
-for a defect in the repair itself. The role and round come from the sidecar's session
-keys (per `orchestrator-artifacts` § "3. Sidecar fields") and from the number each
-plan-review and review file carries; the user and the heads come from the conversation.
-A finder that no artifact and no conversation states is written as "not stated".
-`## Who found what` holds one bullet per finding the diagnosis names.
 
 The title phrase names what stopped the run, never a root-cause claim.
 
