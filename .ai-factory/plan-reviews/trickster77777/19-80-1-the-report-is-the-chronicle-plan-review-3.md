@@ -89,6 +89,6 @@ None.
 
 ## Deferred observations
 
-- Affects: `.ai-factory/specs/trickster77777/0255-the-answers-become-questions-and-the-rescue-pauses-on-the-report.md` — Between 80.1 and 80.3, the scope-overload exit in Step 4 leaves a durable report that has its first write but no dated section, because that exit never reaches § 5.7. The spec for 80.3 already removes the scope-overload flag and has the rescue extend the report after the user's word. That task should check that every ending of the rescue appends its dated section.
+- Affects: `.ai-factory/specs/trickster77777/0255-the-answers-become-questions-and-the-rescue-pauses-on-the-report.md` — Between 80.1 and 80.3, the scope-overload exit in Step 4 leaves a durable report that has its first write but no dated section, because that exit never reaches § 5.7. The spec for 80.3 already removes the scope-overload flag and has the rescue extend the report after the user's word. That task should check that every ending of the rescue appends its dated section. [dismissed]
 
 PLAN_REVIEW_PASS

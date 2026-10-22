@@ -44,11 +44,11 @@ None. Steps 1 to 3, the stop, Step 5's opening, § 5.6, § 5.7, the `description
 
 ## Deferred observations
 
-- Affects: Phase 80 / task spec `.ai-factory/specs/trickster77777/0255-the-answers-become-questions-and-the-rescue-pauses-on-the-report.md`. The two paragraphs of § "Step 5.6 — Pin disposed observations" give a pin two different times:
+- Affects: Phase 80 / task spec `.ai-factory/specs/trickster77777/0255-the-answers-become-questions-and-the-rescue-pauses-on-the-report.md`. The two paragraphs of § "Step 5.6 — Pin disposed observations" give a pin two different times: [routed → .ai-factory/specs/trickster77777/0256-section-5-6-states-one-moment-for-a-pin.md]
   - the opening paragraph: "A rescue pins each deferred-observation entry it disposes of this session at the moment it disposes of it";
   - the second paragraph: "A pin is written when the repair is applied, on the user's word, and not at the moment of a judgment made before it".
 
   A disposal judged in Step 3 is therefore told two different times. The spec allows only the one-sentence change ("The rest of § 5.6 stays"). Aligning the opening sentence belongs to the spec owner or to a later task that places § 5.6.
-- Affects: `docs/sakshi-harness/skill-cycle.md`, which belongs to another phase per `0255` § "What breaks on contact". The doc still describes the rescue as diagnosing the depth of the root cause, and it does not mention the report-then-pause. It is still true at its own level of abstraction. Reconciling it belongs to the phase that owns the doc.
+- Affects: `docs/sakshi-harness/skill-cycle.md`, which belongs to another phase per `0255` § "What breaks on contact". The doc still describes the rescue as diagnosing the depth of the root cause, and it does not mention the report-then-pause. It is still true at its own level of abstraction. Reconciling it belongs to the phase that owns the doc. [routed → .ai-factory/roadmaps/trickster77777.md § Phase 95]
 
 REVIEW_PASS

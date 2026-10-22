@@ -45,6 +45,6 @@ Keeping `plan-reviewer-<N>` keys on the `planned:1` state follows the spec's "ev
 
 ## Deferred observations
 
-- Affects: `.ai-factory/specs/trickster77777/0255-the-answers-become-questions-and-the-rescue-pauses-on-the-report.md` — § "What is true now" of the 80.3 spec still lists two § "What NOT to do" bullets that this task removed: the bullet on the `planner`/`elapsed`/`implementer` sidecar keys, and the guards on writing `planned:1`/`implemented:1`. 80.3 removes the whole section, so its outcome is unaffected. Its description of the present, though, is now two bullets out of date for whoever plans it.
+- Affects: `.ai-factory/specs/trickster77777/0255-the-answers-become-questions-and-the-rescue-pauses-on-the-report.md` — § "What is true now" of the 80.3 spec still lists two § "What NOT to do" bullets that this task removed: the bullet on the `planner`/`elapsed`/`implementer` sidecar keys, and the guards on writing `planned:1`/`implemented:1`. 80.3 removes the whole section, so its outcome is unaffected. Its description of the present, though, is now two bullets out of date for whoever plans it. [dismissed]
 
 REVIEW_PASS

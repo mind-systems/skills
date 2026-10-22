@@ -42,6 +42,6 @@ None.
 
 ## Deferred observations
 
-- Affects: `.ai-factory/specs/trickster77777/0255-the-answers-become-questions-and-the-rescue-pauses-on-the-report.md` — The `## Who found what` section is written at the end of Step 3, before any repair, so its *when* value "after the rescue, for a defect in the repair itself" can only appear in a later dated section. The skill does not say whether an appended section names its finder in the same *who*/*when* terms. Separately, the scope-overload exit in Step 4 leaves a first write with no dated section. 80.3 reworks how the rescue extends its report after the user's word, and it should settle both points.
+- Affects: `.ai-factory/specs/trickster77777/0255-the-answers-become-questions-and-the-rescue-pauses-on-the-report.md` — The `## Who found what` section is written at the end of Step 3, before any repair, so its *when* value "after the rescue, for a defect in the repair itself" can only appear in a later dated section. The skill does not say whether an appended section names its finder in the same *who*/*when* terms. Separately, the scope-overload exit in Step 4 leaves a first write with no dated section. 80.3 reworks how the rescue extends its report after the user's word, and it should settle both points. [routed → .ai-factory/specs/trickster77777/0257-the-rescue-report-drops-the-finder-section.md]
 
 REVIEW_PASS
