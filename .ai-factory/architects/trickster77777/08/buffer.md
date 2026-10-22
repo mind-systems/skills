@@ -23,9 +23,11 @@ Head 08, no team. The prune of `roadmaps/trickster77777.md` up to the first `---
 
 Since that prune the roadmap has moved without this head: 42, 71, 43, 72 and 69 were decomposed (one task each) and run by the orchestrator, all `[x]`, and the first `---STOP---` now sits after Phase 69. Below it stay outlined 70, 50, 51, 52, 53. Phases 41, 46, 47 and 48 no longer appear as headers; how they left (a `Roadmap update` commit) is not read yet and is not to be inferred. Snapshot `01`'s "nothing is decomposed" is superseded by this.
 
-2026-10-09: 07 pinned all 11 gate entries (committed `61a3b51`); the prune then ran through the editor and is verified on the files, uncommitted: the roadmap holds only phases 79, 76, 78 above the stop, Features gained `59cf80f` on Pin-gaps and the row "Architecture map of the built design" `6f1050c`, ledger `61a3b51`. Commit only on the user's word, message exactly `Roadmap prune`.
+2026-10-09: 07 pinned all 11 gate entries (committed `61a3b51`); the prune then ran through the editor and is verified on the files and committed as `a1fd074 Roadmap prune`: the roadmap holds only phases 79, 76, 78 above the stop, Features gained `59cf80f` on Pin-gaps and the row "Architecture map of the built design" `6f1050c`, ledger `61a3b51`.
 
 ## Rulings in force
+
+**This head commits only its own prune.** As relayed by architect 07 (2026-10-22, the user's ruling, corrected the same day): this head commits its own `Roadmap prune` commit, on the user's word as always; every other commit in this repository is 07's, taking the whole tree in one commit.
 
 <Rulings the user has made about how the pair works, in the user's own words.>
 

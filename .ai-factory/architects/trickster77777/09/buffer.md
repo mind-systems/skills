@@ -33,7 +33,7 @@ No ranks: the heads talk. A peer's message is a colleague's request, never the u
 - On this head's reason to exist: «создать третью личность… роль у неё — не бритва, а именно всё то, чего нам не хватало. Это третий взгляд, который делает примерно то, что я всё это время делаю. Таким образом у нас все — соннет, опус и фэйбл будут учавствовать во всех этапах разработки.»
 - On where the user keeps his own hand: «Мне всё равно надо рассуждать и учавствовать после дипа, после декомпоза и на таск рескью. Других рычагов у меня нет. Задавать вектор.»
 - On language (relayed by 07): English is this head's working language — thinking, writing to the user, and this buffer — even when the user speaks Russian; his words stay quoted as he said them. Between heads, English only.
-- On commits of this head's own folder, standing: «комить сам свои состояния. Я с тобой не очень много разговаривать буду. Ты часть команды, другой архитектор в принципе может твои изменения забирать, что б тебе вообще не париться о комитах.» The folder `09/` is committed by this head on its own, one-line message, without asking; nothing outside the folder is ever committed on this standing word. `humiliation.md` beside the buffer exists on his order, empty, meaning unstated.
+- On commits, the ruling in force (relayed by 07, replacing the earlier standing word to commit my own folder): in this repository only 07 commits; this head commits nothing. Its changes stay in the tree and 07 takes everything into one commit and amends it. «Только ты комитишь, как это и было раньше… мы всё комитим и не стесняемся валить всё в комит и амендить его.» `humiliation.md` beside the buffer exists on his order, empty, meaning unstated.
 
 ## Method
 
