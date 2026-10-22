@@ -228,15 +228,15 @@ layout; for a named roadmap they gain its `<stem>/` segment, per `orchestrator-a
 
 ## Step 5.6 — Pin disposed observations
 
-A rescue pins each deferred-observation entry it disposes of this session at the moment
-it disposes of it, together with every sibling occurrence across that task's review
-files. The pin follows the grammar and dedup rule of `orchestrator-artifacts`
+A rescue pins each deferred-observation entry it disposes of this session, together
+with every sibling occurrence across that task's review files, when the repair is
+applied, on the user's word, and not at the moment of a judgment made before it. The
+pin follows the grammar and dedup rule of `orchestrator-artifacts`
 § "6. Status-marker grammar" — by that pointer, never redefined here.
 
 Scope the pin to review files still present on disk at pin time — Step 5 may already
 have deleted the rescued slug's review files, and a deleted file has nothing to pin
-and nothing left for `roadmap-prune`'s gate to flag. A pin is written when the repair is
-applied, on the user's word, and not at the moment of a judgment made before it.
+and nothing left for `roadmap-prune`'s gate to flag.
 
 Rescue disposes only of what it evaluates this session — it does not corroborate a
 finding against a root-cause chain or sweep every unrouted entry across the review
