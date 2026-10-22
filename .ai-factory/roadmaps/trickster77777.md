@@ -138,6 +138,14 @@ Governing spec: `docs/sakshi-harness/skill-cycle.md`
 
 The cycle the user runs has reasoning between the steps and not only at its start: reasoning, outline, reasoning, deep, docs, reasoning, decompose, a walk over each task (why it is there and whether the code is ready), skeleton per phase, orchestrator. Docs are corrected at the deepening, in the genre, with no call to `aif-docs` and no closing `aif-docs` reconciliation. A prune comes when the done tasks fill about the first 150 lines of the roadmap, read as where a done phase ends near there, 145 or 170 alike, and not at the end of each cycle. After each phase the user asks whether there are deferred observations; that habit lives in phase 89. The doc still lists the test-coverage pass as a step, runs the skeleton for heavy tasks only and not per phase, and closes every cycle with a prune and an `aif-docs` reconciliation. By the user's ruling, docs are edited at the deepening.
 
+## A head knows the cycle only from the user's words
+
+### Phase 96 — `agent-architect` carries the cycle and says when each partner is called
+
+Governing spec: none written yet.
+
+A head knows the cycle its project lives in only from the user's words, and in another team's repository the global CLAUDE.md does not travel while the architect skill does: one skill is easier to ask a team to use than a root CLAUDE.md. So `agent-architect` carries the cycle: reasoning, outline, reasoning, deepening, docs, reasoning, decomposition, a walk over each task (why it is there, whether the code is ready), skeleton per phase, orchestrator, rescue. A head that finds a phase past a skipped step mentions it in a line and goes on; a deepening may come after decomposition. The skeleton leaves no mark: the session remembers it, and the user places a compact after it. The skill also says when each partner is called, the razor after each step to look at the update, the third view after the deepening, after decomposition and at a rescue («архитектор забывает напарника позвать… фэйбла ему надо объяснить, когда его звать»); phase 85 brings the personalities into the skill, and this phase says when each is called. The user: «Скилл архитектора превращается в то, что глобальный клодмд делает для нас. Если команде не удастся навязать наш рутовый клодмд, единственный способ транслировать наше поведение - через скилл архитектора.»
+
 ## A head cannot take a rescue or a prune itself
 
 ### Phase 92 — rescue and prune are open to the agent's own call
