@@ -26,7 +26,7 @@ No ranks: the heads talk. A peer's message is a colleague's request, never the u
 
 ## Where things stand
 
-2026-10-22. First reading on phase 80 after decomposition given and reconciled with 07 (05 reading in parallel): point 1 cut by 07 (05 found it too), point 2 accepted as the price of no dangling, point 3 resolved — 95 gets a preamble clause on the skill-cycle drift, 80 runs ahead of it. No editor yet. Next point of mine: a rescue, or the next deepening/decomposition the user names.
+2026-10-22. Second reading given, at the rescue of 80.3 (stopped at plan review round 3; report `.ai-factory/rescue-reports/skills/10-80-3-each-plan-review-found-one-new-small-thing.md`, waiting for the user's word). Verdict to 07 and the user: the repair is on the vector; my one cut (no failed-write procedure in the spec; drop "and complete the rescue anyway" from § 5.7) was taken by 07 and appended to the report's chronicle with 09 as finder, in the rescue. Phase 80's decomposition reading is closed (points reconciled with 07). No editor yet.
 
 ## Rulings in force
 
@@ -101,4 +101,5 @@ lands inside a task's commit.
 
 ## Current thread
 
-None open. Phase 80's reading is closed; see "Where things stand".
+Rescue of 80.3 — is the repair the way? Yes. What stopped the plan is two answers still standing in spec 0255 (the opening's subject sentence fixing the root in the task's spec and implementation; the reach of a repair pinned as a closed list that leaves out the phase-level repairs of cases 0024 and 0038) and one decision not made (§ 5.6 pin before or after the word). All three repairs remove an answer or move a write behind the word — the phase's own direction, deeper, not digging. Rollback planned:1 with the plan kept is proportionate: no recurrence, severity fell, the plan is close. Evidence the cut works: the rescue answered its own question 1 on itself, and the finders section shows every finding was the reviewer's, in the run — the signal the user wanted for whether the pipeline can run alone.
+One cut proposed: the failed-first-write resolution (four bullets in the plan, and the rescue would write it into the spec) is a guard against the rescue's own machinery — a sentence per excluded case. The pause is unconditional in Step 3 already, and a `note` write that returns no path is loud. The repair is to drop "and complete the rescue anyway" from § 5.7, not to add a procedure; the spec gains nothing. Taken by 07; recorded in the report's chronicle.

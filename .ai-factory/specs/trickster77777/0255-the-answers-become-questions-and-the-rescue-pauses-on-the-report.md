@@ -12,7 +12,11 @@ The skill is as 80.1 and 80.2 leave it.
 
 § "What NOT to do" holds bullets that each restate something a step already says (committed files and other slugs, the `planner`, `elapsed` and `implementer` keys, the guards on writing `planned:1` and `implemented:1`, reading every round, reading the governing spec and phase note, pinning only what was evaluated, checking for an escalation first, no fifth menu entry) or fence the logic of a repair.
 
-The frontmatter lists `AskUserQuestion` in `allowed-tools`. The `description:` says the skill "diagnoses how deep the root cause reaches and repairs to that depth, then rolls the task's state back"; the opening paragraphs say "The user picks the depth". `docs/reserved-words.md` defines a rescue as repairing a task "to the depth of its root cause", and calls itself final.
+The frontmatter lists `AskUserQuestion` in `allowed-tools`. The `description:` says the skill "diagnoses how deep the root cause reaches and repairs to that depth, then rolls the task's state back". `docs/reserved-words.md` defines a rescue as repairing a task "to the depth of its root cause", and calls itself final.
+
+The opening of the skill calls "the orchestrator exhausting its iteration limit and stopping" the tripwire, and names as its subject "the defect in the task's specification (task spec + contract line) and its implementation": the rescue reads the artifacts, "diagnoses how deep that defect reaches (specification gap? bad plan? broken implementation?)" and repairs "to exactly that depth". The second paragraph calls the repair "depth-keyed" and lists its reach as task spec and contract line, plan, or working-tree code, and says "The user picks the depth".
+
+§ "Step 5.6 — Pin disposed observations" has the rescue pin each deferred-observation entry it disposes of at the moment it disposes of it, and a sentence that says to pin "at the moment of the judgment — routing or dismissal — not at session end". § "Step 5.7 — Write the durable report", in "When the write cannot happen", says on a failed first write to "say so plainly to the user and complete the rescue anyway".
 
 The user: «рескью, тут я хочу читать отчёты и что б агент на паузе ждал… но не как вопрос, этот интерфейс- бред какой то». Asked whether the rollback runs before the pause or after his word: «да, я хочу видеть отчёты рескью».
 
@@ -41,7 +45,13 @@ On the user's word the rescue applies the repair and the rollback and extends th
 
 **§ "What NOT to do" goes**, each fact it held living once in the step that acts on it.
 
-**The frame follows the body.** `allowed-tools` keeps `AskUserQuestion`. The `description:` tells what the skill does now: it reads the failed artifacts, writes its report with the intended repair and rollback, waits for the user's word, then repairs to the depth of the root cause and rolls the task back so the orchestrator re-validates from there; it keeps its trigger phrases and stays within the field's limit. The opening paragraphs keep the sentence that the stop is the tripwire and not what failed, and say the repair reaches as deep as the root cause, task spec and contract line, plan, or working-tree code, steered by the user's word; the sentence that the user picks the depth goes.
+**The frame follows the body.** `allowed-tools` keeps `AskUserQuestion`. The `description:` tells what the skill does now: it reads the failed artifacts, writes its report with the intended repair and rollback, waits for the user's word, then repairs to the depth of the root cause and rolls the task back so the orchestrator re-validates from there; it keeps its trigger phrases and stays within the field's limit.
+
+The opening keeps the tripwire sentence, the stop being how the failure was noticed and not what failed, with "exhausting its iteration limit" widened so that it covers an escalation, which stops before its budget is spent. The subject sentence names what the rescue looks at: what the stopped task needs, read from the artifacts it left. It fixes neither the root's kind nor its place, since Step 2's two facts say a no-diff run and an escalation are not defects, and question 4 exists because the root may lie above the task. The reach of a repair is not a closed list: it may go above the task, a phase put in front of it, a phase closed, the task deleted (cases `0024` and `0038` in the phase note `0226`). The repair reaches as deep as the root cause, steered by the user's word; the pinned list of task spec and contract line, plan, or working-tree code goes from the second paragraph, and so does the sentence that the user picks the depth.
+
+**§ "Step 5.6 — Pin disposed observations" changes in one sentence.** A pin is written when the repair is applied, on the user's word, and not at the moment of a judgment made before it; the sentence that says to pin at the moment of the judgment says this instead. The rest of § 5.6 stays.
+
+**§ "Step 5.7 — Write the durable report" changes in one sentence.** In "When the write cannot happen", "and complete the rescue anyway" goes, so the sentence says the failure plainly to the user and ends. The bans that follow it stay, and no further resolution of a failed first write is carried.
 
 ## What breaks on contact
 
@@ -52,6 +62,6 @@ On the user's word the rescue applies the repair and the rollback and extends th
 grep -n -E "AskUserQuestion|categor|flag|routing|menu|Step 4|Step 5.5|What NOT" src/skills/task-rescue/SKILL.md
 ```
 
-**Finding.** The search returns Step 2, Step 3, Step 4, Step 5's opening and its option-keyed paragraphs, the references to Step 4 in Step 1 and Step 5, § 5.7's sentences on the depth chosen and on a branch with no root sentence, the `description:` and the heading and body of § "What NOT to do"; each is a target above, except the words "routing" and "flag" in § 5.6, which mean pinning there and stay, and the `allowed-tools` line, which keeps its tool. Step 1's "ask the user which task to rescue" stays. The table of valid states, the four rollback states and § 5.6 are not touched.
+**Finding.** The search returns Step 2, Step 3, Step 4, Step 5's opening and its option-keyed paragraphs, the references to Step 4 in Step 1 and Step 5, § 5.7's sentences on the depth chosen and on a branch with no root sentence, the `description:` and the heading and body of § "What NOT to do"; each is a target above, except the words "routing" and "flag" in § 5.6, which mean pinning there and stay wherever § 5.6 keeps them, and the `allowed-tools` line, which keeps its tool. Step 1's "ask the user which task to rescue" stays. The table of valid states and the four rollback states are not touched; § 5.6 and § 5.7 change in the one sentence each named above.
 
 Outside the skill, `docs/reserved-words.md` binds the rescue to repairing to the depth of the root cause, and the description keeps that clause. `docs/sakshi-harness/skill-cycle.md` describes the rescue as diagnosing the depth of the root cause; that doc is another phase's. The orchestrator's `docs/concepts/non-convergence.md` describes the same concept and stays true. `orchestrator-artifacts`, § "Sidecar fields", still finds the closed set in this skill.
