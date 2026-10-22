@@ -209,13 +209,13 @@ attempt rather than in the spec, plan, or code.
 For an escalation classification, the narrative has no defect chain to tell either:
 state plainly that [role] stopped on a decision outside its authority, then restate —
 verbatim or lightly paraphrased — the missing decision and its options from the
-artifact's `## Escalation` section (already domain language by construction). End
-with that decision restated as a block quote, in place of the root-cause sentence —
-there is no root cause here, only a decision still to make.
+artifact's `## Escalation` section. End with that decision restated as a block
+quote, in place of the root-cause sentence — there is no root cause here, only a
+decision still to make.
 
-Domain language only: describe what the task spec / contract line stated wrongly or
-left ambiguous, and how the plan or code went wrong as a consequence. Zero orchestrator
-vocabulary — no iteration counts, no PASS markers, no phase names, no sidecar.
+Describe what the task spec / contract line stated wrongly or left ambiguous, and how
+the plan or code went wrong as a consequence. The narrative may name a round and the
+reviewer whose finding it tells.
 
 End with a standalone root-cause sentence, visually set off (e.g. a block quote): one
 sentence stating the missing or wrong constraint in the spec/contract, phrased so that,
@@ -225,6 +225,11 @@ Attach the root-cause category (specification gap / scope overload / mechanical 
 stale implementer session — not applicable to an escalation classification, which has
 none) and the recurring-issue signal to the report as a classification, not as a
 substitute for the narrative — they carry into Step 4 to drive the depth choice.
+
+**Write the durable report.** Step 3 ends with the first write of the durable report.
+The write is made per § "Step 5.7 — Write the durable report", through `note`, with the
+destination, the three hooks and the topic slug that section gives. Keep the path `note`
+returns: every later section of the durable report is appended to that file.
 
 ---
 
@@ -572,28 +577,23 @@ left for the resolution session (`orchestrator-artifacts` §6) to pin later.
 
 ## Step 5.7 — Write the durable report
 
-Write one durable report for this run, through `note` (loaded via `loads: note`
-above), so a failed attempt leaves a record even after Step 5 deletes the artifacts
-it was drawn from.
+The durable report is written through `note` (loaded via `loads: note` above), so a
+failed attempt leaves a record even after Step 5 deletes the artifacts it was drawn
+from. The first write happens at the end of Step 3; this section defines it.
 
-**When.** The report is written **once, at the end, when the repair is done and the
-task is ready for a new run** — `note` is invoked **exactly once per run**, and the
-file it writes is never reopened, by this run or a later one. There is no second
-write and nothing is completed later: a run that ends before this step leaves no
-report at all, which is the accepted cost of writing once.
-
-**Which runs.** Every terminating branch that reaches this step writes a report —
-every repair depth (spec, spec+plan, spec+plan+code, plan-ratified), **escalation**
-(all three options of Step 4's escalation branch, including option 3, which runs no
-Step 5 procedure and arrives here via Step 5.5) and **non-convergence** (all three
-options) included. The one terminating branch that does **not** reach this step is
-the **scope-overload exit** in Step 4: it flags the task and points to
-`/roadmap-decompose` and skips the depth menu entirely, so no repair runs and no
-report is written.
+**Extending the file.** The file is extended while the rescue is hot. Each addition is
+a section headed by its date (`## <YYYY-MM-DD>`) and appended directly to the path the
+first write returned, with Edit/Write and not through `note`. The lines already in the
+file stay as written. The first appended section is made here, once the repair is done:
+it records what the repair did — the depth chosen, the escalation option taken, or the
+non-convergence choice made — and what was deleted or kept. When the first write
+returned no path, because it failed per "When the write cannot happen", nothing is
+appended and Write creates no file.
 
 **Destination, both halves resolved at write time.** The report's destination is
 `<skills repo root>/.ai-factory/rescue-reports/<project>/`, built from two commands
-run **at this moment**, here in Step 5.7, not carried from any earlier step:
+run at the moment of the first write, at the end of Step 3, not carried from any
+earlier step:
 
 - `git -C ~/.claude/skills/task-rescue rev-parse --show-toplevel` gives the skills
   repo root — inside the existing `Bash(git *)` grant; `~/.claude/skills` is the
@@ -601,10 +601,10 @@ run **at this moment**, here in Step 5.7, not carried from any earlier step:
 - `git rev-parse --show-toplevel` run in the project being rescued gives, in its last
   path segment, `<project>`.
 
-Neither half is stored nor cached — both are re-resolved here regardless of anything
-computed earlier. The Step 1 project fact is not this address: it fills the report's
-`**Project:**` line only, and the destination path is resolved fresh at this point
-independently of it.
+Neither half is stored nor cached — both are re-resolved at the first write regardless
+of anything computed earlier. The Step 1 project fact is not this address: it fills the
+report's `**Project:**` line only, and the destination path is resolved fresh at the
+first write independently of it.
 
 The destination lies outside the project being rescued, so the skills repo has to be
 a writable directory in the session running this rescue — via `--add-dir` or the
@@ -632,17 +632,28 @@ these hooks.
 
 **Project:** <the Step 1 project fact, or "absent">
 **Date:** <the Step 1 date fact, ISO form>
-**Stopped at:** <the Step 1 `step` fact, or "absent">
+**Stopped at:** <the Step 1 `step` fact, or "absent"> — <what stopped the run: the review cycle spent at its round R, or the role that escalated>
 **Elapsed before the rescue:** <the Step 1 `elapsed` fact, or "absent">
 **Sessions:** <every session id the Step 1 capture holds, each as `<key>: <id>`, or "absent">
 
 <the diagnosis, exactly as Step 3 wrote it>
 
-## What was done
+## Who found what
 
-<what the repair did — the depth chosen, or the escalation option taken, or the
-non-convergence choice made — and what was deleted or kept>
+**Root cause found by:** <who>, <when>
+
+- <the finding> — <who>, <when>
 ```
+
+The diagnosis keeps its prose form; the finders live only in this section, outside it.
+*Who* is one of: the user; head N, by its number; the editor; the plan-reviewer or the
+reviewer at round R; the implementer or the planner; the rescue itself. *When* is one
+of: before the run; in the run; in the rescue; after the rescue, for a defect in the
+repair itself. The role and round come from the sidecar's session keys (per
+`orchestrator-artifacts` § "3. Sidecar fields") and from the number each plan-review and
+review file carries; the user and the heads come from the conversation. A finder that no
+artifact and no conversation states is written as "not stated". The section holds one
+bullet per finding the diagnosis names.
 
 The title phrase names what stopped the run, never a root-cause claim — a branch
 that produces no root cause still needs a title. Where Step 3 produced no
@@ -656,10 +667,6 @@ resolve, or the run has not been given that repository as a writable directory.
 Either way, **say so plainly to the user and complete the rescue anyway.** Never
 invent a fallback path, never fall back to any directory inside the project being
 rescued, never invoke `note` a second time, and never defer the write to a later run.
-
-**The chat printout is unchanged.** The Diagnosis Report is still printed exactly as
-Step 3 mandates; the file this step writes is additional, and no step of this skill
-ever reads it back.
 
 ---
 
@@ -689,10 +696,6 @@ ever reads it back.
   absent — both are always-valid states the orchestrator accepts without artifact
   checks, so writing one after deleting the plan `.md` (or before any working diff
   exists) silently sends the orchestrator into the wrong phase
-- Never present orchestrator mechanics — iteration limits, missing PASS markers, phase
-  names, sidecar states — as "the problem". They are how the failure surfaced, not what
-  failed. This constrains your *output and reporting*, not your analysis: pipeline
-  signals are still read internally to route the repair depth
 - Do not mark any observation rescue did not actually evaluate this session. Rescue
   pins only what it disposed of this session, in `orchestrator-artifacts` §6's
   current form — an entry it did not evaluate stays unmarked, left for the
