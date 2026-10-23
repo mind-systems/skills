@@ -4,10 +4,10 @@ description: >-
   Second decomposition pass over open roadmap tasks along the spec-before-code
   axis (skeleton-first, TDD, concurrency contract) rather than atomic
   deliverability. Extracts skeleton, tests-first (filtered by the
-  silent-failure rule), and no-prod-code contract tasks for surfaces mixing
-  async I/O + stateful buffer + lifecycle. Use
-  when a task is heavy/hazardous or shares a type surface and needs splitting
-  before implementation. Trigger: "skeleton", "tdd tasks", "concurrency contract".
+  silent-failure rule), and no-prod-code contract tasks for the unit that holds
+  the lifecycle hazard together with async I/O or a stateful buffer. Use when a
+  task is heavy/hazardous or shares a type surface and needs splitting before
+  implementation. Trigger: "skeleton", "tdd tasks", "concurrency contract".
 argument-hint: "[phase or task description]"
 disable-model-invocation: false
 allowed-tools: Read Write Edit Glob Grep AskUserQuestion Skill
@@ -79,16 +79,23 @@ discriminator to that surface. Not blanket coverage. Canon (m36): a stateless
 re-instantiation — a stateful double, forced by writing the test against the skeleton
 first, would have caught it.
 
-**Lens 3 — Concurrency.** For a **heavy** task (the 45–80 min wall-clock kind) that
-touches **≥2 of** three hazard classes — (a) async I/O, (b) stateful buffer / event
-queue, (c) lifecycle (create / deactivate) — split out a **contract-task**: invariant
-definition plus test scenarios per concurrent caller, **no production code**, before the
-impl task.
-- Restraint: never split a simple task, even if it nominally touches two classes, into
-  a contract-task. Canon (m37): `clearHeap()` traded double-commit for silent loss;
-  `drainHeap()` plus a dedup-key merge (buffered wins) fixed it — had the
-  drain-and-merge invariant been a contract-task first, it would have been caught at
-  plan-review instead of in the field.
+**Lens 3 — Concurrency.** Three hazard classes: (a) async I/O, (b) stateful buffer /
+event queue, (c) lifecycle (create / deactivate). The lens fires on the **unit** that
+holds the lifecycle hazard together with async I/O or a stateful buffer. A unit is a
+part of a task's surface, not the task. For that unit, split out a **contract-task**:
+invariant definition plus test scenarios per concurrent caller, **no production
+code**, before the impl task. Cutting the rest of the surface into tasks stays with
+`roadmap-decompose`'s atomicity, and the rest of the surface is built with its tests.
+
+The contract-task has a price. It is a skeleton and a red suite written against it,
+and none of that suite's assertions has ever run. Whether it covers the next task's
+wrong implementations can only be judged by imagining them, and imagination has no
+floor: each review imagines another wrong implementation that would pass. A test
+that runs has a floor. So the lens pays this price only for the unit where the
+lifecycle hazard lives. What the price buys: `clearHeap()` traded double-commit for
+silent loss, and `drainHeap()` plus a dedup-key merge, with buffered winning, fixed
+it. Had the drain-and-merge invariant been a contract-task first, it would have been
+caught at plan review instead of in the field.
 
 ### Step 2: Order and fuse
 
