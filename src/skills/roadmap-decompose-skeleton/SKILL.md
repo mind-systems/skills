@@ -24,30 +24,12 @@ concurrency contract before touching a hazardous concurrent surface. It applies 
 heavy or hazardous tasks and shared type surfaces only — most open tasks pass through
 untouched.
 
-## Load-once / dependencies
-
-This skill owns no reusable body of its own — only the three lenses below (targeting,
-skeleton, TDD, concurrency, ordering/fusion, restraint). Everything reusable is
-delegated to shared skills, each loaded **once per chat** via the `Skill` tool and
-never re-invoked per task:
-
-- `roadmap-engine` — the shared two-tier artifact format (contract line + task spec)
-  that every lens renders its output through.
-- `test-philosophy` — the silent-failure discriminator the TDD lens applies to decide
-  what gets a test.
-- `polymorphism-philosophy` — the question Lens 1 puts to each task: to add a third
-  kind, how many places must change, fired only when a kind gains its second member.
-
-This skill does **not** call `roadmap-decompose` at runtime — the atomic task list it
-operates on already exists; this is a second pass over it, not a re-decomposition. It
-never reads or modifies the orchestrator.
-
 ## Targeting
 
 Optional arg — a phase or a single task description. Default: infer the target
 open-`[ ]` task set from conversation context (a named phase, a described task, or the
 current pending set). It can operate on a single task — any task may warrant a
-skeleton, TDD, or concurrency split on its own. Do not over-engineer targeting.
+skeleton, TDD, or concurrency split on its own.
 
 ## Workflow
 
@@ -56,11 +38,10 @@ skeleton, TDD, or concurrency split on its own. Do not over-engineer targeting.
 **Read `.ai-factory/ARCHITECTURE.md`** if it exists, for architecture pattern and
 module boundaries.
 
-**Read the target roadmap** (resolved per `roadmap-engine`'s named-roadmap
-resolution order — argument → "my roadmap" → default `.ai-factory/ROADMAP.md`) and
-collect its open **`- [ ]`** tasks — this is the set the three lenses run over. Never
-touch closed `- [x]` tasks — those are `roadmap-prune` / `roadmap-test-coverage`
-territory.
+**Load `roadmap-engine` once via the `Skill` tool, then read the target roadmap**
+(resolved per its named-roadmap resolution order — argument → "my roadmap" →
+default `.ai-factory/ROADMAP.md`) and collect its open **`- [ ]`** tasks — this is
+the set the three lenses run over.
 
 ### Step 1: Apply the three lenses
 
@@ -68,16 +49,13 @@ territory.
 tool, then apply its question to the target task(s). Where it fires, extract a
 **skeleton task**: interfaces, types, abstract classes only — **no implementation
 bodies**. This is the scaffold the TDD lens writes tests against.
-- Restraint: contracts/protos are usually laid first anyway — do not blanket-cover
-  tasks with abstract classes. The question is the gate; it fires only on the event,
-  never on style.
 
 **Lens 2 — TDD.** Against the skeleton's public surface, insert a **tests-first task**.
 Load `test-philosophy` once via the `Skill` tool, then apply its silent-failure
-discriminator to that surface. Not blanket coverage. Canon (m36): a stateless
-`PassThroughIndicator` double let cases 3 and 4 pass even when `loadHistory` omitted
-re-instantiation — a stateful double, forced by writing the test against the skeleton
-first, would have caught it.
+discriminator to that surface. Not blanket coverage. A stateless
+`PassThroughIndicator` double let two test cases pass even though `loadHistory` omitted
+re-instantiation; a stateful double, which writing the test against the skeleton first
+would have forced, would have caught it.
 
 **Lens 3 — Concurrency.** Three hazard classes: (a) async I/O, (b) stateful buffer /
 event queue, (c) lifecycle (create / deactivate). The lens fires on the **unit** that
@@ -112,8 +90,7 @@ caught at plan review instead of in the field.
 
 "Deliverable" shifts from "working feature slice" to "coherent reviewable artifact in
 the spec-before-code chain." A skeleton-only commit compiles and breaks nothing;
-TDD/contract commits are red tests. The orchestrator does exactly what the spec
-describes — this skill neither reads nor modifies it.
+TDD/contract commits are red tests.
 
 ### Step 4: Render
 
@@ -137,19 +114,3 @@ avoids duplicating the impl entry or orphaning its task spec.
 fallback) to number the inserted tasks, in this skill's chain order —
 skeleton → TDD/contract → … — with the in-place original impl line as the last
 child `N.M.k`; its contract-line text and `Spec:` tag stay unchanged.
-
-## Critical Rules / What NOT to do
-
-1. No `roadmap-tdd` middle skill — the one TDD-specific sentence ("tests come first,
-   as their own task, filtered by test-philosophy's rule") lives inline in this skill.
-2. Do not copy `roadmap-engine`'s render machinery or `test-philosophy`'s discriminator
-   into this skill — load them, once per chat, and let them stay in control of their
-   own content.
-3. Do not call `roadmap-decompose` at runtime — the atomic task list already exists;
-   this is a second pass over it.
-4. Do not read or modify the orchestrator.
-5. Do not split simple tasks, blanket-cover surfaces with abstract classes, or write
-   tests for loud-failure surfaces — restraint is first-class; this skill earns its
-   keep only on heavy, hazardous, or shared-surface tasks.
-6. Do not touch closed `- [x]` tasks — that is `roadmap-prune` / `roadmap-test-coverage`
-   territory.
